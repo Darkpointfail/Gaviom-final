@@ -439,17 +439,26 @@ body.nav-open .nav-menu-icon::after {
     padding: 24px 20px;
   }
 
-  .hero-home--video {
-    min-height: 0;
-    padding: 40px 0 56px;
+  /* Home hero — align with desktop (video + gradient, no cream card) */
+  .hero-home--video .hero-home__copy {
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
   }
 
-  .hero-home__content .hero-grid {
-    gap: 24px;
+  .hero-home--video .hero-overlay {
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(in oklab, var(--paper) 52%, transparent) 0%,
+        color-mix(in oklab, var(--paper) 28%, transparent) 65%,
+        transparent 100%
+      );
   }
 
   .hero-title,
-  .hero-home--video .hero-text .hero-title,
   .h-hero,
   .h-section,
   .h-cta,
@@ -465,39 +474,6 @@ body.nav-open .nav-menu-icon::after {
     overflow-wrap: break-word;
     word-wrap: break-word;
     hyphens: auto;
-  }
-
-  .hero-title,
-  .hero-home--video .hero-text .hero-title {
-    font-size: clamp(32px, 9vw, 48px);
-    line-height: 1.05;
-    color: var(--ink);
-  }
-
-  .hero-home--video .hero-overlay {
-    background:
-      linear-gradient(
-        180deg,
-        color-mix(in oklab, var(--paper) 90%, transparent) 0%,
-        color-mix(in oklab, var(--paper) 75%, transparent) 50%,
-        color-mix(in oklab, var(--paper) 55%, transparent) 100%
-      );
-  }
-
-  .hero-home--video .hero-home__copy {
-    position: relative;
-    z-index: 5;
-    padding: 18px 16px;
-    background: color-mix(in oklab, var(--paper) 94%, transparent);
-    border: 1px solid color-mix(in oklab, var(--line) 75%, transparent);
-    border-radius: var(--r-lg);
-    box-shadow: 0 10px 36px color-mix(in oklab, var(--ink) 10%, transparent);
-  }
-
-  .hero-home--video .hero-eyebrow,
-  .hero-home--video .hero-supertitle,
-  .hero-home--video .hero-title {
-    text-shadow: none;
   }
 
   .page-hero .h-hero,
