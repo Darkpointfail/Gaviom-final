@@ -4,6 +4,7 @@
   "scripts": {
     "build": "node scripts/build-blog.mjs && node scripts/build-static.mjs",
     "dev": "npx --yes serve -l 3001 .",
+    "preview": "npm run build && npx --yes serve -l 3001 dist",
     "start": "npm run dev"
   }
 }

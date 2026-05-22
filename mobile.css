@@ -1108,6 +1108,12 @@ body.nav-open .nav-menu-icon::after {
   body.prizes-page .sweep-panel-wrap {
     scroll-snap-align: none;
     scroll-margin-top: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  body.prizes-page .sweep-panel-wrap + .sweep-panel-wrap {
+    margin-top: -2.5vh;
   }
 
   body.prizes-page .sweep-panel {
@@ -1116,8 +1122,8 @@ body.nav-open .nav-menu-icon::after {
     flex-direction: row !important;
     align-items: flex-end !important;
     justify-content: flex-end !important;
-    min-height: 78dvh !important;
-    min-height: 78svh !important;
+    min-height: 92svh !important;
+    min-height: 92dvh !important;
     overflow: hidden !important;
   }
 
@@ -1262,6 +1268,7 @@ body.nav-open .nav-menu-icon::after {
 
   body.prizes-page .sweep-stack {
     background: var(--ink);
+    gap: 0;
   }
 
   body.prizes-page .sweep-hero,

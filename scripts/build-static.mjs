@@ -1,8 +1,14 @@
-import { cpSync, copyFileSync, mkdirSync, readdirSync, statSync } from 'fs';
+import { cpSync, copyFileSync, existsSync, mkdirSync, readdirSync, rmSync, statSync } from 'fs';
 import { join } from 'path';
 
 const root = process.cwd();
 const out = join(root, 'dist');
+
+/* Full refresh: dist is wiped then recopied so nothing stale remains */
+if (existsSync(out)) {
+  rmSync(out, { recursive: true, force: true });
+}
+mkdirSync(out, { recursive: true });
 
 const skip = new Set([
   'node_modules',
@@ -16,8 +22,6 @@ const skip = new Set([
 ]);
 
 const skipFiles = /\.(log|md)$/i;
-
-mkdirSync(out, { recursive: true });
 
 for (const name of readdirSync(root)) {
   if (skip.has(name) || name.startsWith('.')) continue;
