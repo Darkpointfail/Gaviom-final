@@ -3117,6 +3117,7 @@ a.brand:hover { color: var(--ink); opacity: 0.85; }
   background-position: center 42%;
   filter: saturate(1.02) contrast(1.04) brightness(0.92);
 }
+.full-bleed-quote--villa .full-bleed-quote__photo,
 .full-bleed-quote--winners-villa .full-bleed-quote__photo {
   background-position: center center;
   background-size: cover;
@@ -3130,6 +3131,7 @@ a.brand:hover { color: var(--ink); opacity: 0.85; }
     color-mix(in oklab, var(--ink) 65%, transparent) 100%
   );
 }
+.full-bleed-quote--villa .full-bleed-quote__photo + .full-bleed-quote__overlay,
 .full-bleed-quote--winners-villa .full-bleed-quote__photo + .full-bleed-quote__overlay {
   background: linear-gradient(
     180deg,
