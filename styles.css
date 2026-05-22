@@ -3117,6 +3117,11 @@ a.brand:hover { color: var(--ink); opacity: 0.85; }
   background-position: center 42%;
   filter: saturate(1.02) contrast(1.04) brightness(0.92);
 }
+.full-bleed-quote--winners-villa .full-bleed-quote__photo {
+  background-position: center center;
+  background-size: cover;
+  filter: saturate(1.05) contrast(1.02) brightness(0.98);
+}
 .full-bleed-quote--live-draw .full-bleed-quote__photo + .full-bleed-quote__overlay {
   background: linear-gradient(
     180deg,
@@ -3124,6 +3129,16 @@ a.brand:hover { color: var(--ink); opacity: 0.85; }
     color-mix(in oklab, var(--ink) 50%, transparent) 55%,
     color-mix(in oklab, var(--ink) 65%, transparent) 100%
   );
+}
+.full-bleed-quote--winners-villa .full-bleed-quote__photo + .full-bleed-quote__overlay {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    color-mix(in oklab, var(--ink) 15%, transparent) 70%,
+    color-mix(in oklab, var(--ink) 45%, transparent) 100%
+  );
+  align-items: flex-end;
+  padding-bottom: 48px;
 }
 .winners-presale-banner {
   display: flex;
