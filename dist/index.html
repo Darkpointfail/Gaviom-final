@@ -3,6 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    (function () {
+      if (!window.matchMedia('(max-width: 768px)').matches) return;
+      var path = window.location.pathname.replace(/\/$/, '') || '/';
+      if (path === '/' || /\/index\.html$/i.test(path)) {
+        window.location.replace('/prizes.html' + window.location.search + window.location.hash);
+      }
+    })();
+  </script>
   <title>Gaviom — US Sweepstakes Platform</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
