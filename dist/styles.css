@@ -3118,7 +3118,8 @@ a.brand:hover { color: var(--ink); opacity: 0.85; }
   filter: saturate(1.02) contrast(1.04) brightness(0.92);
 }
 .full-bleed-quote--villa .full-bleed-quote__photo,
-.full-bleed-quote--winners-villa .full-bleed-quote__photo {
+.full-bleed-quote--winners-villa .full-bleed-quote__photo,
+.full-bleed-quote--cruise .full-bleed-quote__photo {
   background-position: center center;
   background-size: cover;
   filter: saturate(1.05) contrast(1.02) brightness(0.98);
@@ -3132,7 +3133,8 @@ a.brand:hover { color: var(--ink); opacity: 0.85; }
   );
 }
 .full-bleed-quote--villa .full-bleed-quote__photo + .full-bleed-quote__overlay,
-.full-bleed-quote--winners-villa .full-bleed-quote__photo + .full-bleed-quote__overlay {
+.full-bleed-quote--winners-villa .full-bleed-quote__photo + .full-bleed-quote__overlay,
+.full-bleed-quote--cruise .full-bleed-quote__photo + .full-bleed-quote__overlay {
   background: linear-gradient(
     180deg,
     color-mix(in oklab, var(--ink) 12%, transparent) 0%,
