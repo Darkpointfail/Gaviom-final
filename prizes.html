@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Sweepstakes — Gaviom</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Geist+Mono:wght@400;500&family=Geist:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="mobile.css" />
+</head>
+<body class="prizes-page">
+  <div class="topbar"><div class="wrap topbar-inner"><div class="topbar-left"><span><span class="live-dot soon-dot"></span> <span data-topbar-label>Gaviom launches in</span> <span data-cd="launch" data-cd-format="compact">--</span></span><span class="extra" data-topbar-extra>· Pre-sale open · First draw July 5, 8pm ET</span></div><div><a class="tlink" href="free-entry.html">Free entry by mail</a> · <a class="tlink" href="rules.html">Official Rules</a></div></div></div>
+  <header class="nav"><div class="wrap nav-inner"><a href="index.html" class="brand"><span class="brand-mark">G</span> Gaviom</a><nav class="nav-links"><a href="index.html">Home</a><a href="prizes.html" class="active">Sweepstakes</a><a href="winners.html">Winners</a><a href="how.html">How it works</a><a href="membership.html">Gaviom+</a><a href="corporate.html">For business</a></nav><div class="nav-right"><a href="#" class="btn btn-ghost">Sign in</a><a href="prize.html" class="btn btn-primary" data-presale-cta>Pre-order a ticket</a></div></div></header>
+
+  <main class="sweep-scroll" id="sweepstakes">
+    <header class="sweep-hero" aria-label="Sweepstakes overview">
+      <div class="wrap sweep-hero__top">
+        <div class="sweep-hero__copy">
+          <p class="eyebrow"><span class="bar"></span> Sweepstakes</p>
+          <h1 class="sweep-hero__title font-display">Prizes worth wanting.</h1>
+          <p class="sweep-hero__lede font-quote">Filter by ticket price or spots left, then scroll the magazine, four live draws, one platform.</p>
+        </div>
+        <dl class="sweep-hero__stats font-mono">
+          <div><dt>Live now</dt><dd><span data-sweep-visible-count>4</span> of 4</dd></div>
+          <div><dt>Total value</dt><dd>$22,299</dd></div>
+          <div><dt>Tickets from</dt><dd>$7</dd></div>
+        </dl>
+      </div>
+
+      <div class="wrap sweep-filters" data-sweep-filters>
+        <div class="sweep-filters__row">
+          <span class="sweep-filters__label font-mono">Ticket</span>
+          <div class="chips" role="group" aria-label="Filter by ticket price">
+            <button type="button" class="chip active" data-filter-price="all">All</button>
+            <button type="button" class="chip" data-filter-price="under10">Under $10</button>
+            <button type="button" class="chip" data-filter-price="10-12">$10 – $12</button>
+          </div>
+        </div>
+        <div class="sweep-filters__row">
+          <span class="sweep-filters__label font-mono">Spots</span>
+          <div class="chips" role="group" aria-label="Filter by availability">
+            <button type="button" class="chip active" data-filter-spots="all">All</button>
+            <button type="button" class="chip" data-filter-spots="open">Open</button>
+            <button type="button" class="chip" data-filter-spots="filling">Filling fast</button>
+          </div>
+        </div>
+        <div class="sweep-filters__row sweep-filters__row--sort">
+          <label class="sweep-filters__label font-mono" for="sweep-sort">Sort</label>
+          <select id="sweep-sort" class="sort-select" data-sweep-sort>
+            <option value="default">Featured</option>
+            <option value="value-desc">Prize value ↓</option>
+            <option value="ticket-asc">Ticket price ↑</option>
+            <option value="spots-asc">Most spots left</option>
+          </select>
+        </div>
+      </div>
+
+      <p class="wrap sweep-empty font-quote" data-sweep-empty hidden>No sweepstakes match these filters. <button type="button" class="sweep-empty__reset" data-sweep-reset>Clear filters</button></p>
+    </header>
+
+    <div class="sweep-stack" data-sweep-stack>
+      <div class="sweep-panel-wrap" data-sweep-wrap="01" data-filter-price="10-12" data-filter-spots="open" data-sweep-value="4000" data-sweep-ticket="12" data-sweep-entries="0" data-sweep-max="1000" data-sweep-sort="0">
+        <div class="sweep-bridge" aria-hidden="true"></div>
+        <article class="sweep-panel" data-sweep-index="01">
+          <div class="sweep-panel__media">
+            <img src="images/diving-turtle.png" alt="Scuba diving in crystal-clear Cozumel waters" loading="eager" decoding="async" />
+          </div>
+          <div class="sweep-panel__veil"></div>
+          <div class="sweep-panel__content wrap">
+            <div class="sweep-panel__spots font-mono" aria-label="1,000 spots left of 1,000">
+              <span class="sweep-panel__spots-label">Spots left</span>
+              <span class="sweep-panel__spots-val">1,000 <span class="sweep-panel__spots-of">/ 1,000</span></span>
+              <span class="sweep-panel__spots-bar"><span style="width: 100%"></span></span>
+            </div>
+            <span class="sweep-panel__index font-mono">01</span>
+            <h2 class="sweep-panel__title font-display">Scuba Discovery · Cozumel</h2>
+            <p class="sweep-panel__desc">Round-trip flight, seven nights all-inclusive, and a PADI discovery session with two boat dives in Mexico.</p>
+            <dl class="sweep-panel__meta font-mono">
+              <div><dt>Value</dt><dd>$4,000</dd></div>
+              <div><dt>From</dt><dd>$12 <span class="sweep-panel__per">/ ticket</span></dd></div>
+            </dl>
+            <a href="prize-diving.html" class="btn btn-primary btn-lg sweep-panel__cta" data-presale-cta>Enter to win</a>
+          </div>
+        </article>
+      </div>
+
+      <div class="sweep-panel-wrap" data-sweep-wrap="02" data-filter-price="10-12" data-filter-spots="open" data-sweep-value="12000" data-sweep-ticket="12" data-sweep-entries="0" data-sweep-max="6000" data-sweep-sort="1">
+        <div class="sweep-bridge" aria-hidden="true"></div>
+        <article class="sweep-panel sweep-panel--grand" data-sweep-index="02">
+          <div class="sweep-panel__media">
+            <img src="images/msc-cruise-hero.png" alt="" loading="lazy" decoding="async" />
+          </div>
+          <div class="sweep-panel__veil sweep-panel__veil--grand"></div>
+          <div class="sweep-panel__content wrap">
+            <div class="sweep-panel__spots font-mono" aria-label="6,000 spots left of 6,000">
+              <span class="sweep-panel__spots-label">Spots left</span>
+              <span class="sweep-panel__spots-val">6,000 <span class="sweep-panel__spots-of">/ 6,000</span></span>
+              <span class="sweep-panel__spots-bar"><span style="width: 100%"></span></span>
+            </div>
+            <span class="badge badge-live sweep-panel__badge"><span class="live-dot"></span> Grand Sweepstakes #1</span>
+            <span class="sweep-panel__index font-mono">02</span>
+            <h2 class="sweep-panel__title font-display">MSC Cruise · 7 Nights</h2>
+            <p class="sweep-panel__desc">Balcony cabin for two, Mediterranean itinerary, meals and entertainment, or take $12,000 cash instead.</p>
+            <dl class="sweep-panel__meta font-mono">
+              <div><dt>Value</dt><dd>$12,000</dd></div>
+              <div><dt>From</dt><dd>$12 <span class="sweep-panel__per">/ ticket</span></dd></div>
+            </dl>
+            <a href="prize.html" class="btn btn-primary btn-lg sweep-panel__cta" data-presale-cta>Enter to win</a>
+          </div>
+        </article>
+      </div>
+
+      <div class="sweep-panel-wrap" data-sweep-wrap="03" data-filter-price="under10" data-filter-spots="open" data-sweep-value="1299" data-sweep-ticket="7" data-sweep-entries="0" data-sweep-max="3000" data-sweep-sort="2">
+        <div class="sweep-bridge" aria-hidden="true"></div>
+        <article class="sweep-panel" data-sweep-index="03">
+          <div class="sweep-panel__media">
+            <img src="/images/iphone-hero.png" alt="" loading="lazy" decoding="async" />
+          </div>
+          <div class="sweep-panel__veil"></div>
+          <div class="sweep-panel__content wrap">
+            <div class="sweep-panel__spots font-mono" aria-label="3,000 spots left of 3,000">
+              <span class="sweep-panel__spots-label">Spots left</span>
+              <span class="sweep-panel__spots-val">3,000 <span class="sweep-panel__spots-of">/ 3,000</span></span>
+              <span class="sweep-panel__spots-bar"><span style="width: 100%"></span></span>
+            </div>
+            <span class="sweep-panel__index font-mono">03</span>
+            <h2 class="sweep-panel__title font-display">iPhone 17 Pro Max</h2>
+            <p class="sweep-panel__sense font-quote">256GB, Natural Titanium, factory unlocked, with two years AppleCare+ included.</p>
+            <dl class="sweep-panel__meta font-mono">
+              <div><dt>Value</dt><dd>$1,299</dd></div>
+              <div><dt>From</dt><dd>$7 <span class="sweep-panel__per">/ ticket</span></dd></div>
+            </dl>
+            <a href="prize-iphone.html" class="btn btn-primary btn-lg sweep-panel__cta" data-presale-cta>Enter to win</a>
+          </div>
+        </article>
+      </div>
+
+      <div class="sweep-panel-wrap" data-sweep-wrap="04" data-filter-price="10-12" data-filter-spots="open" data-sweep-value="5000" data-sweep-ticket="10" data-sweep-entries="0" data-sweep-max="4800" data-sweep-sort="3">
+        <div class="sweep-bridge" aria-hidden="true"></div>
+        <article class="sweep-panel" data-sweep-index="04">
+          <div class="sweep-panel__media">
+            <img src="https://images.unsplash.com/photo-1623107935331-7164fb0d6978?ixlib=rb-4.0.3&auto=format&fit=crop&w=2400&q=88" alt="" loading="lazy" decoding="async" />
+          </div>
+          <div class="sweep-panel__veil"></div>
+          <div class="sweep-panel__content wrap">
+            <div class="sweep-panel__spots font-mono" aria-label="4,800 spots left of 4,800">
+              <span class="sweep-panel__spots-label">Spots left</span>
+              <span class="sweep-panel__spots-val">4,800 <span class="sweep-panel__spots-of">/ 4,800</span></span>
+              <span class="sweep-panel__spots-bar"><span style="width: 100%"></span></span>
+            </div>
+            <span class="sweep-panel__index font-mono">04</span>
+            <h2 class="sweep-panel__title font-display">5-Star Weekend · Las Vegas or Miami</h2>
+            <p class="sweep-panel__desc">Flights, Strip-view suite, and resort credits, four nights where the city keeps going until you say when.</p>
+            <dl class="sweep-panel__meta font-mono">
+              <div><dt>Value</dt><dd>$5,000</dd></div>
+              <div><dt>From</dt><dd>$10 <span class="sweep-panel__per">/ ticket</span></dd></div>
+            </dl>
+            <a href="prize-vegas.html" class="btn btn-primary btn-lg sweep-panel__cta" data-presale-cta>Enter to win</a>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <section class="sweep-outro">
+      <div class="sweep-outro__inner wrap">
+        <p class="font-quote sweep-outro__quote">One ticket. One draw. Why not you?</p>
+        <div class="sweep-outro__actions">
+          <a href="prize.html" class="btn btn-primary btn-xl" data-presale-cta>Pre-order a ticket</a>
+        </div>
+        <p class="sweep-outro__legal font-mono">18+ · Eligible US states · <a href="rules.html">Official Rules</a> · <a href="membership.html">Gaviom+</a> from $17/mo</p>
+      </div>
+    </section>
+  </main>
+
+  <nav class="sweep-dots" aria-label="Sweepstakes sections" data-sweep-dots>
+    <a href="#sweepstakes" class="sweep-dots__dot is-active" data-sweep-dot="hero" aria-label="Overview"></a>
+    <a href="#" class="sweep-dots__dot" data-sweep-dot="01" aria-label="Scuba"></a>
+    <a href="#" class="sweep-dots__dot" data-sweep-dot="02" aria-label="MSC Cruise"></a>
+    <a href="#" class="sweep-dots__dot" data-sweep-dot="03" aria-label="iPhone"></a>
+    <a href="#" class="sweep-dots__dot" data-sweep-dot="04" aria-label="Vegas or Miami"></a>
+  </nav>
+
+  <footer class="footer sweep-footer"><div class="wrap footer-grid"><div class="footer-brand"><div class="brand"><span class="brand-mark">G</span> Gaviom</div><p class="footer-tagline">A new US sweepstakes platform. Operated by Gaviom Inc., a Delaware corporation.</p></div><div class="footer-col"><h4>Play</h4><ul><li><a href="prizes.html">All sweepstakes</a></li><li><a href="prize.html">Grand prize</a></li><li><a href="winners.html">Winners</a></li></ul></div><div class="footer-col"><h4>Company</h4><ul><li></li><li><a href="how.html">How it works</a></li></ul></div><div class="footer-col"><h4>Legal</h4><ul><li><a href="rules.html">Official Rules</a></li></ul></div></div><div class="wrap footer-legal"><span>© 2026 Gaviom Inc.</span><span>18+ · Void where prohibited</span></div></footer>
+
+  <div class="sticky-cta" aria-hidden="true"><div class="wrap row"><div class="info"><span class="lbl" data-sticky-label>First draw in</span><span class="val" data-cd="draw" data-cd-format="compact">--</span></div><a class="btn btn-primary btn-lg" href="prize.html" data-presale-cta>Pre-order a ticket</a></div></div>
+  <script src="app.js"></script>
+  <script>
+    (function () {
+      var stack = document.querySelector("[data-sweep-stack]");
+      var wraps = stack ? Array.prototype.slice.call(stack.querySelectorAll(".sweep-panel-wrap")) : [];
+      var hero = document.querySelector(".sweep-hero");
+      var sections = document.querySelectorAll(".sweep-hero, .sweep-panel-wrap:not(.is-filtered-out), .sweep-outro");
+      var dotsNav = document.querySelector("[data-sweep-dots]");
+      var dots = dotsNav ? dotsNav.querySelectorAll(".sweep-dots__dot") : [];
+      var jump = document.querySelector("[data-sweep-jump]");
+      var emptyEl = document.querySelector("[data-sweep-empty]");
+      var countEl = document.querySelector("[data-sweep-visible-count]");
+      var priceChips = document.querySelectorAll("[data-filter-price]");
+      var spotsChips = document.querySelectorAll("[data-filter-spots]");
+      var sortSelect = document.querySelector("[data-sweep-sort]");
+      var resetBtn = document.querySelector("[data-sweep-reset]");
+
+      var state = { price: "all", spots: "all", sort: "default" };
+
+      function matches(wrap) {
+        var price = wrap.dataset.filterPrice;
+        var spots = wrap.dataset.filterSpots;
+        if (state.price !== "all" && price !== state.price) return false;
+        if (state.spots !== "all" && spots !== state.spots) return false;
+        return true;
+      }
+
+      function sortWraps() {
+        var visible = wraps.filter(function (w) { return !w.classList.contains("is-filtered-out"); });
+        var key = state.sort;
+        if (key === "default") {
+          visible.sort(function (a, b) { return Number(a.dataset.sweepSort) - Number(b.dataset.sweepSort); });
+        } else if (key === "value-desc") {
+          visible.sort(function (a, b) { return Number(b.dataset.sweepValue) - Number(a.dataset.sweepValue); });
+        } else if (key === "ticket-asc") {
+          visible.sort(function (a, b) { return Number(a.dataset.sweepTicket) - Number(b.dataset.sweepTicket); });
+        } else if (key === "spots-asc") {
+          visible.sort(function (a, b) {
+            var leftA = Number(a.dataset.sweepMax) - Number(a.dataset.sweepEntries);
+            var leftB = Number(b.dataset.sweepMax) - Number(b.dataset.sweepEntries);
+            return leftB - leftA;
+          });
+        }
+        visible.forEach(function (w) { stack.appendChild(w); });
+        var hidden = wraps.filter(function (w) { return w.classList.contains("is-filtered-out"); });
+        hidden.forEach(function (w) { stack.appendChild(w); });
+      }
+
+      function applyFilters() {
+        var visible = 0;
+        wraps.forEach(function (wrap) {
+          var show = matches(wrap);
+          wrap.classList.toggle("is-filtered-out", !show);
+          if (show) visible++;
+        });
+        if (emptyEl) emptyEl.hidden = visible > 0;
+        if (countEl) countEl.textContent = String(visible);
+        sortWraps();
+        updateJumpLinks();
+        refreshDots();
+        observeSections();
+      }
+
+      function updateJumpLinks() {
+        if (!jump) return;
+        jump.querySelectorAll("[data-sweep-jump]").forEach(function (link) {
+          var id = link.dataset.sweepJump;
+          var wrap = document.querySelector('[data-sweep-wrap="' + id + '"]');
+          var hidden = !wrap || wrap.classList.contains("is-filtered-out");
+          link.hidden = hidden;
+          link.setAttribute("aria-disabled", hidden ? "true" : "false");
+        });
+      }
+
+      function refreshDots() {
+        if (!dotsNav) return;
+        dotsNav.querySelectorAll(".sweep-dots__dot").forEach(function (dot) {
+          var id = dot.dataset.sweepDot;
+          if (id === "hero") return;
+          var wrap = document.querySelector('[data-sweep-wrap="' + id + '"]');
+          dot.hidden = !wrap || wrap.classList.contains("is-filtered-out");
+        });
+      }
+
+      function setActive(id) {
+        dots.forEach(function (d) {
+          d.classList.toggle("is-active", d.dataset.sweepDot === id);
+        });
+        if (jump) {
+          jump.querySelectorAll("[data-sweep-jump]").forEach(function (link) {
+            link.classList.toggle("active", link.dataset.sweepJump === id);
+          });
+        }
+      }
+
+      var revealObs;
+      function observeSections() {
+        if (revealObs) revealObs.disconnect();
+        var targets = document.querySelectorAll(".sweep-panel-wrap:not(.is-filtered-out) .sweep-panel");
+        if ("IntersectionObserver" in window) {
+          revealObs = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+              e.target.closest(".sweep-panel-wrap").classList.toggle("is-revealed", e.isIntersecting && e.intersectionRatio >= 0.28);
+            });
+          }, { threshold: [0.28, 0.5] });
+          targets.forEach(function (p) { revealObs.observe(p); });
+        } else {
+          targets.forEach(function (p) { p.closest(".sweep-panel-wrap").classList.add("is-revealed"); });
+        }
+      }
+
+      var navObs;
+      function observeNav() {
+        if (navObs) navObs.disconnect();
+        var navTargets = document.querySelectorAll(".sweep-hero, .sweep-panel-wrap:not(.is-filtered-out), .sweep-outro");
+        if (!("IntersectionObserver" in window)) return;
+        navObs = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (!e.isIntersecting) return;
+            if (e.target.classList.contains("sweep-hero")) setActive("hero");
+            else if (e.target.dataset.sweepWrap) setActive(e.target.dataset.sweepWrap);
+          });
+        }, { threshold: 0.45, rootMargin: "-18% 0px -18% 0px" });
+        navTargets.forEach(function (s) { navObs.observe(s); });
+      }
+
+      priceChips.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          state.price = btn.dataset.filterPrice;
+          priceChips.forEach(function (b) { b.classList.toggle("active", b === btn); });
+          applyFilters();
+        });
+      });
+      spotsChips.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          state.spots = btn.dataset.filterSpots;
+          spotsChips.forEach(function (b) { b.classList.toggle("active", b === btn); });
+          applyFilters();
+        });
+      });
+      if (sortSelect) {
+        sortSelect.addEventListener("change", function () {
+          state.sort = sortSelect.value;
+          applyFilters();
+        });
+      }
+      if (resetBtn) {
+        resetBtn.addEventListener("click", function () {
+          state = { price: "all", spots: "all", sort: "default" };
+          priceChips.forEach(function (b) { b.classList.toggle("active", b.dataset.filterPrice === "all"); });
+          spotsChips.forEach(function (b) { b.classList.toggle("active", b.dataset.filterSpots === "all"); });
+          if (sortSelect) sortSelect.value = "default";
+          applyFilters();
+        });
+      }
+
+      function scrollToId(id) {
+        if (id === "hero" && hero) {
+          hero.scrollIntoView({ behavior: "smooth", block: "start" });
+          return;
+        }
+        var wrap = document.querySelector('[data-sweep-wrap="' + id + '"]:not(.is-filtered-out)');
+        if (wrap) wrap.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      dots.forEach(function (dot) {
+        dot.addEventListener("click", function (ev) {
+          var id = dot.dataset.sweepDot;
+          if (!id || dot.hidden) return;
+          ev.preventDefault();
+          scrollToId(id);
+        });
+      });
+      if (jump) {
+        jump.addEventListener("click", function (ev) {
+          var link = ev.target.closest("[data-sweep-jump]");
+          if (!link || link.hidden) return;
+          ev.preventDefault();
+          scrollToId(link.dataset.sweepJump);
+        });
+      }
+
+      applyFilters();
+      observeNav();
+    })();
+  </script>
+</body>
+</html>

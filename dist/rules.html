@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Official Rules — Gaviom Sweepstakes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700&family=Geist+Mono:wght@400;500&family=Geist:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/mobile.css" />
+  <style>
+    .rules-pdf-page { min-height: 100vh; display: flex; flex-direction: column; background: var(--paper-2); }
+    .rules-pdf-toolbar {
+      flex-shrink: 0;
+      background: var(--ink);
+      color: var(--paper);
+      padding: 10px 0;
+      font-size: 12px;
+      line-height: 1.5;
+      border-bottom: 1px solid color-mix(in oklab, var(--paper) 12%, transparent);
+    }
+    .rules-pdf-toolbar .wrap {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .rules-pdf-toolbar strong { font-weight: 600; }
+    .rules-pdf-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    .rules-pdf-actions a {
+      color: color-mix(in oklab, var(--paper) 88%, var(--action));
+      text-decoration: underline;
+      font-family: "Geist Mono", monospace;
+      font-size: 11px;
+    }
+    .rules-pdf-nav {
+      flex-shrink: 0;
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+      padding: 12px 0;
+    }
+    .rules-pdf-nav .wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .rules-pdf-nav h1 {
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0;
+    }
+    .rules-pdf-frame-wrap {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .rules-pdf-frame {
+      flex: 1;
+      width: 100%;
+      min-height: calc(100vh - 140px);
+      min-height: calc(100dvh - 140px);
+      border: none;
+      background: #525659;
+    }
+    @media (max-width: 640px) {
+      .rules-pdf-nav h1 { font-size: 16px; }
+      .rules-pdf-frame { min-height: calc(100dvh - 160px); }
+    }
+  </style>
+</head>
+<body class="rules-pdf-page">
+  <div class="rules-pdf-toolbar" role="region" aria-label="No purchase necessary notice">
+    <div class="wrap">
+      <p style="margin:0;max-width:720px;">
+        <strong>NO PURCHASE NECESSARY TO ENTER OR WIN.</strong>
+        A purchase will not increase your chances of winning.
+        Void in NY, FL, RI and where prohibited.
+      </p>
+      <div class="rules-pdf-actions">
+        <a href="/official-rules.pdf" download="Gaviom-Official-Rules.pdf">Download PDF</a>
+        <a href="/free-entry.html">Alternate entry</a>
+        <a href="/">Back to site</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="rules-pdf-nav">
+    <div class="wrap">
+      <a href="/" class="brand"><span class="brand-mark">G</span> Gaviom</a>
+      <h1>Official Rules</h1>
+      <a href="/official-rules.pdf" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">Open in new tab</a>
+    </div>
+  </div>
+
+  <div class="rules-pdf-frame-wrap">
+    <iframe
+      class="rules-pdf-frame"
+      src="/official-rules.pdf"
+      title="Gaviom Official Rules PDF"
+    ></iframe>
+    <object
+      class="rules-pdf-frame rules-pdf-fallback"
+      data="official-rules.pdf"
+      type="application/pdf"
+      aria-label="Gaviom Official Rules PDF"
+      style="display:none;"
+    >
+      <p style="padding:24px;text-align:center;">
+        Your browser cannot display PDFs inline.
+        <a href="/official-rules.pdf" class="btn btn-primary" style="margin-top:16px;">Download Official Rules (PDF)</a>
+      </p>
+    </object>
+  </div>
+
+  <script>
+    (function () {
+      var iframe = document.querySelector(".rules-pdf-frame");
+      var fallback = document.querySelector(".rules-pdf-fallback");
+      if (!iframe || !fallback) return;
+      iframe.addEventListener("error", function () {
+        iframe.style.display = "none";
+        fallback.style.display = "block";
+      });
+    })();
+  </script>
+  <script src="/app.js"></script>
+</body>
+</html>

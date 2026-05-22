@@ -1,0 +1,9 @@
+{
+  "name": "gaviom-v2",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build-blog.mjs && node scripts/build-static.mjs",
+    "dev": "npx --yes serve -l 3001 .",
+    "start": "npm run dev"
+  }
+}

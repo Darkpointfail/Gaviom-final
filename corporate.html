@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gaviom for Business — Employee sweepstakes</title>
+  <meta name="description" content="Run private, compliant employee sweepstakes. Gaviom Perks for monthly recognition or Gaviom Events for one-off launches." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Geist+Mono:wght@400;500&family=Geist:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/mobile.css" />
+</head>
+<body class="gv-corp">
+  <div class="corp-topbar">
+    <div class="wrap corp-topbar-inner">
+      <span class="corp-topbar__msg font-mono">Onboarding HR teams · respond within 4 business hours</span>
+      <span class="corp-topbar__trust">Trusted by 80+ companies</span>
+      <a href="/" class="corp-topbar__back">← Consumer site</a>
+    </div>
+  </div>
+
+  <header class="nav corp-nav">
+    <div class="wrap nav-inner">
+      <a href="/corporate.html" class="brand corp-brand" aria-label="Gaviom Business home">
+        <span class="brand-mark">G</span> Gaviom <span class="corp-brand__slash">/</span> <span class="corp-brand__biz">Business</span>
+      </a>
+      <nav class="nav-links corp-nav-links">
+        <a href="#products">Products</a>
+        <a href="#use-cases">Use cases</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#compliance">Compliance</a>
+      </nav>
+      <div class="nav-right">
+        <a href="#demo" class="btn btn-ghost">Talk to sales</a>
+        <a href="#demo" class="btn btn-primary">Book a demo</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="corp-hero" id="demo">
+      <div class="wrap corp-hero-grid">
+        <div class="corp-hero-copy">
+          <p class="eyebrow"><span class="bar"></span> Gaviom for Business</p>
+          <h1 class="h-hero font-display">Run private sweepstakes for your employees</h1>
+          <p class="lede lede-lg">HR-ready employee sweepstakes with published odds, live draws, and payroll documentation. Set up in about a week. No consumer marketing, no public entry.</p>
+          <div class="corp-hero-ctas">
+            <a href="#demo" class="btn btn-primary btn-lg">Book a demo</a>
+            <a href="#pricing" class="btn btn-ghost btn-lg">See pricing</a>
+          </div>
+          <ul class="corp-hero-promises font-mono">
+            <li>4h response on business days</li>
+            <li>Senior person on every call</li>
+            <li>Live sandbox in 48h</li>
+            <li>Pricing in writing by end of week 1</li>
+          </ul>
+        </div>
+
+        <div class="corp-hero-aside">
+          <div class="corp-scene-stack" aria-hidden="true">
+            <article class="corp-scene-card corp-scene-card--3">
+              <header class="corp-scene-card__head">
+                <span class="corp-scene-card__logo">LH</span>
+                <span class="corp-scene-card__co">Luma Health</span>
+              </header>
+              <p class="corp-scene-card__title">Q2 wellness draw</p>
+              <p class="corp-scene-card__meta font-mono">312 employees · $2,400 draw</p>
+              <span class="corp-scene-card__status badge badge-action">Launch · Thu</span>
+            </article>
+            <article class="corp-scene-card corp-scene-card--2">
+              <header class="corp-scene-card__head">
+                <span class="corp-scene-card__logo">NS</span>
+                <span class="corp-scene-card__co">North Star Labs</span>
+              </header>
+              <p class="corp-scene-card__title">Monthly perks · April</p>
+              <p class="corp-scene-card__meta font-mono">89 employees · $6/ea</p>
+              <span class="corp-scene-card__status badge">Draw · Sun 8pm ET</span>
+            </article>
+            <article class="corp-scene-card corp-scene-card--1">
+              <header class="corp-scene-card__head">
+                <span class="corp-scene-card__logo">AC</span>
+                <span class="corp-scene-card__co">Acme Supply Co.</span>
+              </header>
+              <p class="corp-scene-card__title">Kickoff SPIFF</p>
+              <p class="corp-scene-card__meta font-mono">1,040 employees · Growth tier</p>
+              <span class="corp-scene-card__status badge badge-ochre">Setup · Day 3</span>
+            </article>
+          </div>
+
+          <form class="corp-demo-form" data-corp-demo novalidate>
+            <p class="corp-demo-form__label eyebrow"><span class="bar"></span> Book a demo</p>
+            <h2 class="corp-demo-form__title font-display">Talk to sales</h2>
+            <p class="corp-demo-form__sub">No credit card. We reply within 4 business hours.</p>
+
+            <div class="field">
+              <label for="corp-email">Work email</label>
+              <input id="corp-email" name="email" type="email" required placeholder="you@company.com" autocomplete="email" />
+            </div>
+
+            <fieldset class="corp-pills-field">
+              <legend class="font-mono">Team size</legend>
+              <div class="corp-pills" data-corp-pills="size">
+                <button type="button" class="corp-pill" data-value="1-50">1–50</button>
+                <button type="button" class="corp-pill is-active" data-value="51-200">51–200</button>
+                <button type="button" class="corp-pill" data-value="201-500">201–500</button>
+                <button type="button" class="corp-pill" data-value="500+">500+</button>
+              </div>
+              <input type="hidden" name="team_size" value="51-200" data-corp-pill-input="size" />
+            </fieldset>
+
+            <fieldset class="corp-pills-field">
+              <legend class="font-mono">Primary interest</legend>
+              <div class="corp-pills" data-corp-pills="interest">
+                <button type="button" class="corp-pill is-active" data-value="perks">Gaviom Perks</button>
+                <button type="button" class="corp-pill" data-value="events">Gaviom Events</button>
+                <button type="button" class="corp-pill" data-value="both">Both</button>
+                <button type="button" class="corp-pill" data-value="unsure">Not sure yet</button>
+              </div>
+              <input type="hidden" name="interest" value="perks" data-corp-pill-input="interest" />
+            </fieldset>
+
+            <button type="submit" class="btn btn-primary btn-block btn-lg">Book a demo</button>
+            <p class="corp-demo-form__fine font-mono">By submitting you agree to be contacted about Gaviom for Business. No consumer marketing.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="corp-logos" aria-label="Companies using Gaviom">
+      <div class="wrap">
+        <p class="corp-logos__cap font-mono">Teams running private employee draws</p>
+        <ul class="corp-logos__grid">
+          <li><span class="corp-logo">Northwind</span></li>
+          <li><span class="corp-logo">Meridian Health</span></li>
+          <li><span class="corp-logo">Bolt Freight</span></li>
+          <li><span class="corp-logo">Harbor Capital</span></li>
+          <li><span class="corp-logo">Summit HR</span></li>
+          <li><span class="corp-logo">Cedar Works</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="products">
+      <div class="wrap">
+        <p class="eyebrow"><span class="bar"></span> Two products</p>
+        <h2 class="h-section font-display" style="margin:12px 0 40px;">Recurring perks or one-off events.</h2>
+        <div class="corp-products">
+          <article class="corp-product">
+            <div class="corp-product__head">
+              <span class="badge badge-action">Recurring</span>
+              <h3 class="font-display">Gaviom Perks</h3>
+            </div>
+            <p class="corp-product__price font-display">$6 <span>/ employee / month</span></p>
+            <p class="corp-product__tag">Like meal vouchers, but for winning.</p>
+            <p class="lede" style="max-width:none;margin-bottom:20px;">Monthly private draw for every enrolled employee. HR configures prize pool once. Payroll receives 1099-ready winner exports.</p>
+            <ul class="detail-list">
+              <li><span class="check">✓</span><span>Auto-enrollment via HRIS or CSV</span></li>
+              <li><span class="check">✓</span><span>Published odds and capped entries per employee</span></li>
+              <li><span class="check">✓</span><span>Live draw on YouTube, employee-only link</span></li>
+            </ul>
+            <a href="#demo" class="btn btn-primary">Book a demo</a>
+          </article>
+          <article class="corp-product corp-product--events">
+            <div class="corp-product__head">
+              <span class="badge badge-ochre">One-off</span>
+              <h3 class="font-display">Gaviom Events</h3>
+            </div>
+            <p class="corp-product__price font-display">$2,400 <span>/ draw</span></p>
+            <p class="corp-product__tag">Kickoff, launch, anniversary, sales SPIFF.</p>
+            <p class="lede" style="max-width:none;margin-bottom:20px;">Single private sweepstakes for a defined audience. Custom branding, prize selection, and comms templates included.</p>
+            <ul class="detail-list">
+              <li><span class="check">✓</span><span>Up to 2,500 eligible employees per draw</span></li>
+              <li><span class="check">✓</span><span>Launch in ~5 business days from signed order</span></li>
+              <li><span class="check">✓</span><span>Post-draw winner packet for payroll and comms</span></li>
+            </ul>
+            <a href="#demo" class="btn btn-ghost">Book a demo</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="use-cases" style="background:var(--paper-2);">
+      <div class="wrap">
+        <p class="eyebrow"><span class="bar"></span> Use cases</p>
+        <h2 class="h-section font-display" style="margin:12px 0 32px;">Built for People Ops and revenue teams.</h2>
+        <div class="corp-use-grid">
+          <article class="corp-use-card"><span class="corp-use-card__icon">👥</span><h3>People Ops</h3><p>Monthly recognition draw without building internal tooling.</p></article>
+          <article class="corp-use-card"><span class="corp-use-card__icon">📈</span><h3>Sales SPIFF</h3><p>Quarterly private sweepstakes tied to pipeline milestones.</p></article>
+          <article class="corp-use-card"><span class="corp-use-card__icon">🤝</span><h3>Customer loyalty</h3><p>Co-branded employee-only draws for partner teams.</p></article>
+          <article class="corp-use-card"><span class="corp-use-card__icon">🎉</span><h3>Company events</h3><p>All-hands, offsite, or town hall moment with a live draw.</p></article>
+          <article class="corp-use-card"><span class="corp-use-card__icon">🏆</span><h3>Recognition</h3><p>Nomination-free wins so every employee has equal odds.</p></article>
+          <article class="corp-use-card"><span class="corp-use-card__icon">📣</span><h3>Content &amp; comms</h3><p>Shareable winner stories without consumer ad spend.</p></article>
+          <article class="corp-use-card"><span class="corp-use-card__icon">💚</span><h3>Wellness</h3><p>Step challenges and benefits weeks with a cash prize cap.</p></article>
+          <article class="corp-use-card"><span class="corp-use-card__icon">🔄</span><h3>CS renewal</h3><p>Retention SPIFF for customer success pods.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="how">
+      <div class="wrap">
+        <p class="eyebrow"><span class="bar"></span> How it works</p>
+        <h2 class="h-section font-display" style="margin:12px 0 8px;">Live in about one week.</h2>
+        <p class="lede" style="margin-bottom:36px;">From intro call to first draw, most teams ship in 5–7 business days.</p>
+        <div class="corp-steps">
+          <article class="corp-step">
+            <span class="corp-step__num font-display">01</span>
+            <h3>Intro</h3>
+            <p>30-minute discovery with a senior rep. Scope audience, prize budget, and compliance needs.</p>
+          </article>
+          <article class="corp-step">
+            <span class="corp-step__num font-display">02</span>
+            <h3>Setup</h3>
+            <p>HRIS sync or CSV upload. MSA signed. Sandbox with your branding in 48 hours.</p>
+          </article>
+          <article class="corp-step">
+            <span class="corp-step__num font-display">03</span>
+            <h3>Launch</h3>
+            <p>Employee comms kit sent. Entries open on a private subdomain. Odds published internally.</p>
+          </article>
+          <article class="corp-step">
+            <span class="corp-step__num font-display">04</span>
+            <h3>Draw</h3>
+            <p>Live verifiable RNG. Winner verified same night. Payroll packet within 48 hours.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="pricing" style="background:var(--paper-2);">
+      <div class="wrap">
+        <p class="eyebrow"><span class="bar"></span> Pricing</p>
+        <h2 class="h-section font-display" style="margin:12px 0 8px;">Transparent per-employee pricing.</h2>
+        <p class="lede" style="margin-bottom:36px;">Gaviom Events billed per draw. Gaviom Perks billed monthly on enrolled headcount.</p>
+        <div class="corp-pricing">
+          <article class="corp-tier">
+            <h3 class="font-display">Starter</h3>
+            <p class="corp-tier__price font-display">$6 <span>/ employee / mo</span></p>
+            <p class="corp-tier__note">Perks only · up to 200 employees</p>
+            <ul class="detail-list">
+              <li><span class="check">✓</span><span>1 monthly private draw</span></li>
+              <li><span class="check">✓</span><span>Standard prize catalog</span></li>
+              <li><span class="check">✓</span><span>Email support · 4h SLA</span></li>
+            </ul>
+            <a href="#demo" class="btn btn-ghost btn-block">Book a demo</a>
+          </article>
+          <article class="corp-tier corp-tier--featured">
+            <span class="corp-tier__badge">Most popular</span>
+            <h3 class="font-display">Growth</h3>
+            <p class="corp-tier__price font-display">$8 <span>/ employee / mo</span></p>
+            <p class="corp-tier__note">Perks + 2 Events / year included</p>
+            <ul class="detail-list">
+              <li><span class="check">✓</span><span>Unlimited headcount</span></li>
+              <li><span class="check">✓</span><span>Custom prizes and branding</span></li>
+              <li><span class="check">✓</span><span>HRIS integrations (Workday, Rippling)</span></li>
+              <li><span class="check">✓</span><span>Dedicated CSM</span></li>
+            </ul>
+            <a href="#demo" class="btn btn-primary btn-block">Book a demo</a>
+          </article>
+          <article class="corp-tier">
+            <h3 class="font-display">Enterprise</h3>
+            <p class="corp-tier__price font-display">Custom</p>
+            <p class="corp-tier__note">Multi-entity · global · procurement portal</p>
+            <ul class="detail-list">
+              <li><span class="check">✓</span><span>Volume pricing and MSA redlines</span></li>
+              <li><span class="check">✓</span><span>SOC 2 report + security questionnaire</span></li>
+              <li><span class="check">✓</span><span>SSO, SCIM, custom DPA</span></li>
+            </ul>
+            <a href="#demo" class="btn btn-ghost btn-block">Talk to sales</a>
+          </article>
+        </div>
+        <p class="corp-pricing-events font-mono">Gaviom Events: <strong>$2,400 / draw</strong> on any tier · additional draws quoted in writing</p>
+      </div>
+    </section>
+
+    <section class="section corp-story">
+      <div class="wrap corp-story-grid">
+        <div>
+          <p class="eyebrow"><span class="bar"></span> Customer story</p>
+          <h2 class="h-section font-display" style="margin:12px 0 16px;">Northwind ran their best all-hands in years.</h2>
+          <p class="lede" style="max-width:none;">420 employees · Gaviom Events for Q1 kickoff · $5,000 cash prize + 3 runner-up gift cards.</p>
+          <blockquote class="corp-quote font-quote">"We needed something louder than a Slack gift card. Gaviom handled rules, draw night, and payroll exports. Attendance was up 108% versus last January."</blockquote>
+          <p class="corp-quote-cite font-mono">, Jordan Lee, VP People, Northwind Logistics</p>
+          <a href="#demo" class="btn btn-primary" style="margin-top:24px;">Book a demo</a>
+        </div>
+        <div class="corp-story-stats">
+          <div class="corp-stat"><span class="corp-stat__val font-display">420</span><span class="corp-stat__lbl">Employees enrolled</span></div>
+          <div class="corp-stat"><span class="corp-stat__val font-display">+108%</span><span class="corp-stat__lbl">All-hands attendance vs prior year</span></div>
+          <div class="corp-stat"><span class="corp-stat__val font-display">6 days</span><span class="corp-stat__lbl">Intro call to live draw</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="corp-compliance" id="compliance">
+      <div class="wrap">
+        <p class="eyebrow" style="color:color-mix(in oklab, var(--paper) 55%, transparent);"><span class="bar" style="background:color-mix(in oklab, var(--paper) 35%, transparent);"></span> Procurement-ready</p>
+        <h2 class="h-section font-display" style="color:var(--paper);margin:12px 0 32px;">What your legal and HR teams ask for, upfront.</h2>
+        <div class="corp-compliance-grid">
+          <article class="corp-compliance-card">
+            <h3>SOC 2 Type II</h3>
+            <p>Report available under NDA. Annual penetration test. Sub-processor list maintained.</p>
+            <a href="#" class="corp-compliance-link">Request SOC 2 →</a>
+          </article>
+          <article class="corp-compliance-card">
+            <h3>1099-MISC payroll-ready</h3>
+            <p>Winner exports with TIN collection workflow. Tax-coded as a non-cash benefit where applicable.</p>
+            <a href="#" class="corp-compliance-link">Payroll packet sample →</a>
+          </article>
+          <article class="corp-compliance-card">
+            <h3>Verifiable RNG</h3>
+            <p>Public seed, audit log, and replay instructions published after every draw.</p>
+            <a href="/how.html" class="corp-compliance-link">Draw methodology →</a>
+          </article>
+          <article class="corp-compliance-card">
+            <h3>Bonded · 47 states</h3>
+            <p>Alternate method of entry for employees. Official rules reviewed per jurisdiction.</p>
+            <a href="/how.html#amoe" class="corp-compliance-link">State coverage →</a>
+          </article>
+        </div>
+        <p class="corp-compliance-fine font-mono">Placeholder disclosures · validate with counsel before procurement submission</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap faq" style="max-width:800px;">
+        <p class="eyebrow"><span class="bar"></span> FAQ</p>
+        <h2 class="h-section font-display" style="margin:12px 0 28px;">B2B questions, straight answers.</h2>
+        <details>
+          <summary>Is this legal as an employee benefit?</summary>
+          <div class="answer">Private sweepstakes for enrolled employees are structured as promotional contests with AMOE, not gambling. Tax treatment varies. We provide payroll documentation; your counsel confirms benefit classification.</div>
+        </details>
+        <details>
+          <summary>Do employees pay to enter?</summary>
+          <div class="answer">No. Employer funds entry. Employees may use free alternate method of entry where required by state rules.</div>
+        </details>
+        <details>
+          <summary>Can we use custom prizes?</summary>
+          <div class="answer">Yes on Growth and Enterprise. Starter uses our standard catalog (cash, travel credits, electronics).</div>
+        </details>
+        <details>
+          <summary>How is pricing quoted for multi-entity companies?</summary>
+          <div class="answer">Enterprise pricing is per legal entity and headcount band. We deliver a written quote by end of week 1, not a generic rate card.</div>
+        </details>
+        <details>
+          <summary>What HRIS integrations exist?</summary>
+          <div class="answer">Workday and Rippling on Growth+. Others via SCIM or scheduled CSV on Enterprise.</div>
+        </details>
+        <details>
+          <summary>Who owns employee data?</summary>
+          <div class="answer">You do. Gaviom is processor under our DPA. Data deleted 90 days after contract end unless legally required to retain.</div>
+        </details>
+        <details>
+          <summary>Can we run a public consumer sweepstakes too?</summary>
+          <div class="answer">Yes. Business and consumer products are separate contracts and subdomains. <a href="/">See the consumer site →</a></div>
+        </details>
+      </div>
+    </section>
+
+    <section class="corp-cta-band">
+      <div class="wrap corp-cta-band__inner">
+        <div>
+          <h2 class="font-display" style="font-size:clamp(32px,4vw,48px);margin-bottom:12px;">Ready for your first private draw?</h2>
+          <p class="lede" style="max-width:480px;color:var(--ink-3);">Book a demo. Senior rep, live sandbox in 48h, pricing in writing by end of week 1.</p>
+        </div>
+        <a href="#demo" class="btn btn-primary btn-xl">Book a demo</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer corp-footer">
+    <div class="wrap footer-grid corp-footer-grid">
+      <div class="footer-brand">
+        <a href="/corporate.html" class="brand corp-brand"><span class="brand-mark">G</span> Gaviom <span class="corp-brand__slash">/</span> <span class="corp-brand__biz">Business</span></a>
+        <p class="footer-tagline">Private employee sweepstakes for HR and People teams. Operated by Gaviom Inc., Delaware.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Business</h4>
+        <ul>
+          <li><a href="#products">Products</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#compliance">Compliance</a></li>
+          <li><a href="#demo">Book a demo</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Consumer</h4>
+        <ul>
+          <li><a href="/">Gaviom home</a></li>
+          <li><a href="/prizes.html">Sweepstakes</a></li>
+          <li><a href="/winners.html">Winners</a></li>
+          <li><a href="/membership.html">Gaviom+</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Master services agreement</a></li>
+          <li><a href="#">SOC 2 report</a></li>
+          <li><a href="#">Data processing agreement</a></li>
+          <li><a href="#">Privacy policy</a></li>
+          <li><a href="#">Sub-processors</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="wrap footer-legal">
+      <span>© 2026 Gaviom Inc. · Delaware C-Corp</span>
+      <span>B2B placeholders · Not legal advice</span>
+    </div>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>
