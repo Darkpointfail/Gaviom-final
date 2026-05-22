@@ -968,7 +968,7 @@ body.nav-open .nav-menu-icon::after {
 
   /* ——— Prizes page: magazine layout (mobile only, desktop unchanged) ——— */
   body.prizes-page .sweep-scroll {
-    scroll-snap-type: y proximity;
+    scroll-snap-type: none;
   }
 
   body.prizes-page .sweep-hero {
@@ -1095,13 +1095,14 @@ body.nav-open .nav-menu-icon::after {
 
   /* Magazine panels: full-bleed photo + text overlay (like desktop) */
   body.prizes-page .sweep-bridge {
-    height: 12px;
-    min-height: 12px;
+    display: none;
+    height: 0;
+    min-height: 0;
+    background: transparent;
   }
 
   body.prizes-page .sweep-panel-wrap:first-child .sweep-bridge {
-    height: 8px;
-    min-height: 8px;
+    display: none;
   }
 
   body.prizes-page .sweep-panel-wrap {
@@ -1115,8 +1116,8 @@ body.nav-open .nav-menu-icon::after {
     flex-direction: row !important;
     align-items: flex-end !important;
     justify-content: flex-end !important;
-    min-height: 92dvh !important;
-    min-height: 92vh !important;
+    min-height: 100dvh !important;
+    min-height: 100svh !important;
     overflow: hidden !important;
   }
 
@@ -1134,7 +1135,8 @@ body.nav-open .nav-menu-icon::after {
     height: 100%;
     object-fit: cover;
     object-position: center;
-    filter: saturate(1.02) contrast(1.03);
+    filter: saturate(1.08) contrast(1.06);
+    transform: scale(1.02);
   }
 
   body.prizes-page .sweep-panel--grand .sweep-panel__media img {
@@ -1148,11 +1150,11 @@ body.nav-open .nav-menu-icon::after {
     inset: 0 !important;
     z-index: 1;
     background: linear-gradient(
-      185deg,
-      color-mix(in oklab, var(--ink) 35%, transparent) 0%,
-      color-mix(in oklab, var(--ink) 5%, transparent) 40%,
-      color-mix(in oklab, var(--ink) 55%, transparent) 72%,
-      color-mix(in oklab, var(--ink) 88%, transparent) 100%
+      to top,
+      color-mix(in oklab, var(--ink) 94%, transparent) 0%,
+      color-mix(in oklab, var(--ink) 50%, transparent) 22%,
+      color-mix(in oklab, var(--ink) 12%, transparent) 42%,
+      transparent 62%
     ) !important;
   }
 
@@ -1237,6 +1239,36 @@ body.nav-open .nav-menu-icon::after {
   }
 }
 
+/* Prizes — stronger magazine snap (phone only) */
+@media (max-width: 768px) {
+  html:has(body.prizes-page) {
+    scroll-snap-type: y mandatory;
+  }
+
+  body.prizes-page .sweep-stack {
+    background: var(--ink);
+  }
+
+  body.prizes-page .sweep-hero,
+  body.prizes-page .sweep-panel-wrap,
+  body.prizes-page .sweep-outro {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  body.prizes-page .sweep-hero {
+    scroll-snap-stop: normal;
+  }
+
+  body.prizes-page .sweep-panel-wrap {
+    scroll-margin-top: calc(var(--nav-h) + var(--safe-top));
+  }
+
+  body.prizes-page .sweep-panel__content.wrap {
+    padding-bottom: calc(36px + var(--safe-bottom)) !important;
+  }
+}
+
 @media (max-width: 480px) {
   .prize-card--compact {
     grid-template-columns: 1fr;
@@ -1252,10 +1284,6 @@ body.nav-open .nav-menu-icon::after {
 
   body.prizes-page .sweep-hero__stats dd {
     font-size: 12px;
-  }
-
-  body.prizes-page .sweep-panel {
-    min-height: 88dvh !important;
   }
 
   body.prizes-page .sweep-panel__title,

@@ -282,9 +282,19 @@
       }
 
       var revealObs;
+      function isMobileMagazine() {
+        return window.matchMedia("(max-width: 768px)").matches;
+      }
+
       function observeSections() {
         if (revealObs) revealObs.disconnect();
         var targets = document.querySelectorAll(".sweep-panel-wrap:not(.is-filtered-out) .sweep-panel");
+        if (isMobileMagazine()) {
+          targets.forEach(function (p) {
+            p.closest(".sweep-panel-wrap").classList.add("is-revealed");
+          });
+          return;
+        }
         if ("IntersectionObserver" in window) {
           revealObs = new IntersectionObserver(function (entries) {
             entries.forEach(function (e) {
