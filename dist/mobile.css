@@ -976,6 +976,18 @@ body.nav-open .nav-menu-icon::after {
     scroll-snap-align: start;
   }
 
+  body.prizes-page .sweep-hero__stats {
+    box-shadow: 0 1px 0 color-mix(in oklab, var(--paper) 65%, transparent);
+  }
+
+  body.prizes-page .sweep-filters {
+    margin-top: 2px;
+    padding: 16px 16px 18px;
+    border-top: 1px solid var(--sweep-warm-line);
+    border-radius: var(--r-md) var(--r-md) 0 0;
+    box-shadow: 0 -1px 0 color-mix(in oklab, var(--sweep-warm-line) 40%, transparent);
+  }
+
   body.prizes-page .sweep-hero .wrap {
     max-width: none;
     width: 100%;
@@ -1039,8 +1051,6 @@ body.nav-open .nav-menu-icon::after {
     flex-direction: column;
     align-items: stretch;
     gap: 12px;
-    padding: 16px 0 18px;
-    border-top: 1px solid var(--line);
   }
 
   body.prizes-page .sweep-filters__row {

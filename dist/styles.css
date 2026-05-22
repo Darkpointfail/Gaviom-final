@@ -4116,6 +4116,40 @@ body.prizes-page .sticky-cta {
   color: var(--muted);
   min-width: 42px;
 }
+
+/* Prizes page — Option D: warm hero + lighter card zones */
+body.prizes-page {
+  --sweep-warm: oklch(0.97 0.018 78);
+  --sweep-card: oklch(0.985 0.01 82);
+  --sweep-warm-line: oklch(0.9 0.014 78);
+}
+body.prizes-page .sweep-hero {
+  background:
+    radial-gradient(62% 52% at 90% 6%, color-mix(in oklab, var(--ochre-soft) 75%, transparent) 0%, transparent 54%),
+    radial-gradient(48% 42% at 4% 98%, color-mix(in oklab, var(--dream-warm) 90%, transparent) 0%, transparent 50%),
+    var(--sweep-warm);
+  border-bottom-color: var(--sweep-warm-line);
+}
+body.prizes-page .sweep-hero__stats {
+  background: var(--sweep-card);
+  border-color: var(--sweep-warm-line);
+}
+body.prizes-page .sweep-hero__stats div {
+  border-right-color: var(--sweep-warm-line);
+}
+body.prizes-page .sweep-filters {
+  background: var(--sweep-card);
+  border-top-color: var(--sweep-warm-line);
+}
+body.prizes-page .sweep-filters .chip:not(.active) {
+  background: var(--paper);
+  border-color: var(--sweep-warm-line);
+}
+body.prizes-page .sweep-filters .sort-select {
+  background: var(--paper);
+  border-color: var(--sweep-warm-line);
+}
+
 .sweep-jump {
   display: flex;
   flex-wrap: wrap;
@@ -4417,6 +4451,21 @@ body.prizes-page .sticky-cta {
     background: transparent;
   }
   .sweep-hero__stats div {
+    align-items: flex-start;
+    text-align: left;
+    padding: 0;
+    border-right: none;
+  }
+  body.prizes-page .sweep-hero__stats {
+    display: flex;
+    gap: 28px;
+    width: auto;
+    padding: 14px 22px;
+    border: 1px solid var(--sweep-warm-line);
+    border-radius: var(--r-md);
+    background: var(--sweep-card);
+  }
+  body.prizes-page .sweep-hero__stats div {
     align-items: flex-start;
     text-align: left;
     padding: 0;
