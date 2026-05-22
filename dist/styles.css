@@ -3133,12 +3133,10 @@ a.brand:hover { color: var(--ink); opacity: 0.85; }
 .full-bleed-quote--winners-villa .full-bleed-quote__photo + .full-bleed-quote__overlay {
   background: linear-gradient(
     180deg,
-    transparent 0%,
-    color-mix(in oklab, var(--ink) 15%, transparent) 70%,
-    color-mix(in oklab, var(--ink) 45%, transparent) 100%
+    color-mix(in oklab, var(--ink) 12%, transparent) 0%,
+    color-mix(in oklab, var(--ink) 35%, transparent) 50%,
+    color-mix(in oklab, var(--ink) 55%, transparent) 100%
   );
-  align-items: flex-end;
-  padding-bottom: 48px;
 }
 .winners-presale-banner {
   display: flex;
