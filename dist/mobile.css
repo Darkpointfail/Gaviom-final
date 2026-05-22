@@ -1278,7 +1278,7 @@ body.nav-open .nav-menu-icon::after {
     --m-green-border: #0f4a2e;
     --m-green-top: #1e7a4e;
     --m-green-bottom: #155c3a;
-    --m-noise-green: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    --m-grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.95'/%3E%3C/svg%3E");
     --paper: #f0ede6;
     --paper-2: #181510;
     --paper-3: #201c16;
@@ -1372,7 +1372,6 @@ body.nav-open .nav-menu-icon::after {
   }
 
   /* Surfaces: cards, sections, forms */
-  .nav,
   .nav-mobile-panel,
   .nav-menu-btn,
   .prize-card,
@@ -1413,17 +1412,39 @@ body.nav-open .nav-menu-icon::after {
   }
 
   .nav {
-    background: var(--m-card);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    border-bottom: 1px solid var(--m-line);
+    background: color-mix(in oklab, var(--paper) 72%, transparent);
+    backdrop-filter: blur(20px) saturate(1.1);
+    -webkit-backdrop-filter: blur(20px) saturate(1.1);
+    border-bottom: 1px solid color-mix(in oklab, var(--line) 70%, var(--dream-mist));
+    box-shadow: none;
+  }
+
+  .nav a.brand,
+  .nav .brand,
+  .nav-links a:hover,
+  .nav-links a.active {
+    color: var(--ink);
+  }
+
+  .nav-links a {
+    color: var(--ink-2);
+  }
+
+  .nav-links a.active::after {
+    background: var(--action);
+  }
+
+  .nav .brand-mark {
+    background: var(--ink);
+    border: none;
+    color: var(--paper);
   }
 
   .nav-menu-btn {
-    background: var(--m-card);
-    border-color: var(--m-line);
-    color: var(--m-text);
-    border-radius: 6px;
+    background: var(--canvas);
+    border-color: var(--line-2);
+    color: var(--ink);
+    border-radius: var(--r-sm);
   }
 
   .nav-mobile-panel {
@@ -1593,7 +1614,6 @@ body.nav-open .nav-menu-icon::after {
   .badge-action,
   .badge-presale.badge-action,
   .progress-fill,
-  .nav-links a.active::after,
   .co-submit-cta.btn-primary,
   [data-entry-cta].btn-primary,
   [data-presale-cta].btn-primary,
@@ -1604,9 +1624,7 @@ body.nav-open .nav-menu-icon::after {
   .how-band-ctas .btn-primary,
   .corp-cta-band .btn-primary {
     background-color: var(--m-green);
-    background-image: var(--m-noise-green),
-      linear-gradient(180deg, var(--m-green-top) 0%, var(--m-green-bottom) 100%);
-    background-blend-mode: overlay, normal;
+    background-image: linear-gradient(180deg, var(--m-green-top) 0%, var(--m-green-bottom) 100%);
     border: 1px solid var(--m-green-border);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
     color: var(--m-text);
@@ -1629,8 +1647,7 @@ body.nav-open .nav-menu-icon::after {
   .how-band-ctas .btn-primary:hover,
   .corp-cta-band .btn-primary:hover {
     background-color: var(--m-green-hover);
-    background-image: var(--m-noise-green),
-      linear-gradient(180deg, var(--m-green-hover) 0%, var(--m-green-hover) 100%);
+    background-image: linear-gradient(180deg, var(--m-green-hover) 0%, var(--m-green-hover) 100%);
     box-shadow: none;
     color: var(--m-text);
   }
@@ -1724,49 +1741,80 @@ body.nav-open .nav-menu-icon::after {
     );
   }
 
-  /* Prizes page — dark warm (replaces light cream) */
+  /* Prizes page — light hero (copy + filters), dark magazine below */
   body.prizes-page {
-    --sweep-warm: var(--m-page);
-    --sweep-card: var(--m-card);
-    --sweep-warm-line: var(--m-line);
+    --sweep-warm: oklch(0.985 0.006 80);
+    --sweep-card: oklch(0.992 0.004 85);
+    --sweep-warm-line: oklch(0.91 0.008 80);
   }
 
   body.prizes-page .sweep-hero {
-    background: radial-gradient(
-        55% 45% at 88% 0%,
-        color-mix(in srgb, var(--m-green) 12%, transparent) 0%,
-        transparent 55%
-      ),
-      radial-gradient(
-        45% 40% at 8% 100%,
-        color-mix(in srgb, #3a3020 80%, transparent) 0%,
-        transparent 50%
-      ),
-      var(--m-page);
-    border-bottom-color: var(--m-line);
+    background:
+      radial-gradient(62% 52% at 90% 6%, color-mix(in oklab, oklch(0.94 0.04 80) 30%, transparent) 0%, transparent 54%),
+      radial-gradient(48% 42% at 4% 98%, color-mix(in oklab, oklch(0.97 0.025 85) 35%, transparent) 0%, transparent 50%),
+      oklch(0.985 0.006 80);
+    border-bottom-color: var(--sweep-warm-line);
+  }
+
+  body.prizes-page .sweep-hero::after {
+    display: none;
+  }
+
+  body.prizes-page .sweep-hero__title {
+    color: var(--ink) !important;
+    text-shadow: none;
+  }
+
+  body.prizes-page .sweep-hero__lede {
+    color: var(--ink-2) !important;
+  }
+
+  body.prizes-page .sweep-hero .eyebrow {
+    color: var(--muted);
+  }
+
+  body.prizes-page .sweep-hero .eyebrow .bar {
+    background: var(--action);
   }
 
   body.prizes-page .sweep-hero__stats,
   body.prizes-page .sweep-filters {
-    background: var(--m-card);
-    border-color: var(--m-line);
+    background: var(--sweep-card);
+    border-color: var(--sweep-warm-line);
     box-shadow: none;
   }
 
   body.prizes-page .sweep-hero__stats > div {
-    border-right-color: var(--m-line);
+    border-right-color: var(--sweep-warm-line);
+  }
+
+  body.prizes-page .sweep-hero__stats dt {
+    color: var(--muted);
+  }
+
+  body.prizes-page .sweep-hero__stats dd {
+    color: var(--ink);
+  }
+
+  body.prizes-page .sweep-filters__label {
+    color: var(--muted);
   }
 
   body.prizes-page .sweep-filters .chip:not(.active) {
-    background: var(--m-page);
-    border-color: var(--m-line);
-    color: var(--m-text-2);
+    background: var(--sweep-warm);
+    border-color: var(--sweep-warm-line);
+    color: var(--ink-2);
   }
 
   body.prizes-page .sweep-filters .sort-select {
-    background: var(--m-page);
-    border-color: var(--m-line);
-    color: var(--m-text);
+    background: var(--sweep-warm);
+    border-color: var(--sweep-warm-line);
+    color: var(--ink);
+  }
+
+  body.prizes-page .sweep-hero__stats::after,
+  body.prizes-page .sweep-filters::after {
+    display: none;
   }
 
   body.prizes-page .sweep-bridge {
@@ -1800,15 +1848,358 @@ body.nav-open .nav-menu-icon::after {
     filter: none;
   }
 
+  /* Grain overlay — green CTAs (heavy: soft-light) */
+  .btn-primary,
+  .btn.btn-primary,
+  .badge-action,
+  .badge-presale.badge-action,
+  .progress-fill,
+  .progress-track .progress-fill,
+  .co-submit-cta.btn-primary,
+  [data-entry-cta].btn-primary,
+  [data-presale-cta].btn-primary,
+  .sweep-panel__cta.btn-primary,
+  .sticky-cta .btn-primary,
+  .nav-mobile-actions .btn-primary,
+  .final-ctas .btn-primary,
+  .how-band-ctas .btn-primary,
+  .corp-cta-band .btn-primary,
+  .prize-card-foot .btn-primary,
+  .spotlight-foot .btn-primary {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
   .btn-primary::before,
-  .btn-primary::after {
-    display: none;
+  .btn.btn-primary::before,
+  .co-submit-cta.btn-primary::before,
+  [data-entry-cta].btn-primary::before,
+  [data-presale-cta].btn-primary::before,
+  .sweep-panel__cta.btn-primary::before,
+  .sticky-cta .btn-primary::before,
+  .nav-mobile-actions .btn-primary::before,
+  .nav-right .btn-primary::before,
+  .final-ctas .btn-primary::before,
+  .how-band-ctas .btn-primary::before,
+  .corp-cta-band .btn-primary::before,
+  .prize-card-foot .btn-primary::before,
+  .spotlight-foot .btn-primary::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background-image: var(--m-grain);
+    background-repeat: repeat;
+    background-size: 100px 100px;
+    mix-blend-mode: overlay;
+    opacity: 0.26;
+    z-index: -1;
+  }
+
+  .btn-primary::after,
+  .btn.btn-primary::after,
+  .co-submit-cta.btn-primary::after,
+  [data-entry-cta].btn-primary::after,
+  [data-presale-cta].btn-primary::after,
+  .sweep-panel__cta.btn-primary::after,
+  .sticky-cta .btn-primary::after,
+  .nav-mobile-actions .btn-primary::after,
+  .nav-right .btn-primary::after,
+  .final-ctas .btn-primary::after,
+  .how-band-ctas .btn-primary::after,
+  .corp-cta-band .btn-primary::after,
+  .prize-card-foot .btn-primary::after,
+  .spotlight-foot .btn-primary::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background-image: var(--m-grain);
+    background-repeat: repeat;
+    background-size: 48px 48px;
+    mix-blend-mode: soft-light;
+    opacity: 0.16;
+    z-index: -1;
+  }
+
+  .badge-action::after,
+  .badge-presale.badge-action::after,
+  .progress-fill::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background-image: var(--m-grain);
+    background-repeat: repeat;
+    background-size: 80px 80px;
+    mix-blend-mode: overlay;
+    opacity: 0.2;
+    z-index: 1;
+  }
+
+  /* Grain overlay — hero backgrounds (subtle: overlay) */
+  .hero-home--video,
+  .page-hero,
+  .pd-hero,
+  .corp-hero,
+  body.prizes-page .sweep-hero {
+    isolation: isolate;
+  }
+
+  .hero-home__video,
+  .page-hero,
+  .pd-hero,
+  .corp-hero,
+  body.prizes-page .sweep-hero {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-home__video::after,
+  .page-hero::after,
+  .pd-hero::after,
+  .corp-hero::after,
+  body.prizes-page .sweep-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+    opacity: 0.06;
+    background-image: var(--m-grain);
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    z-index: 4;
+  }
+
+  .hero-home--video .hero-home__content {
+    position: relative;
+    z-index: 5;
+  }
+
+  /* Grain overlay — card backgrounds (subtle: overlay) */
+  .prize-card,
+  .prize-card--compact,
+  .spotlight,
+  .review-card,
+  .launch-card,
+  .specs-card,
+  .grand-banner,
+  .ways-card,
+  .way-card,
+  .mem-tier,
+  .co-summary,
+  .co-prize-showcase,
+  .summary-box,
+  .bundle-opt,
+  .faq details,
+  .blog-card,
+  .corp-scene-card,
+  .corp-demo-form,
+  .corp-product,
+  .corp-use-card,
+  .corp-step,
+  .corp-tier,
+  .corp-stat,
+  .launch-countdown,
+  .launch-countdown--hero,
+  body.prizes-page .sweep-hero__stats,
+  body.prizes-page .sweep-filters,
+  .winners-presale-banner,
+  .pd-stat,
+  .page-hero-split__copy {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .prize-card::after,
+  .prize-card--compact::after,
+  .spotlight::after,
+  .review-card::after,
+  .launch-card::after,
+  .specs-card::after,
+  .grand-banner::after,
+  .ways-card::after,
+  .way-card::after,
+  .mem-tier::after,
+  .co-summary::after,
+  .co-prize-showcase::after,
+  .summary-box::after,
+  .bundle-opt::after,
+  .faq details::after,
+  .blog-card::after,
+  .corp-scene-card::after,
+  .corp-demo-form::after,
+  .corp-product::after,
+  .corp-use-card::after,
+  .corp-step::after,
+  .corp-tier::after,
+  .corp-stat::after,
+  .launch-countdown::after,
+  .launch-countdown--hero::after,
+  body.prizes-page .sweep-hero__stats::after,
+  body.prizes-page .sweep-filters::after,
+  .winners-presale-banner::after,
+  .pd-stat::after,
+  .page-hero-split__copy::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+    opacity: 0.06;
+    background-image: var(--m-grain);
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    z-index: 1;
+  }
+
+  /* Light pages (home, corp): grain slightly stronger on pale cards */
+  body:has(.hero-home--video) .prize-card::after,
+  body:has(.hero-home--video) .spotlight::after,
+  body:has(.hero-home--video) .launch-countdown--hero::after,
+  body.gv-corp .corp-scene-card::after,
+  body.gv-corp .corp-demo-form::after,
+  body.gv-corp .corp-product::after,
+  body.gv-corp .corp-use-card::after,
+  body.gv-corp .corp-tier::after {
+    opacity: 0.1;
+    mix-blend-mode: multiply;
+  }
+
+  /* Keep content and images above card grain */
+  .prize-card-body,
+  .prize-card-foot,
+  .prize-card-progress,
+  .spotlight-body,
+  .spotlight-foot,
+  .review-card > *,
+  .launch-card > *,
+  .corp-scene-card > *,
+  .corp-demo-form > *,
+  .corp-product > *,
+  .corp-use-card > *,
+  .corp-step > *,
+  .corp-tier > *,
+  .corp-stat > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  .prize-card-img,
+  .spotlight-img {
+    position: relative;
+    z-index: 0;
   }
 
   .dream-highlight,
   .h-hero .dream-highlight {
     background: color-mix(in srgb, var(--m-green) 22%, transparent);
     box-shadow: none;
+  }
+
+  /* Home + corporate: restore light theme (revert tobacco trial on mobile) */
+  body:has(.hero-home--video),
+  body.gv-corp {
+    --paper: oklch(0.985 0.006 80);
+    --paper-2: oklch(0.975 0.01 80);
+    --paper-3: oklch(0.962 0.013 78);
+    --canvas: oklch(0.992 0.004 85);
+    --ink: oklch(0.16 0.018 250);
+    --ink-2: oklch(0.28 0.025 250);
+    --ink-3: oklch(0.42 0.025 250);
+    --muted: oklch(0.55 0.02 250);
+    --muted-2: oklch(0.68 0.015 250);
+    --line: oklch(0.91 0.008 80);
+    --line-2: oklch(0.85 0.012 80);
+    --line-3: oklch(0.78 0.014 80);
+    --action: oklch(0.42 0.115 158);
+    --action-2: oklch(0.36 0.115 158);
+    --action-soft: oklch(0.94 0.035 158);
+    --action-line: oklch(0.86 0.06 158);
+    --ochre-soft: oklch(0.94 0.04 80);
+    --dream-sky: oklch(0.97 0.028 265);
+    --dream-mist: oklch(0.96 0.04 158);
+    --dream-warm: oklch(0.97 0.025 85);
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  body:has(.hero-home--video)::before,
+  body:has(.hero-home--video)::after {
+    display: block;
+    opacity: 0.85;
+  }
+
+  body.gv-corp::before {
+    display: block;
+    opacity: 0.45;
+  }
+
+  body:has(.hero-home--video) .h-hero,
+  body:has(.hero-home--video) .h-section,
+  body:has(.hero-home--video) .h-cta,
+  body:has(.hero-home--video) .hero-title,
+  body:has(.hero-home--video) .spotlight-title,
+  body:has(.hero-home--video) .prize-card-title,
+  body.gv-corp .h-hero,
+  body.gv-corp .h-section {
+    color: var(--ink);
+  }
+
+  body:has(.hero-home--video) .topbar,
+  body.gv-corp .corp-topbar {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  body:has(.hero-home--video) .prize-card,
+  body:has(.hero-home--video) .hero-home--video .spotlight,
+  body:has(.hero-home--video) .launch-countdown--hero,
+  body:has(.hero-home--video) .final-cta,
+  body:has(.hero-home--video) .section,
+  body:has(.hero-home--video) .section-sm,
+  body.gv-corp .corp-scene-card,
+  body.gv-corp .corp-demo-form,
+  body.gv-corp .corp-product,
+  body.gv-corp .corp-use-card,
+  body.gv-corp .corp-step,
+  body.gv-corp .corp-tier,
+  body.gv-corp .corp-stat,
+  body.gv-corp .corp-logos,
+  body.gv-corp .corp-cta-band,
+  body.gv-corp .faq details {
+    background: var(--canvas);
+    border-color: var(--line);
+  }
+
+  body:has(.hero-home--video) .footer,
+  body.gv-corp .footer,
+  body.gv-corp .corp-footer {
+    background: var(--ink);
+    color: color-mix(in oklab, var(--paper) 78%, transparent);
+  }
+
+  body:has(.hero-home--video) .btn-primary,
+  body.gv-corp .btn-primary {
+    text-transform: none;
+    letter-spacing: normal;
+    font-size: inherit;
+    font-weight: 500;
+  }
+
+  body:has(.hero-home--video) .btn-ghost,
+  body.gv-corp .btn-ghost {
+    background: var(--canvas);
+    color: var(--ink-2);
+    border-color: var(--line-2);
   }
 }
 
