@@ -4322,6 +4322,13 @@ body.prizes-page .sweep-filters .sort-select {
 .sweep-panel-wrap.is-revealed .sweep-panel__media {
   opacity: 1;
 }
+.sweep-panel__media picture {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
 .sweep-panel__media img {
   width: 100%;
   height: 100%;
