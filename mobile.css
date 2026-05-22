@@ -965,23 +965,162 @@ body.nav-open .nav-menu-icon::after {
   .sweep-dots {
     display: none;
   }
-  .sweep-panel__title,
-  .sweep-panel--grand .sweep-panel__title {
+
+  /* ——— Prizes page: filters ——— */
+  body.prizes-page .sweep-hero {
+    padding-top: 20px;
+  }
+  body.prizes-page .sweep-hero__lede {
+    font-size: 16px;
+    max-width: none;
+  }
+  body.prizes-page .sweep-filters {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    padding: 14px 0 16px;
+  }
+  body.prizes-page .sweep-filters__row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    width: 100%;
+  }
+  body.prizes-page .sweep-filters__row--sort {
+    flex-direction: row;
+    align-items: center;
+    margin-left: 0;
+    gap: 10px;
+  }
+  body.prizes-page .sweep-filters__label {
+    min-width: 0;
+    flex-shrink: 0;
+  }
+  body.prizes-page .sweep-filters .chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 8px;
+    padding: 2px 2px 6px;
+    margin: 0 -2px;
+  }
+  body.prizes-page .sweep-filters .chips::-webkit-scrollbar {
+    display: none;
+  }
+  body.prizes-page .sweep-filters .chip {
+    flex-shrink: 0;
+    height: 40px;
+    padding: 0 18px;
+    font-size: 13px;
+  }
+  body.prizes-page .sweep-filters .sort-select {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    min-height: 44px;
+    font-size: 14px;
+  }
+
+  /* ——— Prizes page: magazine panels (full-bleed photo + card below) ——— */
+  body.prizes-page .sweep-bridge {
+    height: 24px;
+    min-height: 24px;
+  }
+  body.prizes-page .sweep-panel-wrap:first-child .sweep-bridge {
+    height: 16px;
+    min-height: 16px;
+  }
+  body.prizes-page .sweep-panel {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    min-height: auto;
+    overflow: visible;
+  }
+  body.prizes-page .sweep-panel__media {
+    position: relative;
+    inset: auto;
+    height: min(56vh, 440px);
+    min-height: 280px;
+    opacity: 1 !important;
+    flex-shrink: 0;
+  }
+  body.prizes-page .sweep-panel__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    filter: saturate(1.04) contrast(1.04);
+    transform: translateZ(0);
+  }
+  body.prizes-page .sweep-panel--grand .sweep-panel__media img {
+    object-position: center 40%;
+  }
+  body.prizes-page .sweep-panel__veil,
+  body.prizes-page .sweep-panel__veil--grand {
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      transparent 55%,
+      color-mix(in oklab, var(--ink) 18%, transparent) 82%,
+      color-mix(in oklab, var(--ink) 42%, transparent) 100%
+    );
+  }
+  body.prizes-page .sweep-panel__content {
+    position: relative;
+    background: var(--paper);
+    padding: 22px clamp(16px, 4vw, 24px) calc(28px + var(--safe-bottom));
+    border-top: 1px solid var(--line);
+  }
+  body.prizes-page .sweep-panel__title,
+  body.prizes-page .sweep-panel--grand .sweep-panel__title {
     max-width: 100% !important;
     font-size: clamp(28px, 8vw, 44px);
     line-height: 1.08;
+    color: var(--ink);
+    text-shadow: none;
+  }
+  body.prizes-page .sweep-panel__desc,
+  body.prizes-page .sweep-panel__sense {
+    color: var(--ink-2);
+    max-width: none;
+  }
+  body.prizes-page .sweep-panel__index {
+    color: var(--muted);
+  }
+  body.prizes-page .sweep-panel__meta dt {
+    color: var(--muted);
+  }
+  body.prizes-page .sweep-panel__meta dd {
+    color: var(--ink);
+  }
+  body.prizes-page .sweep-panel__spots {
+    max-width: none;
+    background: var(--paper-2);
+    border-color: var(--line);
+  }
+  body.prizes-page .sweep-panel__spots-label {
+    color: var(--muted);
+  }
+  body.prizes-page .sweep-panel__spots-val {
+    color: var(--ink);
+  }
+  body.prizes-page .sweep-panel__spots-of {
+    color: var(--ink-3);
+  }
+  body.prizes-page .sweep-panel__spots-bar {
+    background: var(--line);
+  }
+  body.prizes-page .sweep-panel__cta {
+    width: 100%;
+    box-shadow: none;
   }
 
   .sweep-hero__title {
     font-size: clamp(30px, 8.5vw, 44px);
   }
 
-  .sweep-panel__content {
-    padding-bottom: calc(48px + var(--safe-bottom));
-  }
-  .sweep-panel__cta {
-    width: 100%;
-  }
   .sweep-outro__actions .btn {
     width: 100%;
   }
@@ -993,20 +1132,6 @@ body.nav-open .nav-menu-icon::after {
     flex-wrap: wrap;
     gap: 20px;
   }
-  .sweep-filters__row--sort {
-    margin-left: 0;
-    width: 100%;
-  }
-  .sweep-filters .sort-select {
-    flex: 1;
-    min-width: 0;
-  }
-  .sweep-panel {
-    min-height: 88dvh;
-  }
-  .sweep-panel__spots {
-    max-width: none;
-  }
 }
 
 @media (max-width: 480px) {
@@ -1016,6 +1141,16 @@ body.nav-open .nav-menu-icon::after {
   .prize-card--compact .prize-card-img {
     aspect-ratio: 16 / 9;
     min-height: 140px;
+  }
+
+  body.prizes-page .sweep-panel__media {
+    height: min(50vh, 380px);
+    min-height: 240px;
+  }
+  body.prizes-page .sweep-filters .chip {
+    height: 38px;
+    padding: 0 14px;
+    font-size: 12px;
   }
 }
 
