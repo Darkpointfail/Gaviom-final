@@ -4110,9 +4110,24 @@ body.gv-corp::before {
   .sweep-scroll { scroll-snap-type: none; }
 }
 
-/* Sweepstakes — magazine scroll (prizes.html) */
-html:has(body.prizes-page) {
-  scroll-behavior: smooth;
+/* Sweepstakes — magazine scroll (prizes.html, desktop snap only) */
+@media (min-width: 981px) {
+  html:has(body.prizes-page) {
+    scroll-behavior: smooth;
+  }
+}
+@media (max-width: 980px) {
+  html:has(body.prizes-page),
+  body.prizes-page,
+  body.prizes-page .sweep-scroll,
+  body.prizes-page .sweep-hero,
+  body.prizes-page .sweep-panel-wrap,
+  body.prizes-page .sweep-outro {
+    scroll-snap-type: none !important;
+    scroll-snap-align: none !important;
+    scroll-snap-stop: normal !important;
+    scroll-behavior: auto !important;
+  }
 }
 body.prizes-page {
   background: var(--paper);
@@ -4124,14 +4139,20 @@ body.prizes-page .sticky-cta {
   position: relative;
   z-index: 100;
 }
-.sweep-scroll {
-  scroll-snap-type: y proximity;
-}
 .sweep-hero,
 .sweep-panel-wrap,
 .sweep-outro {
-  scroll-snap-align: start;
   position: relative;
+}
+@media (min-width: 981px) {
+  .sweep-scroll {
+    scroll-snap-type: y proximity;
+  }
+  .sweep-hero,
+  .sweep-panel-wrap,
+  .sweep-outro {
+    scroll-snap-align: start;
+  }
 }
 .sweep-hero {
   padding: 36px 0 0;
@@ -4287,8 +4308,12 @@ body.prizes-page .sweep-filters .sort-select {
   position: relative;
 }
 .sweep-panel-wrap {
-  scroll-snap-align: start;
   scroll-margin-top: 80px;
+}
+@media (min-width: 981px) {
+  .sweep-panel-wrap {
+    scroll-snap-align: start;
+  }
 }
 .sweep-panel-wrap.is-filtered-out {
   display: none;

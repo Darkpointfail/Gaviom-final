@@ -968,12 +968,12 @@ body.nav-open .nav-menu-icon::after {
 
   /* ——— Prizes page: magazine layout (mobile only, desktop unchanged) ——— */
   body.prizes-page .sweep-scroll {
-    scroll-snap-type: none;
+    scroll-snap-type: none !important;
   }
 
   body.prizes-page .sweep-hero {
     padding: 16px 0 0;
-    scroll-snap-align: start;
+    scroll-snap-align: none;
   }
 
   body.prizes-page .sweep-hero__stats {
@@ -1106,8 +1106,8 @@ body.nav-open .nav-menu-icon::after {
   }
 
   body.prizes-page .sweep-panel-wrap {
-    scroll-snap-align: start;
-    scroll-margin-top: calc(var(--nav-h) + var(--safe-top));
+    scroll-snap-align: none;
+    scroll-margin-top: 0;
   }
 
   body.prizes-page .sweep-panel {
@@ -1116,8 +1116,8 @@ body.nav-open .nav-menu-icon::after {
     flex-direction: row !important;
     align-items: flex-end !important;
     justify-content: flex-end !important;
-    min-height: 100dvh !important;
-    min-height: 100svh !important;
+    min-height: 78dvh !important;
+    min-height: 78svh !important;
     overflow: hidden !important;
   }
 
@@ -1247,10 +1247,17 @@ body.nav-open .nav-menu-icon::after {
   }
 }
 
-/* Prizes — stronger magazine snap (phone only) */
+/* Prizes — free tactile scroll, no snap (phone only) */
 @media (max-width: 768px) {
   html:has(body.prizes-page) {
-    scroll-snap-type: y mandatory;
+    scroll-behavior: auto;
+    scroll-snap-type: none !important;
+    scroll-padding-top: 0;
+    overscroll-behavior-y: auto;
+  }
+
+  body.prizes-page {
+    touch-action: pan-y;
   }
 
   body.prizes-page .sweep-stack {
@@ -1258,18 +1265,15 @@ body.nav-open .nav-menu-icon::after {
   }
 
   body.prizes-page .sweep-hero,
-  body.prizes-page .sweep-panel-wrap,
   body.prizes-page .sweep-outro {
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-  }
-
-  body.prizes-page .sweep-hero {
+    scroll-snap-align: none;
     scroll-snap-stop: normal;
   }
 
   body.prizes-page .sweep-panel-wrap {
-    scroll-margin-top: calc(var(--nav-h) + var(--safe-top));
+    scroll-snap-align: none;
+    scroll-margin-top: 0;
+    scroll-margin-bottom: 0;
   }
 
   body.prizes-page .sweep-panel__content.wrap {
@@ -1278,7 +1282,7 @@ body.nav-open .nav-menu-icon::after {
 
   /* Portrait mobile art for scuba + Vegas panels */
   body.prizes-page [data-sweep-wrap="01"] .sweep-panel__media img {
-    object-position: center 42%;
+    object-position: center 38%;
   }
 
   body.prizes-page [data-sweep-wrap="04"] .sweep-panel__media img {
