@@ -128,7 +128,7 @@ export const POSTS = [
       </section>
       <section class="rules-section">
         <h2>International visitors</h2>
-        <p>Unless a promotion explicitly opens eligibility to non-US residents, assume US residency is required. Canadian-dollar prize values on some Gaviom trips reflect fulfillment cost, not automatic eligibility for Canadian residents unless rules state otherwise.</p>
+        <p>Unless a promotion explicitly opens eligibility to non-US residents, assume US residency is required. Prize values on Gaviom are stated in US dollars (USD) unless the Official Rules say otherwise.</p>
       </section>
     `,
   },

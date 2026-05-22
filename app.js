@@ -636,7 +636,7 @@
         back: '/prize-diving.html',
         title: 'Scuba Diving Discovery · Cozumel, Mexico',
         cat: 'Experiences · #2',
-        value: '$4,000 CAD',
+        value: '$4,000',
         draw: 'Draw July 5, 2026',
         maxEntries: 1000,
         hook: 'No certification needed. Two guided dives in water so clear it looks edited.',

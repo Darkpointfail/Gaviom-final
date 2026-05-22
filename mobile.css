@@ -966,14 +966,75 @@ body.nav-open .nav-menu-icon::after {
     display: none;
   }
 
-  /* ——— Prizes page: filters ——— */
+  /* ——— Prizes page: hero ——— */
   body.prizes-page .sweep-hero {
-    padding-top: 20px;
+    padding-top: 16px;
+  }
+  body.prizes-page .sweep-hero__top {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+    padding-bottom: 18px;
+  }
+  body.prizes-page .sweep-hero__copy {
+    min-width: 0;
+  }
+  body.prizes-page .sweep-hero__title {
+    font-size: clamp(28px, 7.5vw, 40px);
+    line-height: 1.08;
+    margin: 8px 0 10px;
   }
   body.prizes-page .sweep-hero__lede {
-    font-size: 16px;
+    font-size: 15px;
+    line-height: 1.5;
     max-width: none;
+    margin: 0;
+    color: var(--ink-2);
   }
+  body.prizes-page .sweep-hero__stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--canvas);
+    overflow: hidden;
+    flex-wrap: nowrap;
+  }
+  body.prizes-page .sweep-hero__stats > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-width: 0;
+    padding: 14px 8px;
+    text-align: center;
+    border-right: 1px solid var(--line);
+  }
+  body.prizes-page .sweep-hero__stats > div:last-child {
+    border-right: none;
+  }
+  body.prizes-page .sweep-hero__stats dt {
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    line-height: 1.35;
+    white-space: normal;
+    max-width: 100%;
+  }
+  body.prizes-page .sweep-hero__stats dd {
+    font-size: clamp(13px, 3.8vw, 16px);
+    font-weight: 600;
+    line-height: 1.2;
+    margin: 0;
+    word-break: break-word;
+  }
+
+  /* ——— Prizes page: filters ——— */
   body.prizes-page .sweep-filters {
     flex-direction: column;
     align-items: stretch;
@@ -1117,20 +1178,37 @@ body.nav-open .nav-menu-icon::after {
     box-shadow: none;
   }
 
-  .sweep-hero__title {
-    font-size: clamp(30px, 8.5vw, 44px);
-  }
-
   .sweep-outro__actions .btn {
     width: 100%;
   }
-  .sweep-hero__top {
+}
+
+@media (max-width: 640px) {
+  body.prizes-page .sweep-hero__stats {
     grid-template-columns: 1fr;
-    gap: 20px;
   }
-  .sweep-hero__stats {
-    flex-wrap: wrap;
-    gap: 20px;
+  body.prizes-page .sweep-hero__stats > div {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    padding: 12px 16px;
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+    gap: 12px;
+  }
+  body.prizes-page .sweep-hero__stats > div:last-child {
+    border-bottom: none;
+  }
+  body.prizes-page .sweep-hero__stats dt {
+    flex: 1;
+    font-size: 10px;
+    text-align: left;
+  }
+  body.prizes-page .sweep-hero__stats dd {
+    flex-shrink: 0;
+    font-size: 15px;
+    text-align: right;
   }
 }
 
