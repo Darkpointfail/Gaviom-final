@@ -1112,8 +1112,16 @@ body.nav-open .nav-menu-icon::after {
     padding: 0;
   }
 
+  body.prizes-page .sweep-stack {
+    background: var(--ink);
+  }
+
+  body.prizes-page .sweep-panel-wrap {
+    background: var(--ink);
+  }
+
   body.prizes-page .sweep-panel-wrap + .sweep-panel-wrap {
-    margin-top: -2.5vh;
+    margin-top: -11vh;
   }
 
   body.prizes-page .sweep-panel {
@@ -1122,8 +1130,9 @@ body.nav-open .nav-menu-icon::after {
     flex-direction: row !important;
     align-items: flex-end !important;
     justify-content: flex-end !important;
-    min-height: 92svh !important;
-    min-height: 92dvh !important;
+    height: 100svh !important;
+    min-height: 100svh !important;
+    max-height: 100svh !important;
     overflow: hidden !important;
   }
 
@@ -1150,7 +1159,7 @@ body.nav-open .nav-menu-icon::after {
     object-fit: cover;
     object-position: center;
     filter: saturate(1.08) contrast(1.06);
-    transform: scale(1.02);
+    transform: none;
   }
 
   body.prizes-page .sweep-panel--grand .sweep-panel__media img {
@@ -1266,9 +1275,18 @@ body.nav-open .nav-menu-icon::after {
     touch-action: pan-y;
   }
 
+  body.prizes-page .sweep-scroll {
+    background: var(--ink);
+  }
+
   body.prizes-page .sweep-stack {
     background: var(--ink);
     gap: 0;
+    margin-top: 0;
+  }
+
+  body.prizes-page .sweep-panel-wrap + .sweep-panel-wrap {
+    margin-top: -12vh;
   }
 
   body.prizes-page .sweep-hero,
