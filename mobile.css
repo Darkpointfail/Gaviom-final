@@ -1403,48 +1403,100 @@ body.nav-open .nav-menu-icon::after {
   .field textarea,
   .sort-select,
   .chip,
-  .ph,
-  .page-hero-split__copy,
-  .winners-presale-banner {
+  .ph {
     background: var(--m-card);
     border-color: var(--m-line);
     box-shadow: none;
   }
 
+  /* Header — dark bar (black belongs here, not on hero copy) */
+  .topbar {
+    background: #161209;
+    border-bottom: 1px solid var(--m-line);
+  }
+
   .nav {
-    background: color-mix(in oklab, var(--paper) 72%, transparent);
-    backdrop-filter: blur(20px) saturate(1.1);
-    -webkit-backdrop-filter: blur(20px) saturate(1.1);
-    border-bottom: 1px solid color-mix(in oklab, var(--line) 70%, var(--dream-mist));
-    box-shadow: none;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background-color: #0f0d09;
+    background-image: linear-gradient(180deg, #161209 0%, #0f0d09 100%);
+    border-bottom: 1px solid var(--m-line);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .nav::before,
+  .nav::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-repeat: repeat;
+    z-index: 0;
+  }
+
+  .nav::before {
+    background-image: var(--m-grain);
+    background-size: 100px 100px;
+    mix-blend-mode: overlay;
+    opacity: 0.22;
+  }
+
+  .nav::after {
+    background-image: var(--m-grain);
+    background-size: 48px 48px;
+    mix-blend-mode: soft-light;
+    opacity: 0.14;
+  }
+
+  .nav-inner {
+    position: relative;
+    z-index: 1;
   }
 
   .nav a.brand,
   .nav .brand,
   .nav-links a:hover,
   .nav-links a.active {
-    color: var(--ink);
+    color: var(--m-text);
   }
 
   .nav-links a {
-    color: var(--ink-2);
+    color: color-mix(in srgb, var(--m-text) 78%, transparent);
+  }
+
+  .nav-links a[href="membership.html"] {
+    color: color-mix(in srgb, var(--m-text) 92%, transparent);
   }
 
   .nav-links a.active::after {
-    background: var(--action);
+    background: color-mix(in srgb, var(--m-text) 85%, transparent);
   }
 
   .nav .brand-mark {
-    background: var(--ink);
-    border: none;
-    color: var(--paper);
+    background: color-mix(in srgb, var(--m-text) 14%, transparent);
+    border: 1px solid color-mix(in srgb, var(--m-text) 28%, transparent);
+    color: var(--m-text);
+  }
+
+  .nav .btn-ghost {
+    color: color-mix(in srgb, var(--m-text) 88%, transparent);
+    border-color: color-mix(in srgb, var(--m-text) 32%, transparent);
+  }
+
+  .nav .btn-ghost:hover {
+    background: color-mix(in srgb, var(--m-text) 10%, transparent);
+    color: var(--m-text);
+    border-color: color-mix(in srgb, var(--m-text) 45%, transparent);
   }
 
   .nav-menu-btn {
-    background: var(--canvas);
-    border-color: var(--line-2);
-    color: var(--ink);
-    border-radius: var(--r-sm);
+    background: color-mix(in srgb, var(--m-text) 8%, transparent);
+    border-color: color-mix(in srgb, var(--m-text) 32%, transparent);
+    color: var(--m-text);
+    border-radius: 6px;
   }
 
   .nav-mobile-panel {
@@ -1476,7 +1528,6 @@ body.nav-open .nav-menu-icon::after {
     border-top-color: var(--m-line);
   }
 
-  .topbar,
   .footer,
   .sticky-cta,
   .stat-ink,
@@ -1493,7 +1544,6 @@ body.nav-open .nav-menu-icon::after {
 
   .topbar {
     color: var(--m-text);
-    border-bottom: 1px solid var(--m-line);
   }
 
   .tlink,
@@ -1717,12 +1767,48 @@ body.nav-open .nav-menu-icon::after {
   }
 
   .launch-countdown--hero {
-    background: var(--m-card);
+    background: color-mix(in srgb, var(--m-page) 72%, transparent);
     border: 1px solid var(--m-line);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     box-shadow: none;
   }
 
-  /* Full-bleed quotes — warm text, no cold overlay */
+  /* Page heroes — atmospheric (winners-style), no dark content box */
+  .page-hero {
+    background:
+      radial-gradient(80% 60% at 70% 0%, color-mix(in srgb, var(--m-green) 10%, transparent) 0%, transparent 70%),
+      radial-gradient(60% 70% at 10% 100%, color-mix(in srgb, #3a3020 55%, transparent) 0%, transparent 70%),
+      transparent;
+  }
+
+  .page-hero-split__copy {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  .winners-presale-banner {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  .stat-bar {
+    background: var(--ink);
+  }
+
+  .stat-bar .trust-cell {
+    background: transparent !important;
+    border-color: color-mix(in srgb, var(--action) 55%, transparent);
+  }
+
+  .section-sm .trust-cell {
+    background: transparent !important;
+    border-color: var(--m-line);
+  }
+
+  /* Full-bleed quotes — warm text, luminous overlay (winners reference) */
   .full-bleed-quote__text {
     color: var(--m-text);
     text-shadow: 0 2px 24px color-mix(in srgb, var(--m-page) 65%, transparent);
@@ -2105,67 +2191,9 @@ body.nav-open .nav-menu-icon::after {
     box-shadow: none;
   }
 
-  /* Home + corporate: restore light theme (revert tobacco trial on mobile) */
-  body:has(.hero-home--video),
-  body.gv-corp {
-    --paper: oklch(0.985 0.006 80);
-    --paper-2: oklch(0.975 0.01 80);
-    --paper-3: oklch(0.962 0.013 78);
-    --canvas: oklch(0.992 0.004 85);
-    --ink: oklch(0.16 0.018 250);
-    --ink-2: oklch(0.28 0.025 250);
-    --ink-3: oklch(0.42 0.025 250);
-    --muted: oklch(0.55 0.02 250);
-    --muted-2: oklch(0.68 0.015 250);
-    --line: oklch(0.91 0.008 80);
-    --line-2: oklch(0.85 0.012 80);
-    --line-3: oklch(0.78 0.014 80);
-    --action: oklch(0.42 0.115 158);
-    --action-2: oklch(0.36 0.115 158);
-    --action-soft: oklch(0.94 0.035 158);
-    --action-line: oklch(0.86 0.06 158);
-    --ochre-soft: oklch(0.94 0.04 80);
-    --dream-sky: oklch(0.97 0.028 265);
-    --dream-mist: oklch(0.96 0.04 158);
-    --dream-warm: oklch(0.97 0.025 85);
-    background: var(--paper);
-    color: var(--ink);
-  }
-
-  body:has(.hero-home--video)::before,
-  body:has(.hero-home--video)::after {
-    display: block;
-    opacity: 0.85;
-  }
-
-  body.gv-corp::before {
-    display: block;
-    opacity: 0.45;
-  }
-
-  body:has(.hero-home--video) .h-hero,
-  body:has(.hero-home--video) .h-section,
-  body:has(.hero-home--video) .h-cta,
-  body:has(.hero-home--video) .hero-title,
-  body:has(.hero-home--video) .spotlight-title,
-  body:has(.hero-home--video) .prize-card-title,
-  body.gv-corp .h-hero,
-  body.gv-corp .h-section {
-    color: var(--ink);
-  }
-
-  body:has(.hero-home--video) .topbar,
-  body.gv-corp .corp-topbar {
-    background: var(--ink);
-    color: var(--paper);
-  }
-
+  /* Home / corp — cream cards on dark page (not a full white page) */
   body:has(.hero-home--video) .prize-card,
-  body:has(.hero-home--video) .hero-home--video .spotlight,
-  body:has(.hero-home--video) .launch-countdown--hero,
-  body:has(.hero-home--video) .final-cta,
-  body:has(.hero-home--video) .section,
-  body:has(.hero-home--video) .section-sm,
+  body:has(.hero-home--video) .spotlight,
   body.gv-corp .corp-scene-card,
   body.gv-corp .corp-demo-form,
   body.gv-corp .corp-product,
@@ -2173,33 +2201,38 @@ body.nav-open .nav-menu-icon::after {
   body.gv-corp .corp-step,
   body.gv-corp .corp-tier,
   body.gv-corp .corp-stat,
-  body.gv-corp .corp-logos,
-  body.gv-corp .corp-cta-band,
   body.gv-corp .faq details {
-    background: var(--canvas);
-    border-color: var(--line);
+    background: oklch(0.985 0.006 80);
+    border-color: oklch(0.91 0.008 80);
   }
 
-  body:has(.hero-home--video) .footer,
-  body.gv-corp .footer,
-  body.gv-corp .corp-footer {
-    background: var(--ink);
-    color: color-mix(in oklab, var(--paper) 78%, transparent);
+  body:has(.hero-home--video) .prize-card-title,
+  body:has(.hero-home--video) .spotlight-title,
+  body:has(.hero-home--video) .prize-card-meta,
+  body:has(.hero-home--video) .prize-card-cat,
+  body:has(.hero-home--video) .prize-card-sense,
+  body.gv-corp .h-hero,
+  body.gv-corp .h-section,
+  body.gv-corp .corp-scene-card h2,
+  body.gv-corp .corp-scene-card h3 {
+    color: oklch(0.16 0.018 250);
   }
 
-  body:has(.hero-home--video) .btn-primary,
-  body.gv-corp .btn-primary {
-    text-transform: none;
-    letter-spacing: normal;
-    font-size: inherit;
-    font-weight: 500;
+  body:has(.hero-home--video) .prize-card-desc,
+  body.gv-corp .lede,
+  body.gv-corp .corp-scene-card p {
+    color: oklch(0.42 0.025 250);
   }
 
-  body:has(.hero-home--video) .btn-ghost,
-  body.gv-corp .btn-ghost {
-    background: var(--canvas);
-    color: var(--ink-2);
-    border-color: var(--line-2);
+  body:has(.hero-home--video) .prize-card::after,
+  body:has(.hero-home--video) .spotlight::after,
+  body.gv-corp .corp-scene-card::after,
+  body.gv-corp .corp-demo-form::after,
+  body.gv-corp .corp-product::after,
+  body.gv-corp .corp-use-card::after,
+  body.gv-corp .corp-tier::after {
+    opacity: 0.08;
+    mix-blend-mode: multiply;
   }
 }
 
