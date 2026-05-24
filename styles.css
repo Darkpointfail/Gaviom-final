@@ -686,8 +686,12 @@ ul { list-style: none; }
   height: 100%;
   object-fit: cover;
   display: block;
+  background-color: var(--paper-3);
   transform: scale(1.02);
   transition: transform 1.2s ease;
+}
+.hero-home__slide-img {
+  background-color: var(--paper-3);
 }
 .spotlight:hover .prize-photo,
 .prize-card:hover .prize-photo,

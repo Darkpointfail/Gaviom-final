@@ -587,9 +587,9 @@
         maxEntries: 6000,
         hook: 'Seven nights at sea. Balcony cabin. Mediterranean sunsets on repeat.',
         images: [
-          '/images/cruise-hero.png',
-          '/images/cruise-balcony.png',
-          '/images/cruise-pool-deck.png',
+          '/images/cruise-hero.webp',
+          '/images/cruise-balcony.webp',
+          '/images/cruise-pool-deck.webp',
         ],
         lede: 'Win a balcony cabin for two aboard MSC Magnifica, seven nights through the Mediterranean with meals, entertainment, and up to $2,000 in airfare coordination included. Prefer cash? Take the full $12,000 equivalent instead.',
         sections: [
@@ -641,9 +641,9 @@
         maxEntries: 1000,
         hook: 'No certification needed. Two guided dives in water so clear it looks edited.',
         images: [
-          '/images/diving-turtle.png',
-          '/images/diving-cozumel.png',
-          '/images/diving-reef.png',
+          '/images/diving-turtle.webp',
+          '/images/diving-cozumel.webp',
+          '/images/diving-reef.webp',
         ],
         lede: 'Round-trip from Montreal, seven nights at a 3–4 star all-inclusive resort, and a PADI discovery session with two boat dives in Cozumel, one of the Caribbean\'s top-rated dive destinations. We handle flights, hotel, transfers, and your instructor.',
         sections: [
@@ -745,9 +745,9 @@
         maxEntries: 3000,
         hook: 'The phone you would have bought anyway, except someone else pays.',
         images: [
-          '/images/iphone-hero.png',
-          '/images/iphone-closeup.png',
-          '/images/iphone-flat.png',
+          '/images/iphone-hero.webp',
+          '/images/iphone-closeup.webp',
+          '/images/iphone-flat.webp',
         ],
         lede: 'Win a factory-unlocked iPhone 17 Pro Max (256GB) in Natural Titanium with AppleCare+ included, shipped to your door within days of the draw, ready to activate on your carrier.',
         sections: [
@@ -795,7 +795,11 @@
     function renderCheckoutGallery(container, images, alt) {
       if (!container || !images || !images.length) return;
       const safeAlt = alt || 'Prize photo';
-      const thumbSrc = (src) => (src.includes('w=') ? src.replace(/w=\d+/, 'w=400') : `${src}${src.includes('?') ? '&' : '?'}w=400&q=80`);
+      const thumbSrc = (src) => {
+        if (/images\.unsplash\.com/.test(src)) return src.replace(/w=\d+/, 'w=400');
+        if (/\/images\/.+\.webp$/i.test(src)) return src.replace(/\.webp$/i, '-480w.webp');
+        return `${src}${src.includes('?') ? '&' : '?'}w=400&q=80`;
+      };
       const thumbs = images
         .map(
           (src, i) =>
