@@ -33,7 +33,32 @@
   --dream-glow:   color-mix(in oklab, var(--action) 18%, transparent);
   --sky-soft:     oklch(0.95 0.025 230);
   --max: 1200px;
+  --gold:         #C9A84C;
+  --gold-light:   #E2C06A;
+  --gold-dark:    #B8943E;
+  --gold-deep:    #1A1500;
+  --ink-deep:     #0A0A0A;
   --grain-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.95'/%3E%3C/svg%3E");
+  --noise-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  --texture-brushed: repeating-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.012) 0px,
+    rgba(255, 255, 255, 0.012) 1px,
+    transparent 1px,
+    transparent 6px
+  );
+  --gold-shimmer: linear-gradient(
+    135deg,
+    var(--gold) 0%,
+    var(--gold-light) 40%,
+    var(--gold) 60%,
+    var(--gold-dark) 100%
+  );
+  --surface-vignette:
+    radial-gradient(ellipse 90% 55% at 50% 0%, color-mix(in oklab, var(--ink) 11%, transparent) 0%, transparent 58%),
+    radial-gradient(ellipse 85% 50% at 50% 100%, color-mix(in oklab, var(--ink) 9%, transparent) 0%, transparent 54%),
+    radial-gradient(ellipse 50% 85% at 0% 50%, color-mix(in oklab, var(--ink) 7%, transparent) 0%, transparent 52%),
+    radial-gradient(ellipse 50% 85% at 100% 50%, color-mix(in oklab, var(--ink) 7%, transparent) 0%, transparent 52%);
 }
 
 html { scroll-behavior: smooth; overflow-x: hidden; }
@@ -47,8 +72,8 @@ body {
   position: relative;
   min-height: 100vh;
 }
-/* Atmospheric mesh — site-wide dreamy depth */
-body::before {
+/* Atmospheric mesh + noise grain — site-wide depth */
+html::before {
   content: "";
   position: fixed;
   inset: 0;
@@ -61,16 +86,86 @@ body::before {
     radial-gradient(40% 35% at 15% 75%, var(--dream-warm) 0%, transparent 42%);
   opacity: 0.85;
 }
-body::after {
+body::before {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: 0;
+  background-image: var(--noise-texture);
   pointer-events: none;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  z-index: 0;
+  opacity: 0.06;
+}
+/* Soft black edge depth on cream/white surfaces only (not photos) */
+.section,
+.how-band,
+.final-cta,
+.sweep-hero,
+.sweep-outro,
+.pd-section,
+.pd-ways,
+.blog-hero,
+.blog-list-section,
+body.checkout-page,
+.winners-page main,
+.page-hero {
+  background-image: var(--surface-vignette);
+  background-repeat: no-repeat;
+}
+.section,
+.final-cta,
+.sweep-hero,
+.sweep-outro,
+.pd-section,
+.blog-hero,
+.blog-list-section,
+body.checkout-page,
+.winners-page main,
+.page-hero {
+  background-color: var(--paper);
+}
+.how-band,
+.pd-ways {
+  background-color: var(--paper-2);
+}
+body.prizes-page .sweep-stack,
+body.prizes-page .sweep-panel,
+body.prizes-page .sweep-panel-wrap {
+  background-image: none;
+}
+/* Photos & video — above vignette, no dark overlay on media */
+.prize-photo-wrap,
+.prize-photo,
+.hero-home__video,
+.hero-home__slides,
+.hero-home__slide,
+.hero-home__clip,
+.sweep-panel__media,
+.sweep-panel__media img,
+.sweep-panel__media picture,
+.full-bleed-quote__media,
+.full-bleed-quote__photo,
+.story-img,
+.winner-spotlight-img,
+.pd-gallery-main,
+.pd-gallery-main-media,
+.co-prize-gallery__main,
+.grand-banner-img,
+.launch-card__img {
+  position: relative;
+  z-index: 2;
+  isolation: isolate;
 }
 .topbar, .nav, main, .footer, .sticky-cta { position: relative; z-index: 1; }
+
+/* Section dividers */
+hr,
+.section-divider,
+.gold-divider {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 48px 0;
+}
 img, svg { display: block; max-width: 100%; }
 a { color: inherit; text-decoration: none; }
 button, input, select { font: inherit; }
@@ -167,15 +262,18 @@ ul { list-style: none; }
 .nav-right .btn-primary,
 .prize-card-foot .btn-primary,
 .spotlight-foot .btn-primary,
-.final-ctas .btn-primary {
+.final-ctas .btn-primary,
+.btn-gold {
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  background-color: var(--action);
-  background-image: linear-gradient(180deg, oklch(0.48 0.115 158) 0%, oklch(0.38 0.115 158) 100%);
-  border: 1px solid oklch(0.32 0.1 158);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
-  color: var(--paper);
+  background-color: var(--gold-dark);
+  background-image: var(--gold-shimmer);
+  background-size: 200% auto;
+  border: 1px solid var(--gold-dark);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  color: var(--ink-deep);
+  transition: background-position 0.4s ease, transform 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 .btn-primary::before,
 .btn-primary::after,
@@ -241,14 +339,15 @@ ul { list-style: none; }
 }
 .btn-primary:hover,
 .btn.btn-primary:hover,
+.btn-gold:hover,
 [data-presale-cta].btn-primary:hover,
 [data-entry-cta].btn-primary:hover,
 .co-submit-cta.btn-primary:hover,
 .sweep-panel__cta.btn-primary:hover,
 .sticky-cta .btn-primary:hover,
 .nav-right .btn-primary:hover {
-  background-color: var(--action-2);
-  background-image: linear-gradient(180deg, oklch(0.44 0.115 158) 0%, oklch(0.34 0.115 158) 100%);
+  background-position: right center;
+  background-color: var(--gold-dark);
 }
 .btn-ink { background: var(--ink); color: var(--paper); }
 .btn-ink:hover { background: var(--ink-2); }
@@ -306,7 +405,8 @@ ul { list-style: none; }
 }
 .launch-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
 .launch-card {
-  background: var(--canvas);
+  background-color: var(--canvas);
+  background-image: var(--texture-brushed);
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
   overflow: hidden;
@@ -537,7 +637,8 @@ ul { list-style: none; }
 .prize-card {
   display: flex;
   flex-direction: column;
-  background: color-mix(in oklab, var(--canvas) 94%, var(--dream-warm));
+  background-color: color-mix(in oklab, var(--canvas) 94%, var(--dream-warm));
+  background-image: var(--texture-brushed);
   border: 1px solid color-mix(in oklab, var(--line) 85%, var(--dream-mist));
   border-radius: var(--r-lg);
   overflow: hidden;
@@ -824,6 +925,7 @@ a.brand:hover {
   overflow: hidden;
   isolation: isolate;
   background: var(--ink);
+  background-image: none;
   min-height: 760px;
   padding: 96px 0 120px;
 }
@@ -1046,7 +1148,8 @@ a.brand:hover {
   text-shadow: none;
 }
 .hero-home--video .spotlight {
-  background: var(--paper);
+  background-color: var(--paper);
+  background-image: var(--texture-brushed);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   border: 1px solid var(--line);
@@ -1069,7 +1172,8 @@ a.brand:hover {
 .spotlight {
   border-radius: var(--r-xl);
   box-shadow: var(--sh-dream);
-  background: color-mix(in oklab, var(--canvas) 92%, var(--dream-sky));
+  background-color: color-mix(in oklab, var(--canvas) 92%, var(--dream-sky));
+  background-image: var(--texture-brushed);
   border: 1px solid color-mix(in oklab, var(--line) 80%, var(--dream-mist));
   overflow: hidden;
   display: block;
@@ -1583,7 +1687,8 @@ a.brand:hover {
   padding: 16px 14px;
   text-align: center;
   cursor: pointer;
-  background: var(--canvas);
+  background-color: var(--canvas);
+  background-image: var(--texture-brushed);
   transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
 }
 .bundle-opt:hover { border-color: var(--line-3); }
@@ -1758,7 +1863,19 @@ a.brand:hover {
   margin-top: 1px;
 }
 .pd-section { padding: 128px 0; }
-.pd-section-line { border-top: 1px solid var(--line); }
+.pd-section-line {
+  border-top: none;
+  position: relative;
+}
+.pd-section-line::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
 .pd-h2 {
   font-family: "Bricolage Grotesque", sans-serif;
   font-size: clamp(28px, 3.2vw, 40px);
@@ -4251,14 +4368,16 @@ body.prizes-page {
   --sweep-warm-line: oklch(0.9 0.014 78);
 }
 body.prizes-page .sweep-hero {
-  background:
+  background-image:
+    var(--surface-vignette),
     radial-gradient(62% 52% at 90% 6%, color-mix(in oklab, var(--ochre-soft) 35%, transparent) 0%, transparent 54%),
-    radial-gradient(48% 42% at 4% 98%, color-mix(in oklab, var(--dream-warm) 40%, transparent) 0%, transparent 50%),
-    var(--paper);
+    radial-gradient(48% 42% at 4% 98%, color-mix(in oklab, var(--dream-warm) 40%, transparent) 0%, transparent 50%);
+  background-color: var(--paper);
   border-bottom-color: var(--line);
 }
 body.prizes-page .sweep-hero__stats {
-  background: var(--sweep-card);
+  background-color: var(--sweep-card);
+  background-image: var(--texture-brushed);
   border-color: var(--sweep-warm-line);
 }
 body.prizes-page .sweep-hero__stats div {
@@ -4681,7 +4800,8 @@ body.prizes-page .sweep-filters .sort-select {
 .blog-card {
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
-  background: var(--paper);
+  background-color: var(--paper);
+  background-image: var(--texture-brushed);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 .blog-card:hover {
