@@ -28,11 +28,11 @@
   --sh-1: 0 1px 0 rgba(20,30,60,.04), 0 6px 16px -8px rgba(20,30,60,.10);
   --sh-2: 0 1px 0 rgba(20,30,60,.05), 0 18px 40px -16px rgba(20,30,60,.18);
   --sh-3: 0 2px 0 rgba(20,30,60,.06), 0 36px 60px -22px rgba(20,30,60,.28);
-  --sh-dream: 0 1px 0 rgba(255,255,255,.6) inset, 0 24px 48px -20px color-mix(in oklab, var(--action) 25%, transparent), 0 48px 80px -32px rgba(20,30,60,.12);
+  --sh-dream: 0 1px 0 rgba(255,255,255,.6) inset, 0 24px 48px -20px color-mix(in oklab, var(--gold) 16%, transparent), 0 48px 80px -32px rgba(20,30,60,.10);
   --dream-sky:    color-mix(in oklab, var(--ivory) 88%, #E8E4F0);
   --dream-mist:   color-mix(in oklab, var(--ivory) 90%, var(--ochre-soft));
   --dream-warm:   color-mix(in oklab, var(--ivory) 82%, var(--ochre-soft));
-  --dream-glow:   color-mix(in oklab, var(--action) 18%, transparent);
+  --dream-glow:   color-mix(in oklab, var(--gold-light) 20%, transparent);
   --sky-soft:     color-mix(in oklab, var(--ivory) 88%, #E8E0D4);
   --max: 1200px;
   --gold:         #C9A84C;
@@ -240,7 +240,7 @@ ul { list-style: none; }
   color: color-mix(in oklab, var(--ink-2) 88%, var(--muted));
 }
 .highlight-cash {
-  background: linear-gradient(180deg, transparent 62%, var(--dream-glow) 62%, color-mix(in oklab, var(--action) 16%, transparent) 100%);
+  background: linear-gradient(180deg, transparent 62%, var(--dream-glow) 62%, color-mix(in oklab, var(--gold-light) 14%, transparent) 100%);
   box-decoration-break: clone;
   padding: 0 2px;
 }
@@ -395,7 +395,11 @@ ul { list-style: none; }
   color: var(--ink-2);
   border: 1px solid var(--line);
 }
-.badge-action { background: var(--action-soft); color: var(--action-2); border-color: var(--action-line); }
+.badge-action {
+  background: var(--ochre-soft);
+  color: color-mix(in oklab, var(--gold-dark) 85%, var(--ink));
+  border-color: color-mix(in oklab, var(--gold) 35%, var(--line));
+}
 .badge-ochre { background: var(--ochre-soft); color: oklch(0.45 0.08 75); border-color: oklch(0.88 0.05 75); }
 .badge-launch {
   background: var(--ochre-soft);
@@ -510,8 +514,8 @@ ul { list-style: none; }
   margin-top: 28px;
   padding: 20px 22px;
   border-radius: var(--r-lg);
-  border: 1px solid color-mix(in oklab, var(--action-line) 80%, var(--line));
-  background: color-mix(in oklab, var(--action-soft) 55%, var(--paper));
+  border: 1px solid color-mix(in oklab, var(--gold) 28%, var(--line));
+  background: color-mix(in oklab, var(--ochre-soft) 55%, var(--paper));
   max-width: 420px;
 }
 .launch-countdown__label {
@@ -519,7 +523,7 @@ ul { list-style: none; }
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: var(--action-2);
+  color: color-mix(in oklab, var(--gold-dark) 80%, var(--ink));
   margin-bottom: 8px;
 }
 .launch-countdown__timer {
@@ -537,7 +541,7 @@ ul { list-style: none; }
 .hero-home--video .launch-countdown {
   background: color-mix(in oklab, var(--paper) 88%, transparent);
   backdrop-filter: blur(12px);
-  border-color: color-mix(in oklab, var(--paper) 40%, var(--action-line));
+  border-color: color-mix(in oklab, var(--paper) 40%, var(--line-2));
 }
 .live-dot {
   width: 6px; height: 6px;
@@ -613,7 +617,7 @@ ul { list-style: none; }
   z-index: 1;
   opacity: 0.35;
 }
-.ph-cars { background: oklch(0.94 0.025 158); }
+.ph-cars { background: oklch(0.94 0.02 75); }
 .ph-cash { background: oklch(0.93 0.035 230); }
 .ph-travel { background: oklch(0.94 0.04 60); }
 .ph-tech { background: oklch(0.94 0.03 280); }
@@ -659,7 +663,7 @@ ul { list-style: none; }
 .prize-card:hover {
   transform: translateY(-5px);
   box-shadow: var(--sh-dream);
-  border-color: color-mix(in oklab, var(--action-line) 60%, var(--line));
+  border-color: color-mix(in oklab, var(--gold) 32%, var(--line));
 }
 .prize-card-img { position: relative; aspect-ratio: 4/3; }
 .prize-photo-wrap {
@@ -791,10 +795,11 @@ ul { list-style: none; }
 a.brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 11px;
   font-family: "Bricolage Grotesque", sans-serif;
   font-size: 20px;
   font-weight: 700;
+  letter-spacing: -0.03em;
   color: var(--ink);
   flex-shrink: 0;
   cursor: pointer;
@@ -807,16 +812,48 @@ a.brand:hover {
 }
 .nav .brand-mark,
 .brand-mark {
-  width: 30px;
-  height: 30px;
-  background: var(--ink);
-  color: var(--paper);
-  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Bricolage Grotesque", sans-serif;
   font-size: 15px;
   font-weight: 700;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: -0.1em;
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+  transform: translate(0.5px, 0.5px);
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--gold) 55%, transparent),
+    0 0 0 3px color-mix(in oklab, var(--gold-light) 18%, transparent),
+    0 8px 20px -10px color-mix(in oklab, var(--ink) 22%, transparent);
+}
+@supports not (text-box-trim: trim-both) {
+  .nav .brand-mark,
+  .brand-mark {
+    padding-top: 1px;
+    padding-left: 1px;
+    transform: none;
+  }
+}
+.footer-brand .brand-mark {
+  background: color-mix(in oklab, var(--paper) 10%, transparent);
+  color: var(--gold-light);
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--gold) 50%, transparent),
+    0 0 0 3px color-mix(in oklab, var(--gold) 12%, transparent);
+}
+.co-head .brand-mark {
+  width: 30px;
+  height: 30px;
+  font-size: 14px;
 }
 .nav-links {
   display: flex;
@@ -1216,7 +1253,7 @@ a.brand:hover {
 }
 .spotlight:hover {
   transform: translateY(-6px);
-  box-shadow: var(--sh-dream), 0 0 0 1px color-mix(in oklab, var(--action) 15%, transparent);
+  box-shadow: var(--sh-dream), 0 0 0 1px color-mix(in oklab, var(--gold) 22%, transparent);
 }
 .spotlight-img { position: relative; aspect-ratio: 21/9; overflow: hidden; }
 .spotlight-img .prize-photo-wrap { animation: ken-burns 18s ease-in-out infinite alternate; }
@@ -1271,7 +1308,12 @@ a.brand:hover {
   border-bottom: 1px solid var(--action-line);
 }
 .how-step:last-child { border-bottom: none; }
-.how-step-num { font-family: "Geist Mono", monospace; font-size: 13px; color: var(--action); font-weight: 500; }
+.how-step-num {
+  font-family: "Geist Mono", monospace;
+  font-size: 13px;
+  color: color-mix(in oklab, var(--gold-dark) 85%, var(--ink));
+  font-weight: 500;
+}
 .how-step h3 { font-family: "Bricolage Grotesque", sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 6px; }
 .how-step p { font-size: 15px; color: var(--ink-3); line-height: 1.55; }
 .how-band--page {
@@ -1313,7 +1355,7 @@ a.brand:hover {
 .winner-stat strong { display: block; font-family: "Bricolage Grotesque", sans-serif; font-size: 20px; font-weight: 700; }
 .winner-stat span { font-size: 12px; color: var(--muted); }
 .who-row { display: flex; align-items: center; gap: 12px; }
-.who-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--action-soft), var(--paper-3)); border: 1px solid var(--line); }
+.who-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--ochre-soft), var(--paper-3)); border: 1px solid var(--line); }
 .who-name { font-family: "Bricolage Grotesque", sans-serif; font-weight: 600; }
 .who-meta { font-size: 13px; color: var(--muted); }
 
@@ -1334,7 +1376,7 @@ a.brand:hover {
   text-align: center;
   background:
     radial-gradient(60% 70% at 80% 0%, color-mix(in oklab, var(--ochre-soft) 80%, transparent) 0%, transparent 60%),
-    radial-gradient(50% 60% at 20% 100%, color-mix(in oklab, var(--action-soft) 60%, transparent) 0%, transparent 60%),
+    radial-gradient(50% 60% at 20% 100%, color-mix(in oklab, var(--gold-light) 12%, transparent) 0%, transparent 60%),
     linear-gradient(180deg, color-mix(in oklab, var(--sky-soft) 40%, var(--paper)) 0%, var(--paper) 100%);
 }
 .final-cta .wrap.editorial-narrow { width: min(960px, 90vw); }
@@ -1728,9 +1770,9 @@ a.brand:hover {
 }
 .bundle-opt:hover { border-color: var(--line-3); }
 .bundle-opt.selected {
-  border-color: var(--action);
-  background: var(--action-soft);
-  box-shadow: 0 0 0 3px color-mix(in oklab, var(--action) 12%, transparent);
+  border-color: color-mix(in oklab, var(--gold) 42%, var(--line));
+  background: color-mix(in oklab, var(--ochre-soft) 65%, var(--canvas));
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--gold) 12%, transparent);
 }
 .bundle-opt .tk {
   font-family: "Bricolage Grotesque", sans-serif;
@@ -2064,7 +2106,7 @@ a.brand:hover {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--action-soft), var(--ochre-soft));
+  background: linear-gradient(135deg, var(--ochre-soft), var(--paper-3));
   border: 1px solid var(--line);
 }
 .entry-list .who { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px; }
@@ -2218,7 +2260,7 @@ body.checkout-page::after {
 .co-order-clarify em {
   font-style: normal;
   font-weight: 600;
-  color: var(--action-2);
+  color: color-mix(in oklab, var(--gold-dark) 90%, var(--ink));
 }
 .co-order-detail {
   font-size: 14px;
@@ -2236,7 +2278,7 @@ body.checkout-page::after {
   font-size: 32px;
   font-weight: 800;
   letter-spacing: -0.03em;
-  color: var(--action-2);
+  color: color-mix(in oklab, var(--gold-dark) 88%, var(--ink));
   font-variant-numeric: tabular-nums;
 }
 .co-form {
@@ -3059,17 +3101,32 @@ html:has(body.how-page)::before {
 .mem-pass__mark {
   width: 52px;
   height: 52px;
-  border-radius: 13px;
-  background: var(--gold-shimmer);
-  color: var(--gold-deep);
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-size: 26px;
-  font-weight: 700;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid color-mix(in oklab, var(--gold-light) 70%, transparent);
-  box-shadow: 0 4px 18px color-mix(in oklab, var(--gold) 55%, transparent);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: -0.1em;
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+  transform: translate(1px, 1px);
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--gold) 60%, transparent),
+    0 0 0 4px color-mix(in oklab, var(--gold-light) 22%, transparent),
+    0 10px 28px -8px color-mix(in oklab, var(--gold) 40%, transparent);
+}
+@supports not (text-box-trim: trim-both) {
+  .mem-pass__mark {
+    padding-top: 2px;
+    padding-left: 2px;
+    transform: none;
+  }
 }
 .mem-pass__logo {
   font-family: "Bricolage Grotesque", sans-serif;
@@ -4579,7 +4636,7 @@ body.prizes-page .sweep-filters .sort-select {
   background: linear-gradient(
     185deg,
     color-mix(in oklab, var(--ink) 50%, transparent) 0%,
-    color-mix(in oklab, var(--action) 12%, transparent) 30%,
+    color-mix(in oklab, var(--ochre) 8%, transparent) 30%,
     color-mix(in oklab, var(--ink) 60%, transparent) 65%,
     color-mix(in oklab, var(--ink) 90%, transparent) 100%
   );
@@ -4716,7 +4773,7 @@ body.prizes-page .sweep-filters .sort-select {
   align-items: center;
   padding: 88px 0;
   background:
-    radial-gradient(60% 50% at 50% 0%, var(--action-soft) 0%, transparent 70%),
+    radial-gradient(60% 50% at 50% 0%, color-mix(in oklab, var(--ochre-soft) 45%, transparent) 0%, transparent 70%),
     var(--paper-2);
   border-top: 1px solid var(--line);
 }
