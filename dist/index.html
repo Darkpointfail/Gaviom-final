@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Geist+Mono:wght@400;500&family=Geist:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet" />
   <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+  <link rel="preload" as="image" type="image/webp" href="/images/cruise-hero-1280w.webp" fetchpriority="high" />
   <link rel="stylesheet" href="/styles.css?v=20260522-header" />
   <link rel="stylesheet" href="/mobile.css?v=20260522-glow" />
 </head>
@@ -49,10 +50,10 @@
       <div class="hero-home__video" aria-hidden="true" data-hero-video>
         <div class="hero-home__slides" data-hero-slides>
           <div class="hero-home__slide is-active">
-            <img class="hero-home__slide-img" src="/images/cruise-hero.png" alt="" width="2400" height="1350" decoding="async" />
+            <img class="hero-home__slide-img" src="/images/cruise-hero-1280w.webp" srcset="/images/cruise-hero-480w.webp 480w, /images/cruise-hero-800w.webp 800w, /images/cruise-hero-1280w.webp 1280w, /images/cruise-hero-1920w.webp 1920w" sizes="100vw" alt="" width="2400" height="1350" decoding="async" fetchpriority="high" />
           </div>
         </div>
-        <video class="hero-home__clip is-active" autoplay muted loop playsinline preload="auto"
+        <video class="hero-home__clip is-active" autoplay muted loop playsinline preload="none"
           src="https://videos.pexels.com/video-files/856389/856389-uhd_2560_1440_30fps.mp4"></video>
         <div class="hero-overlay" aria-hidden="true"></div>
       </div>
@@ -80,7 +81,7 @@
         </div>
         <a href="/prize.html" class="spotlight">
           <div class="spotlight-img">
-            <div class="prize-photo-wrap"><img class="prize-photo" src="/images/cruise-hero.png" alt="Cruise ship at sea, golden hour" /></div>
+            <div class="prize-photo-wrap"><img class="prize-photo" src="/images/cruise-hero-800w.webp" srcset="/images/cruise-hero-480w.webp 480w, /images/cruise-hero-800w.webp 800w" sizes="(max-width: 900px) 100vw, 420px" alt="Cruise ship at sea, golden hour" loading="lazy" decoding="async" /></div>
           </div>
           <div class="spotlight-body">
             <div style="display:flex;gap:8px;margin-bottom:8px;">
@@ -127,7 +128,7 @@
         <div class="grid-3">
           <a href="/prize-diving.html" class="prize-card">
             <div class="prize-card-img">
-              <div class="prize-photo-wrap"><img class="prize-photo" src="/images/diving-turtle.png" alt="Crystal-clear water, Riviera Maya" loading="lazy" /></div>
+              <div class="prize-photo-wrap"><img class="prize-photo" src="/images/diving-turtle.webp" alt="Crystal-clear water, Riviera Maya" loading="lazy" /></div>
               <div class="prize-card-badges"><span class="badge badge-launch">Early odds</span></div>
             </div>
             <div class="prize-card-body">
@@ -161,7 +162,7 @@
           </a>
           <a href="/prize-iphone.html" class="prize-card">
             <div class="prize-card-img">
-              <div class="prize-photo-wrap"><img class="prize-photo" src="/images/iphone-hero.png" alt="iPhone 17 Pro Max" loading="lazy" /></div>
+              <div class="prize-photo-wrap"><img class="prize-photo" src="/images/iphone-hero.webp" alt="iPhone 17 Pro Max" loading="lazy" /></div>
             </div>
             <div class="prize-card-body">
               <div class="prize-card-cat">Tech</div>
@@ -181,7 +182,7 @@
     </section>
 
     <section class="full-bleed-quote full-bleed-quote--villa" aria-label="Luxury villa prize moment">
-      <div class="full-bleed-quote__media full-bleed-quote__photo" style="background-image:url('/images/home-eight-oclock-villa.png')"></div>
+      <div class="full-bleed-quote__media full-bleed-quote__photo" style="background-image:url('/images/home-eight-oclock-villa.webp')"></div>
       <div class="full-bleed-quote__overlay">
         <p class="full-bleed-quote__text">Eight o'clock, one phone call, one Monday morning.</p>
         <p class="full-bleed-quote__cap">Grand Sweepstakes #1 · Drawn live 8pm ET</p>
