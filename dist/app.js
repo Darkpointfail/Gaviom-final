@@ -551,7 +551,7 @@
       const coLines = document.querySelector('[data-co-lines]');
       const ticketsEl = document.querySelector('[data-bundle-tickets]');
       const submit = document.querySelector('.co-submit-cta, [data-bundle-cta]');
-      const help = document.querySelector('.field-help.text-center');
+      const help = document.querySelector('[data-checkout-fine]');
 
       if (heading) heading.textContent = 'Pre-order your membership.';
       if (subEl) subEl.textContent = m.sub;
@@ -854,11 +854,15 @@
       if (gallery) renderCheckoutGallery(gallery, prize.images, prize.title);
       if (hookEl) hookEl.textContent = prize.hook;
       if (chipsEl) {
+        const maxLabel =
+          prize.maxEntries != null
+            ? `<span class="co-prize-chip">Max ${Number(prize.maxEntries).toLocaleString('en-US')} tickets</span>`
+            : '';
         chipsEl.innerHTML = `
           <span class="co-prize-chip co-prize-chip--value">${prize.value}</span>
           <span class="co-prize-chip">${prize.draw}</span>
           <span class="co-prize-chip">1 in ${prize.odds.toLocaleString('en-US')}</span>
-          <span class="co-prize-chip">Max ${prize.maxEntries.toLocaleString('en-US')} tickets</span>`;
+          ${maxLabel}`;
       }
       if (detailEl) renderCheckoutDetail(detailEl, prize);
     }
@@ -975,6 +979,72 @@
           const radio = row.querySelector('input[type="radio"]');
           if (radio) radio.checked = true;
         });
+      });
+    }
+
+    function showCheckoutNotice(message, isError) {
+      const notice = document.querySelector('[data-checkout-notice]');
+      if (!notice) return;
+      notice.hidden = false;
+      notice.textContent = message;
+      notice.classList.toggle('is-error', Boolean(isError));
+    }
+
+    function initCheckoutForm() {
+      const form = document.getElementById('gaviom-checkout');
+      if (!form) return;
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = form.querySelector('#email');
+        const consent = form.querySelector('.consent input[type="checkbox"]');
+        if (email && !email.value.trim()) {
+          email.focus();
+          showCheckoutNotice('Enter your email to continue.', true);
+          return;
+        }
+        if (consent && !consent.checked) {
+          consent.focus();
+          showCheckoutNotice('Please confirm eligibility and accept the rules to continue.', true);
+          return;
+        }
+        const submit = form.querySelector('.co-submit-cta');
+        if (submit) {
+          submit.disabled = true;
+          submit.textContent = 'Entry reserved — confirmation soon';
+        }
+        showCheckoutNotice(
+          'Pre-sale checkout is a preview. Payment will open at launch — your details are not charged yet.',
+          false
+        );
+      });
+    }
+
+    function initCheckoutPayButtons() {
+      const payCard = document.querySelector('[data-checkout-pay]');
+      if (!payCard) return;
+
+      const focusCard = () => {
+        const card = payCard.querySelector('#card');
+        if (card) {
+          card.focus({ preventScroll: false });
+          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      };
+
+      payCard.querySelectorAll('.pay-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          focusCard();
+          showCheckoutNotice('Express checkout opens at launch. Enter your card below for now.', false);
+        });
+      });
+    }
+
+    function focusCheckoutOnMobile() {
+      if (!document.body.classList.contains('checkout-page')) return;
+      if (!window.matchMedia('(max-width: 768px)').matches) return;
+      requestAnimationFrame(() => {
+        window.scrollTo(0, 0);
       });
     }
 
@@ -1291,6 +1361,9 @@
       run(initGallery);
       run(initCheckoutPrize);
       run(initPaymentMore);
+      run(initCheckoutForm);
+      run(initCheckoutPayButtons);
+      run(focusCheckoutOnMobile);
     }
 
   if (document.readyState === 'loading') {

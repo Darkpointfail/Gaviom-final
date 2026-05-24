@@ -8,8 +8,25 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Geist+Mono:wght@400;500&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="mobile.css?v=20260522-cta" />
+  <link rel="stylesheet" href="styles.css?v=20260522-checkout2" />
+  <link rel="stylesheet" href="mobile.css?v=20260522-checkout2" />
+  <style>
+    @media (max-width: 768px) {
+      html:has(body.checkout-page),
+      body.checkout-page {
+        background: #f4efe6 !important;
+        color: #0f1419;
+      }
+      body.checkout-page [data-checkout-showcase] {
+        display: none !important;
+      }
+      body.checkout-page main,
+      body.checkout-page .co-card,
+      body.checkout-page .checkout-nav {
+        background-color: #faf7f2;
+      }
+    }
+  </style>
 </head>
 <body class="checkout-page">
   <header class="checkout-nav">
@@ -23,17 +40,45 @@
 
   <main>
     <div class="wrap checkout-grid">
-      <div class="checkout-main">
-        <section class="co-prize-showcase" data-checkout-showcase aria-label="Prize preview">
-          <div class="co-prize-gallery" data-checkout-gallery></div>
-          <div class="co-prize-showcase__meta">
-            <p class="co-prize-hook font-quote" data-checkout-hook></p>
-            <div class="co-prize-chips" data-checkout-chips></div>
+      <aside class="co-summary">
+        <div class="co-card">
+          <div class="summary-prize">
+            <div class="summary-thumb">
+              <div class="prize-photo-wrap"><img class="prize-photo" data-checkout-img src="/images/cruise-hero.webp" alt="MSC Cruise" width="400" height="267" loading="eager" decoding="async" /></div>
+            </div>
+            <div>
+              <div class="prize-card-cat" data-checkout-cat>Travel · #1</div>
+              <h3 class="font-display" style="font-size:18px;font-weight:700;line-height:1.2;" data-checkout-title>MSC Cruise · 7 Nights</h3>
+              <p class="font-mono" style="font-size:12px;color:var(--action-2);margin-top:4px;" data-checkout-value>$12,000 value</p>
+              <p style="font-size:13px;color:var(--muted);margin-top:6px;"><span data-checkout-draw>Draw July 5, 2026</span> · <span data-checkout-odds>Odds 1 in 6,000</span></p>
+            </div>
           </div>
-        </section>
+          <div class="summary-line"><span data-co-lines>5 entries × $9.00</span><span data-co-sub>$45.00</span></div>
+          <div class="summary-line"><span>Processing fee</span><span>$0.00</span></div>
+          <div class="summary-line strike" data-co-strike><span>$60.00 (1 entry × 5)</span></div>
+          <div class="summary-line discount" data-co-discount><span>Bundle savings</span><span>−$15.00</span></div>
+          <div class="summary-line total"><span>Total today</span><span data-co-total>$45.00</span></div>
+          <div class="bonus-card" data-checkout-bonus>
+            <strong>Improving your odds</strong>, With 5 entries, your probability of winning rises from 1 in 6,000 → 1 in 1,200. ~5× better.
+          </div>
+          <div class="co-card" style="margin-top:16px;background:var(--action-soft);border-color:var(--action-line);" data-checkout-membership-upsell>
+            <p class="font-display" style="font-size:15px;font-weight:700;margin-bottom:6px;">✦ Want to win more often?</p>
+            <p style="font-size:14px;color:var(--ink-3);line-height:1.45;">Gaviom+, $17/mo. 5–8 tickets you split across the monthly pool. Premium prizes à la carte. No rollover.</p>
+            <a href="membership.html" class="btn btn-link" style="margin-top:10px;padding:0;">Try Gaviom+ instead →</a>
+          </div>
+          <ul class="pd-trust" style="margin-top:20px;background:transparent;border:none;padding:0;">
+            <li><span class="check">✓</span><span>Entry number issued instantly</span></li>
+            <li><span class="check">✓</span><span>Drawn live on YouTube</span></li>
+            <li><span class="check">✓</span><span>Wired within 48h if you win</span></li>
+            <li><span class="check">✓</span><span>Refunded if voided</span></li>
+          </ul>
+        </div>
+      </aside>
 
-        <h1 class="h-section font-display" style="margin-bottom:8px;" data-checkout-heading>Pre-order your entry.</h1>
-        <p class="lede" style="margin-bottom:28px;" data-checkout-sub>Pre-sale is open. Your entries count toward Draw #1 (Sunday, July 5 · 8pm ET). Gaviom goes live July 1.</p>
+      <div class="checkout-main">
+        <form class="checkout-form" id="gaviom-checkout" action="#" method="post" novalidate>
+        <h1 class="h-section font-display checkout-form__title" data-checkout-heading>Pre-order your entry.</h1>
+        <p class="lede checkout-form__lede" data-checkout-sub>Pre-sale is open. Your entries count toward Draw #1 (Sunday, July 5 · 8pm ET). Gaviom goes live July 1.</p>
 
         <div class="co-card">
           <h2>1. Where do we send your entry?</h2>
@@ -45,7 +90,7 @@
           <p class="field-help">We send one confirmation email per entry. No newsletter, no spam. You can opt in to win-only alerts after checkout.</p>
         </div>
 
-        <div class="co-card" data-checkout-pay>
+        <div class="co-card" id="checkout-pay" data-checkout-pay>
           <h2>2. How would you like to pay?</h2>
           <div class="pay-express pay-express-3">
             <button type="button" class="pay-btn pay-btn-apple"> Pay</button>
@@ -83,45 +128,20 @@
           <strong data-bundle-total>$45.00</strong>
         </div>
         <button type="submit" class="co-submit-cta" data-bundle-cta>Confirm entry — $45</button>
-        <p class="field-help text-center" style="margin-top:12px;">Charged today · Entry confirmed instantly · Refund if sweepstakes is canceled</p>
+        <p class="field-help text-center checkout-form__fine" data-checkout-fine>Charged today · Entry confirmed instantly · Refund if sweepstakes is canceled</p>
+        <p class="checkout-form__notice font-mono" data-checkout-notice hidden role="status"></p>
+        </form>
+
+        <section class="co-prize-showcase co-prize-showcase--desktop" data-checkout-showcase aria-label="Prize preview">
+          <div class="co-prize-gallery" data-checkout-gallery></div>
+          <div class="co-prize-showcase__meta">
+            <p class="co-prize-hook font-quote" data-checkout-hook></p>
+            <div class="co-prize-chips" data-checkout-chips></div>
+          </div>
+        </section>
 
         <section class="co-prize-detail" data-checkout-detail aria-label="Prize details"></section>
       </div>
-
-      <aside class="co-summary">
-        <div class="co-card">
-          <div class="summary-prize">
-            <div class="summary-thumb">
-              <div class="prize-photo-wrap"><img class="prize-photo" data-checkout-img src="/images/cruise-hero.webp" alt="MSC Cruise" /></div>
-            </div>
-            <div>
-              <div class="prize-card-cat" data-checkout-cat>Travel · #1</div>
-              <h3 class="font-display" style="font-size:18px;font-weight:700;line-height:1.2;" data-checkout-title>MSC Cruise · 7 Nights</h3>
-              <p class="font-mono" style="font-size:12px;color:var(--action-2);margin-top:4px;" data-checkout-value>$12,000 value</p>
-              <p style="font-size:13px;color:var(--muted);margin-top:6px;"><span data-checkout-draw>Draw July 5, 2026</span> · <span data-checkout-odds>Odds 1 in 6,000</span></p>
-            </div>
-          </div>
-          <div class="summary-line"><span data-co-lines>5 entries × $9.00</span><span data-co-sub>$45.00</span></div>
-          <div class="summary-line"><span>Processing fee</span><span>$0.00</span></div>
-          <div class="summary-line strike" data-co-strike><span>$60.00 (1 entry × 5)</span></div>
-          <div class="summary-line discount" data-co-discount><span>Bundle savings</span><span>−$15.00</span></div>
-          <div class="summary-line total"><span>Total today</span><span data-co-total>$45.00</span></div>
-          <div class="bonus-card" data-checkout-bonus>
-            <strong>Improving your odds</strong>, With 5 entries, your probability of winning rises from 1 in 6,000 → 1 in 1,200. ~5× better.
-          </div>
-          <div class="co-card" style="margin-top:16px;background:var(--action-soft);border-color:var(--action-line);" data-checkout-membership-upsell>
-            <p class="font-display" style="font-size:15px;font-weight:700;margin-bottom:6px;">✦ Want to win more often?</p>
-            <p style="font-size:14px;color:var(--ink-3);line-height:1.45;">Gaviom+, $17/mo. 5–8 tickets you split across the monthly pool. Premium prizes à la carte. No rollover.</p>
-            <a href="membership.html" class="btn btn-link" style="margin-top:10px;padding:0;">Try Gaviom+ instead →</a>
-          </div>
-          <ul class="pd-trust" style="margin-top:20px;background:transparent;border:none;padding:0;">
-            <li><span class="check">✓</span><span>Entry number issued instantly</span></li>
-            <li><span class="check">✓</span><span>Drawn live on YouTube</span></li>
-            <li><span class="check">✓</span><span>Wired within 48h if you win</span></li>
-            <li><span class="check">✓</span><span>Refunded if voided</span></li>
-          </ul>
-        </div>
-      </aside>
     </div>
   </main>
 

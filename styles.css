@@ -2135,7 +2135,21 @@ a.brand:hover {
 }
 
 /* Checkout */
-.checkout-page { background: var(--paper-2); min-height: 100vh; }
+.checkout-page {
+  background: var(--paper-2);
+  min-height: 100vh;
+  color: var(--ink);
+}
+html:has(body.checkout-page)::before {
+  opacity: 0.45;
+}
+body.checkout-page::before,
+body.checkout-page::after {
+  display: none;
+}
+body.checkout-page main {
+  background: transparent;
+}
 .checkout-nav {
   height: 68px;
   border-bottom: 1px solid var(--line);
@@ -2143,7 +2157,15 @@ a.brand:hover {
 }
 .checkout-nav-inner { display: flex; align-items: center; justify-content: space-between; }
 .checkout-secure { font-family: "Geist Mono", monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); display: flex; align-items: center; gap: 8px; }
-.checkout-grid { display: grid; grid-template-columns: 1fr 0.85fr; gap: 56px; padding: 48px 0 80px; align-items: start; }
+.checkout-grid {
+  display: grid;
+  grid-template-columns: 1fr 0.85fr;
+  gap: 56px;
+  padding: 48px 0 80px;
+  align-items: start;
+}
+.checkout-main { grid-column: 1; }
+.co-summary { grid-column: 2; }
 .co-card {
   background: var(--canvas);
   border: 1px solid var(--line);
@@ -2233,6 +2255,23 @@ a.brand:hover {
   cursor: pointer;
 }
 .co-submit-cta:hover { background: var(--action-2); }
+.checkout-form { display: block; }
+.checkout-form__notice {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: var(--r-sm);
+  background: var(--action-soft);
+  border: 1px solid var(--action-line);
+  color: var(--action-2);
+  font-size: 12px;
+  line-height: 1.45;
+  text-align: center;
+}
+.checkout-form__notice.is-error {
+  background: var(--live-soft);
+  border-color: color-mix(in oklab, var(--live) 35%, var(--line));
+  color: var(--live);
+}
 .checkout-main { display: flex; flex-direction: column; gap: 0; }
 .co-prize-showcase {
   background: var(--canvas);
@@ -2246,7 +2285,13 @@ a.brand:hover {
   position: relative;
   aspect-ratio: 16/9;
   overflow: hidden;
-  background: var(--ink);
+  background: var(--paper-3);
+}
+.co-prize-gallery__main .prize-photo-wrap::after {
+  display: none;
+}
+.co-prize-showcase--desktop {
+  display: block;
 }
 .co-prize-gallery__main .prize-photo {
   width: 100%;
@@ -3717,6 +3762,8 @@ html:has(body.how-page)::before {
 @media (max-width: 980px) {
   .nav-links { display: none; }
   .checkout-grid { grid-template-columns: 1fr; }
+  .checkout-main,
+  .co-summary { grid-column: auto; }
   .co-summary { position: static; }
   .co-prize-gallery__thumbs { grid-template-columns: repeat(4, 1fr); }
   .grid-2, .grid-3, .grid-4, .pd-grid, .checkout-grid, .grand-banner,
