@@ -976,6 +976,11 @@
           return;
         }
 
+        if (section.classList.contains('hero-home--video-live')) {
+          playClip().catch(function () {});
+          return;
+        }
+
         section.classList.add('hero-home--video-pending');
         section.classList.remove('hero-home--video-fallback');
         if (slideRoot) slideRoot.hidden = true;
@@ -991,18 +996,15 @@
 
         videoOk = false;
         section.classList.remove('hero-home--video-ready', 'hero-home--video-live');
-        video.load();
 
         if (fallbackTimer) clearTimeout(fallbackTimer);
         fallbackTimer = setTimeout(() => {
           if (!videoOk) markVideoFallback();
         }, 3500);
 
-        requestAnimationFrame(() => {
-          playClip().then((ok) => {
-            if (ok && canUseVideo()) markVideoReady();
-            else if (!ok && !videoOk) markVideoFallback();
-          });
+        playClip().then((ok) => {
+          if (ok && canUseVideo()) markVideoReady();
+          else if (!ok && !videoOk) markVideoFallback();
         });
       }
 
@@ -1010,7 +1012,11 @@
         section.dataset.heroVideoBound = '1';
 
         if (video) {
-          video.load();
+          if (section.classList.contains('hero-home--video-live')) {
+            videoOk = true;
+          } else {
+            video.load();
+          }
           video.addEventListener('playing', () => {
             if (video.videoWidth > 0) markVideoReady();
           });

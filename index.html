@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Geist+Mono:wght@400;500&family=Geist:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet" />
-  <link rel="preconnect" href="https://videos.pexels.com" crossorigin />
-  <link rel="preconnect" href="https://images.pexels.com" crossorigin />
-  <link rel="stylesheet" href="/styles.css?v=20260522-hero" />
+  <link rel="preload" as="video" href="/images/hero-ocean-720.mp4" type="video/mp4" media="(min-width: 769px)" />
+  <link rel="preload" as="video" href="/images/hero-ocean-360.mp4" type="video/mp4" media="(max-width: 768px)" />
+  <link rel="stylesheet" href="/styles.css?v=20260524-hero-fast" />
   <link rel="stylesheet" href="/mobile.css?v=20260522-touch" />
 </head>
 <body>
@@ -55,10 +55,38 @@
             <img class="hero-home__slide-img" src="/images/cruise-hero-1280w.webp" srcset="/images/cruise-hero-480w.webp 480w, /images/cruise-hero-800w.webp 800w, /images/cruise-hero-1280w.webp 1280w, /images/cruise-hero-1920w.webp 1920w" sizes="100vw" alt="" width="2400" height="1350" decoding="async" loading="lazy" />
           </div>
         </div>
-        <video class="hero-home__clip is-active" autoplay muted loop playsinline preload="auto"
-          src="https://videos.pexels.com/video-files/856389/856389-uhd_2560_1440_30fps.mp4"></video>
+        <video class="hero-home__clip is-active" autoplay muted loop playsinline preload="auto" disablePictureInPicture>
+          <source src="/images/hero-ocean-720.mp4" type="video/mp4" media="(min-width: 769px)" />
+          <source src="/images/hero-ocean-360.mp4" type="video/mp4" />
+        </video>
         <div class="hero-overlay" aria-hidden="true"></div>
       </div>
+      <script>
+        (function () {
+          var section = document.querySelector('.hero-home--video');
+          var video = document.querySelector('.hero-home__clip');
+          if (!section || !video || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+          function markReady() {
+            section.classList.add('hero-home--video-ready', 'hero-home--video-live');
+            section.classList.remove('hero-home--video-pending', 'hero-home--video-fallback');
+          }
+
+          function tryPlay() {
+            video.muted = true;
+            var playPromise = video.play();
+            if (playPromise && typeof playPromise.then === 'function') {
+              playPromise.then(markReady).catch(function () {});
+            } else {
+              markReady();
+            }
+          }
+
+          video.addEventListener('loadeddata', tryPlay, { once: true });
+          video.addEventListener('playing', markReady, { once: true });
+          tryPlay();
+        }());
+      </script>
       <div class="wrap hero-home__content">
         <div class="launch-countdown launch-countdown--hero">
           <p class="launch-countdown__label">Official launch · July 1, 2026</p>
