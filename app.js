@@ -1114,8 +1114,15 @@
       const inner = scene.querySelector('[data-mem-card-inner]');
       const glare = scene.querySelector('.mem-card-glare');
       const holo = scene.querySelector('.mem-pass__holo');
-      const maxTilt = 12;
+      const hint = scene.parentElement?.querySelector('.mem-card-hint');
+      const isCoarse = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+      const maxTilt = isCoarse ? 9 : 12;
       let flipped = false;
+      let pressStart = null;
+
+      if (hint && isCoarse) {
+        hint.textContent = 'Touch to tilt · Tap to flip';
+      }
 
       const setFlip = (on) => {
         flipped = on;
@@ -1129,7 +1136,6 @@
         if (holo) holo.style.transform = '';
       };
 
-      scene.addEventListener('click', () => setFlip(!flipped));
       scene.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
@@ -1137,28 +1143,94 @@
         }
       });
 
-      const onMove = (e) => {
+      const applyTilt = (clientX, clientY) => {
         if (flipped) return;
         const rect = scene.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width - 0.5;
-        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        const x = (clientX - rect.left) / rect.width - 0.5;
+        const y = (clientY - rect.top) / rect.height - 0.5;
         if (inner) {
           inner.style.transform = `rotateY(${x * maxTilt * 2}deg) rotateX(${-y * maxTilt * 2}deg)`;
         }
         if (glare) {
-          glare.style.background = `radial-gradient(circle at ${(x + 0.5) * 100}% ${(y + 0.5) * 100}%, rgba(255,255,255,0.2) 0%, transparent 50%)`;
+          glare.style.background = `radial-gradient(circle at ${(x + 0.5) * 100}% ${(y + 0.5) * 100}%, rgba(255,255,255,0.22) 0%, transparent 52%)`;
         }
-        if (holo) holo.style.transform = `translate(${x * 20}px, ${y * 16}px)`;
+        if (holo) holo.style.transform = `translate(${x * 18}px, ${y * 14}px)`;
       };
 
-      const onLeave = () => {
+      const resetTilt = () => {
         if (inner) inner.style.transform = '';
         if (glare) glare.style.background = '';
         if (holo) holo.style.transform = '';
       };
 
-      scene.addEventListener('mousemove', onMove);
-      scene.addEventListener('mouseleave', onLeave);
+      scene.addEventListener('pointerdown', (e) => {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        pressStart = { x: e.clientX, y: e.clientY };
+        scene.classList.add('is-pressed');
+        if (typeof scene.setPointerCapture === 'function') {
+          try {
+            scene.setPointerCapture(e.pointerId);
+          } catch (_) {
+            /* ignore */
+          }
+        }
+        applyTilt(e.clientX, e.clientY);
+      });
+
+      scene.addEventListener('pointermove', (e) => {
+        if (flipped) return;
+        applyTilt(e.clientX, e.clientY);
+      });
+
+      const endPress = (e) => {
+        scene.classList.remove('is-pressed');
+        if (isCoarse && pressStart && e) {
+          const dx = e.clientX - pressStart.x;
+          const dy = e.clientY - pressStart.y;
+          if (dx * dx + dy * dy < 144) setFlip(!flipped);
+        }
+        pressStart = null;
+        resetTilt();
+        if (typeof scene.releasePointerCapture === 'function' && e) {
+          try {
+            scene.releasePointerCapture(e.pointerId);
+          } catch (_) {
+            /* ignore */
+          }
+        }
+      };
+
+      scene.addEventListener('pointerup', endPress);
+      scene.addEventListener('pointercancel', endPress);
+      scene.addEventListener('pointerleave', (e) => {
+        if (e.pointerType === 'mouse') resetTilt();
+      });
+
+      if (!isCoarse) {
+        scene.addEventListener('click', () => setFlip(!flipped));
+      }
+    }
+
+    function initTouchPressFeedback() {
+      if (!window.matchMedia('(hover: none) and (pointer: coarse)').matches) return;
+
+      const targets = document.querySelectorAll(
+        '.prize-card, a.spotlight, .grand-banner, .launch-card, .bundle-opt, .pd-thumb, .chip, a.btn, button.btn'
+      );
+
+      targets.forEach((el) => {
+        el.addEventListener(
+          'pointerdown',
+          () => {
+            el.classList.add('is-pressed');
+          },
+          { passive: true }
+        );
+        const clear = () => el.classList.remove('is-pressed');
+        el.addEventListener('pointerup', clear);
+        el.addEventListener('pointercancel', clear);
+        el.addEventListener('pointerleave', clear);
+      });
     }
 
     function initCorporateDemo() {
@@ -1206,6 +1278,7 @@
       run(initBrandHome);
       run(initCorporateDemo);
       run(initMemCard);
+      run(initTouchPressFeedback);
       run(initHeroDreamVideo);
       run(initStickyCta);
       run(initMobileNav);

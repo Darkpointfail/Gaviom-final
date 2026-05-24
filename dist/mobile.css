@@ -171,8 +171,9 @@ body.nav-open .nav-menu-icon::after {
 }
 
 .nav-mobile-links a {
+  position: relative;
   display: block;
-  padding: 14px 12px;
+  padding: 14px 12px 16px;
   font-size: 17px;
   font-weight: 500;
   color: var(--ink-2);
@@ -188,7 +189,15 @@ body.nav-open .nav-menu-icon::after {
 }
 
 .nav-mobile-links a.active::after {
-  display: none;
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 8px;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold-light), var(--gold-dark));
+  box-shadow: 0 0 8px color-mix(in oklab, var(--gold) 35%, transparent);
 }
 
 .nav-mobile-actions {
@@ -1323,19 +1332,112 @@ body.nav-open .nav-menu-icon::after {
   }
 }
 
-/* Touch: no hover lift on coarse pointers */
+/* Touch: tactile feedback (replaces desktop hover on coarse pointers) */
 @media (hover: none) and (pointer: coarse) {
   .btn:hover,
   .prize-card:hover,
   .spotlight:hover,
   .grand-banner:hover,
-  .bundle-opt:hover {
+  .bundle-opt:hover,
+  .launch-card:hover,
+  .pd-thumb:hover {
     transform: none;
+    box-shadow: inherit;
+    border-color: inherit;
   }
 
-  .prize-card:active,
-  .bundle-opt:active,
-  .btn-primary:active {
+  .spotlight:hover .prize-photo,
+  .prize-card:hover .prize-photo,
+  .pd-gallery-main:hover .prize-photo {
+    transform: scale(1.02);
+  }
+
+  .prize-card.is-pressed,
+  .prize-card:active {
+    transform: scale(0.985);
+    box-shadow: var(--sh-2);
+    border-color: color-mix(in oklab, var(--gold) 32%, var(--line));
+  }
+
+  .prize-card.is-pressed .prize-photo,
+  .prize-card:active .prize-photo {
+    transform: scale(1.05);
+    transition: transform 0.35s ease;
+  }
+
+  a.spotlight.is-pressed,
+  a.spotlight:active {
+    transform: scale(0.992);
+    box-shadow: var(--sh-dream), 0 0 0 1px color-mix(in oklab, var(--gold) 24%, transparent);
+  }
+
+  a.spotlight.is-pressed .prize-photo,
+  a.spotlight:active .prize-photo {
+    transform: scale(1.05);
+    transition: transform 0.35s ease;
+  }
+
+  .grand-banner.is-pressed,
+  .grand-banner:active,
+  .launch-card.is-pressed,
+  .launch-card:active {
+    transform: scale(0.99);
+    box-shadow: var(--sh-2);
+  }
+
+  .bundle-opt.is-pressed,
+  .bundle-opt:active {
     transform: scale(0.98);
+    border-color: color-mix(in oklab, var(--gold) 28%, var(--line));
+  }
+
+  .pd-thumb.is-pressed,
+  .pd-thumb:active {
+    transform: scale(0.96);
+    border-color: var(--gold);
+  }
+
+  .chip.is-pressed,
+  .chip:active {
+    border-color: color-mix(in oklab, var(--gold) 42%, var(--line));
+    background: var(--paper-2);
+  }
+
+  a.btn-primary.is-pressed,
+  a.btn-primary:active,
+  button.btn-primary.is-pressed,
+  button.btn-primary:active {
+    transform: scale(0.97);
+    filter: brightness(0.96);
+  }
+
+  a.btn-ghost.is-pressed,
+  a.btn-ghost:active,
+  button.btn-ghost.is-pressed,
+  button.btn-ghost:active {
+    transform: scale(0.98);
+    border-color: color-mix(in oklab, var(--gold) 38%, var(--line-2));
+  }
+
+  .nav-mobile-links a:active {
+    transform: scale(0.99);
+  }
+
+  .mem-card-scene {
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .mem-card-scene.is-pressed .mem-pass--front {
+    box-shadow:
+      0 1px 0 color-mix(in oklab, var(--gold-light) 35%, transparent) inset,
+      0 36px 64px -16px color-mix(in oklab, var(--gold) 38%, transparent),
+      0 2px 0 rgba(255, 255, 255, 0.08) inset;
+  }
+
+  body.prizes-page .sweep-panel__cta:active,
+  body.prizes-page .sweep-panel__cta.is-pressed {
+    transform: scale(0.97);
   }
 }

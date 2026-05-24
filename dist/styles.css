@@ -2,10 +2,12 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --paper:        oklch(0.985 0.006 80);
-  --paper-2:      oklch(0.975 0.010 80);
-  --paper-3:      oklch(0.962 0.013 78);
-  --canvas:       oklch(0.992 0.004 85);
+  /* Crème ivoire chaud — papier luxe (base #FAF7F2) */
+  --ivory:        #FAF7F2;
+  --paper:        var(--ivory);
+  --paper-2:      #F4EFE6;
+  --paper-3:      #EBE4D8;
+  --canvas:       #FDFBF8;
   --ink:          oklch(0.16 0.018 250);
   --ink-2:        oklch(0.28 0.025 250);
   --ink-3:        oklch(0.42 0.025 250);
@@ -16,10 +18,10 @@
   --action-soft:  oklch(0.94 0.035 158);
   --action-line:  oklch(0.86 0.06 158);
   --ochre:        oklch(0.70 0.085 75);
-  --ochre-soft:   oklch(0.94 0.04 80);
-  --line:         oklch(0.91 0.008 80);
-  --line-2:       oklch(0.85 0.012 80);
-  --line-3:       oklch(0.78 0.014 80);
+  --ochre-soft:   #F3EBD9;
+  --line:         #E5DDD2;
+  --line-2:       #D9D0C3;
+  --line-3:       #C9BFB0;
   --live:         oklch(0.55 0.17 28);
   --live-soft:    oklch(0.96 0.025 28);
   --r-xs: 6px; --r-sm: 10px; --r: 14px; --r-lg: 18px; --r-xl: 24px;
@@ -27,11 +29,11 @@
   --sh-2: 0 1px 0 rgba(20,30,60,.05), 0 18px 40px -16px rgba(20,30,60,.18);
   --sh-3: 0 2px 0 rgba(20,30,60,.06), 0 36px 60px -22px rgba(20,30,60,.28);
   --sh-dream: 0 1px 0 rgba(255,255,255,.6) inset, 0 24px 48px -20px color-mix(in oklab, var(--action) 25%, transparent), 0 48px 80px -32px rgba(20,30,60,.12);
-  --dream-sky:    oklch(0.97 0.028 265);
-  --dream-mist:   oklch(0.96 0.04 158);
-  --dream-warm:   oklch(0.97 0.025 85);
+  --dream-sky:    color-mix(in oklab, var(--ivory) 88%, #E8E4F0);
+  --dream-mist:   color-mix(in oklab, var(--ivory) 90%, var(--ochre-soft));
+  --dream-warm:   color-mix(in oklab, var(--ivory) 82%, var(--ochre-soft));
   --dream-glow:   color-mix(in oklab, var(--action) 18%, transparent);
-  --sky-soft:     oklch(0.95 0.025 230);
+  --sky-soft:     color-mix(in oklab, var(--ivory) 88%, #E8E0D4);
   --max: 1200px;
   --gold:         #C9A84C;
   --gold-light:   #E2C06A;
@@ -42,8 +44,8 @@
   --noise-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
   --texture-brushed: repeating-linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.012) 0px,
-    rgba(255, 255, 255, 0.012) 1px,
+    rgba(255, 252, 246, 0.35) 0px,
+    rgba(255, 252, 246, 0.35) 1px,
     transparent 1px,
     transparent 6px
   );
@@ -80,11 +82,11 @@ html::before {
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(55% 45% at 8% 12%, var(--dream-mist) 0%, transparent 50%),
-    radial-gradient(45% 40% at 92% 8%, var(--dream-sky) 0%, transparent 48%),
-    radial-gradient(50% 45% at 75% 88%, var(--ochre-soft) 0%, transparent 45%),
+    radial-gradient(55% 45% at 8% 12%, color-mix(in oklab, var(--ochre-soft) 50%, transparent) 0%, transparent 50%),
+    radial-gradient(45% 40% at 92% 8%, color-mix(in oklab, var(--ivory) 75%, var(--gold-light)) 0%, transparent 48%),
+    radial-gradient(50% 45% at 75% 88%, color-mix(in oklab, var(--gold-light) 14%, transparent) 0%, transparent 45%),
     radial-gradient(40% 35% at 15% 75%, var(--dream-warm) 0%, transparent 42%);
-  opacity: 0.85;
+  opacity: 0.7;
 }
 body::before {
   content: "";
@@ -95,7 +97,7 @@ body::before {
   z-index: 0;
   opacity: 0.06;
 }
-/* Static gold edge shading on cream/white blocks (not on photos) */
+/* Static gold edge shading on ivory blocks (not on photos) */
 .surface-depth,
 .section,
 .section-sm,
@@ -770,7 +772,8 @@ ul { list-style: none; }
   top: 0;
   z-index: 90;
   height: 68px;
-  overflow: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
   isolation: isolate;
   background-color: color-mix(in oklab, var(--paper) 88%, transparent);
   backdrop-filter: blur(20px) saturate(1.1);
@@ -844,11 +847,14 @@ a.brand:hover {
 .nav-links a.active::after {
   content: "";
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -22px;
+  left: 50%;
+  bottom: -10px;
+  width: 22px;
   height: 2px;
-  background: var(--action);
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold-light), var(--gold-dark));
+  box-shadow: 0 0 10px color-mix(in oklab, var(--gold) 40%, transparent);
 }
 .nav-right {
   display: flex;
@@ -4443,9 +4449,9 @@ body.prizes-page .sticky-cta {
 
 /* Prizes page — Option D: warm hero + lighter card zones */
 body.prizes-page {
-  --sweep-warm: oklch(0.97 0.018 78);
-  --sweep-card: oklch(0.985 0.01 82);
-  --sweep-warm-line: oklch(0.9 0.014 78);
+  --sweep-warm: #F6F1E8;
+  --sweep-card: var(--canvas);
+  --sweep-warm-line: var(--line);
 }
 body.prizes-page .sweep-hero {
   background-image:
