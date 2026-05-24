@@ -21,15 +21,21 @@
   <main class="co-main">
     <div class="wrap co-shell">
       <section class="co-order" aria-label="Order summary">
-        <p class="co-order-kicker font-mono" data-checkout-kicker>Pre-order entry</p>
+        <p class="co-order-kicker font-mono" data-checkout-kicker>Sweepstakes tickets</p>
         <h1 class="co-order-title font-display" data-checkout-title>MSC Cruise · 7 Nights</h1>
-        <p class="co-order-detail" data-checkout-detail-line>5 entries · Draw July 5, 2026</p>
+        <p class="co-order-clarify" data-checkout-clarify>
+          You are purchasing <strong data-checkout-ticket-count>5 tickets</strong> to enter the
+          <strong data-checkout-event-name>MSC Cruise · 7 Nights</strong> sweepstakes.
+          You are <em>not</em> buying the cruise, prize, or trip itself.
+        </p>
+        <p class="co-order-detail" data-checkout-detail-line>Draw July 5, 2026 · Odds 1 in 6,000</p>
+        <p class="co-order-total-label font-mono">Total for tickets</p>
         <p class="co-order-total font-display" data-co-total>$45.00</p>
       </section>
 
       <form class="co-form" id="gaviom-checkout" action="#" method="post" novalidate>
         <div class="co-field">
-          <label for="email">Email for your entry confirmation</label>
+          <label for="email">Email for your ticket confirmation</label>
           <input id="email" name="email" type="email" placeholder="you@email.com" autocomplete="email" required />
         </div>
 
@@ -129,9 +135,9 @@
         <p class="co-form-status font-mono" data-checkout-notice hidden role="status"></p>
 
         <button type="submit" class="co-pay-submit btn btn-primary btn-xl btn-block" data-bundle-cta data-checkout-submit>
-          Pay $45.00
+          Pay $45.00 for 5 tickets
         </button>
-        <p class="co-form-fine font-mono" data-checkout-fine>Secure checkout · Entry confirmed instantly</p>
+        <p class="co-form-fine font-mono" data-checkout-fine>Secure checkout · Tickets confirmed instantly · Win the prize only if drawn</p>
       </form>
     </div>
   </main>

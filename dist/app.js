@@ -297,9 +297,11 @@
         }
         const submit = document.querySelector('[data-checkout-submit], [data-bundle-cta]');
         if (submit) {
+          const n = parseInt(entries, 10);
+          const tw = n === 1 ? 'ticket' : 'tickets';
           submit.textContent = document.body.classList.contains('gv-prelaunch')
-            ? PRESALE_CTA_LABEL
-            : `Pay $${parseFloat(price).toFixed(2)}`;
+            ? `Pre-order ${n} ${tw} — $${parseFloat(price).toFixed(2)}`
+            : `Pay $${parseFloat(price).toFixed(2)} for ${n} ${tw}`;
         }
       }
 
@@ -538,9 +540,21 @@
       const help = document.querySelector('[data-checkout-fine]');
       const amoe = document.querySelector('[data-checkout-amoe]');
 
-      if (kicker) kicker.textContent = 'Membership';
+      const clarify = document.querySelector('[data-checkout-clarify]');
+      const ticketCount = document.querySelector('[data-checkout-ticket-count]');
+      const eventName = document.querySelector('[data-checkout-event-name]');
+      const totalLabel = document.querySelector('.co-order-total-label');
+
+      if (kicker) kicker.textContent = 'Membership tickets';
       if (titleEl) titleEl.textContent = m.title;
       if (detailLine) detailLine.textContent = m.detail;
+      if (clarify) {
+        clarify.innerHTML =
+          'You are purchasing a <strong>monthly ticket bundle</strong> for Gaviom+ sweepstakes. You are <em>not</em> buying any specific prize or trip.';
+      }
+      if (ticketCount) ticketCount.hidden = true;
+      if (eventName) eventName.hidden = true;
+      if (totalLabel) totalLabel.textContent = 'Monthly total';
       if (coTotal) coTotal.textContent = fmt(m.price);
       if (back) {
         back.href = '/membership.html';
@@ -857,27 +871,34 @@
       const entries = b.entries;
       const fmt = (n) => '$' + parseFloat(n).toFixed(2);
 
+      const ticketWord = entries === 1 ? 'ticket' : 'tickets';
       const back = document.querySelector('[data-checkout-back]');
       const kicker = document.querySelector('[data-checkout-kicker]');
       const titleEl = document.querySelector('[data-checkout-title]');
       const detailLine = document.querySelector('[data-checkout-detail-line]');
+      const ticketCount = document.querySelector('[data-checkout-ticket-count]');
+      const eventName = document.querySelector('[data-checkout-event-name]');
       const coTotal = document.querySelector('[data-co-total]');
       const submit = document.querySelector('[data-checkout-submit], [data-bundle-cta]');
+      const totalLabel = document.querySelector('.co-order-total-label');
 
       if (back) {
         back.href = p.back;
         back.textContent = '← Back';
       }
-      if (kicker) kicker.textContent = 'Pre-order entry';
+      if (kicker) kicker.textContent = 'Sweepstakes tickets';
       if (titleEl) titleEl.textContent = p.title;
+      if (ticketCount) ticketCount.textContent = `${entries} ${ticketWord}`;
+      if (eventName) eventName.textContent = p.title;
       if (detailLine) {
-        detailLine.textContent = `${entries} entr${entries === 1 ? 'y' : 'ies'} · ${p.draw} · Odds 1 in ${p.odds.toLocaleString('en-US')}`;
+        detailLine.textContent = `${p.draw} · Odds 1 in ${p.odds.toLocaleString('en-US')}`;
       }
+      if (totalLabel) totalLabel.textContent = 'Total for tickets';
       if (coTotal) coTotal.textContent = fmt(price);
       if (submit) {
         submit.textContent = document.body.classList.contains('gv-prelaunch')
-          ? PRESALE_CTA_LABEL
-          : `Pay ${fmt(price)}`;
+          ? `Pre-order ${entries} ${ticketWord} — ${fmt(price)}`
+          : `Pay ${fmt(price)} for ${entries} ${ticketWord}`;
       }
     }
 
