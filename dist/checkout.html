@@ -3,145 +3,136 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pre-order your entry, Gaviom</title>
+  <title>Checkout — Gaviom</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Geist+Mono:wght@400;500&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
-  <link rel="stylesheet" href="styles.css?v=20260522-checkout2" />
-  <link rel="stylesheet" href="mobile.css?v=20260522-checkout2" />
-  <style>
-    @media (max-width: 768px) {
-      html:has(body.checkout-page),
-      body.checkout-page {
-        background: #f4efe6 !important;
-        color: #0f1419;
-      }
-      body.checkout-page [data-checkout-showcase] {
-        display: none !important;
-      }
-      body.checkout-page main,
-      body.checkout-page .co-card,
-      body.checkout-page .checkout-nav {
-        background-color: #faf7f2;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css?v=20260522-pay" />
+  <link rel="stylesheet" href="mobile.css?v=20260522-pay" />
 </head>
 <body class="checkout-page">
-  <header class="checkout-nav">
-    <div class="wrap checkout-nav-inner">
+  <header class="co-head">
+    <div class="wrap co-head-inner">
       <a href="index.html" class="brand"><span class="brand-mark">G</span> Gaviom</a>
-      <div class="checkout-secure"><span class="trust-strip-icon">✓</span> Secure checkout · 256-bit SSL</div>
-      <a href="free-entry.html" class="checkout-nav-amoe font-mono">Free entry</a>
-      <a href="prize.html" class="btn btn-ghost" data-checkout-back>← Back to prize</a>
+      <a href="prize.html" class="co-head-back" data-checkout-back>← Back</a>
     </div>
   </header>
 
-  <main>
-    <div class="wrap checkout-grid">
-      <aside class="co-summary">
-        <div class="co-card">
-          <div class="summary-prize">
-            <div class="summary-thumb">
-              <div class="prize-photo-wrap"><img class="prize-photo" data-checkout-img src="/images/cruise-hero.webp" alt="MSC Cruise" width="400" height="267" loading="eager" decoding="async" /></div>
-            </div>
-            <div>
-              <div class="prize-card-cat" data-checkout-cat>Travel · #1</div>
-              <h3 class="font-display" style="font-size:18px;font-weight:700;line-height:1.2;" data-checkout-title>MSC Cruise · 7 Nights</h3>
-              <p class="font-mono" style="font-size:12px;color:var(--action-2);margin-top:4px;" data-checkout-value>$12,000 value</p>
-              <p style="font-size:13px;color:var(--muted);margin-top:6px;"><span data-checkout-draw>Draw July 5, 2026</span> · <span data-checkout-odds>Odds 1 in 6,000</span></p>
-            </div>
-          </div>
-          <div class="summary-line"><span data-co-lines>5 entries × $9.00</span><span data-co-sub>$45.00</span></div>
-          <div class="summary-line"><span>Processing fee</span><span>$0.00</span></div>
-          <div class="summary-line strike" data-co-strike><span>$60.00 (1 entry × 5)</span></div>
-          <div class="summary-line discount" data-co-discount><span>Bundle savings</span><span>−$15.00</span></div>
-          <div class="summary-line total"><span>Total today</span><span data-co-total>$45.00</span></div>
-          <div class="bonus-card" data-checkout-bonus>
-            <strong>Improving your odds</strong>, With 5 entries, your probability of winning rises from 1 in 6,000 → 1 in 1,200. ~5× better.
-          </div>
-          <div class="co-card" style="margin-top:16px;background:var(--action-soft);border-color:var(--action-line);" data-checkout-membership-upsell>
-            <p class="font-display" style="font-size:15px;font-weight:700;margin-bottom:6px;">✦ Want to win more often?</p>
-            <p style="font-size:14px;color:var(--ink-3);line-height:1.45;">Gaviom+, $17/mo. 5–8 tickets you split across the monthly pool. Premium prizes à la carte. No rollover.</p>
-            <a href="membership.html" class="btn btn-link" style="margin-top:10px;padding:0;">Try Gaviom+ instead →</a>
-          </div>
-          <ul class="pd-trust" style="margin-top:20px;background:transparent;border:none;padding:0;">
-            <li><span class="check">✓</span><span>Entry number issued instantly</span></li>
-            <li><span class="check">✓</span><span>Drawn live on YouTube</span></li>
-            <li><span class="check">✓</span><span>Wired within 48h if you win</span></li>
-            <li><span class="check">✓</span><span>Refunded if voided</span></li>
-          </ul>
-        </div>
-      </aside>
+  <main class="co-main">
+    <div class="wrap co-shell">
+      <section class="co-order" aria-label="Order summary">
+        <p class="co-order-kicker font-mono" data-checkout-kicker>Pre-order entry</p>
+        <h1 class="co-order-title font-display" data-checkout-title>MSC Cruise · 7 Nights</h1>
+        <p class="co-order-detail" data-checkout-detail-line>5 entries · Draw July 5, 2026</p>
+        <p class="co-order-total font-display" data-co-total>$45.00</p>
+      </section>
 
-      <div class="checkout-main">
-        <form class="checkout-form" id="gaviom-checkout" action="#" method="post" novalidate>
-        <h1 class="h-section font-display checkout-form__title" data-checkout-heading>Pre-order your entry.</h1>
-        <p class="lede checkout-form__lede" data-checkout-sub>Pre-sale is open. Your entries count toward Draw #1 (Sunday, July 5 · 8pm ET). Gaviom goes live July 1.</p>
-
-        <div class="co-card">
-          <h2>1. Where do we send your entry?</h2>
-          <div class="field"><label for="email">Email address</label><input id="email" type="email" placeholder="you@email.com" autocomplete="email" /></div>
-          <div class="field-grid-2">
-            <div class="field"><label for="fname">First name</label><input id="fname" type="text" autocomplete="given-name" /></div>
-            <div class="field"><label for="lname">Last name</label><input id="lname" type="text" autocomplete="family-name" /></div>
-          </div>
-          <p class="field-help">We send one confirmation email per entry. No newsletter, no spam. You can opt in to win-only alerts after checkout.</p>
+      <form class="co-form" id="gaviom-checkout" action="#" method="post" novalidate>
+        <div class="co-field">
+          <label for="email">Email for your entry confirmation</label>
+          <input id="email" name="email" type="email" placeholder="you@email.com" autocomplete="email" required />
         </div>
 
-        <div class="co-card" id="checkout-pay" data-checkout-pay>
-          <h2>2. How would you like to pay?</h2>
-          <div class="pay-express pay-express-3">
-            <button type="button" class="pay-btn pay-btn-apple"> Pay</button>
-            <button type="button" class="pay-btn pay-btn-gpay">G Pay</button>
-            <button type="button" class="pay-btn pay-btn-paypal">PayPal</button>
+        <fieldset class="co-pay-fieldset">
+          <legend class="co-pay-legend">Choose payment method</legend>
+          <div class="co-pay-list" role="radiogroup" aria-label="Payment method">
+            <label class="co-pay-opt">
+              <input type="radio" name="pay_method" value="apple" checked />
+              <span class="co-pay-opt__body">
+                <span class="co-pay-opt__icon co-pay-opt__icon--apple" aria-hidden="true"> Pay</span>
+                <span class="co-pay-opt__text">
+                  <strong>Apple Pay</strong>
+                  <small>Fast checkout on iPhone</small>
+                </span>
+              </span>
+            </label>
+            <label class="co-pay-opt">
+              <input type="radio" name="pay_method" value="google" />
+              <span class="co-pay-opt__body">
+                <span class="co-pay-opt__icon co-pay-opt__icon--google" aria-hidden="true">G</span>
+                <span class="co-pay-opt__text">
+                  <strong>Google Pay</strong>
+                  <small>One tap on Android</small>
+                </span>
+              </span>
+            </label>
+            <label class="co-pay-opt">
+              <input type="radio" name="pay_method" value="paypal" />
+              <span class="co-pay-opt__body">
+                <span class="co-pay-opt__icon co-pay-opt__icon--paypal" aria-hidden="true">P</span>
+                <span class="co-pay-opt__text">
+                  <strong>PayPal</strong>
+                  <small>Pay with balance or card</small>
+                </span>
+              </span>
+            </label>
+            <label class="co-pay-opt">
+              <input type="radio" name="pay_method" value="card" />
+              <span class="co-pay-opt__body">
+                <span class="co-pay-opt__icon co-pay-opt__icon--card" aria-hidden="true">💳</span>
+                <span class="co-pay-opt__text">
+                  <strong>Credit or debit card</strong>
+                  <small>Visa, Mastercard, Amex</small>
+                </span>
+              </span>
+            </label>
+            <label class="co-pay-opt">
+              <input type="radio" name="pay_method" value="venmo" />
+              <span class="co-pay-opt__body">
+                <span class="co-pay-opt__icon co-pay-opt__icon--venmo" aria-hidden="true">V</span>
+                <span class="co-pay-opt__text">
+                  <strong>Venmo</strong>
+                  <small>US only</small>
+                </span>
+              </span>
+            </label>
+            <label class="co-pay-opt">
+              <input type="radio" name="pay_method" value="cashapp" />
+              <span class="co-pay-opt__body">
+                <span class="co-pay-opt__icon co-pay-opt__icon--cashapp" aria-hidden="true">$</span>
+                <span class="co-pay-opt__text">
+                  <strong>Cash App Pay</strong>
+                  <small>Verify in seconds</small>
+                </span>
+              </span>
+            </label>
           </div>
-          <div class="co-divider">or pay with card</div>
-          <div class="field" style="position:relative;">
+        </fieldset>
+
+        <div class="co-card-panel" data-checkout-card-panel hidden>
+          <div class="co-field">
             <label for="card">Card number</label>
-            <input id="card" type="text" placeholder="1234 5678 9012 3456" inputmode="numeric" />
-            <div class="pay-logos" style="position:absolute;right:12px;top:38px;"><span class="pay-logo">VISA</span><span class="pay-logo">MC</span><span class="pay-logo">AMEX</span></div>
+            <input id="card" name="card" type="text" inputmode="numeric" autocomplete="cc-number" placeholder="1234 5678 9012 3456" />
           </div>
-          <div class="field-grid-3">
-            <div class="field"><label for="exp">Expiry</label><input id="exp" type="text" placeholder="MM/YY" /></div>
-            <div class="field"><label for="cvc">CVC</label><input id="cvc" type="text" placeholder="123" /></div>
-            <div class="field"><label for="zip">ZIP</label><input id="zip" type="text" placeholder="10001" autocomplete="postal-code" /></div>
-          </div>
-          <button type="button" class="pay-more-toggle" data-pay-more-toggle aria-expanded="false">More payment methods ↓</button>
-          <div class="pay-more-panel" data-pay-more-panel>
-            <label class="pay-alt"><span class="pay-alt-icon">$</span><span><strong>Cash App Pay</strong><br /><span style="font-size:12px;color:var(--muted);">Verify in 3 sec via your Cash App account</span></span><input type="radio" name="pay-alt" value="cashapp" /></label>
-            <label class="pay-alt"><span class="pay-alt-icon">V</span><span><strong>Venmo</strong><br /><span style="font-size:12px;color:var(--muted);">Pay from your Venmo balance</span></span><input type="radio" name="pay-alt" value="venmo" /></label>
-            <label class="pay-alt selected"><span class="pay-alt-icon">ACH</span><span><strong>Bank transfer (ACH)</strong><br /><span style="font-size:12px;color:var(--action-2);">Recommended for $40+ bundles</span></span><input type="radio" name="pay-alt" value="ach" checked /></label>
+          <div class="co-field-row">
+            <div class="co-field">
+              <label for="exp">Expiry</label>
+              <input id="exp" name="exp" type="text" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/YY" />
+            </div>
+            <div class="co-field">
+              <label for="cvc">CVC</label>
+              <input id="cvc" name="cvc" type="text" inputmode="numeric" autocomplete="cc-csc" placeholder="123" />
+            </div>
+            <div class="co-field">
+              <label for="zip">ZIP</label>
+              <input id="zip" name="zip" type="text" autocomplete="postal-code" placeholder="10001" />
+            </div>
           </div>
         </div>
 
-        <p class="checkout-amoe-note font-mono" data-checkout-amoe>No purchase necessary. <a href="free-entry.html">Free alternate entry</a> available, same odds. Details in <a href="rules.html">Official Rules</a>.</p>
-
-        <label class="consent">
-          <input type="checkbox" required />
-          <span>I confirm I'm 18+ and a legal resident of an eligible US state (not NY, FL, or RI). I agree to the <a href="rules.html" style="text-decoration:underline;">Official Rules</a>, <a href="terms.html" style="text-decoration:underline;">Terms of Service</a> and <a href="privacy.html" style="text-decoration:underline;">Privacy Policy</a>. NO PURCHASE NECESSARY. I understand entry is final and non-refundable except as described in the rules.</span>
+        <label class="co-consent">
+          <input type="checkbox" name="consent" required />
+          <span>I confirm I'm 18+ and eligible under the <a href="rules.html">Official Rules</a>. NO PURCHASE NECESSARY — <a href="free-entry.html">free entry</a> available with the same odds.</span>
         </label>
 
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-family:'Geist Mono',monospace;font-size:13px;">
-          <span data-bundle-tickets>5 tickets · Sweepstakes #1</span>
-          <strong data-bundle-total>$45.00</strong>
-        </div>
-        <button type="submit" class="co-submit-cta" data-bundle-cta>Confirm entry — $45</button>
-        <p class="field-help text-center checkout-form__fine" data-checkout-fine>Charged today · Entry confirmed instantly · Refund if sweepstakes is canceled</p>
-        <p class="checkout-form__notice font-mono" data-checkout-notice hidden role="status"></p>
-        </form>
+        <p class="co-form-note font-mono" data-checkout-amoe>No purchase necessary. <a href="free-entry.html">Free alternate entry</a>.</p>
+        <p class="co-form-status font-mono" data-checkout-notice hidden role="status"></p>
 
-        <section class="co-prize-showcase co-prize-showcase--desktop" data-checkout-showcase aria-label="Prize preview">
-          <div class="co-prize-gallery" data-checkout-gallery></div>
-          <div class="co-prize-showcase__meta">
-            <p class="co-prize-hook font-quote" data-checkout-hook></p>
-            <div class="co-prize-chips" data-checkout-chips></div>
-          </div>
-        </section>
-
-        <section class="co-prize-detail" data-checkout-detail aria-label="Prize details"></section>
-      </div>
+        <button type="submit" class="co-pay-submit btn btn-primary btn-xl btn-block" data-bundle-cta data-checkout-submit>
+          Pay $45.00
+        </button>
+        <p class="co-form-fine font-mono" data-checkout-fine>Secure checkout · Entry confirmed instantly</p>
+      </form>
     </div>
   </main>
 

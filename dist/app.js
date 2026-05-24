@@ -295,11 +295,11 @@
           const unit = (parseFloat(price) / parseInt(entries, 10)).toFixed(2);
           coLines.textContent = `${entries} entries × $${unit}`;
         }
-        const submit = document.querySelector('.co-submit-cta');
+        const submit = document.querySelector('[data-checkout-submit], [data-bundle-cta]');
         if (submit) {
           submit.textContent = document.body.classList.contains('gv-prelaunch')
             ? PRESALE_CTA_LABEL
-            : `Confirm entry — $${price}`;
+            : `Pay $${parseFloat(price).toFixed(2)}`;
         }
       }
 
@@ -511,70 +511,44 @@
       const plans = {
         monthly: {
           title: 'Gaviom+ · Monthly',
-          cat: 'Membership · $17/mo',
-          sub: '5–8 tickets/month across the eligible contest pool, you choose the split. Pool announced before billing. Premium prizes sold separately.',
+          detail: '5–8 tickets/month · Renews monthly',
           price: 17,
-          period: '/month',
-          tickets: 'Gaviom+ · Monthly · 5–8 tickets',
-          cta: 'Join Gaviom+ — $17/mo',
-          help: 'Billed monthly · Cancel anytime · Split tickets in pool · No rollover · See membership.html',
+          cta: 'Pay $17.00 / month',
+          help: 'Billed monthly · Cancel anytime · See membership.html',
         },
         annual: {
           title: 'Gaviom+ · Monthly',
-          cat: 'Membership · $17/mo',
-          sub: '5–8 tickets/month across the eligible contest pool, you choose the split. Pool announced before billing. Premium prizes sold separately.',
+          detail: '5–8 tickets/month · Renews monthly',
           price: 17,
-          period: '/month',
-          tickets: 'Gaviom+ · Monthly · 5–8 tickets',
-          cta: 'Join Gaviom+ — $17/mo',
-          help: 'Billed monthly · Cancel anytime · Split tickets in pool · No rollover · See membership.html',
+          cta: 'Pay $17.00 / month',
+          help: 'Billed monthly · Cancel anytime · See membership.html',
         },
       };
       const m = plans[plan] || plans.monthly;
       const fmt = (n) => '$' + parseFloat(n).toFixed(2);
 
-      document.title = 'Pre-order Gaviom+ — Gaviom';
+      document.title = 'Checkout Gaviom+ — Gaviom';
 
-      const heading = document.querySelector('[data-checkout-heading]');
-      const subEl = document.querySelector('[data-checkout-sub]');
-      const back = document.querySelector('[data-checkout-back]');
+      const kicker = document.querySelector('[data-checkout-kicker]');
       const titleEl = document.querySelector('[data-checkout-title]');
-      const catEl = document.querySelector('[data-checkout-cat]');
-      const oddsEl = document.querySelector('[data-checkout-odds]');
-      const imgWrap = document.querySelector('.summary-thumb');
-      const bonus = document.querySelector('[data-checkout-bonus]');
-      const strikeRow = document.querySelector('[data-co-strike]');
-      const discountRow = document.querySelector('[data-co-discount]');
-      const totalEl = document.querySelector('[data-bundle-total]');
+      const detailLine = document.querySelector('[data-checkout-detail-line]');
       const coTotal = document.querySelector('[data-co-total]');
-      const coSub = document.querySelector('[data-co-sub]');
-      const coLines = document.querySelector('[data-co-lines]');
-      const ticketsEl = document.querySelector('[data-bundle-tickets]');
-      const submit = document.querySelector('.co-submit-cta, [data-bundle-cta]');
+      const back = document.querySelector('[data-checkout-back]');
+      const submit = document.querySelector('[data-checkout-submit], [data-bundle-cta]');
       const help = document.querySelector('[data-checkout-fine]');
+      const amoe = document.querySelector('[data-checkout-amoe]');
 
-      if (heading) heading.textContent = 'Pre-order your membership.';
-      if (subEl) subEl.textContent = m.sub;
+      if (kicker) kicker.textContent = 'Membership';
+      if (titleEl) titleEl.textContent = m.title;
+      if (detailLine) detailLine.textContent = m.detail;
+      if (coTotal) coTotal.textContent = fmt(m.price);
       if (back) {
         back.href = '/membership.html';
-        back.textContent = '← Back to Gaviom+';
+        back.textContent = '← Back';
       }
-      if (titleEl) titleEl.textContent = m.title;
-      if (catEl) catEl.textContent = m.cat;
-      if (oddsEl) oddsEl.textContent = 'Renews ' + (plan === 'annual' ? 'annually' : 'monthly');
-      if (imgWrap) {
-        imgWrap.innerHTML = '<div class="checkout-mem-badge"><span class="brand-mark">G</span><span>Gaviom+</span></div>';
-      }
-      if (bonus) bonus.style.display = 'none';
-      if (strikeRow) strikeRow.style.display = 'none';
-      if (discountRow) discountRow.style.display = 'none';
-      if (coLines) coLines.textContent = m.tickets;
-      if (ticketsEl) ticketsEl.textContent = m.tickets;
-      if (totalEl) totalEl.textContent = fmt(m.price);
-      if (coTotal) coTotal.textContent = fmt(m.price);
-      if (coSub) coSub.textContent = fmt(m.price);
       if (submit) submit.textContent = m.cta;
       if (help) help.textContent = m.help;
+      if (amoe) amoe.hidden = true;
     }
 
     const CHECKOUT_PRIZES = {
@@ -792,202 +766,33 @@
       },
     };
 
-    function renderCheckoutGallery(container, images, alt) {
-      if (!container || !images || !images.length) return;
-      const safeAlt = alt || 'Prize photo';
-      const thumbSrc = (src) => {
-        if (/images\.unsplash\.com/.test(src)) return src.replace(/w=\d+/, 'w=400');
-        if (/\/images\/.+\.webp$/i.test(src)) return src.replace(/\.webp$/i, '-480w.webp');
-        return `${src}${src.includes('?') ? '&' : '?'}w=400&q=80`;
-      };
-      const thumbs = images
-        .map(
-          (src, i) =>
-            `<button type="button" class="co-prize-gallery__thumb${i === 0 ? ' is-active' : ''}" data-co-gallery-thumb aria-label="View image ${i + 1}"><div class="prize-photo-wrap"><img class="prize-photo" src="${thumbSrc(src)}" alt="" loading="lazy" /></div></button>`
-        )
-        .join('');
-      container.innerHTML = `
-        <div class="co-prize-gallery__main">
-          <div class="prize-photo-wrap"><img class="prize-photo" data-co-gallery-main src="${images[0]}" alt="${safeAlt}" loading="eager" /></div>
-        </div>
-        <div class="co-prize-gallery__thumbs">${thumbs}</div>`;
-      const main = container.querySelector('[data-co-gallery-main]');
-      container.querySelectorAll('[data-co-gallery-thumb]').forEach((btn, index) => {
-        btn.addEventListener('click', () => {
-          container.querySelectorAll('[data-co-gallery-thumb]').forEach((b) => b.classList.remove('is-active'));
-          btn.classList.add('is-active');
-          if (main && images[index]) main.src = images[index];
-        });
-      });
-    }
-
-    function renderCheckoutDetail(container, prize) {
-      if (!container || !prize.sections) return;
-      const blocks = prize.sections
-        .map((sec) => {
-          let body = '';
-          if (sec.type === 'includes' && sec.items) {
-            body = `<ul class="co-prize-includes">${sec.items.map((t) => `<li>${t}</li>`).join('')}</ul>`;
-          } else if (sec.type === 'pills' && sec.items) {
-            body = `<div class="co-prize-pills">${sec.items.map((t) => `<span class="co-prize-pill">${t}</span>`).join('')}</div>`;
-          } else if (sec.type === 'list' && sec.items) {
-            body = `<ul>${sec.items.map((t) => `<li>${t}</li>`).join('')}</ul>`;
-          } else if (sec.text) {
-            body = `<p>${sec.text}</p>`;
-          }
-          return `<div class="co-prize-block"><h3>${sec.title}</h3>${body}</div>`;
-        })
-        .join('');
-      container.innerHTML = `
-        <h2 class="co-prize-detail__title font-display">What you're playing for</h2>
-        <p class="co-prize-detail__lede">${prize.lede}</p>
-        <div class="co-prize-blocks">${blocks}</div>`;
-    }
-
-    function renderCheckoutShowcase(prize) {
-      const showcase = document.querySelector('[data-checkout-showcase]');
-      const gallery = document.querySelector('[data-checkout-gallery]');
-      const hookEl = document.querySelector('[data-checkout-hook]');
-      const chipsEl = document.querySelector('[data-checkout-chips]');
-      const detailEl = document.querySelector('[data-checkout-detail]');
-      if (showcase) showcase.hidden = false;
-      if (gallery) renderCheckoutGallery(gallery, prize.images, prize.title);
-      if (hookEl) hookEl.textContent = prize.hook;
-      if (chipsEl) {
-        const maxLabel =
-          prize.maxEntries != null
-            ? `<span class="co-prize-chip">Max ${Number(prize.maxEntries).toLocaleString('en-US')} tickets</span>`
-            : '';
-        chipsEl.innerHTML = `
-          <span class="co-prize-chip co-prize-chip--value">${prize.value}</span>
-          <span class="co-prize-chip">${prize.draw}</span>
-          <span class="co-prize-chip">1 in ${prize.odds.toLocaleString('en-US')}</span>
-          ${maxLabel}`;
-      }
-      if (detailEl) renderCheckoutDetail(detailEl, prize);
-    }
-
-    function initCheckoutPrize() {
-      const params = new URLSearchParams(window.location.search);
-      const plan = params.get('plan');
-
-      const amoeCard = document.querySelector('[data-checkout-amoe]');
-      const membershipUpsell = document.querySelector('[data-checkout-membership-upsell]');
-      const showcase = document.querySelector('[data-checkout-showcase]');
-      const detailEl = document.querySelector('[data-checkout-detail]');
-
-      if (plan === 'monthly' || plan === 'annual') {
-        if (amoeCard) amoeCard.hidden = true;
-        if (membershipUpsell) membershipUpsell.hidden = true;
-        if (showcase) showcase.hidden = true;
-        if (detailEl) detailEl.innerHTML = '';
-        initCheckoutMembership(plan);
-        return;
-      }
-
-      if (amoeCard) amoeCard.hidden = false;
-      if (membershipUpsell) membershipUpsell.hidden = false;
-
-      const key = params.get('prize') || 'msc';
-      const p = CHECKOUT_PRIZES[key] || CHECKOUT_PRIZES.msc;
-      renderCheckoutShowcase(p);
-
-      const back = document.querySelector('[data-checkout-back]');
-      if (back) {
-        back.href = p.back;
-        back.textContent = '← Back to prize';
-      }
-
-      const titleEl = document.querySelector('[data-checkout-title]');
-      const catEl = document.querySelector('[data-checkout-cat]');
-      const imgEl = document.querySelector('[data-checkout-img]');
-      const oddsEl = document.querySelector('[data-checkout-odds]');
-      const valueEl = document.querySelector('[data-checkout-value]');
-      const drawEl = document.querySelector('[data-checkout-draw]');
-      const subEl = document.querySelector('[data-checkout-sub]');
-      if (titleEl) titleEl.textContent = p.title;
-      if (catEl) catEl.textContent = p.cat;
-      if (imgEl) imgEl.src = p.images[0].replace('w=1200', 'w=400');
-      if (oddsEl) oddsEl.textContent = 'Odds 1 in ' + p.odds.toLocaleString('en-US');
-      if (valueEl) valueEl.textContent = p.value;
-      if (drawEl) drawEl.textContent = p.draw;
-
-      const bundleKey = params.get('bundle') || '5';
-      const b = p.bundles[bundleKey] || p.bundles[5] || p.bundles[1];
-      if (!b) return;
-
-      const price = b.price;
-      const entries = b.entries;
-      const unit = (price / entries).toFixed(2);
-      const fmt = (n) => '$' + parseFloat(n).toFixed(2);
-
-      const totalEl = document.querySelector('[data-bundle-total]');
-      const coTotal = document.querySelector('[data-co-total]');
-      const coSub = document.querySelector('[data-co-sub]');
-      const coLines = document.querySelector('[data-co-lines]');
-      const ticketsEl = document.querySelector('[data-bundle-tickets]');
-      const submit = document.querySelector('.co-submit-cta, [data-bundle-cta]');
-      const bonus = document.querySelector('[data-checkout-bonus]');
-      const strikeRow = document.querySelector('[data-co-strike]');
-      const discountRow = document.querySelector('[data-co-discount]');
-
-      if (totalEl) totalEl.textContent = fmt(price);
-      if (coTotal) coTotal.textContent = fmt(price);
-      if (coSub) coSub.textContent = fmt(price);
-      if (coLines) coLines.textContent = `${entries} entries × $${unit}`;
-      if (ticketsEl) ticketsEl.textContent = `${entries} ticket${entries === 1 ? '' : 's'} · ${p.cat}`;
-      if (submit) {
-        submit.textContent = document.body.classList.contains('gv-prelaunch')
-          ? PRESALE_CTA_LABEL
-          : `Confirm entry — $${price}`;
-      }
-      if (bonus) {
-        const improved = Math.round(p.odds / entries);
-        bonus.innerHTML = `<strong>Improving your odds</strong>, With ${entries} entr${entries === 1 ? 'y' : 'ies'}, your probability of winning rises from 1 in ${p.odds.toLocaleString('en-US')} → 1 in ${improved.toLocaleString('en-US')}. ~${entries}× better.`;
-      }
-      if (strikeRow && b.strike) {
-        strikeRow.style.display = '';
-        strikeRow.querySelector('span').textContent = `$${b.strike.toFixed(2)} (1 entry × ${entries})`;
-        if (discountRow) {
-          discountRow.style.display = '';
-          discountRow.querySelector('span:last-child').textContent = `−$${b.save.toFixed(2)}`;
-        }
-      } else if (strikeRow) {
-        strikeRow.style.display = 'none';
-        if (discountRow) discountRow.style.display = 'none';
-      }
-      if (subEl) {
-        subEl.textContent = Date.now() < FIRST_DRAW_AT
-          ? `Pre-sale is open for ${p.title}. Your ${entries} entr${entries === 1 ? 'y' : 'ies'} count toward Draw #1 (Sunday, July 5 · 8pm ET).`
-          : `You're in for ${p.draw}. ${entries} entr${entries === 1 ? 'y is' : 'ies are'} locked in for ${p.title}.`;
-      }
-    }
-
-    function initPaymentMore() {
-      const toggle = document.querySelector('[data-pay-more-toggle]');
-      const panel = document.querySelector('[data-pay-more-panel]');
-      if (!toggle || !panel) return;
-      toggle.addEventListener('click', () => {
-        const open = panel.classList.toggle('open');
-        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-        toggle.textContent = open ? 'Fewer payment methods ↑' : 'More payment methods ↓';
-      });
-      panel.querySelectorAll('.pay-alt').forEach((row) => {
-        row.addEventListener('click', () => {
-          panel.querySelectorAll('.pay-alt').forEach((r) => r.classList.remove('selected'));
-          row.classList.add('selected');
-          const radio = row.querySelector('input[type="radio"]');
-          if (radio) radio.checked = true;
-        });
-      });
-    }
-
     function showCheckoutNotice(message, isError) {
       const notice = document.querySelector('[data-checkout-notice]');
       if (!notice) return;
       notice.hidden = false;
       notice.textContent = message;
       notice.classList.toggle('is-error', Boolean(isError));
+    }
+
+    function initCheckoutPayMethods() {
+      const form = document.getElementById('gaviom-checkout');
+      const cardPanel = document.querySelector('[data-checkout-card-panel]');
+      if (!form || !cardPanel) return;
+
+      const sync = () => {
+        const method = form.querySelector('input[name="pay_method"]:checked');
+        const isCard = method && method.value === 'card';
+        cardPanel.hidden = !isCard;
+        if (isCard) {
+          const card = cardPanel.querySelector('#card');
+          if (card) card.focus({ preventScroll: true });
+        }
+      };
+
+      form.querySelectorAll('input[name="pay_method"]').forEach((radio) => {
+        radio.addEventListener('change', sync);
+      });
+      sync();
     }
 
     function initCheckoutForm() {
@@ -997,7 +802,8 @@
       form.addEventListener('submit', (e) => {
         e.preventDefault();
         const email = form.querySelector('#email');
-        const consent = form.querySelector('.consent input[type="checkbox"]');
+        const consent = form.querySelector('.co-consent input[type="checkbox"]');
+        const method = form.querySelector('input[name="pay_method"]:checked');
         if (email && !email.value.trim()) {
           email.focus();
           showCheckoutNotice('Enter your email to continue.', true);
@@ -1005,51 +811,78 @@
         }
         if (consent && !consent.checked) {
           consent.focus();
-          showCheckoutNotice('Please confirm eligibility and accept the rules to continue.', true);
+          showCheckoutNotice('Please confirm eligibility to continue.', true);
           return;
         }
-        const submit = form.querySelector('.co-submit-cta');
+        if (method && method.value === 'card') {
+          const card = form.querySelector('#card');
+          if (card && !card.value.trim()) {
+            card.focus();
+            showCheckoutNotice('Enter your card number.', true);
+            return;
+          }
+        }
+        const submit = form.querySelector('[data-checkout-submit], [data-bundle-cta]');
         if (submit) {
           submit.disabled = true;
-          submit.textContent = 'Entry reserved — confirmation soon';
+          submit.textContent = 'Processing…';
         }
+        const methodLabel = method ? method.value : 'payment';
         showCheckoutNotice(
-          'Pre-sale checkout is a preview. Payment will open at launch — your details are not charged yet.',
+          `Pre-sale preview — ${methodLabel} checkout opens at launch. You are not charged yet.`,
           false
         );
       });
     }
 
-    function initCheckoutPayButtons() {
-      const payCard = document.querySelector('[data-checkout-pay]');
-      if (!payCard) return;
+    function initCheckoutPrize() {
+      const form = document.getElementById('gaviom-checkout');
+      if (!form) return;
 
-      const focusCard = () => {
-        const card = payCard.querySelector('#card');
-        if (card) {
-          card.focus({ preventScroll: false });
-          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      };
+      const params = new URLSearchParams(window.location.search);
+      const plan = params.get('plan');
 
-      payCard.querySelectorAll('.pay-btn').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          focusCard();
-          showCheckoutNotice('Express checkout opens at launch. Enter your card below for now.', false);
-        });
-      });
-    }
+      if (plan === 'monthly' || plan === 'annual') {
+        initCheckoutMembership(plan);
+        return;
+      }
 
-    function focusCheckoutOnMobile() {
-      if (!document.body.classList.contains('checkout-page')) return;
-      if (!window.matchMedia('(max-width: 768px)').matches) return;
-      requestAnimationFrame(() => {
-        window.scrollTo(0, 0);
-      });
+      const key = params.get('prize') || 'msc';
+      const p = CHECKOUT_PRIZES[key] || CHECKOUT_PRIZES.msc;
+      const bundleKey = params.get('bundle') || '5';
+      const b = p.bundles[bundleKey] || p.bundles[5] || p.bundles[1];
+      if (!b) return;
+
+      const price = b.price;
+      const entries = b.entries;
+      const fmt = (n) => '$' + parseFloat(n).toFixed(2);
+
+      const back = document.querySelector('[data-checkout-back]');
+      const kicker = document.querySelector('[data-checkout-kicker]');
+      const titleEl = document.querySelector('[data-checkout-title]');
+      const detailLine = document.querySelector('[data-checkout-detail-line]');
+      const coTotal = document.querySelector('[data-co-total]');
+      const submit = document.querySelector('[data-checkout-submit], [data-bundle-cta]');
+
+      if (back) {
+        back.href = p.back;
+        back.textContent = '← Back';
+      }
+      if (kicker) kicker.textContent = 'Pre-order entry';
+      if (titleEl) titleEl.textContent = p.title;
+      if (detailLine) {
+        detailLine.textContent = `${entries} entr${entries === 1 ? 'y' : 'ies'} · ${p.draw} · Odds 1 in ${p.odds.toLocaleString('en-US')}`;
+      }
+      if (coTotal) coTotal.textContent = fmt(price);
+      if (submit) {
+        submit.textContent = document.body.classList.contains('gv-prelaunch')
+          ? PRESALE_CTA_LABEL
+          : `Pay ${fmt(price)}`;
+      }
     }
 
     function initBrandHome() {
-      document.querySelectorAll('header a.brand, .checkout-nav a.brand, .footer-brand a.brand').forEach((el) => {
+      document.querySelectorAll('header a.brand, .co-head a.brand, .footer-brand a.brand').forEach((el) => {
         const href = el.getAttribute('href');
         if (!href || href === '#') el.setAttribute('href', '/');
       });
@@ -1360,10 +1193,8 @@
       run(initPlaceholders);
       run(initGallery);
       run(initCheckoutPrize);
-      run(initPaymentMore);
+      run(initCheckoutPayMethods);
       run(initCheckoutForm);
-      run(initCheckoutPayButtons);
-      run(focusCheckoutOnMobile);
     }
 
   if (document.readyState === 'loading') {
