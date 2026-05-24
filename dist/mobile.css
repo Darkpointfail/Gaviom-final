@@ -123,7 +123,7 @@ body.nav-open .nav-menu-icon::after {
   z-index: 210;
   width: min(100%, 320px);
   max-width: 100%;
-  background: var(--paper);
+  background-color: var(--paper);
   border-left: 1px solid var(--line);
   box-shadow: var(--sh-3);
   display: flex;
@@ -439,17 +439,26 @@ body.nav-open .nav-menu-icon::after {
     padding: 24px 20px;
   }
 
-  .hero-home--video {
-    min-height: 0;
-    padding: 40px 0 56px;
+  /* Home hero — align with desktop (video + gradient, no cream card) */
+  .hero-home--video .hero-home__copy {
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
   }
 
-  .hero-home__content .hero-grid {
-    gap: 24px;
+  .hero-home--video .hero-overlay {
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(in oklab, var(--paper) 52%, transparent) 0%,
+        color-mix(in oklab, var(--paper) 28%, transparent) 65%,
+        transparent 100%
+      );
   }
 
   .hero-title,
-  .hero-home--video .hero-text .hero-title,
   .h-hero,
   .h-section,
   .h-cta,
@@ -465,39 +474,6 @@ body.nav-open .nav-menu-icon::after {
     overflow-wrap: break-word;
     word-wrap: break-word;
     hyphens: auto;
-  }
-
-  .hero-title,
-  .hero-home--video .hero-text .hero-title {
-    font-size: clamp(32px, 9vw, 48px);
-    line-height: 1.05;
-    color: var(--ink);
-  }
-
-  .hero-home--video .hero-overlay {
-    background:
-      linear-gradient(
-        180deg,
-        color-mix(in oklab, var(--paper) 90%, transparent) 0%,
-        color-mix(in oklab, var(--paper) 75%, transparent) 50%,
-        color-mix(in oklab, var(--paper) 55%, transparent) 100%
-      );
-  }
-
-  .hero-home--video .hero-home__copy {
-    position: relative;
-    z-index: 5;
-    padding: 18px 16px;
-    background: color-mix(in oklab, var(--paper) 94%, transparent);
-    border: 1px solid color-mix(in oklab, var(--line) 75%, transparent);
-    border-radius: var(--r-lg);
-    box-shadow: 0 10px 36px color-mix(in oklab, var(--ink) 10%, transparent);
-  }
-
-  .hero-home--video .hero-eyebrow,
-  .hero-home--video .hero-supertitle,
-  .hero-home--video .hero-title {
-    text-shadow: none;
   }
 
   .page-hero .h-hero,
@@ -1112,8 +1088,21 @@ body.nav-open .nav-menu-icon::after {
     padding: 0;
   }
 
+  body.prizes-page .sweep-stack {
+    background: var(--ink);
+  }
+
+  body.prizes-page .sweep-panel-wrap {
+    background: var(--ink);
+  }
+
+  body.prizes-page .sweep-panel-wrap {
+    position: relative;
+    z-index: 1;
+  }
+
   body.prizes-page .sweep-panel-wrap + .sweep-panel-wrap {
-    margin-top: -2.5vh;
+    margin-top: 0;
   }
 
   body.prizes-page .sweep-panel {
@@ -1122,8 +1111,9 @@ body.nav-open .nav-menu-icon::after {
     flex-direction: row !important;
     align-items: flex-end !important;
     justify-content: flex-end !important;
-    min-height: 92svh !important;
-    min-height: 92dvh !important;
+    height: 100svh !important;
+    min-height: 100svh !important;
+    max-height: 100svh !important;
     overflow: hidden !important;
   }
 
@@ -1150,7 +1140,7 @@ body.nav-open .nav-menu-icon::after {
     object-fit: cover;
     object-position: center;
     filter: saturate(1.08) contrast(1.06);
-    transform: scale(1.02);
+    transform: none;
   }
 
   body.prizes-page .sweep-panel--grand .sweep-panel__media img {
@@ -1174,13 +1164,14 @@ body.nav-open .nav-menu-icon::after {
 
   body.prizes-page .sweep-panel__content.wrap {
     position: relative;
-    z-index: 2;
+    z-index: 12;
     width: 100% !important;
     max-width: none !important;
     margin: 0 !important;
     padding: 0 16px calc(28px + var(--safe-bottom)) !important;
     background: transparent !important;
     border: none !important;
+    pointer-events: auto;
   }
 
   body.prizes-page .sweep-panel__title,
@@ -1238,9 +1229,16 @@ body.nav-open .nav-menu-icon::after {
   }
 
   body.prizes-page .sweep-panel__cta {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     min-width: 0;
     min-height: 48px;
+    position: relative;
+    z-index: 15;
+    visibility: visible;
+    opacity: 1;
   }
 
   body.prizes-page .sweep-outro {
@@ -1266,9 +1264,18 @@ body.nav-open .nav-menu-icon::after {
     touch-action: pan-y;
   }
 
+  body.prizes-page .sweep-scroll {
+    background: var(--ink);
+  }
+
   body.prizes-page .sweep-stack {
     background: var(--ink);
     gap: 0;
+    margin-top: 0;
+  }
+
+  body.prizes-page .sweep-panel-wrap + .sweep-panel-wrap {
+    margin-top: 0;
   }
 
   body.prizes-page .sweep-hero,
@@ -1281,10 +1288,6 @@ body.nav-open .nav-menu-icon::after {
     scroll-snap-align: none;
     scroll-margin-top: 0;
     scroll-margin-bottom: 0;
-  }
-
-  body.prizes-page .sweep-panel__content.wrap {
-    padding-bottom: calc(36px + var(--safe-bottom)) !important;
   }
 
   /* Portrait mobile art for scuba + Vegas panels */

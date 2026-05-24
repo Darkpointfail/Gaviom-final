@@ -123,7 +123,7 @@ body.nav-open .nav-menu-icon::after {
   z-index: 210;
   width: min(100%, 320px);
   max-width: 100%;
-  background: var(--paper);
+  background-color: var(--paper);
   border-left: 1px solid var(--line);
   box-shadow: var(--sh-3);
   display: flex;
