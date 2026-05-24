@@ -944,17 +944,19 @@
         videoOk = true;
         if (fallbackTimer) clearTimeout(fallbackTimer);
         section.classList.add('hero-home--video-ready', 'hero-home--video-live');
-        section.classList.remove('hero-home--video-fallback');
-        if (slideRoot) slideRoot.hidden = false;
+        section.classList.remove('hero-home--video-fallback', 'hero-home--video-pending');
+        if (slideRoot) slideRoot.hidden = true;
         ensureHeroContentVisible();
       }
 
       function markVideoFallback() {
         videoOk = false;
         if (fallbackTimer) clearTimeout(fallbackTimer);
-        section.classList.remove('hero-home--video-ready', 'hero-home--video-live');
+        section.classList.remove('hero-home--video-ready', 'hero-home--video-live', 'hero-home--video-pending');
         section.classList.add('hero-home--video-fallback');
-        if (slideRoot) slideRoot.hidden = false;
+        if (slideRoot) {
+          slideRoot.hidden = false;
+        }
         if (video) {
           video.classList.remove('is-active');
           video.pause();
@@ -968,15 +970,28 @@
 
       function startHeroVideo() {
         ensureHeroContentVisible();
-        if (slideRoot) slideRoot.hidden = false;
 
         if (reducedMotion || !video) {
           markVideoFallback();
           return;
         }
 
+        section.classList.add('hero-home--video-pending');
+        section.classList.remove('hero-home--video-fallback');
+        if (slideRoot) slideRoot.hidden = true;
+
+        if (canUseVideo()) {
+          video.classList.add('is-active');
+          playClip().then((ok) => {
+            if (ok && canUseVideo()) markVideoReady();
+            else if (!videoOk) markVideoFallback();
+          });
+          return;
+        }
+
         videoOk = false;
-        section.classList.remove('hero-home--video-ready', 'hero-home--video-live', 'hero-home--video-fallback');
+        section.classList.remove('hero-home--video-ready', 'hero-home--video-live');
+        video.load();
 
         if (fallbackTimer) clearTimeout(fallbackTimer);
         fallbackTimer = setTimeout(() => {
@@ -995,11 +1010,23 @@
         section.dataset.heroVideoBound = '1';
 
         if (video) {
+          video.load();
           video.addEventListener('playing', () => {
             if (video.videoWidth > 0) markVideoReady();
           });
           video.addEventListener('loadeddata', () => {
-            if (canUseVideo()) markVideoReady();
+            if (canUseVideo()) {
+              playClip().then((ok) => {
+                if (ok) markVideoReady();
+              });
+            }
+          });
+          video.addEventListener('canplay', () => {
+            if (canUseVideo() && !videoOk) {
+              playClip().then((ok) => {
+                if (ok) markVideoReady();
+              });
+            }
           });
           video.addEventListener('error', () => {
             if (!videoOk) markVideoFallback();

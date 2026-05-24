@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Geist+Mono:wght@400;500&family=Geist:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet" />
-  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
-  <link rel="preload" as="image" type="image/webp" href="/images/cruise-hero-1280w.webp" fetchpriority="high" />
-  <link rel="stylesheet" href="/styles.css?v=20260522-mark3" />
+  <link rel="preconnect" href="https://videos.pexels.com" crossorigin />
+  <link rel="preconnect" href="https://images.pexels.com" crossorigin />
+  <link rel="stylesheet" href="/styles.css?v=20260522-hero" />
   <link rel="stylesheet" href="/mobile.css?v=20260522-touch" />
 </head>
 <body>
@@ -48,14 +48,14 @@
   </header>
 
   <main>
-    <section class="hero-home hero-home--video">
+    <section class="hero-home hero-home--video hero-home--video-pending">
       <div class="hero-home__video" aria-hidden="true" data-hero-video>
-        <div class="hero-home__slides" data-hero-slides>
+        <div class="hero-home__slides" data-hero-slides hidden>
           <div class="hero-home__slide is-active">
-            <img class="hero-home__slide-img" src="/images/cruise-hero-1280w.webp" srcset="/images/cruise-hero-480w.webp 480w, /images/cruise-hero-800w.webp 800w, /images/cruise-hero-1280w.webp 1280w, /images/cruise-hero-1920w.webp 1920w" sizes="100vw" alt="" width="2400" height="1350" decoding="async" fetchpriority="high" />
+            <img class="hero-home__slide-img" src="/images/cruise-hero-1280w.webp" srcset="/images/cruise-hero-480w.webp 480w, /images/cruise-hero-800w.webp 800w, /images/cruise-hero-1280w.webp 1280w, /images/cruise-hero-1920w.webp 1920w" sizes="100vw" alt="" width="2400" height="1350" decoding="async" loading="lazy" />
           </div>
         </div>
-        <video class="hero-home__clip is-active" autoplay muted loop playsinline preload="none"
+        <video class="hero-home__clip is-active" autoplay muted loop playsinline preload="auto"
           src="https://videos.pexels.com/video-files/856389/856389-uhd_2560_1440_30fps.mp4"></video>
         <div class="hero-overlay" aria-hidden="true"></div>
       </div>
