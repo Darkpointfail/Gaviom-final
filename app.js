@@ -902,6 +902,17 @@
       }
     }
 
+    function initButtonShine() {
+      document.querySelectorAll('.btn-primary').forEach(function (btn, i) {
+        if (btn.querySelector('.btn-shine')) return;
+        var shine = document.createElement('span');
+        shine.className = 'btn-shine';
+        shine.setAttribute('aria-hidden', 'true');
+        shine.style.setProperty('--shine-delay', (i * 0.4) + 's');
+        btn.appendChild(shine);
+      });
+    }
+
     function initBrandHome() {
       document.querySelectorAll('header a.brand, .co-head a.brand, .footer-brand a.brand').forEach((el) => {
         const href = el.getAttribute('href');
@@ -1232,6 +1243,7 @@
           console.error('[Gaviom]', err);
         }
       };
+      run(initButtonShine);
       run(initBrandHome);
       run(initCorporateDemo);
       run(initMemCard);
