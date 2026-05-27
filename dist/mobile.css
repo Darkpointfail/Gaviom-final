@@ -467,6 +467,26 @@ body.nav-open .nav-menu-icon::after {
       );
   }
 
+  /* Home mobile: static responsive background image (no video) */
+  .hero-home--video {
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(in oklab, var(--paper) 10%, transparent) 0%,
+        color-mix(in oklab, var(--paper) 20%, transparent) 62%,
+        color-mix(in oklab, var(--paper) 30%, transparent) 100%
+      ),
+      url("/images/cruise-mobile-hero.png") center 36% / cover no-repeat,
+      var(--ink);
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    background-position: center 36% !important;
+  }
+
+  .hero-home--video .hero-home__video {
+    display: none !important;
+  }
+
   .hero-title,
   .h-hero,
   .h-section,
