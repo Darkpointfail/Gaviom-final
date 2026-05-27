@@ -228,7 +228,10 @@
         navRight.querySelectorAll('a.btn').forEach((a) => {
           actions.appendChild(a.cloneNode(true));
         });
-        if (actions.childElementCount) panelInner.appendChild(actions);
+        if (actions.childElementCount) {
+          panelInner.appendChild(actions);
+          actions.querySelectorAll('a.btn-primary').forEach((a) => applyButtonShine(a, 0));
+        }
       }
 
       panel.append(closeBtn, panelInner);
@@ -902,6 +905,16 @@
       }
     }
 
+    function applyButtonShine(btn, delay) {
+      if (!btn || btn.closest('.bundle-opt') || btn.querySelector('.btn-shine')) return;
+      btn.classList.add('ticket-cta');
+      const shine = document.createElement('span');
+      shine.className = 'btn-shine';
+      shine.setAttribute('aria-hidden', 'true');
+      shine.style.setProperty('--shine-delay', (delay || 0) + 's');
+      btn.insertBefore(shine, btn.firstChild);
+    }
+
     function initButtonShine() {
       const ticketCtaSelector = [
         'a.btn[data-presale-cta]',
@@ -921,19 +934,15 @@
         '.final-ctas a.btn-primary',
         '.sticky-cta a.btn-primary',
         '.nav-right a.btn-primary',
+        '.nav-mobile-actions a.btn-primary',
       ].join(', ');
 
       const seen = new Set();
       document.querySelectorAll(ticketCtaSelector).forEach((btn, i) => {
-        if (seen.has(btn) || btn.closest('.bundle-opt')) return;
+        if (seen.has(btn)) return;
         seen.add(btn);
-        btn.classList.add('ticket-cta');
-        if (btn.querySelector('.btn-shine')) return;
-        const shine = document.createElement('span');
-        shine.className = 'btn-shine';
-        shine.setAttribute('aria-hidden', 'true');
-        shine.style.setProperty('--shine-delay', (i * 0.35) + 's');
-        btn.appendChild(shine);
+        const isNavCta = btn.closest('.nav-right') || btn.closest('.nav-mobile-actions');
+        applyButtonShine(btn, isNavCta ? 0 : i * 0.35);
       });
     }
 
