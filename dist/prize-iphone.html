@@ -168,7 +168,12 @@
     </section>
 
     <section class="full-bleed-quote full-bleed-quote--iphone" aria-label="iPhone 17 Pro Max on marble">
-      <div class="full-bleed-quote__media full-bleed-quote__photo" style="background-image:url('/images/iphone-quote-hero-1280w.webp')"></div>
+      <picture class="full-bleed-quote__media full-bleed-quote__photo">
+        <source media="(min-width: 1280px)" srcset="/images/iphone-quote-hero-1920w.webp" type="image/webp" />
+        <source media="(max-width: 640px)" srcset="/images/iphone-quote-hero-960w.webp" type="image/webp" />
+        <source srcset="/images/iphone-quote-hero-1280w.webp" type="image/webp" />
+        <img src="/images/iphone-quote-hero-1280w.webp" alt="" width="1280" height="857" loading="lazy" decoding="async" />
+      </picture>
       <div class="full-bleed-quote__overlay">
         <p class="full-bleed-quote__text">Unlock. Activate. Done.</p>
         <p class="full-bleed-quote__cap">iPhone 17 Pro Max · Gaviom fulfillment</p>

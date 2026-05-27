@@ -163,6 +163,7 @@ body.prizes-page .sweep-panel__media,
 .sweep-panel__media picture,
 .full-bleed-quote__media,
 .full-bleed-quote__photo,
+.full-bleed-quote__photo img,
 .story-img,
 .winner-spotlight-img,
 .pd-gallery-main,
@@ -3835,19 +3836,20 @@ html:has(body.how-page)::before {
   background-position: center 40%;
   filter: saturate(1.12) contrast(1.06) brightness(0.88);
 }
-.full-bleed-quote--iphone .full-bleed-quote__photo {
-  background-position: center 55%;
+.full-bleed-quote__photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+.full-bleed-quote--iphone .full-bleed-quote__photo img {
+  object-position: center 55%;
   filter: saturate(1.04) contrast(1.05) brightness(0.9);
 }
-@media (min-width: 1280px) {
-  .full-bleed-quote--iphone .full-bleed-quote__photo {
-    background-image: url('/images/iphone-quote-hero-1920w.webp') !important;
-  }
-}
 @media (max-width: 640px) {
-  .full-bleed-quote--iphone .full-bleed-quote__photo {
-    background-image: url('/images/iphone-quote-hero-960w.webp') !important;
-    background-position: center 50%;
+  .full-bleed-quote--iphone .full-bleed-quote__photo img {
+    object-position: center 50%;
   }
 }
 .full-bleed-quote--live-draw .full-bleed-quote__photo + .full-bleed-quote__overlay {

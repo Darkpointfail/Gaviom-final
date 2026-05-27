@@ -238,18 +238,36 @@ body.nav-open .nav-menu-icon::after {
     height: var(--nav-h);
   }
 
+  .nav > .wrap.nav-inner {
+    padding-left: max(22px, calc(22px + var(--safe-left)));
+    padding-right: max(14px, calc(14px + var(--safe-right)));
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
   .nav-inner {
     gap: 10px;
   }
 
-  a.brand,
-  .brand {
+  .nav a.brand,
+  .nav .brand {
+    flex: 0 1 auto;
+    min-width: 0;
+    margin-right: auto;
+    padding-left: 6px;
     font-size: 18px;
   }
 
   .brand-logo {
-    height: 34px;
-    max-width: 128px;
+    height: 32px;
+    max-width: 120px;
+    margin-left: 2px;
+    object-position: left center;
+  }
+
+  .nav-menu-btn {
+    margin: 0;
+    flex-shrink: 0;
   }
 
   .brand-logo--footer {
