@@ -485,6 +485,12 @@ body.nav-open .nav-menu-icon::after {
     hyphens: auto;
   }
 
+  .hero-home--video .hero-title {
+    overflow-wrap: normal;
+    word-wrap: normal;
+    hyphens: none;
+  }
+
   .page-hero .h-hero,
   .page-hero-split .h-hero {
     max-width: 100%;
