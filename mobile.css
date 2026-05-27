@@ -467,19 +467,21 @@ body.nav-open .nav-menu-icon::after {
       );
   }
 
-  /* Home mobile: force static image background instead of video */
-  .hero-home--video .hero-home__clip {
+  /* Home mobile: static responsive background image (no video) */
+  .hero-home--video {
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(in oklab, var(--paper) 18%, transparent) 0%,
+        color-mix(in oklab, var(--paper) 36%, transparent) 62%,
+        color-mix(in oklab, var(--paper) 55%, transparent) 100%
+      ),
+      url("/images/cruise-hero-1280w.webp") center / cover no-repeat,
+      var(--ink);
+  }
+
+  .hero-home--video .hero-home__video {
     display: none !important;
-  }
-
-  .hero-home--video .hero-home__slides {
-    opacity: 1 !important;
-    visibility: visible !important;
-  }
-
-  .hero-home--video .hero-home__slide-img {
-    animation: none;
-    transform: none;
   }
 
   .hero-title,
