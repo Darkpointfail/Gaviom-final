@@ -467,6 +467,21 @@ body.nav-open .nav-menu-icon::after {
       );
   }
 
+  /* Home mobile: force static image background instead of video */
+  .hero-home--video .hero-home__clip {
+    display: none !important;
+  }
+
+  .hero-home--video .hero-home__slides {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .hero-home--video .hero-home__slide-img {
+    animation: none;
+    transform: none;
+  }
+
   .hero-title,
   .h-hero,
   .h-section,
