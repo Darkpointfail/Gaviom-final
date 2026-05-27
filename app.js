@@ -903,13 +903,86 @@
     }
 
     function initButtonShine() {
-      document.querySelectorAll('.btn-primary').forEach(function (btn, i) {
+      const ticketCtaSelector = [
+        'a.btn[data-presale-cta]',
+        'button.btn[data-presale-cta]',
+        'a.btn[data-entry-cta]',
+        'button.btn[data-entry-cta]',
+        'a.btn[data-sticky-cta]',
+        'button.btn[data-sticky-cta]',
+        'a.btn[data-bundle-cta]',
+        'button.btn[data-bundle-cta]',
+        'button.btn[data-checkout-submit]',
+        'a.btn.btn-prize-cta',
+        'button.btn.btn-prize-cta',
+        'a.btn.sweep-panel__cta',
+        '.prize-card-foot .btn.btn-primary',
+        '.spotlight-foot .btn.btn-primary',
+        '.final-ctas a.btn-primary',
+        '.sticky-cta a.btn-primary',
+        '.nav-right a.btn-primary',
+      ].join(', ');
+
+      const seen = new Set();
+      document.querySelectorAll(ticketCtaSelector).forEach((btn, i) => {
+        if (seen.has(btn) || btn.closest('.bundle-opt')) return;
+        seen.add(btn);
+        btn.classList.add('ticket-cta');
         if (btn.querySelector('.btn-shine')) return;
-        var shine = document.createElement('span');
+        const shine = document.createElement('span');
         shine.className = 'btn-shine';
         shine.setAttribute('aria-hidden', 'true');
-        shine.style.setProperty('--shine-delay', (i * 0.4) + 's');
+        shine.style.setProperty('--shine-delay', (i * 0.35) + 's');
         btn.appendChild(shine);
+      });
+    }
+
+    function initBrandLogo() {
+      const LOGO_SRC = '/images/gaviom-logo.webp';
+      const MARK_SRC = '/images/gaviom-mark.webp';
+
+      function stripBrandText(el) {
+        el.querySelectorAll('.brand-mark').forEach((node) => node.remove());
+        Array.from(el.childNodes).forEach((node) => {
+          if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) node.remove();
+        });
+      }
+
+      function makeLogo(src, className) {
+        const img = document.createElement('img');
+        img.className = className;
+        img.src = src;
+        img.alt = '';
+        img.decoding = 'async';
+        img.loading = 'eager';
+        return img;
+      }
+
+      document.querySelectorAll('header a.brand, .co-head a.brand').forEach((el) => {
+        if (el.dataset.brandLogo || el.querySelector('.brand-logo')) return;
+        const isCorp = el.classList.contains('corp-brand');
+        if (isCorp) {
+          const mark = el.querySelector('.brand-mark');
+          if (mark) {
+            mark.replaceWith(makeLogo(MARK_SRC, 'brand-logo brand-logo--mark'));
+          }
+        } else {
+          stripBrandText(el);
+          el.setAttribute('aria-label', el.getAttribute('aria-label') || 'Gaviom home');
+          el.prepend(makeLogo(LOGO_SRC, 'brand-logo'));
+        }
+        el.dataset.brandLogo = '1';
+      });
+
+      document.querySelectorAll('.footer-brand a.brand, .footer-brand > .brand').forEach((el) => {
+        if (el.dataset.brandLogo || el.querySelector('.brand-logo')) return;
+        stripBrandText(el);
+        const img = makeLogo(LOGO_SRC, 'brand-logo brand-logo--footer');
+        if (el.tagName === 'A') {
+          el.setAttribute('aria-label', el.getAttribute('aria-label') || 'Gaviom home');
+        }
+        el.prepend(img);
+        el.dataset.brandLogo = '1';
       });
     }
 
@@ -918,6 +991,29 @@
         const href = el.getAttribute('href');
         if (!href || href === '#') el.setAttribute('href', '/');
       });
+    }
+
+    function initNavScroll() {
+      const nav = document.querySelector('header.nav');
+      if (!nav) return;
+
+      const threshold = 24;
+      let ticking = false;
+
+      function update() {
+        nav.classList.toggle('is-scrolled', window.scrollY > threshold);
+        ticking = false;
+      }
+
+      function onScroll() {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(update);
+        }
+      }
+
+      update();
+      window.addEventListener('scroll', onScroll, { passive: true });
     }
 
     function initHeroDreamVideo() {
@@ -1244,7 +1340,9 @@
         }
       };
       run(initButtonShine);
+      run(initBrandLogo);
       run(initBrandHome);
+      run(initNavScroll);
       run(initCorporateDemo);
       run(initMemCard);
       run(initTouchPressFeedback);
