@@ -476,7 +476,10 @@ body.nav-open .nav-menu-icon::after {
         color-mix(in oklab, var(--paper) 36%, transparent) 62%,
         color-mix(in oklab, var(--paper) 55%, transparent) 100%
       ),
-      url("/images/cruise-hero-1280w.webp") center / cover no-repeat,
+      image-set(
+        url("/images/cruise-pool-deck-1280w.webp") 1x,
+        url("/images/cruise-pool-deck-1920w.webp") 2x
+      ) center 36% / cover no-repeat,
       var(--ink);
   }
 
