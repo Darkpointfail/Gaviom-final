@@ -476,8 +476,7 @@ body.nav-open .nav-menu-icon::after {
         color-mix(in oklab, var(--paper) 20%, transparent) 62%,
         color-mix(in oklab, var(--paper) 30%, transparent) 100%
       ),
-      url("/images/cruise-mobile-hero.png") center 36% / cover no-repeat,
-      url("/images/cruise-hero-1280w.webp") center 36% / cover no-repeat,
+      url("/images/cruise-mobile-hero.png?v=20260527") center 36% / cover no-repeat,
       var(--ink);
     background-repeat: no-repeat !important;
     background-size: cover !important;
