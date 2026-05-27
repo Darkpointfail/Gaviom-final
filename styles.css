@@ -372,6 +372,7 @@ ul { list-style: none; }
 .co-submit-cta.btn-primary .btn-shine,
 .sticky-cta .btn-primary .btn-shine,
 .nav-right .btn-primary .btn-shine,
+.nav-mobile-actions .btn-primary .btn-shine,
 .prize-card-foot .btn-primary .btn-shine,
 .prize-card-foot .btn .btn-shine,
 .spotlight-foot .btn-primary .btn-shine,
@@ -412,6 +413,33 @@ ul { list-style: none; }
   animation: btn-shine 2.8s linear infinite;
   animation-delay: var(--shine-delay, 0s);
 }
+/* Header Pre-order — continuous bright shine loop */
+.nav-right .btn-primary .btn-shine,
+.nav-mobile-actions .btn-primary .btn-shine {
+  z-index: 1;
+}
+.nav-right .btn-primary,
+.nav-mobile-actions .btn-primary {
+  z-index: 0;
+}
+.nav-right .btn-primary .btn-shine::after,
+.nav-mobile-actions .btn-primary .btn-shine::after {
+  width: 44%;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0) 28%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0) 72%,
+    transparent 100%
+  );
+  animation: btn-shine-nav 2.4s linear infinite;
+  animation-delay: 0s;
+}
+@keyframes btn-shine-nav {
+  0%   { transform: translateX(-130%) skewX(-18deg); }
+  100% { transform: translateX(230%) skewX(-18deg); }
+}
 .prize-card-foot .btn-primary,
 .prize-card-foot .btn.btn-primary,
 .spotlight-foot .btn-primary,
@@ -426,7 +454,9 @@ ul { list-style: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .btn-primary .btn-shine::after,
-  .ticket-cta .btn-shine::after {
+  .ticket-cta .btn-shine::after,
+  .nav-right .btn-primary .btn-shine::after,
+  .nav-mobile-actions .btn-primary .btn-shine::after {
     animation: none;
   }
 }
@@ -3795,7 +3825,8 @@ html:has(body.how-page)::before {
 .full-bleed-quote--villa .full-bleed-quote__photo,
 .full-bleed-quote--winners-villa .full-bleed-quote__photo,
 .full-bleed-quote--cruise .full-bleed-quote__photo,
-.full-bleed-quote--vegas .full-bleed-quote__photo {
+.full-bleed-quote--vegas .full-bleed-quote__photo,
+.full-bleed-quote--iphone .full-bleed-quote__photo {
   background-position: center center;
   background-size: cover;
   filter: saturate(1.05) contrast(1.02) brightness(0.98);
@@ -3803,6 +3834,21 @@ html:has(body.how-page)::before {
 .full-bleed-quote--vegas .full-bleed-quote__photo {
   background-position: center 40%;
   filter: saturate(1.12) contrast(1.06) brightness(0.88);
+}
+.full-bleed-quote--iphone .full-bleed-quote__photo {
+  background-position: center 55%;
+  filter: saturate(1.04) contrast(1.05) brightness(0.9);
+}
+@media (min-width: 1280px) {
+  .full-bleed-quote--iphone .full-bleed-quote__photo {
+    background-image: url('/images/iphone-quote-hero-1920w.webp') !important;
+  }
+}
+@media (max-width: 640px) {
+  .full-bleed-quote--iphone .full-bleed-quote__photo {
+    background-image: url('/images/iphone-quote-hero-960w.webp') !important;
+    background-position: center 50%;
+  }
 }
 .full-bleed-quote--live-draw .full-bleed-quote__photo + .full-bleed-quote__overlay {
   background: linear-gradient(
@@ -3815,7 +3861,8 @@ html:has(body.how-page)::before {
 .full-bleed-quote--villa .full-bleed-quote__photo + .full-bleed-quote__overlay,
 .full-bleed-quote--winners-villa .full-bleed-quote__photo + .full-bleed-quote__overlay,
 .full-bleed-quote--cruise .full-bleed-quote__photo + .full-bleed-quote__overlay,
-.full-bleed-quote--vegas .full-bleed-quote__photo + .full-bleed-quote__overlay {
+.full-bleed-quote--vegas .full-bleed-quote__photo + .full-bleed-quote__overlay,
+.full-bleed-quote--iphone .full-bleed-quote__photo + .full-bleed-quote__overlay {
   background: linear-gradient(
     180deg,
     color-mix(in oklab, var(--navy-deep) 14%, transparent) 0%,
@@ -3829,6 +3876,14 @@ html:has(body.how-page)::before {
     color-mix(in oklab, var(--navy-deep) 28%, transparent) 0%,
     color-mix(in oklab, var(--navy) 48%, transparent) 55%,
     color-mix(in oklab, var(--ink-violet) 75%, transparent) 100%
+  );
+}
+.full-bleed-quote--iphone .full-bleed-quote__photo + .full-bleed-quote__overlay {
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--navy-deep) 32%, transparent) 0%,
+    color-mix(in oklab, var(--navy) 52%, transparent) 50%,
+    color-mix(in oklab, var(--ink-violet) 72%, transparent) 100%
   );
 }
 .winners-presale-banner {
