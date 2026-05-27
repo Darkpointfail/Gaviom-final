@@ -12,7 +12,29 @@
   <link rel="preload" as="video" href="/images/hero-ocean-720.mp4" type="video/mp4" media="(min-width: 769px)" />
   <link rel="preload" as="video" href="/images/hero-ocean-360.mp4" type="video/mp4" media="(max-width: 768px)" />
   <link rel="stylesheet" href="/styles.css?v=20260524-hero-fast" />
-  <link rel="stylesheet" href="/mobile.css?v=20260522-touch" />
+  <link rel="stylesheet" href="/mobile.css?v=20260527-mobile-hero-fix" />
+  <style>
+    @media (max-width: 980px) {
+      .hero-home--video {
+        background-image:
+          linear-gradient(
+            180deg,
+            color-mix(in oklab, var(--paper) 10%, transparent) 0%,
+            color-mix(in oklab, var(--paper) 20%, transparent) 62%,
+            color-mix(in oklab, var(--paper) 30%, transparent) 100%
+          ),
+          url("/images/cruise-mobile-hero.png"),
+          url("/images/cruise-hero-1280w.webp") !important;
+        background-repeat: no-repeat !important;
+        background-size: cover !important;
+        background-position: center 36% !important;
+      }
+
+      .hero-home--video .hero-home__video {
+        display: none !important;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="topbar">
