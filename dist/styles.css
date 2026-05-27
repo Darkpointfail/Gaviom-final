@@ -3843,6 +3843,10 @@ html:has(body.how-page)::before {
   object-fit: cover;
   object-position: center center;
 }
+.full-bleed-quote--vegas .full-bleed-quote__photo img {
+  object-position: center 40%;
+  filter: saturate(1.12) contrast(1.06) brightness(0.88);
+}
 .full-bleed-quote--iphone .full-bleed-quote__photo img {
   object-position: center 55%;
   filter: saturate(1.04) contrast(1.05) brightness(0.9);

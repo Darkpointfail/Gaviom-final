@@ -169,7 +169,11 @@
     </section>
 
     <section class="full-bleed-quote full-bleed-quote--vegas" aria-label="Las Vegas Strip at night">
-      <div class="full-bleed-quote__media full-bleed-quote__photo" style="background-image:url('/images/vegas-quote-hero-1280w.webp')"></div>
+      <picture class="full-bleed-quote__media full-bleed-quote__photo">
+        <source media="(min-width: 801px)" srcset="/images/vegas-quote-hero-800w.webp" type="image/webp" />
+        <source media="(max-width: 800px)" srcset="/images/vegas-quote-hero-480w.webp" type="image/webp" />
+        <img src="/images/vegas-quote-hero.webp" alt="" width="1024" height="686" loading="lazy" decoding="async" />
+      </picture>
       <div class="full-bleed-quote__overlay">
         <p class="full-bleed-quote__text">Lights up. Suite door opens. That's the whole plan.</p>
         <p class="full-bleed-quote__cap">Las Vegas · 4 Nights · Gaviom fulfillment</p>
