@@ -971,9 +971,15 @@
         if (el.dataset.brandLogo || el.querySelector('.brand-logo')) return;
         const isCorp = el.classList.contains('corp-brand');
         if (isCorp) {
-          const mark = el.querySelector('.brand-mark');
-          if (mark) {
-            mark.replaceWith(makeLogo(MARK_SRC, 'brand-logo brand-logo--mark'));
+          el.querySelectorAll('.brand-mark').forEach((node) => node.remove());
+          Array.from(el.childNodes).forEach((node) => {
+            if (node.nodeType === Node.TEXT_NODE && /gaviom/i.test(node.textContent)) node.remove();
+          });
+          if (!el.querySelector('.brand-logo--corp')) {
+            const suffix = el.querySelector('.corp-brand__suffix');
+            const img = makeLogo(LOGO_SRC, 'brand-logo brand-logo--corp');
+            if (suffix) el.insertBefore(img, suffix);
+            else el.prepend(img);
           }
         } else {
           stripBrandText(el);

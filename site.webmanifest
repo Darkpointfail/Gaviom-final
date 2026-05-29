@@ -3,12 +3,12 @@
   "short_name": "Gaviom",
   "icons": [
     {
-      "src": "/images/gaviom-favicon-192.png",
+      "src": "/images/gaviom-favicon-192.png?v=20260530",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/images/gaviom-favicon-512.png",
+      "src": "/images/gaviom-favicon-512.png?v=20260530",
       "sizes": "512x512",
       "type": "image/png"
     }

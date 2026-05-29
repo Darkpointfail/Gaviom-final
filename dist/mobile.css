@@ -275,6 +275,27 @@ body.nav-open .nav-menu-icon::after {
     max-width: 140px;
   }
 
+  .corp-brand {
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: min(58vw, 220px);
+    gap: 6px;
+  }
+
+  .brand-logo--corp {
+    height: clamp(24px, 6.5vw, 32px);
+    max-width: min(34vw, 96px);
+  }
+
+  .corp-brand__suffix {
+    font-size: clamp(12px, 3.2vw, 16px);
+  }
+
+  .corp-footer .brand-logo--corp {
+    height: 32px;
+    max-width: 108px;
+  }
+
   .brand-mark {
     width: 28px;
     height: 28px;

@@ -21,6 +21,16 @@ function isRaster(name) {
   return ext === '.png' || ext === '.jpg' || ext === '.jpeg';
 }
 
+/** Favicons and tab marks must stay PNG — HTML and Safari reference .png paths */
+function isFaviconOrBrandRaster(name) {
+  return (
+    /^gaviom-favicon/i.test(name) ||
+    /^gaviom-tab-logo/i.test(name) ||
+    /^gaviom-mark\.png$/i.test(name) ||
+    /^gaviom-logo\.png$/i.test(name)
+  );
+}
+
 function shouldSkipVariant(baseName, width) {
   if (!baseName.includes('-mobile') && !baseName.includes('winners-hero')) return false;
   return width > 800;
@@ -71,7 +81,14 @@ const files = readdirSync(imagesDir).filter(isRaster);
 let converted = 0;
 let skipped = 0;
 
-for (const file of files) {
+const preserved = files.filter(isFaviconOrBrandRaster);
+const toOptimize = files.filter((f) => !isFaviconOrBrandRaster(f));
+
+for (const file of preserved) {
+  console.log(`optimize-images: preserve ${file} (favicon/brand)`);
+}
+
+for (const file of toOptimize) {
   const result = await optimizeOne(file);
   if (result.skipped) skipped += 1;
   else converted += 1;

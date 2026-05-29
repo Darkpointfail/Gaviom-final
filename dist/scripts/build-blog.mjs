@@ -2,6 +2,7 @@ import { mkdirSync, writeFileSync, readdirSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { POSTS, BLOG_META } from '../content/blog/posts.mjs';
+import { faviconHeadLinks } from './favicon-links.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const blogDir = join(root, 'blog');
@@ -56,6 +57,7 @@ function headBlock({ title, description, path, type = 'website', article }) {
 
   return `  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+${faviconHeadLinks()}
   <title>${escapeHtml(title)}</title>
   <meta name="description" content="${escapeHtml(description)}" />
   <link rel="canonical" href="${url}" />
