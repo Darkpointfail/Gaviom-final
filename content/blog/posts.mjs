@@ -2,6 +2,7 @@
 
 import { TRAVEL_POSTS } from './travel-posts.mjs';
 import { PERSONA_POSTS } from './persona-posts.mjs';
+import { SEO_EXPANSION_POSTS } from './seo-expansion-posts.mjs';
 
 /** @type {Post[]} */
 export const POSTS = [
@@ -11,7 +12,7 @@ export const POSTS = [
     description:
       'A clear guide to US sweepstakes law, random draws, official rules, and what legitimate platforms like Gaviom must publish before you enter.',
     date: '2026-05-02',
-    category: 'Basics',
+    category: 'Giveaway Guides',
     readMin: 7,
     related: ['no-purchase-necessary-amoe-explained', 'sweepstakes-lottery-contest-difference', 'live-sweepstakes-draws-youtube'],
     body: `
@@ -49,7 +50,7 @@ export const POSTS = [
     description:
       'Learn what AMOE means, how mail-in free entries must be handled, and why paid and free entries belong in the same random draw pool.',
     date: '2026-05-04',
-    category: 'Legal',
+    category: 'Giveaway Guides',
     readMin: 6,
     related: ['how-online-sweepstakes-work-us', 'online-sweepstakes-legal-by-state', 'entry-bundles-odds-explained'],
     body: `
@@ -81,7 +82,7 @@ export const POSTS = [
     description:
       'Compare sweepstakes, lotteries, and contests in the US: consideration, chance, skill, licensing, and why the labels matter for players and brands.',
     date: '2026-05-06',
-    category: 'Basics',
+    category: 'Giveaway Guides',
     readMin: 5,
     related: ['how-online-sweepstakes-work-us', 'online-sweepstakes-legal-by-state', 'no-purchase-necessary-amoe-explained'],
     body: `
@@ -110,7 +111,7 @@ export const POSTS = [
     description:
       'Overview of US state restrictions (including NY, FL, RI registration triggers), age rules, and how Gaviom addresses void-where-prohibited requirements.',
     date: '2026-05-08',
-    category: 'Legal',
+    category: 'Giveaway Guides',
     readMin: 8,
     related: ['no-purchase-necessary-amoe-explained', 'how-online-sweepstakes-work-us', 'sweepstakes-winnings-taxes'],
     body: `
@@ -141,7 +142,7 @@ export const POSTS = [
     description:
       'From winner notification and identity verification to travel booking or cash alternatives: the step-by-step fulfillment process on Gaviom.',
     date: '2026-05-10',
-    category: 'Winners',
+    category: 'Giveaway Guides',
     readMin: 6,
     related: ['sweepstakes-winnings-taxes', 'prize-escrow-trust-sweepstakes', 'cruise-sweepstakes-prize-guide'],
     body: `
@@ -172,7 +173,7 @@ export const POSTS = [
     description:
       'Public random draws, published seeds, and replayable video: how live streams reduce fraud concerns and build trust in online sweepstakes.',
     date: '2026-05-12',
-    category: 'Trust',
+    category: 'Giveaway Guides',
     readMin: 5,
     related: ['prize-escrow-trust-sweepstakes', 'how-online-sweepstakes-work-us', 'what-happens-when-you-win-sweepstakes'],
     body: `
@@ -201,7 +202,7 @@ export const POSTS = [
     description:
       'Understand capped sweepstakes math, bundle pricing, and why buying more entries helps odds without breaking no-purchase-necessary rules.',
     date: '2026-05-14',
-    category: 'Strategy',
+    category: 'Giveaway Guides',
     readMin: 6,
     related: ['no-purchase-necessary-amoe-explained', 'how-online-sweepstakes-work-us', 'gaviom-plus-monthly-membership'],
     body: `
@@ -227,7 +228,7 @@ export const POSTS = [
     description:
       'Private workplace sweepstakes vs public promotions, HR policy tips, and how Gaviom Perks helps US companies run capped employee draws.',
     date: '2026-05-16',
-    category: 'Business',
+    category: 'Giveaway Guides',
     readMin: 7,
     related: ['how-online-sweepstakes-work-us', 'prize-escrow-trust-sweepstakes', 'entry-bundles-odds-explained'],
     body: `
@@ -257,7 +258,7 @@ export const POSTS = [
     description:
       'Balcony cabins, itineraries, airfare coordination, and cash alternatives explained for MSC-style cruise prizes like Gaviom Grand Sweepstakes #1.',
     date: '2026-05-18',
-    category: 'Prizes',
+    category: 'Giveaway Guides',
     readMin: 6,
     related: ['what-happens-when-you-win-sweepstakes', 'prize-escrow-trust-sweepstakes', 'how-online-sweepstakes-work-us'],
     body: `
@@ -287,7 +288,7 @@ export const POSTS = [
     description:
       'Learn how escrowed prize funds protect players, reduce bait-and-switch risk, and why Gaviom advertises 100% prize value reserved before entries open.',
     date: '2026-05-20',
-    category: 'Trust',
+    category: 'Giveaway Guides',
     readMin: 5,
     related: ['live-sweepstakes-draws-youtube', 'what-happens-when-you-win-sweepstakes', 'how-online-sweepstakes-work-us'],
     body: `
@@ -316,7 +317,7 @@ export const POSTS = [
     description:
       'How the $17/month membership works, ticket splits, eligible contest pools, and what is not included compared to buying premium prizes directly.',
     date: '2026-05-19',
-    category: 'Product',
+    category: 'Giveaway Guides',
     readMin: 6,
     related: ['entry-bundles-odds-explained', 'how-online-sweepstakes-work-us', 'employee-sweepstakes-companies'],
     body: `
@@ -345,7 +346,7 @@ export const POSTS = [
     description:
       'IRS reporting, Form 1099-MISC thresholds, state tax nuances, and why operators collect W-9 information before shipping high-value prizes.',
     date: '2026-05-21',
-    category: 'Winners',
+    category: 'Giveaway Guides',
     readMin: 7,
     related: ['what-happens-when-you-win-sweepstakes', 'online-sweepstakes-legal-by-state', 'cruise-sweepstakes-prize-guide'],
     body: `
@@ -366,11 +367,12 @@ export const POSTS = [
   },
   ...TRAVEL_POSTS,
   ...PERSONA_POSTS,
+  ...SEO_EXPANSION_POSTS,
 ];
 
 export const BLOG_META = {
   siteUrl: 'https://gaviom.com',
   blogTitle: 'Gaviom Blog',
   blogDescription:
-    'Guides on legal US sweepstakes, travel giveaways, vacation contests, free entry (AMOE), odds, live draws, and taxes from the Gaviom team.',
+    'How to win free trips, iPhones, cars, and homes. Guides, tips, and giveaway news from Gaviom — America\'s premium sweepstakes platform.',
 };

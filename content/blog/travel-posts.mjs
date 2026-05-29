@@ -6,7 +6,7 @@ export const TRAVEL_POSTS = [
     title: "How to Enter Travel Sweepstakes and Actually Win",
     description: "Learn how to enter travel sweepstakes legally in the US. Odds, AMOE, and verified operators — start with Gaviom today. Browse capped travel prizes on Gaviom — p",
     date: "2026-05-22",
-    category: "Travel",
+    category: "Travel Giveaways",
     readMin: 8,
     related: ["vacation-sweepstakes-beginners-guide","travel-giveaway-tips-maximize-chances","best-legitimate-travel-giveaways-2026"],
     body: `
@@ -78,7 +78,7 @@ export const TRAVEL_POSTS = [
     title: "Best Legitimate Travel Giveaways in 2026",
     description: "Discover the best legitimate travel giveaways in 2026 — cruise, Vegas, and adventure prizes with published odds. Enter on Gaviom now. Browse capped travel prize",
     date: "2026-05-23",
-    category: "Travel",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["win-a-free-trip-sites-you-can-trust","how-travel-brands-run-legitimate-giveaways","ultimate-guide-vacation-sweepstakes-us"],
     body: `
@@ -149,7 +149,7 @@ export const TRAVEL_POSTS = [
     title: "Win a Free Trip: 10 Trust Signals Every Site Must Show",
     description: "Want to win a free trip? Learn ten trust signals real travel giveaway sites display — then browse capped sweepstakes on Gaviom. Browse capped travel prizes on G",
     date: "2026-05-24",
-    category: "Travel",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["spot-fake-travel-giveaway-vs-real","best-legitimate-travel-giveaways-2026","are-travel-contests-real"],
     body: `
@@ -224,7 +224,7 @@ export const TRAVEL_POSTS = [
     title: "Are Travel Contests Real? What You Need to Know",
     description: "Are travel contests real or scams? Learn how lawful travel contests differ from fake posts — then enter verified vacation sweepstakes on Gaviom. Browse capped t",
     date: "2026-05-25",
-    category: "Travel",
+    category: "Travel Giveaways",
     readMin: 6,
     related: ["sweepstakes-lottery-contest-difference","spot-fake-travel-giveaway-vs-real","how-travel-brands-run-legitimate-giveaways"],
     body: `
@@ -300,7 +300,7 @@ export const TRAVEL_POSTS = [
     title: "How We Give Away Free Vacations (And How You Can Win)",
     description: "How do free vacation giveaways work? Escrow, live draws, and fulfillment explained — win your next trip on Gaviom today. Browse capped travel prizes on Gaviom —",
     date: "2026-05-26",
-    category: "Travel",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["whats-included-travel-prize-package","prize-escrow-trust-sweepstakes","vacation-sweepstakes-beginners-guide"],
     body: `
@@ -374,7 +374,7 @@ export const TRAVEL_POSTS = [
     title: "Vacation Sweepstakes 101: A Beginner's Guide",
     description: "New to vacation sweepstakes? This beginner guide covers rules, AMOE, odds, and trusted sites — start entering on Gaviom today. Browse capped travel prizes on Ga",
     date: "2026-05-27",
-    category: "Travel",
+    category: "Travel Giveaways",
     readMin: 8,
     related: ["how-to-enter-travel-sweepstakes-and-win","ultimate-guide-vacation-sweepstakes-us","travel-giveaway-tips-maximize-chances"],
     body: `
@@ -448,7 +448,7 @@ export const TRAVEL_POSTS = [
     title: "Win a Trip to Las Vegas: Everything Included",
     description: "Win a trip to Las Vegas with flights, suite nights, and show credits explained. Enter the Vegas vacation sweepstakes on Gaviom. Browse capped travel prizes on G",
     date: "2026-05-28",
-    category: "Travel",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["whats-included-travel-prize-package","free-flight-and-hotel-giveaway-legit","win-a-free-trip-sites-you-can-trust"],
     body: `
@@ -522,7 +522,7 @@ export const TRAVEL_POSTS = [
     title: "Free Flight and Hotel Giveaway: Too Good to Be True?",
     description: "Is a free flight and hotel giveaway legit? Learn what sponsors must disclose — then enter verified packages on Gaviom today. Browse capped travel prizes on Gavi",
     date: "2026-05-29",
-    category: "Travel",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["whats-included-travel-prize-package","win-a-trip-to-las-vegas-everything-included","spot-fake-travel-giveaway-vs-real"],
     body: `
@@ -596,7 +596,7 @@ export const TRAVEL_POSTS = [
     title: "Travel Giveaway Tips: Maximize Your Chances Legally",
     description: "Expert travel giveaway tips for capped US sweepstakes — bundles, AMOE, timing, and budget discipline. Enter smart on Gaviom today. Browse capped travel prizes o",
     date: "2026-05-30",
-    category: "Strategy",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["entry-bundles-odds-explained","how-to-enter-travel-sweepstakes-and-win","step-by-step-enter-win-travel-contest"],
     body: `
@@ -670,7 +670,7 @@ export const TRAVEL_POSTS = [
     title: "Psychology of Winning a Vacation Contest",
     description: "Why vacation contests hook us — loss aversion, odds bias, and responsible play. Enter transparent travel sweepstakes on Gaviom today. Browse capped travel prize",
     date: "2026-05-31",
-    category: "Travel",
+    category: "Travel Giveaways",
     readMin: 6,
     related: ["travel-giveaway-tips-maximize-chances","budget-travel-vs-winning-a-trip","why-travel-giveaways-best-marketing"],
     body: `
@@ -743,7 +743,7 @@ export const TRAVEL_POSTS = [
     title: "How Travel Brands Run Legitimate Giveaways",
     description: "Legitimate travel giveaways require legal review, AMOE, registration, and escrow. See how operators like Gaviom comply — enter today. Browse capped travel prize",
     date: "2026-06-01",
-    category: "Travel",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["best-legitimate-travel-giveaways-2026","why-travel-giveaways-best-marketing","prize-escrow-trust-sweepstakes"],
     body: `
@@ -817,7 +817,7 @@ export const TRAVEL_POSTS = [
     title: "What's Included in a Travel Prize Package?",
     description: "Flights, hotels, taxes, and fine print — what's included in a travel prize package? Compare Gaviom specs before you enter to win. Browse capped travel prizes on",
     date: "2026-06-02",
-    category: "Prizes",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["cruise-sweepstakes-prize-guide","free-flight-and-hotel-giveaway-legit","win-a-trip-to-las-vegas-everything-included"],
     body: `
@@ -891,7 +891,7 @@ export const TRAVEL_POSTS = [
     title: "Win a Free Vacation This Year: Here's How",
     description: "Want to win a free vacation this year? Follow this US action plan — rules, AMOE, capped odds — and enter travel sweepstakes on Gaviom. Browse capped travel priz",
     date: "2026-06-03",
-    category: "Travel",
+    category: "Travel Giveaways",
     readMin: 8,
     related: ["how-to-win-a-free-vacation-guide","vacation-sweepstakes-beginners-guide","real-people-won-free-trips"],
     body: `
@@ -965,7 +965,7 @@ export const TRAVEL_POSTS = [
     title: "Real People Who Won Free Trips: What They Did Right",
     description: "Real travel giveaways that are legit produce verifiable winners. Learn common habits before Gaviom's July 2026 founding draws — enter today. Browse capped trave",
     date: "2026-06-04",
-    category: "Travel",
+    category: "Travel Giveaways",
     readMin: 6,
     related: ["win-a-free-vacation-this-year","what-happens-when-you-win-sweepstakes","live-sweepstakes-draws-youtube"],
     body: `
@@ -1038,7 +1038,7 @@ export const TRAVEL_POSTS = [
     title: "Fake Travel Giveaway vs Real: How to Spot the Difference",
     description: "Spot fake travel giveaways with this checklist — rules, AMOE, fees, and live draws. Enter only verified vacation sweepstakes on Gaviom. Browse capped travel pri",
     date: "2026-06-05",
-    category: "Trust",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["win-a-free-trip-sites-you-can-trust","are-travel-contests-real","how-travel-brands-run-legitimate-giveaways"],
     body: `
@@ -1115,7 +1115,7 @@ export const TRAVEL_POSTS = [
     title: "Budget Travel vs Winning a Trip: Which Saves More?",
     description: "Budget travel vs winning a trip — expected value, odds, and hidden costs compared. Play smart with capped vacation sweepstakes on Gaviom. Browse capped travel p",
     date: "2026-06-06",
-    category: "Strategy",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["travel-giveaway-tips-maximize-chances","psychology-winning-vacation-contest","entry-bundles-odds-explained"],
     body: `
@@ -1189,7 +1189,7 @@ export const TRAVEL_POSTS = [
     title: "Step-by-Step: Enter and Win a Travel Contest",
     description: "Step-by-step guide to enter and win a travel contest in the US — eligibility, AMOE, draws, and claims. Start on Gaviom today. Browse capped travel prizes on Gav",
     date: "2026-06-07",
-    category: "Travel",
+    category: "Travel Giveaways",
     readMin: 8,
     related: ["how-to-enter-travel-sweepstakes-and-win","travel-giveaway-tips-maximize-chances","what-happens-when-you-win-sweepstakes"],
     body: `
@@ -1263,7 +1263,7 @@ export const TRAVEL_POSTS = [
     title: "Why Travel Giveaways Are Smart Marketing for Everyone",
     description: "Why travel giveaways work for brands and players — escrow, ARV, and trust. Explore verified vacation sweepstakes on Gaviom today. Browse capped travel prizes on",
     date: "2026-06-08",
-    category: "Travel",
+    category: "Travel Giveaways",
     readMin: 6,
     related: ["how-travel-brands-run-legitimate-giveaways","psychology-winning-vacation-contest","best-legitimate-travel-giveaways-2026"],
     body: `
@@ -1337,7 +1337,7 @@ export const TRAVEL_POSTS = [
     title: "Ultimate Guide to Vacation Sweepstakes in the US",
     description: "The ultimate US vacation sweepstakes guide — law, AMOE, odds, taxes, and trusted sites. Start with live-draw travel prizes on Gaviom. Browse capped travel prize",
     date: "2026-06-09",
-    category: "Travel",
+    category: "Travel Giveaways",
     readMin: 9,
     related: ["vacation-sweepstakes-beginners-guide","how-online-sweepstakes-work-us","online-sweepstakes-legal-by-state"],
     body: `
@@ -1411,7 +1411,7 @@ export const TRAVEL_POSTS = [
     title: "How to Win a Trip Abroad Without Spending a Dime",
     description: "How to win a free vacation with AMOE mail-in entry, legal caps, and scam avoidance — no purchase required. Start on Gaviom today. Browse capped travel prizes on",
     date: "2026-06-10",
-    category: "Travel",
+    category: "Travel Giveaways",
     readMin: 8,
     related: ["no-purchase-necessary-amoe-explained","win-a-free-vacation-this-year","how-to-enter-travel-sweepstakes-and-win"],
     body: `

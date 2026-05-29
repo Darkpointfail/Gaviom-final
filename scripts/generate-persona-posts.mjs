@@ -7,7 +7,7 @@ import { writeFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-const SITE = 'https://gaviom.com';
+import { BLOG_CATEGORIES } from '../content/blog/categories.mjs';
 
 const anchors = [
   { href: `${SITE}/prizes.html`, text: 'verified travel sweepstakes on Gaviom' },
@@ -657,9 +657,9 @@ const dreamer = [
 ];
 
 const ORDER = [
-  ...dealHustler.map((s, i) => ({ spec: s, date: `2026-06-${String(11 + i).padStart(2, '0')}`, cat: 'Trust', idx: 10 + i })),
-  ...familyPlanner.map((s, i) => ({ spec: s, date: `2026-06-${String(21 + i).padStart(2, '0')}`, cat: 'Family', idx: 20 + i })),
-  ...dreamer.map((s, i) => ({ spec: s, date: `2026-07-${String(1 + i).padStart(2, '0')}`, cat: 'Dreamer', idx: i })),
+  ...dealHustler.map((s, i) => ({ spec: s, date: `2026-06-${String(11 + i).padStart(2, '0')}`, cat: BLOG_CATEGORIES.TRAVEL, idx: 10 + i })),
+  ...familyPlanner.map((s, i) => ({ spec: s, date: `2026-06-${String(21 + i).padStart(2, '0')}`, cat: BLOG_CATEGORIES.TRAVEL, idx: 20 + i })),
+  ...dreamer.map((s, i) => ({ spec: s, date: `2026-07-${String(1 + i).padStart(2, '0')}`, cat: BLOG_CATEGORIES.TRAVEL, idx: i })),
 ];
 
 const articles = ORDER.map(({ spec, date, cat, idx }) => post(spec, date, cat, idx));

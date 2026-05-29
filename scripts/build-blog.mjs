@@ -3,6 +3,7 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { POSTS, BLOG_META } from '../content/blog/posts.mjs';
 import { faviconHeadLinks } from './favicon-links.mjs';
+import { BLOG_CATEGORIES, CATEGORY_FILTER_KEY, CATEGORY_FILTERS } from '../content/blog/categories.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const blogDir = join(root, 'blog');
@@ -60,7 +61,7 @@ function headBlock({ title, description, path, type = 'website', article }) {
 ${faviconHeadLinks()}
   <title>${escapeHtml(title)}</title>
   <meta name="description" content="${escapeHtml(description)}" />
-  <link rel="canonical" href="${url}" />
+  <link rel="canonical" href="${url}" />${article?.category ? `\n  <meta name="article:section" content="${escapeHtml(article.category)}" />` : ''}
   <meta property="og:type" content="${ogType}" />
   <meta property="og:site_name" content="Gaviom" />
   <meta property="og:title" content="${escapeHtml(title)}" />
@@ -79,7 +80,7 @@ function topbar() {
 function nav(active) {
   const link = (href, label, key) =>
     `<a href="${href}"${active === key ? ' class="active"' : ''}>${label}</a>`;
-  return `  <header class="nav"><div class="wrap nav-inner"><a href="/" class="brand" aria-label="Gaviom home"><span class="brand-mark">G</span> Gaviom</a><nav class="nav-links">${link('/', 'Home', 'home')}${link('/prizes.html', 'Sweepstakes', 'prizes')}${link('/winners.html', 'Winners', 'winners')}${link('/how.html', 'How it works', 'how')}${link('/membership.html', 'Gaviom+', 'membership')}${link('/corporate.html', 'For business', 'corporate')}</nav><div class="nav-right"><a href="#" class="btn btn-ghost">Sign in</a><a href="/prize.html" class="btn btn-primary" data-presale-cta data-entry-cta>Pre-order a ticket</a></div></div></header>`;
+  return `  <header class="nav"><div class="wrap nav-inner"><a href="/" class="brand" aria-label="Gaviom home"><span class="brand-mark">G</span> Gaviom</a><nav class="nav-links">${link('/', 'Home', 'home')}${link('/prizes.html', 'Sweepstakes', 'prizes')}${link('/winners.html', 'Winners', 'winners')}${link('/how.html', 'How it works', 'how')}${link('/membership.html', 'Gaviom+', 'membership')}${link('/corporate.html', 'For business', 'corporate')}</nav><div class="nav-right"><a href="#" aria-disabled="true" style="pointer-events:none;opacity:0.4;" title="Coming soon">Sign in</a><a href="/prize.html" class="btn btn-primary" data-presale-cta data-entry-cta>Pre-order a ticket</a></div></div></header>`;
 }
 
 function footer() {
@@ -118,6 +119,20 @@ ${footer()}
 </html>`;
 }
 
+const TRAVEL_CROSS_LINK = `
+      <section class="rules-section blog-cross-category">
+        <h2>Explore More Giveaways on Gaviom</h2>
+        <p>Not just travel. Gaviom gives away iPhones, and soon cars and homes. <a href="${siteUrl}/prizes.html">Check what&apos;s live now →</a></p>
+      </section>`;
+
+function injectTravelCrossLink(html) {
+  if (html.includes('blog-cross-category')) return html;
+  const marker = '<section class="rules-section blog-cta-band">';
+  const idx = html.lastIndexOf(marker);
+  if (idx === -1) return html + TRAVEL_CROSS_LINK;
+  return html.slice(0, idx) + TRAVEL_CROSS_LINK + html.slice(idx);
+}
+
 function postBySlug(slug) {
   return POSTS.find((p) => p.slug === slug);
 }
@@ -142,7 +157,7 @@ function buildIndex() {
   const cards = sorted
     .map(
       (p) => `
-        <article class="blog-card">
+        <article class="blog-card" data-blog-category="${CATEGORY_FILTER_KEY[p.category] || 'guides'}">
           <a class="blog-card-link" href="/blog/${p.slug}.html">
             <span class="blog-card-cat font-mono">${p.category}</span>
             <h2 class="blog-card-title font-display">${escapeHtml(p.title)}</h2>
@@ -153,33 +168,51 @@ function buildIndex() {
     )
     .join('');
 
-  const categories = [...new Set(POSTS.map((p) => p.category))];
-  const pills = categories.map((c) => `<span class="blog-pill">${c}</span>`).join('');
+  const filterBtns = CATEGORY_FILTERS.map(
+    (f) =>
+      `<button type="button" class="blog-filter-btn chip${f.key === 'all' ? ' active' : ''}" data-blog-filter="${f.key}">${f.label}</button>`
+  ).join('');
 
   const main = `    <section class="blog-hero">
       <div class="wrap">
         <p class="eyebrow"><span class="bar"></span> Gaviom Blog</p>
-        <h1 class="blog-hero-title font-display">US sweepstakes guides, explained clearly.</h1>
+        <h1 class="blog-hero-title font-display">Travel, Tech, Car &amp; Home Giveaway Guides</h1>
         <p class="lede blog-hero-lede">${escapeHtml(BLOG_META.blogDescription)}</p>
-        <div class="blog-pills" aria-label="Topics">${pills}</div>
+        <div class="blog-filters chips" aria-label="Filter by category">${filterBtns}</div>
       </div>
     </section>
     <section class="blog-list-section">
-      <div class="wrap blog-grid">${cards}</div>
+      <div class="wrap blog-grid" id="blog-grid">${cards}</div>
     </section>
     <section class="blog-cta-band">
       <div class="wrap blog-cta-inner">
         <h2 class="font-display">Ready to enter?</h2>
-        <p class="lede">Browse four verified sweepstakes launching July 2026, or start with the founding cruise draw.</p>
+        <p class="lede">Browse travel, tech, and founding sweepstakes on Gaviom — or start with the iPhone and cruise draws.</p>
         <div class="blog-cta-actions">
           <a href="/prizes.html" class="btn btn-primary btn-lg">Browse sweepstakes</a>
           <a href="/how.html" class="btn btn-ghost btn-lg">How it works</a>
         </div>
       </div>
-    </section>`;
+    </section>
+    <script>
+    (function () {
+      var btns = document.querySelectorAll('[data-blog-filter]');
+      var cards = document.querySelectorAll('[data-blog-category]');
+      btns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var key = btn.getAttribute('data-blog-filter');
+          btns.forEach(function (b) { b.classList.toggle('active', b === btn); });
+          cards.forEach(function (card) {
+            var show = key === 'all' || card.getAttribute('data-blog-category') === key;
+            card.style.display = show ? '' : 'none';
+          });
+        });
+      });
+    })();
+    </script>`;
 
   return layout({
-    title: `${BLOG_META.blogTitle} | US Sweepstakes Guides · Gaviom`,
+    title: 'Gaviom Blog — Travel, Tech, Car & Home Giveaway Guides',
     description: BLOG_META.blogDescription,
     path: '/blog/',
     active: 'blog',
@@ -189,6 +222,15 @@ function buildIndex() {
 }
 
 function buildPost(post) {
+  // SECURITY NOTE: escape post.category if it ever comes from user input.
+  // SECURITY NOTE: post.body is injected as raw HTML.
+  // This is safe only while content comes from trusted build-time
+  // generators. If a CMS or external content source is added,
+  // sanitize with DOMPurify or a server-side sanitizer before this point.
+  let bodyHtml = post.body.trim();
+  if (post.category === BLOG_CATEGORIES.TRAVEL) {
+    bodyHtml = injectTravelCrossLink(bodyHtml);
+  }
   const main = `    <article class="wrap blog-article rules-doc">
       <header class="blog-article-header rules-doc-header">
         <p class="blog-card-cat font-mono">${post.category}</p>
@@ -197,7 +239,7 @@ function buildPost(post) {
         <p class="lede">${escapeHtml(post.description)}</p>
       </header>
       <div class="blog-article-body">
-        ${post.body.trim()}
+        ${bodyHtml}
       </div>
       <aside class="blog-article-aside">
         <p class="eyebrow"><span class="bar"></span> Enter on Gaviom</p>

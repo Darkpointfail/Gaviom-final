@@ -113,6 +113,20 @@
         <div class="co-card-panel" data-checkout-card-panel hidden>
           <div class="co-field">
             <label for="card">Card number</label>
+            <!--
+  ⚠️ PCI DSS WARNING — READ BEFORE LAUNCH
+  These fields (card number, expiry, CVC) are MOCK only.
+  They must NEVER be submitted to a server or processed as-is.
+
+  Before accepting real payments:
+  1. Remove these raw input fields entirely
+  2. Replace with Stripe Payment Element:
+     https://stripe.com/docs/payments/payment-element
+  3. Let Stripe handle card data — your server never sees PAN or CVC
+  4. Only receive a paymentMethod.id from Stripe to confirm server-side
+
+  Connecting this form to a backend without this change = PCI violation.
+-->
             <input id="card" name="card" type="text" inputmode="numeric" autocomplete="cc-number" placeholder="1234 5678 9012 3456" />
           </div>
           <div class="co-field-row">

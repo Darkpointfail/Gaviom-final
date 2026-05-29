@@ -1,6 +1,16 @@
 (function () {
   'use strict';
 
+  function escapeHtml(str) {
+    if (typeof str !== 'string') return '';
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
   /* Pre-launch: site opens early July 2026 · first Sunday draw after launch */
   const LAUNCH_AT = Date.parse('2026-07-01T16:00:00.000Z'); /* Jul 1, 2026 · 12:00 ET */
   const FIRST_DRAW_AT = Date.parse('2026-07-06T00:00:00.000Z'); /* Jul 5, 2026 · 8:00 PM ET */
@@ -432,7 +442,7 @@
         <line x1="0" y1="0" x2="0" y2="16" stroke="${c.stroke}" stroke-width="5"/>
       </pattern></defs>
       <rect width="100%" height="100%" fill="url(#${id})"/>
-    </svg><span class="ph-label">${label}</span>`;
+    </svg><span class="ph-label">${escapeHtml(label)}</span>`;
   }
 
   function initPlaceholders() {

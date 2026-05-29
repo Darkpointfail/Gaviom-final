@@ -4,3 +4,13 @@ Thumbs.db
 node_modules/
 .npm/
 images/**/*.webp
+
+# Environment variables — never commit secrets
+.env
+.env.local
+.env.development
+.env.production
+.env.*.local
+
+# Keep the example template tracked (no real values inside)
+!.env.example

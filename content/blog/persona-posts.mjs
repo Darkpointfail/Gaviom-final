@@ -6,7 +6,7 @@ export const PERSONA_POSTS = [
     title: "Are Travel Giveaways Real? How to Know If One Is Legit",
     description: "Are travel giveaways real? Learn green flags, red flags, and how legitimate vacation sweepstakes like Gaviom publish odds before you enter Free AMOE entry.…",
     date: "2026-06-11",
-    category: "Trust",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["how-to-spot-fake-travel-giveaway","how-travel-giveaways-work","best-legitimate-travel-giveaways-2025"],
     body: `
@@ -74,7 +74,7 @@ export const PERSONA_POSTS = [
     title: "How to Spot a Fake Travel Giveaway (And Find Real Ones)",
     description: "Spot fake travel giveaway scams with this red-flag checklist — then enter legitimate vacation sweepstakes with published odds on Gaviom Free AMOE entry.…",
     date: "2026-06-12",
-    category: "Trust",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["are-travel-giveaways-real-legit","best-legitimate-travel-giveaways-2025","how-travel-giveaways-work"],
     body: `
@@ -141,7 +141,7 @@ export const PERSONA_POSTS = [
     title: "The Best Legitimate Travel Giveaways in 2025",
     description: "Best legitimate travel giveaways in 2025 ranked by transparency — capped odds, AMOE, live draws. Start with Gaviom founding prizes today Free AMOE entry.…",
     date: "2026-06-13",
-    category: "Trust",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["are-travel-giveaways-real-legit","travel-sweepstakes-worth-entering","how-to-enter-travel-sweepstakes-win"],
     body: `
@@ -207,7 +207,7 @@ export const PERSONA_POSTS = [
     title: "How to Enter Travel Sweepstakes and Improve Your Odds",
     description: "How to enter travel sweepstakes with better odds — capped pools, bundles, AMOE, and timing. Apply tactics on Gaviom founding draws today Free AMOE entry.…",
     date: "2026-06-14",
-    category: "Trust",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["enter-to-win-vacation-package-tips","travel-sweepstakes-worth-entering","vacation-sweepstakes-guide-beginners"],
     body: `
@@ -273,7 +273,7 @@ export const PERSONA_POSTS = [
     title: "How Travel Giveaways Actually Work — Full Breakdown",
     description: "How travel giveaways work in the US — AMOE, random draws, taxes, fulfillment. Transparent breakdown from Gaviom sweepstakes operators Free AMOE entry. Live…",
     date: "2026-06-15",
-    category: "Trust",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["are-travel-giveaways-real-legit","vacation-sweepstakes-guide-beginners","free-flight-hotel-giveaway-real"],
     body: `
@@ -339,7 +339,7 @@ export const PERSONA_POSTS = [
     title: "Are Travel Sweepstakes Worth Entering? Honest Answer",
     description: "Are travel sweepstakes worth it? Compare odds vs lottery, expected value, and capped pools — then enter smart on Gaviom today Free AMOE entry. Live draws on…",
     date: "2026-06-16",
-    category: "Trust",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["how-to-enter-travel-sweepstakes-win","best-legitimate-travel-giveaways-2025","enter-to-win-vacation-package-tips"],
     body: `
@@ -405,7 +405,7 @@ export const PERSONA_POSTS = [
     title: "Free Flight and Hotel Giveaways — Are They Real?",
     description: "Free flight and hotel giveaways can be real when rules spell out airfare, nights, and fees. Verify packages on Gaviom before you enter Free AMOE entry. Live…",
     date: "2026-06-17",
-    category: "Trust",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["how-travel-giveaways-work","whats-included-travel-prize-package","are-travel-giveaways-real-legit"],
     body: `
@@ -471,7 +471,7 @@ export const PERSONA_POSTS = [
     title: "Vacation Sweepstakes 101: Complete Guide for First-Timers",
     description: "Vacation sweepstakes 101 for beginners — glossary, AMOE, odds, mistakes to avoid. Start entering legally on Gaviom today Free AMOE entry. Live draws on…",
     date: "2026-06-18",
-    category: "Trust",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["how-to-enter-travel-sweepstakes-win","how-travel-giveaways-work","enter-to-win-vacation-package-tips"],
     body: `
@@ -537,7 +537,7 @@ export const PERSONA_POSTS = [
     title: "If You Win a Travel Giveaway, Do You Pay Taxes?",
     description: "Travel giveaway taxes in the US — 1099 thresholds, ARV, and planning tips. Not tax advice; see Gaviom rules before entering big prizes Free AMOE entry. Live…",
     date: "2026-06-19",
-    category: "Trust",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["sweepstakes-winnings-taxes","what-happens-when-you-win-sweepstakes","travel-sweepstakes-worth-entering"],
     body: `
@@ -603,7 +603,7 @@ export const PERSONA_POSTS = [
     title: "Enter to Win a Vacation Package: 7 Tips to Maximize Chances",
     description: "Enter to win a vacation package with 7 pro tips — AMOE, bundles, timing, email hygiene. Maximize odds on Gaviom capped sweepstakes today Free AMOE entry.…",
     date: "2026-06-20",
-    category: "Trust",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["how-to-enter-travel-sweepstakes-win","travel-giveaway-tips-maximize-chances","entry-bundles-odds-explained"],
     body: `
@@ -669,7 +669,7 @@ export const PERSONA_POSTS = [
     title: "How to Win a Free Family Vacation — No Card Required",
     description: "Win a free family vacation with AMOE and capped US sweepstakes. What is included for kids — enter family-friendly prizes on Gaviom Free AMOE entry. Live…",
     date: "2026-06-21",
-    category: "Family",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["family-travel-giveaway-guide","best-family-vacation-destinations-win","mom-who-won-family-vacation"],
     body: `
@@ -735,7 +735,7 @@ export const PERSONA_POSTS = [
     title: "Family Travel Giveaways: Complete Guide for Parents",
     description: "Family travel giveaway guide for parents — age limits, prize types, AMOE, safety. Featured legitimate options include Gaviom founding prizes Free AMOE…",
     date: "2026-06-22",
-    category: "Family",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["win-family-vacation-free","best-family-vacation-destinations-win","affordable-family-vacation-ideas-win"],
     body: `
@@ -801,7 +801,7 @@ export const PERSONA_POSTS = [
     title: "Best Family Vacation Destinations You Could Win a Trip To",
     description: "Best family vacation destinations — Orlando, Hawaii, Costa Rica and more — plus how to win trips via Gaviom travel giveaways Free AMOE entry. Live draws on…",
     date: "2026-06-23",
-    category: "Family",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["costa-rica-family-trip-win","hawaii-family-vacation-win-free","win-family-vacation-free"],
     body: `
@@ -867,7 +867,7 @@ export const PERSONA_POSTS = [
     title: "Why Costa Rica Is the Perfect Family Trip — Win One Free",
     description: "Win a family trip to Costa Rica — wildlife, safety, kid activities, plus enter Caribbean adventure giveaways on Gaviom today Free AMOE entry. Live draws on…",
     date: "2026-06-24",
-    category: "Family",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["best-family-vacation-destinations-win","affordable-family-vacation-ideas-win","prize-diving.html"],
     body: `
@@ -933,7 +933,7 @@ export const PERSONA_POSTS = [
     title: "Hawaii With Kids: Guide + How to Win a Free Family Trip",
     description: "Win a free family trip to Hawaii — islands for kids, budgets vs giveaways, activities. Enter US vacation sweepstakes on Gaviom Free AMOE entry. Live draws…",
     date: "2026-06-25",
-    category: "Family",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["best-family-vacation-destinations-win","memories-kids-travel-win-vacation","win-family-vacation-free"],
     body: `
@@ -999,7 +999,7 @@ export const PERSONA_POSTS = [
     title: "Affordable Family Vacation Ideas — Including Winning One Free",
     description: "Affordable family vacation ideas for suburban budgets — road trips, off-season travel, and winning free trips via Gaviom sweepstakes Free AMOE entry. Live…",
     date: "2026-06-26",
-    category: "Family",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["win-family-vacation-free","family-travel-giveaway-guide","how-to-travel-for-free-no-money"],
     body: `
@@ -1065,7 +1065,7 @@ export const PERSONA_POSTS = [
     title: "Why Travel With Kids Creates Memories That Last a Lifetime",
     description: "Travel with kids builds lasting memories — research, stories, and how to win a family trip through Gaviom vacation giveaways Free AMOE entry. Live draws on…",
     date: "2026-06-27",
-    category: "Family",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["mom-who-won-family-vacation","tag-a-mom-who-deserves-vacation","win-family-vacation-free"],
     body: `
@@ -1131,7 +1131,7 @@ export const PERSONA_POSTS = [
     title: "The Mom Who Won a Free Family Vacation — Her Story",
     description: "Composite story: a mom who won a free family vacation through a legit travel giveaway — relatable journey, enter on Gaviom today Free AMOE entry. Live draws…",
     date: "2026-06-28",
-    category: "Family",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["memories-kids-travel-win-vacation","tag-a-mom-who-deserves-vacation","win-family-vacation-free"],
     body: `
@@ -1197,7 +1197,7 @@ export const PERSONA_POSTS = [
     title: "All-Inclusive Family Resorts: Choose One or Win a Stay",
     description: "All-inclusive family resort giveaway guide — what to look for, kid clubs, and win resort stays via Gaviom travel sweepstakes Free AMOE entry. Live draws on…",
     date: "2026-06-29",
-    category: "Family",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["costa-rica-family-trip-win","win-family-vacation-free","best-family-vacation-destinations-win"],
     body: `
@@ -1263,7 +1263,7 @@ export const PERSONA_POSTS = [
     title: "Tag a Mom Who Deserves a Vacation — And Win One",
     description: "Tag a mom vacation giveaway culture — share-worthy post for mom groups, plus enter to win family trips on Gaviom for her or you Free AMOE entry. Live draws…",
     date: "2026-06-30",
-    category: "Family",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["mom-who-won-family-vacation","memories-kids-travel-win-vacation","win-family-vacation-free"],
     body: `
@@ -1329,7 +1329,7 @@ export const PERSONA_POSTS = [
     title: "Most Beautiful Places You Could Win a Free Trip To",
     description: "Win a free trip to the most beautiful places on earth — Santorini, Maldives, Amalfi and more. Enter travel giveaways on Gaviom today Free AMOE entry. Live…",
     date: "2026-07-01",
-    category: "Dreamer",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["places-that-dont-feel-real","travel-bucket-list-you-can-win","best-travel-destinations-2025-win"],
     body: `
@@ -1396,7 +1396,7 @@ export const PERSONA_POSTS = [
     title: "What It Actually Feels Like to Win a Free Vacation",
     description: "What it feels like to win a free vacation — emotional journey from entry to landing. Then enter your own on Gaviom sweepstakes Free AMOE entry. Live draws…",
     date: "2026-07-02",
-    category: "Dreamer",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["what-would-you-do-win-vacation","mom-who-won-family-vacation","real-people-won-free-trips"],
     body: `
@@ -1462,7 +1462,7 @@ export const PERSONA_POSTS = [
     title: "Your Travel Bucket List — Win Every Destination on It",
     description: "Travel bucket list giveaway guide — Bali, Japan, Italy, Costa Rica and how to win free trips via Gaviom contests Free AMOE entry. Live draws on gaviom.com.",
     date: "2026-07-03",
-    category: "Dreamer",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["most-beautiful-places-win-free-trip","bali-free-trip-giveaway","europe-trip-giveaway"],
     body: `
@@ -1528,7 +1528,7 @@ export const PERSONA_POSTS = [
     title: "Places That Don't Feel Real — Until You Win a Trip There",
     description: "Win a trip to paradise — surreal destinations that feel unreal until you land. Enter vacation sweepstakes on Gaviom today Free AMOE entry. Live draws on…",
     date: "2026-07-04",
-    category: "Dreamer",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["most-beautiful-places-win-free-trip","travel-bucket-list-you-can-win","what-would-you-do-win-vacation"],
     body: `
@@ -1594,7 +1594,7 @@ export const PERSONA_POSTS = [
     title: "How to Travel for Free Even If You Have No Money",
     description: "How to travel for free with no money — ranked options from travel sweepstakes to points. Start with AMOE on Gaviom today Free AMOE entry. Live draws on…",
     date: "2026-07-05",
-    category: "Dreamer",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["how-to-win-a-free-vacation-guide","affordable-family-vacation-ideas-win","win-a-free-trip-sites-you-can-trust"],
     body: `
@@ -1660,7 +1660,7 @@ export const PERSONA_POSTS = [
     title: "Why Bali Should Be Your Next Trip — Win One Free",
     description: "Win a free trip to Bali — temples, food, beaches, plus enter Caribbean and cruise giveaways on Gaviom today Free AMOE entry. Live draws on gaviom.com.",
     date: "2026-07-06",
-    category: "Dreamer",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["travel-bucket-list-you-can-win","most-beautiful-places-win-free-trip","places-that-dont-feel-real"],
     body: `
@@ -1726,7 +1726,7 @@ export const PERSONA_POSTS = [
     title: "Dream of Europe? Win Free Trips People Actually Enter",
     description: "Win a free trip to Europe via legitimate giveaways — cruise, city breaks, AMOE tips. Enter Mediterranean cruise on Gaviom Free AMOE entry. Live draws on…",
     date: "2026-07-07",
-    category: "Dreamer",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["best-travel-destinations-2025-win","travel-bucket-list-you-can-win","cruise-sweepstakes-prize-guide"],
     body: `
@@ -1792,7 +1792,7 @@ export const PERSONA_POSTS = [
     title: "Best Travel Destinations 2025 — Win a Trip to Each",
     description: "Best travel destinations 2025 — trending spots and matching travel giveaway 2025 entries on Gaviom founding prizes Free AMOE entry. Live draws on gaviom.com.",
     date: "2026-07-08",
-    category: "Dreamer",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["best-legitimate-travel-giveaways-2025","europe-trip-giveaway","bali-free-trip-giveaway"],
     body: `
@@ -1858,7 +1858,7 @@ export const PERSONA_POSTS = [
     title: "What Would You Do If You Won a Free Vacation Tomorrow?",
     description: "What would you do if you won a free vacation tomorrow? Immersive second-person dream + enter travel giveaway on Gaviom Free AMOE entry. Live draws on…",
     date: "2026-07-09",
-    category: "Dreamer",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["what-its-like-to-win-free-vacation","travel-quotes-inspire-win-trip","what-would-you-do-win-vacation"],
     body: `
@@ -1924,7 +1924,7 @@ export const PERSONA_POSTS = [
     title: "50 Travel Quotes That Make You Want to Win a Free Trip",
     description: "Travel inspiration giveaway — 50 quotes that push you to enter and win a free trip on Gaviom vacation sweepstakes today Free AMOE entry. Live draws on…",
     date: "2026-07-10",
-    category: "Dreamer",
+    category: "Travel Giveaways",
     readMin: 7,
     related: ["what-would-you-do-win-vacation","most-beautiful-places-win-free-trip","how-to-travel-for-free-no-money"],
     body: `
