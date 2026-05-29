@@ -1,5 +1,7 @@
 /** @typedef {{ slug: string, title: string, description: string, date: string, category: string, readMin: number, body: string, related: string[] }} Post */
 
+import { TRAVEL_POSTS } from './travel-posts.mjs';
+
 /** @type {Post[]} */
 export const POSTS = [
   {
@@ -361,11 +363,12 @@ export const POSTS = [
       </section>
     `,
   },
+  ...TRAVEL_POSTS,
 ];
 
 export const BLOG_META = {
   siteUrl: 'https://gaviom.com',
   blogTitle: 'Gaviom Blog',
   blogDescription:
-    'Guides on legal US sweepstakes, free entry (AMOE), odds, live draws, prize fulfillment, workplace programs, and taxes from the Gaviom team.',
+    'Guides on legal US sweepstakes, travel giveaways, vacation contests, free entry (AMOE), odds, live draws, and taxes from the Gaviom team.',
 };
