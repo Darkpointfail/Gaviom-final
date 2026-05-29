@@ -1,6 +1,7 @@
 /** @typedef {{ slug: string, title: string, description: string, date: string, category: string, readMin: number, body: string, related: string[] }} Post */
 
 import { TRAVEL_POSTS } from './travel-posts.mjs';
+import { PERSONA_POSTS } from './persona-posts.mjs';
 
 /** @type {Post[]} */
 export const POSTS = [
@@ -364,6 +365,7 @@ export const POSTS = [
     `,
   },
   ...TRAVEL_POSTS,
+  ...PERSONA_POSTS,
 ];
 
 export const BLOG_META = {

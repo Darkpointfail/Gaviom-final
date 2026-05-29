@@ -66,6 +66,7 @@ ${faviconHeadLinks()}
   <meta property="og:title" content="${escapeHtml(title)}" />
   <meta property="og:description" content="${escapeHtml(description)}" />
   <meta property="og:url" content="${url}" />
+  <meta property="og:image" content="${siteUrl}/images/cruise-hero.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="${escapeHtml(title)}" />
   <meta name="twitter:description" content="${escapeHtml(description)}" />${jsonLd}`;
