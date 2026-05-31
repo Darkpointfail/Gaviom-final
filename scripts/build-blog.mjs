@@ -82,7 +82,7 @@ function topbar() {
 function nav(active) {
   const link = (href, label, key) =>
     `<a href="${href}"${active === key ? ' class="active"' : ''}>${label}</a>`;
-  return `  <header class="nav"><div class="wrap nav-inner"><a href="/" class="brand" aria-label="Gaviom home"><span class="brand-mark">G</span> Gaviom</a><nav class="nav-links">${link('/', 'Home', 'home')}${link('/prizes.html', 'Sweepstakes', 'prizes')}${link('/winners.html', 'Winners', 'winners')}${link('/how.html', 'How it works', 'how')}${link('/membership.html', 'Gaviom+', 'membership')}${link('/corporate.html', 'For business', 'corporate')}</nav><div class="nav-right"><a href="#" aria-disabled="true" style="pointer-events:none;opacity:0.4;" title="Coming soon">Sign in</a><a href="/prize.html" class="btn btn-primary" data-presale-cta data-entry-cta>Pre-order a ticket</a></div></div></header>`;
+  return `  <header class="nav"><div class="wrap nav-inner"><a href="/" class="brand" aria-label="Gaviom home"><span class="brand-mark">G</span> Gaviom</a><nav class="nav-links">${link('/', 'Home', 'home')}${link('/prizes.html', 'Sweepstakes', 'prizes')}${link('/winners.html', 'Winners', 'winners')}${link('/how.html', 'How it works', 'how')}${link('/impact.html', 'Impact', 'impact')}${link('/membership.html', 'Gaviom+', 'membership')}${link('/corporate.html', 'For business', 'corporate')}</nav><div class="nav-right"><a href="#" aria-disabled="true" style="pointer-events:none;opacity:0.4;" title="Coming soon">Sign in</a><a href="/prize.html" class="btn btn-primary" data-presale-cta data-entry-cta>Pre-order a ticket</a></div></div></header>`;
 }
 
 function footer() {
