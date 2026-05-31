@@ -3,6 +3,7 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { POSTS, BLOG_META } from '../content/blog/posts.mjs';
 import { faviconHeadLinks } from './favicon-links.mjs';
+import { googleAnalyticsHead } from './analytics-head.mjs';
 import { BLOG_CATEGORIES, CATEGORY_FILTER_KEY, CATEGORY_FILTERS } from '../content/blog/categories.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -58,6 +59,7 @@ function headBlock({ title, description, path, type = 'website', article }) {
 
   return `  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+${googleAnalyticsHead()}
 ${faviconHeadLinks()}
   <title>${escapeHtml(title)}</title>
   <meta name="description" content="${escapeHtml(description)}" />
