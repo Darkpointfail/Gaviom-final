@@ -28,15 +28,18 @@ function stripGa(html) {
   return html;
 }
 
+function hasOnlyCurrentGaId(html) {
+  const ids = [...html.matchAll(/gtag\/js\?id=(G-[A-Z0-9]+)/g)].map((m) => m[1]);
+  return ids.length === 1 && ids[0] === GA_MEASUREMENT_ID;
+}
+
 let updated = 0;
 
 for (const file of readdirSync(root)) {
   if (!file.endsWith('.html')) continue;
   const path = join(root, file);
   let html = readFileSync(path, 'utf8');
-  const hadCorrectId = html.includes(GA_MEASUREMENT_ID) && !html.includes('G-S21QXNFK5V');
-
-  if (hadCorrectId) continue;
+  if (hasOnlyCurrentGaId(html)) continue;
 
   html = stripGa(html);
   if (html.includes('<head>')) {

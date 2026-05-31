@@ -1,5 +1,5 @@
 /** Google Analytics 4 — gaviom.com web stream */
-export const GA_MEASUREMENT_ID = 'G-91YM8V7F8C';
+export const GA_MEASUREMENT_ID = 'G-SSJ8R41VP4';
 
 /** GA4 gtag snippet for <head> — one tag per page, immediately after <head> */
 export function googleAnalyticsHead() {
