@@ -148,7 +148,7 @@ export const PERSONA_POSTS = [
 <p class="blog-lede">Searching best legitimate travel giveaways in 2025 means filtering hype. This list ranks operators by what deal hustlers actually verify: rules, odds, fulfillment, and free entry paths.</p>
 <figure class="blog-figure"><img src="/images/diving-cozumel.webp" alt="legitimate travel giveaways 2025" width="800" height="450" loading="lazy" decoding="async" /></figure>
 <section class="rules-section"><h2>#1 Gaviom — capped pools and live draws</h2>
-<p>Why it ranks first: published odds on each prize, pre-sale with escrow messaging, YouTube draws, AMOE, and four distinct travel experiences launching July 2026. Cruise ARV \$12,000 with cash alternative; Vegas, Cozumel, and iPhone rounds out the catalog at <a href="https://gaviom.com/">gaviom.com</a>.</p>
+<p>Why it ranks first: published odds on each prize, pre-sale with escrow messaging, YouTube draws, AMOE, and four distinct travel experiences launching July 2026. Cruise ARV \$10,000 with cash alternative; Vegas, Cozumel, and iPhone rounds out the catalog at <a href="https://gaviom.com/">gaviom.com</a>.</p>
 <p>Before you commit time to any legitimate travel giveaways 2025, open the Official Rules. Eligibility, ARV, and blackout dates belong in writing — not in a TikTok caption or Facebook comment thread.</p>
 <p>The <a href="https://www.consumer.ftc.gov/articles/0329-sweepstakes-scams" rel="noopener noreferrer" target="_blank">FTC sweepstakes guidance</a> aligns with what experienced entrants already know: never pay to claim a prize, and never trust a DM-only winner notice.</p>
 <p>Photographed prizes beat stock-photo hype. If a legitimate travel giveaways 2025 cannot show real specs before entries open, treat that as a trust signal — not a minor detail.</p>
@@ -551,7 +551,7 @@ export const PERSONA_POSTS = [
 <p>The <a href="https://www.ustravel.org/" rel="noopener noreferrer" target="_blank">U.S. Travel Association</a> tracks domestic leisure demand — brands fund travel giveaway taxes promotions when they need measurable marketing reach with capped liability.</p>
 </section>
 <section class="rules-section"><h2>Cash alternative vs trip</h2>
-<p>Cash may simplify reporting but is still taxable. Trips add fulfillment complexity; tax hit remains. Gaviom cruise offers \$12,000 cash election — see rules.</p>
+<p>Cash may simplify reporting but is still taxable. Trips add fulfillment complexity; tax hit remains. Gaviom cruise offers \$10,000 cash election — see rules.</p>
 <p>Capped-entry travel giveaway taxes promotions let you calculate odds honestly. Open-ended "unlimited" contests often hide worse expected value behind viral share mechanics.</p>
 <p>Free mail-in entry (AMOE) keeps US travel giveaway taxes lawful when paid paths exist. On Gaviom, postcards enter the same random pool as checkout tickets — see <a href="/free-entry.html">free entry instructions</a>.</p>
 <p>Winner fulfillment includes ID checks, tax paperwork, and travel dates — plan for that reality whether you are entering solo or with family.</p>

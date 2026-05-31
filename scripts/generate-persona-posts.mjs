@@ -197,7 +197,7 @@ const dealHustler = [
     lede: 'Searching best legitimate travel giveaways in 2025 means filtering hype. This list ranks operators by what deal hustlers actually verify: rules, odds, fulfillment, and free entry paths.',
     related: ['are-travel-giveaways-real-legit', 'travel-sweepstakes-worth-entering', 'how-to-enter-travel-sweepstakes-win'],
     blocks: [
-      { h2: '#1 Gaviom — capped pools and live draws', paragraphs: ['Why it ranks first: published odds on each prize, pre-sale with escrow messaging, YouTube draws, AMOE, and four distinct travel experiences launching July 2026. Cruise ARV $12,000 with cash alternative; Vegas, Cozumel, and iPhone rounds out the catalog at <a href="https://gaviom.com/">gaviom.com</a>.'] },
+      { h2: '#1 Gaviom — capped pools and live draws', paragraphs: ['Why it ranks first: published odds on each prize, pre-sale with escrow messaging, YouTube draws, AMOE, and four distinct travel experiences launching July 2026. Cruise ARV $10,000 with cash alternative; Vegas, Cozumel, and iPhone rounds out the catalog at <a href="https://gaviom.com/">gaviom.com</a>.'] },
       { h2: 'What to look for in any 2025 list entry', paragraphs: ['Photographed prize, not stock resort. Entry cap disclosed. Draw method explained. Taxes and fulfillment timeline in rules.'] },
       { h2: 'Categories worth tracking', paragraphs: ['Cruise giveaways (high ARV), city breaks (Vegas/Miami), adventure packages (diving/resorts), and tech bundles (lower ARV, better odds). Match category to your actual travel plans.'] },
       { h2: 'Skip these list fillers', paragraphs: ['Sites with no rules PDF, unlimited entries with hidden tiers, or "winners" only shown as Instagram comments.'] },
@@ -294,7 +294,7 @@ const dealHustler = [
     related: ['sweepstakes-winnings-taxes', 'what-happens-when-you-win-sweepstakes', 'travel-sweepstakes-worth-entering'],
     blocks: [
       { h2: 'Why travel prizes are taxable', paragraphs: ['IRS treats prizes as income. Operators collect W-9 and may issue 1099-MISC when thresholds apply. ARV comes from Official Rules — not your personal vacation budget.'] },
-      { h2: 'Cash alternative vs trip', paragraphs: ['Cash may simplify reporting but is still taxable. Trips add fulfillment complexity; tax hit remains. Gaviom cruise offers $12,000 cash election — see rules.'] },
+      { h2: 'Cash alternative vs trip', paragraphs: ['Cash may simplify reporting but is still taxable. Trips add fulfillment complexity; tax hit remains. Gaviom cruise offers $10,000 cash election — see rules.'] },
       { h2: 'Planning tips', paragraphs: ['Consult a CPA, set aside percentage of ARV, do not spend on credit assuming prize covers tax bill. This article is not legal or tax advice.'] },
       { h2: 'Transparency as trust signal', paragraphs: ['Operators who discuss tax reality upfront earn deal-hustler loyalty. Gaviom winner guides link to <a href="/blog/sweepstakes-winnings-taxes.html">sweepstakes taxes overview</a>.'] },
       { h2: 'Enter anyway — with eyes open', paragraphs: ['Tax liability does not make legitimate sweepstakes scams; it makes them adult financial decisions. Budget accordingly, then enter capped promotions you actually want to take.'] },

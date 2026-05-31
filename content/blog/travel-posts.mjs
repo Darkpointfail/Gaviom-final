@@ -992,7 +992,7 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section">
         <h2>They choose cash when travel will not work</h2>
-        <p>Smart winners elect cash alternatives before forfeiting. Gaviom cruise rules include a \$12,000 cash path when sailing dates conflict with life.</p>
+        <p>Smart winners elect cash alternatives before forfeiting. Gaviom cruise rules include a \$10,000 cash path when sailing dates conflict with life.</p>
         <p>Keep a dedicated email folder for real people won free trips confirmations. Winners are contacted from sponsor domains, not random Gmail accounts. Phishing spikes after big travel draws — verify senders before clicking.</p>
         <p>Legitimate operators photograph the actual ship, resort, or skyline in real people won free trips marketing. Unnamed stock beaches are a yellow flag when comparing sites.</p>
         <p>Fulfillment involves taxes, guest names, passports, and deadlines — not just flights. Respond to winner notices within 24 hours whenever possible.</p>
@@ -1133,7 +1133,7 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section">
         <h2>Expected value of sweepstakes entries</h2>
-        <p>If ARV is \$12,000 and odds are 1-in-6,000, naive EV per \$12 ticket is \$2 — before taxes and before the chance you would not take the trip. That is fine if you treat spend as entertainment.</p>
+        <p>If ARV is \$10,000 and odds are 1-in-6,000, naive EV per \$12 ticket is ~\$1.67 — before taxes and before the chance you would not take the trip. That is fine if you treat spend as entertainment.</p>
         <p>US players often ask whether budget travel vs winning a trip promotions are worth the spend. Expected value is usually negative, like concerts or sporting events. Enter for transparent odds on a prize you genuinely want — not guaranteed profit.</p>
         <p>Registration in New York, Florida, and Rhode Island applies to high-value budget travel vs winning a trip promotions. Sponsors that skip eligibility language for those states may be cutting compliance corners.</p>
         <p>Normalize odds by dividing your entries by the published cap. A modest budget travel vs winning a trip with 1,000 entries can beat a viral post with an unknown denominator.</p>

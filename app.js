@@ -583,7 +583,7 @@
         back: '/prize.html',
         title: 'MSC Cruise · 7 Nights',
         cat: 'Travel · #1',
-        value: '$12,000 value',
+        value: '$10,000 value',
         draw: 'Draw July 5, 2026',
         maxEntries: 6000,
         hook: 'Seven nights at sea. Balcony cabin. Mediterranean sunsets on repeat.',
@@ -592,7 +592,7 @@
           '/images/cruise-balcony.webp',
           '/images/cruise-pool-deck.webp',
         ],
-        lede: 'Win a balcony cabin for two aboard MSC Magnifica, seven nights through the Mediterranean with meals, entertainment, and up to $2,000 in airfare coordination included. Prefer cash? Take the full $12,000 equivalent instead.',
+        lede: 'Win a balcony cabin for two aboard MSC Magnifica, seven nights through the Mediterranean with meals, entertainment, and up to $2,000 in airfare coordination included. Prefer cash? Take the full $10,000 equivalent instead.',
         sections: [
           {
             title: 'Package includes',
@@ -602,7 +602,7 @@
               'All-inclusive meals and onboard entertainment',
               'Mediterranean port itinerary (Barcelona, Marseille, Genoa region)',
               'Airfare coordination up to $2,000 included',
-              '$12,000 cash equivalent option',
+              '$10,000 cash equivalent option',
             ],
           },
           {

@@ -159,7 +159,7 @@ export const POSTS = [
       </section>
       <section class="rules-section">
         <h2>Prize vs cash alternative</h2>
-        <p>Many Gaviom sweepstakes allow a <strong>cash equivalent</strong> instead of travel or goods. For example, the <a href="/prize.html">MSC cruise</a> states a $12,000 cash option. Winners choose within the window defined in the rules so inventory and tax paperwork stay clean.</p>
+        <p>Many Gaviom sweepstakes allow a <strong>cash equivalent</strong> instead of travel or goods. For example, the <a href="/prize.html">MSC cruise</a> states a $10,000 cash option. Winners choose within the window defined in the rules so inventory and tax paperwork stay clean.</p>
       </section>
       <section class="rules-section">
         <h2>Timeline expectations</h2>
@@ -274,7 +274,7 @@ export const POSTS = [
       </section>
       <section class="rules-section">
         <h2>Cash alternative vs sailing</h2>
-        <p>Winners with schedule conflicts or passport issues may elect the <strong>$12,000 cash equivalent</strong> instead of sailing. Election deadlines protect the operator from open-ended inventory holds.</p>
+        <p>Winners with schedule conflicts or passport issues may elect the <strong>$10,000 cash equivalent</strong> instead of sailing. Election deadlines protect the operator from open-ended inventory holds.</p>
       </section>
       <section class="rules-section">
         <h2>Documentation and timing</h2>

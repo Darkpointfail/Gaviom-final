@@ -235,8 +235,8 @@ const clusterA = [
     lede: 'iPhone giveaway vs travel giveaway is not a moral choice — it is expected value plus lifestyle fit. One fits in your pocket daily; the other becomes a story for decades.',
     related: ['best-tech-giveaways-2025', 'most-beautiful-places-win-free-trip', 'high-value-giveaways-worth-entering'],
     blocks: [
-      { h2: 'iPhone giveaway pros', paragraphs: ['Immediate utility, lower fulfillment friction, easier to sell if you prefer cash, smaller tax bill than $12k cruise ARV for many winners. Gaviom iPhone draw caps at 3,000 entries on founding pool.'] },
-      { h2: 'Travel giveaway pros', paragraphs: ['Experiential value, shared prize for two guests on many packages, memory dividend for families. MSC cruise ARV $12,000 with cash alternative option in rules.'] },
+      { h2: 'iPhone giveaway pros', paragraphs: ['Immediate utility, lower fulfillment friction, easier to sell if you prefer cash, smaller tax bill than $10k cruise ARV for many winners. Gaviom iPhone draw caps at 3,000 entries on founding pool.'] },
+      { h2: 'Travel giveaway pros', paragraphs: ['Experiential value, shared prize for two guests on many packages, memory dividend for families. MSC cruise ARV $10,000 with cash alternative option in rules.'] },
       { h2: 'Tax and logistics comparison', paragraphs: ['Both trigger 1099 reporting above IRS thresholds. Travel adds passport, blackout dates, and companion coordination. iPhone adds shipping and carrier unlock questions — all in rules.'] },
       { h2: 'The smart play: enter both on one platform', paragraphs: ['Gaviom runs travel and tech founding draws with the same transparency model — one account mindset, one AMOE workflow, two shots at premium prizes.'] },
     ],

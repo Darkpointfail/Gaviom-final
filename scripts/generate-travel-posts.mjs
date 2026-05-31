@@ -847,7 +847,7 @@ const articles = [
         {
           h2: 'They choose cash when travel will not work',
           paragraphs: [
-            'Smart winners elect cash alternatives before forfeiting. Gaviom cruise rules include a $12,000 cash path when sailing dates conflict with life.',
+            'Smart winners elect cash alternatives before forfeiting. Gaviom cruise rules include a $10,000 cash path when sailing dates conflict with life.',
           ],
         },
         {
@@ -948,7 +948,7 @@ const articles = [
         {
           h2: 'Expected value of sweepstakes entries',
           paragraphs: [
-            'If ARV is $12,000 and odds are 1-in-6,000, naive EV per $12 ticket is $2 — before taxes and before the chance you would not take the trip. That is fine if you treat spend as entertainment.',
+            'If ARV is $10,000 and odds are 1-in-6,000, naive EV per $12 ticket is ~$1.67 — before taxes and before the chance you would not take the trip. That is fine if you treat spend as entertainment.',
           ],
         },
         {

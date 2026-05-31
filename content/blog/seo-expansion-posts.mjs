@@ -297,7 +297,7 @@ export const SEO_EXPANSION_POSTS = [
 <p class="blog-lede">iPhone giveaway vs travel giveaway is not a moral choice — it is expected value plus lifestyle fit. One fits in your pocket daily; the other becomes a story for decades.</p>
 <figure class="blog-figure"><img src="/images/iphone-quote-hero.webp" alt="iPhone giveaway vs travel giveaway" width="800" height="450" loading="lazy" decoding="async" /></figure>
 <section class="rules-section"><h2>iPhone giveaway pros</h2>
-<p>Immediate utility, lower fulfillment friction, easier to sell if you prefer cash, smaller tax bill than $12k cruise ARV for many winners. Gaviom iPhone draw caps at 3,000 entries on founding pool.</p>
+<p>Immediate utility, lower fulfillment friction, easier to sell if you prefer cash, smaller tax bill than $10k cruise ARV for many winners. Gaviom iPhone draw caps at 3,000 entries on founding pool.</p>
 <p>Before entering any iPhone giveaway vs travel giveaway, read Official Rules for eligibility, ARV, and entry caps. Gaviom publishes specs and odds before pre-sale closes — see <a href="https://gaviom.com/prizes.html">active prizes</a>.</p>
 <p>The <a href="https://www.consumer.ftc.gov/articles/0329-sweepstakes-scams" rel="noopener noreferrer" target="_blank">FTC sweepstakes guidance</a> warns: never pay to claim a prize, and never trust DM-only winner notices.</p>
 <p>Photographed prizes beat stock-photo hype. If a iPhone giveaway vs travel giveaway cannot show real specs before entries open, treat that as a trust signal.</p>
@@ -305,7 +305,7 @@ export const SEO_EXPANSION_POSTS = [
 <p>Capped-entry iPhone giveaway vs travel giveaway pools let you calculate odds honestly. Open-ended viral contests often hide worse expected value behind unlimited share mechanics.</p>
 </section>
 <section class="rules-section"><h2>Travel giveaway pros</h2>
-<p>Experiential value, shared prize for two guests on many packages, memory dividend for families. MSC cruise ARV $12,000 with cash alternative option in rules.</p>
+<p>Experiential value, shared prize for two guests on many packages, memory dividend for families. MSC cruise ARV $10,000 with cash alternative option in rules.</p>
 <p>Capped-entry iPhone giveaway vs travel giveaway pools let you calculate odds honestly. Open-ended viral contests often hide worse expected value behind unlimited share mechanics.</p>
 <p>Free mail-in entry (AMOE) keeps US iPhone giveaway vs travel giveaway lawful when paid paths exist. Gaviom postcards enter the same random pool as checkout tickets — <a href="/free-entry.html">free entry instructions</a>.</p>
 <p>Winner fulfillment includes ID verification, tax paperwork, and prize coordination — plan for that reality whether the prize is tech, travel, or future vehicle categories.</p>
