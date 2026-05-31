@@ -31,6 +31,32 @@ function isFaviconOrBrandRaster(name) {
   );
 }
 
+/** Nav/footer HTML references .webp; generate from preserved brand PNGs at build time */
+function isBrandWebpSource(name) {
+  return /^gaviom-(logo|mark)\.png$/i.test(name);
+}
+
+async function ensureBrandWebp(pngFileName) {
+  const inputPath = join(imagesDir, pngFileName);
+  const base = basename(pngFileName, extname(pngFileName));
+  const webpOut = join(imagesDir, `${base}.webp`);
+  if (!existsSync(inputPath)) return;
+
+  const inputStat = statSync(inputPath);
+  if (existsSync(webpOut)) {
+    const outStat = statSync(webpOut);
+    if (outStat.mtimeMs >= inputStat.mtimeMs) {
+      console.log(`optimize-images: ${base}.webp cached`);
+      return;
+    }
+  }
+
+  await sharp(inputPath, { failOn: 'none' })
+    .webp({ quality: WEBP_QUALITY, effort: 4 })
+    .toFile(webpOut);
+  console.log(`optimize-images: ${base}.webp from ${pngFileName}`);
+}
+
 function shouldSkipVariant(baseName, width) {
   if (!baseName.includes('-mobile') && !baseName.includes('winners-hero')) return false;
   return width > 800;
@@ -86,6 +112,7 @@ const toOptimize = files.filter((f) => !isFaviconOrBrandRaster(f));
 
 for (const file of preserved) {
   console.log(`optimize-images: preserve ${file} (favicon/brand)`);
+  if (isBrandWebpSource(file)) await ensureBrandWebp(file);
 }
 
 for (const file of toOptimize) {
