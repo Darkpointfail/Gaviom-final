@@ -136,7 +136,7 @@
         <div class="sweep-bridge" aria-hidden="true"></div>
         <article class="sweep-panel" data-sweep-index="03">
           <div class="sweep-panel__media">
-            <img src="/images/iphone-hero.webp" alt="" loading="lazy" decoding="async" />
+            <img src="images/iphone-hero.webp" alt="iPhone 17 Pro Max in Natural Titanium" loading="lazy" decoding="async" />
           </div>
           <div class="sweep-panel__veil"></div>
           <div class="sweep-panel__content wrap">
@@ -308,6 +308,21 @@
         return window.matchMedia("(max-width: 768px)").matches;
       }
 
+      function ensureVisiblePanelsRevealed() {
+        wraps.forEach(function (wrap) {
+          if (!wrap.classList.contains("is-filtered-out")) {
+            wrap.classList.add("is-revealed");
+          }
+        });
+      }
+
+      function refreshSweepPage() {
+        applyFilters();
+        ensureVisiblePanelsRevealed();
+        observeSections();
+        observeNav();
+      }
+
       function observeSections() {
         if (revealObs) revealObs.disconnect();
         var targets = document.querySelectorAll(".sweep-panel-wrap:not(.is-filtered-out) .sweep-panel");
@@ -320,7 +335,8 @@
         if ("IntersectionObserver" in window) {
           revealObs = new IntersectionObserver(function (entries) {
             entries.forEach(function (e) {
-              e.target.closest(".sweep-panel-wrap").classList.toggle("is-revealed", e.isIntersecting && e.intersectionRatio >= 0.28);
+              if (!e.isIntersecting || e.intersectionRatio < 0.28) return;
+              e.target.closest(".sweep-panel-wrap").classList.add("is-revealed");
             });
           }, { threshold: [0.28, 0.5] });
           targets.forEach(function (p) { revealObs.observe(p); });
@@ -402,6 +418,10 @@
 
       applyFilters();
       observeNav();
+
+      window.addEventListener("pageshow", function (ev) {
+        if (ev.persisted) refreshSweepPage();
+      });
     })();
   </script>
 </body>
