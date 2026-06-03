@@ -5019,8 +5019,7 @@ body.prizes-page .sweep-filters .sort-select {
   position: absolute;
   inset: 0;
   z-index: 0;
-  opacity: 0.35;
-  transition: opacity 0.55s ease;
+  opacity: 1;
 }
 .sweep-panel-wrap.is-revealed .sweep-panel__media {
   opacity: 1;

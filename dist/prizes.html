@@ -13,12 +13,12 @@
 
 
   <meta charset="UTF-8" />
-  <link rel="icon" href="/favicon.ico" sizes="any" />
-  <link rel="icon" href="/favicon.png" type="image/png" sizes="48x48" />
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="icon" href="/favicon.png?v=2" type="image/png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
   <link rel="manifest" href="/site.webmanifest" />
   <meta name="google-site-verification" content="REPLACE_WITH_YOUR_CODE" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Sweepstakes — Gaviom</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -237,6 +237,7 @@
 
       function sortWraps() {
         var visible = wraps.filter(function (w) { return !w.classList.contains("is-filtered-out"); });
+        var hidden = wraps.filter(function (w) { return w.classList.contains("is-filtered-out"); });
         var key = state.sort;
         if (key === "default") {
           visible.sort(function (a, b) { return Number(a.dataset.sweepSort) - Number(b.dataset.sweepSort); });
@@ -251,9 +252,16 @@
             return leftB - leftA;
           });
         }
-        visible.forEach(function (w) { stack.appendChild(w); });
-        var hidden = wraps.filter(function (w) { return w.classList.contains("is-filtered-out"); });
-        hidden.forEach(function (w) { stack.appendChild(w); });
+        var desired = visible.concat(hidden);
+        var orderChanged = false;
+        for (var i = 0; i < desired.length; i++) {
+          if (stack.children[i] !== desired[i]) {
+            orderChanged = true;
+            break;
+          }
+        }
+        if (!orderChanged) return;
+        desired.forEach(function (w) { stack.appendChild(w); });
       }
 
       function applyFilters() {
@@ -268,7 +276,33 @@
         sortWraps();
         updateJumpLinks();
         refreshDots();
-        observeSections();
+        ensureVisiblePanelsRevealed();
+        observeNav();
+      }
+
+      var STORAGE_KEY = "gaviom-prizes-scroll";
+
+      function saveScrollTarget(wrapId) {
+        try { sessionStorage.setItem(STORAGE_KEY, wrapId); } catch (e) {}
+      }
+
+      function restoreScrollTarget() {
+        var saved;
+        try { saved = sessionStorage.getItem(STORAGE_KEY); } catch (e) {}
+        if (!saved) return;
+        var wrap = document.querySelector('[data-sweep-wrap="' + saved + '"]:not(.is-filtered-out)');
+        if (!wrap) return;
+        requestAnimationFrame(function () {
+          wrap.scrollIntoView({ block: "start", behavior: "instant" in window ? "instant" : "auto" });
+        });
+      }
+
+      function repairAfterNavigation(fromCache) {
+        ensureVisiblePanelsRevealed();
+        refreshDots();
+        updateJumpLinks();
+        observeNav();
+        if (fromCache) restoreScrollTarget();
       }
 
       function updateJumpLinks() {
@@ -303,46 +337,12 @@
         }
       }
 
-      var revealObs;
-      function isMobileMagazine() {
-        return window.matchMedia("(max-width: 768px)").matches;
-      }
-
       function ensureVisiblePanelsRevealed() {
         wraps.forEach(function (wrap) {
           if (!wrap.classList.contains("is-filtered-out")) {
             wrap.classList.add("is-revealed");
           }
         });
-      }
-
-      function refreshSweepPage() {
-        applyFilters();
-        ensureVisiblePanelsRevealed();
-        observeSections();
-        observeNav();
-      }
-
-      function observeSections() {
-        if (revealObs) revealObs.disconnect();
-        var targets = document.querySelectorAll(".sweep-panel-wrap:not(.is-filtered-out) .sweep-panel");
-        if (isMobileMagazine()) {
-          targets.forEach(function (p) {
-            p.closest(".sweep-panel-wrap").classList.add("is-revealed");
-          });
-          return;
-        }
-        if ("IntersectionObserver" in window) {
-          revealObs = new IntersectionObserver(function (entries) {
-            entries.forEach(function (e) {
-              if (!e.isIntersecting || e.intersectionRatio < 0.28) return;
-              e.target.closest(".sweep-panel-wrap").classList.add("is-revealed");
-            });
-          }, { threshold: [0.28, 0.5] });
-          targets.forEach(function (p) { revealObs.observe(p); });
-        } else {
-          targets.forEach(function (p) { p.closest(".sweep-panel-wrap").classList.add("is-revealed"); });
-        }
       }
 
       var navObs;
@@ -416,11 +416,19 @@
         });
       }
 
+      stack.addEventListener("click", function (ev) {
+        var link = ev.target.closest(".sweep-panel__cta");
+        if (!link) return;
+        var wrap = link.closest("[data-sweep-wrap]");
+        if (wrap) saveScrollTarget(wrap.dataset.sweepWrap);
+      });
+
       applyFilters();
-      observeNav();
 
       window.addEventListener("pageshow", function (ev) {
-        if (ev.persisted) refreshSweepPage();
+        requestAnimationFrame(function () {
+          repairAfterNavigation(ev.persisted);
+        });
       });
     })();
   </script>
