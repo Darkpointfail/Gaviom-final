@@ -5027,13 +5027,14 @@ body.prizes-page .sweep-filters .sort-select {
   overflow: hidden;
   isolation: isolate;
 }
+.sweep-panel-wrap:not(.is-filtered-out) .sweep-panel__media,
+.sweep-panel-wrap:not(.is-filtered-out) .sweep-panel__content {
+  opacity: 1;
+}
 .sweep-panel__media {
   position: absolute;
   inset: 0;
   z-index: 0;
-  opacity: 1;
-}
-.sweep-panel-wrap.is-revealed .sweep-panel__media {
   opacity: 1;
 }
 .sweep-panel__media picture {

@@ -280,29 +280,43 @@
         observeNav();
       }
 
-      var STORAGE_KEY = "gaviom-prizes-scroll";
-
-      function saveScrollTarget(wrapId) {
-        try { sessionStorage.setItem(STORAGE_KEY, wrapId); } catch (e) {}
+      function resetFiltersUI() {
+        state = { price: "all", spots: "all", sort: "default" };
+        priceChips.forEach(function (b) { b.classList.toggle("active", b.dataset.filterPrice === "all"); });
+        spotsChips.forEach(function (b) { b.classList.toggle("active", b.dataset.filterSpots === "all"); });
+        if (sortSelect) sortSelect.value = "default";
       }
 
-      function restoreScrollTarget() {
-        var saved;
-        try { saved = sessionStorage.getItem(STORAGE_KEY); } catch (e) {}
-        if (!saved) return;
-        var wrap = document.querySelector('[data-sweep-wrap="' + saved + '"]:not(.is-filtered-out)');
-        if (!wrap) return;
-        requestAnimationFrame(function () {
-          wrap.scrollIntoView({ block: "start", behavior: "instant" in window ? "instant" : "auto" });
-        });
+      function isBackForwardNav() {
+        try {
+          var nav = performance.getEntriesByType("navigation")[0];
+          return !!(nav && nav.type === "back_forward");
+        } catch (e) {
+          return false;
+        }
       }
 
-      function repairAfterNavigation(fromCache) {
+      function scrollToOverview() {
+        if (hero) {
+          hero.scrollIntoView({ block: "start", behavior: "auto" });
+        } else {
+          window.scrollTo(0, 0);
+        }
+      }
+
+      function repairAfterNavigation(ev) {
+        if (ev && (ev.persisted || isBackForwardNav())) {
+          resetFiltersUI();
+          applyFilters();
+          requestAnimationFrame(function () {
+            requestAnimationFrame(scrollToOverview);
+          });
+          return;
+        }
         ensureVisiblePanelsRevealed();
         refreshDots();
         updateJumpLinks();
         observeNav();
-        if (fromCache) restoreScrollTarget();
       }
 
       function updateJumpLinks() {
@@ -416,19 +430,10 @@
         });
       }
 
-      stack.addEventListener("click", function (ev) {
-        var link = ev.target.closest(".sweep-panel__cta");
-        if (!link) return;
-        var wrap = link.closest("[data-sweep-wrap]");
-        if (wrap) saveScrollTarget(wrap.dataset.sweepWrap);
-      });
-
       applyFilters();
 
       window.addEventListener("pageshow", function (ev) {
-        requestAnimationFrame(function () {
-          repairAfterNavigation(ev.persisted);
-        });
+        repairAfterNavigation(ev);
       });
     })();
   </script>
