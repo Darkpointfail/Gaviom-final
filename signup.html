@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SSJ8R41VP4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SSJ8R41VP4');
+  </script>
+
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon.ico?v=3" type="image/x-icon" sizes="48x48" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="google-site-verification" content="REPLACE_WITH_YOUR_CODE" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Create account — Gaviom</title>
+  <meta name="description" content="Create your Gaviom account to enter US sweepstakes with published odds and verified prizes." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Geist+Mono:wght@400;500&family=Geist:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css?v=20260604-auth" />
+  <link rel="stylesheet" href="/mobile.css?v=20260604-auth" />
+</head>
+<body class="auth-page" data-auth-page="signup">
+  <header class="co-head auth-head">
+    <div class="wrap co-head-inner">
+      <a href="/" class="brand" aria-label="Gaviom home"><span class="brand-mark" aria-hidden="true">G</span> Gaviom</a>
+      <a href="/signin.html" class="co-head-back">← Sign in</a>
+    </div>
+  </header>
+
+  <main class="auth-main">
+    <div class="wrap auth-shell">
+      <aside class="auth-aside" aria-label="About Gaviom accounts">
+        <p class="auth-aside__eyebrow font-mono"><span class="bar"></span> Join Gaviom</p>
+        <h1 class="auth-aside__title font-display">One account.<br />Every draw.</h1>
+        <p class="auth-aside__lede font-quote">Create a free account to pre-order tickets, follow live draws, and manage Gaviom+ when you are ready.</p>
+        <ul class="auth-aside__list font-mono">
+          <li>No purchase necessary to enter by mail</li>
+          <li>Prizes escrowed before entries open</li>
+          <li>Void where prohibited by law</li>
+        </ul>
+      </aside>
+
+      <section class="auth-card" aria-label="Create account form">
+        <h2 class="auth-card__title font-display">Create account</h2>
+        <p class="auth-card__sub">Already registered? <a href="/signin.html">Sign in</a></p>
+
+        <p class="auth-alert" data-auth-alert hidden role="alert"></p>
+
+        <form class="co-form auth-form" id="auth-signup-form" novalidate>
+          <div class="auth-field-row">
+            <div class="co-field">
+              <label for="signup-first">First name</label>
+              <input id="signup-first" name="first_name" type="text" autocomplete="given-name" required />
+            </div>
+            <div class="co-field">
+              <label for="signup-last">Last name</label>
+              <input id="signup-last" name="last_name" type="text" autocomplete="family-name" required />
+            </div>
+          </div>
+          <div class="co-field">
+            <label for="signup-email">Email</label>
+            <input id="signup-email" name="email" type="email" autocomplete="email" placeholder="you@email.com" required />
+          </div>
+          <div class="auth-field-row">
+            <div class="co-field">
+              <label for="signup-password">Password</label>
+              <input id="signup-password" name="password" type="password" autocomplete="new-password" minlength="8" required />
+            </div>
+            <div class="co-field">
+              <label for="signup-confirm">Confirm password</label>
+              <input id="signup-confirm" name="password_confirm" type="password" autocomplete="new-password" minlength="8" required />
+            </div>
+          </div>
+          <div class="auth-field-row">
+            <div class="co-field">
+              <label for="signup-dob">Date of birth</label>
+              <input id="signup-dob" name="date_of_birth" type="date" required />
+            </div>
+            <div class="co-field">
+              <label for="signup-state">State</label>
+              <select id="signup-state" name="state" required>
+                <option value="" selected disabled>State</option>
+              </select>
+            </div>
+          </div>
+          <label class="auth-check">
+            <input id="signup-terms" name="terms" type="checkbox" required />
+            <span>I am 18+ and agree to the <a href="/terms.html">Terms</a> and <a href="/privacy.html">Privacy Policy</a>.</span>
+          </label>
+          <label class="auth-check">
+            <input id="signup-marketing" name="marketing" type="checkbox" />
+            <span>Email me sweepstakes news and launch updates (optional).</span>
+          </label>
+          <button type="submit" class="btn btn-primary btn-lg auth-submit">Create account</button>
+        </form>
+
+        <p class="auth-legal font-mono">Gaviom Inc. · Delaware · Sweepstakes void where prohibited.</p>
+      </section>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/auth-config.js"></script>
+  <script src="/auth.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -14,3 +14,6 @@ images/**/*.webp
 
 # Keep the example template tracked (no real values inside)
 !.env.example
+
+# Local Supabase overrides (optional — anon key is public; use if you prefer not to commit keys)
+auth-config.local.js
