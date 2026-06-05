@@ -1162,12 +1162,12 @@ a.brand.corp-brand,
   font-weight: 500;
   color: var(--gold-light);
   text-decoration: none;
-  pointer-events: none;
-  cursor: default;
+  cursor: pointer;
   white-space: nowrap;
 }
 .nav-right .nav-signin:hover {
-  color: var(--gold-light);
+  color: var(--paper);
+  text-decoration: underline;
 }
 .nav .btn-ghost,
 .nav-right .btn-ghost {
