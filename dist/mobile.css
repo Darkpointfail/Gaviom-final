@@ -1309,12 +1309,17 @@ body.nav-open .nav-menu-icon::after {
     background: color-mix(in oklab, var(--paper) 20%, transparent);
   }
 
+  body.prizes-page .sweep-panel__actions {
+    align-items: flex-start;
+    width: auto;
+  }
+
   body.prizes-page .sweep-panel__cta {
-    display: flex !important;
+    display: inline-flex !important;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    min-width: 0;
+    width: auto;
+    min-width: 200px;
     min-height: 48px;
     position: relative;
     z-index: 15;
