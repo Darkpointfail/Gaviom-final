@@ -50,9 +50,36 @@
   }
 
   function friendlyAuthError(err) {
+    var code = (err && (err.code || err.error_code)) || '';
     var msg = (err && err.message) ? String(err.message) : '';
+
+    var known = {
+      email_address_not_authorized:
+        'Gaviom cannot send a confirmation email to this address yet. The Supabase project needs custom SMTP configured, or email confirmation must be disabled in the dashboard.',
+      email_address_invalid:
+        'Supabase could not accept this email address. Check for typos and spaces, or try another provider (Outlook, Yahoo, iCloud).',
+      over_email_send_rate_limit:
+        'Too many signup attempts for this email. Wait about 10 minutes, then try again.',
+      over_request_rate_limit:
+        'Too many signup attempts from your connection. Wait a few minutes, then try again.',
+      email_exists:
+        'This email is already registered. Sign in instead, or use Forgot password.',
+      user_already_exists:
+        'This email is already registered. Sign in instead, or use Forgot password.',
+      signup_disabled:
+        'New account creation is temporarily disabled.',
+      weak_password:
+        'Choose a stronger password (at least 8 characters).',
+      unexpected_failure:
+        'Account service error — often caused by email confirmation not being configured. Check Supabase Auth settings.',
+    };
+
+    if (known[code]) return known[code];
     if (/load failed|failed to fetch|networkerror/i.test(msg)) {
       return 'Cannot reach Gaviom servers. Check your connection, or try again in a moment.';
+    }
+    if (/invalid/i.test(msg) && /email/i.test(msg)) {
+      return known.email_address_invalid;
     }
     return msg || 'Something went wrong. Please try again.';
   }
@@ -77,7 +104,7 @@
       window.location.href = next;
       return;
     }
-    window.location.href = '/prizes.html';
+    window.location.href = '/prizes.html?welcome=1';
   }
 
   function ageFromDob(isoDate) {

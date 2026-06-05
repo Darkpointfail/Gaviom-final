@@ -5734,6 +5734,14 @@ body.auth-page::after { display: none; }
 .nav-cart__count.is-empty { opacity: 0.45; }
 body.cart-open,
 body.cart-modal-open { overflow: hidden; }
+.cart-overlay:not(.is-open),
+.cart-drawer:not(.is-open),
+.cart-modal:not(.is-open),
+.cart-toast:not(.is-open) {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
 .cart-overlay {
   position: fixed;
   inset: 0;
@@ -5976,7 +5984,7 @@ body.cart-modal-open { overflow: hidden; }
   box-shadow: var(--sh-3);
 }
 .cart-toast__msg { font-size: 16px; margin-bottom: 12px; }
-.cart-toast__actions { display: flex; gap: 10px; }
+.cart-toast__actions { display: flex; gap: 10px; justify-content: flex-end; }
 .cart-toast__actions .btn-ghost { color: var(--paper); border-color: color-mix(in oklab, var(--paper) 25%, transparent); }
 .sweep-panel__actions {
   display: flex;

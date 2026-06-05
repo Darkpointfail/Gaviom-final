@@ -348,20 +348,23 @@
     if (checkoutBtn) checkoutBtn.textContent = 'Checkout · ' + fmt(totals.subtotal);
   }
 
+  function setPanelOpen(el, open) {
+    if (!el) return;
+    el.classList.toggle('is-open', open);
+    el.hidden = !open;
+  }
+
   function openDrawer() {
     ensureShell();
     renderDrawer();
-    var drawer = document.querySelector('[data-cart-drawer]');
-    var overlay = document.querySelector('[data-cart-overlay]');
-    if (drawer) drawer.hidden = false;
-    if (overlay) overlay.hidden = false;
+    setPanelOpen(document.querySelector('[data-cart-drawer]'), true);
+    setPanelOpen(document.querySelector('[data-cart-overlay]'), true);
     document.body.classList.add('cart-open');
   }
 
   function closeDrawer() {
-    document.querySelectorAll('[data-cart-drawer], [data-cart-overlay]').forEach(function (el) {
-      el.hidden = true;
-    });
+    setPanelOpen(document.querySelector('[data-cart-drawer]'), false);
+    setPanelOpen(document.querySelector('[data-cart-overlay]'), false);
     document.body.classList.remove('cart-open');
   }
 
@@ -403,13 +406,12 @@
     }
     if (input) input.value = String(modalQty);
     syncModalSubtotal();
-    if (modal) modal.hidden = false;
+    setPanelOpen(modal, true);
     document.body.classList.add('cart-modal-open');
   }
 
   function closeModal() {
-    var modal = document.querySelector('[data-cart-modal]');
-    if (modal) modal.hidden = true;
+    setPanelOpen(document.querySelector('[data-cart-modal]'), false);
     document.body.classList.remove('cart-modal-open');
     modalPrizeId = null;
   }
@@ -447,14 +449,13 @@
   function showToast() {
     var toast = document.querySelector('[data-cart-toast]');
     if (!toast) return;
-    toast.hidden = false;
+    setPanelOpen(toast, true);
     clearTimeout(showToast._t);
     showToast._t = setTimeout(hideToast, 6000);
   }
 
   function hideToast() {
-    var toast = document.querySelector('[data-cart-toast]');
-    if (toast) toast.hidden = true;
+    setPanelOpen(document.querySelector('[data-cart-toast]'), false);
   }
 
   function getDefaultQtyFromPage(prizeId) {
@@ -482,12 +483,40 @@
     });
   }
 
+  function maybeShowWelcome() {
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('welcome') !== '1') return;
+    ensureShell();
+    var toast = document.querySelector('[data-cart-toast]');
+    if (!toast) return;
+    var msg = toast.querySelector('.cart-toast__msg');
+    var actions = toast.querySelector('.cart-toast__actions');
+    if (msg) msg.textContent = 'Welcome to Gaviom! Browse sweepstakes and tap Add tickets when you are ready.';
+    if (actions) {
+      actions.innerHTML =
+        '<button type="button" class="btn btn-primary" data-welcome-close>Got it</button>';
+      actions.querySelector('[data-welcome-close]').addEventListener('click', hideToast);
+    }
+    setPanelOpen(toast, true);
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(hideToast, 8000);
+    if (window.history && window.history.replaceState) {
+      params.delete('welcome');
+      var qs = params.toString();
+      window.history.replaceState(null, '', window.location.pathname + (qs ? '?' + qs : '') + window.location.hash);
+    }
+  }
+
   function init() {
     ensureShell();
+    closeDrawer();
+    closeModal();
+    hideToast();
     injectNavButtons();
     updateBadge();
     renderDrawer();
     bindAddButtons();
+    maybeShowWelcome();
   }
 
   window.GaviomCart = {
