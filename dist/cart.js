@@ -209,9 +209,9 @@
         '</div>' +
       '</div>' +
       '<div class="cart-toast" data-cart-toast hidden role="status">' +
-        '<p class="cart-toast__msg font-display">Tickets added to your cart</p>' +
+        '<p class="cart-toast__msg font-display">Added to your cart</p>' +
         '<div class="cart-toast__actions">' +
-          '<button type="button" class="btn btn-ghost" data-cart-toast-browse>Keep browsing</button>' +
+          '<button type="button" class="btn btn-ghost" data-cart-toast-browse>Continue</button>' +
           '<button type="button" class="btn btn-primary" data-cart-toast-view>View cart</button>' +
         '</div>' +
       '</div>';
@@ -466,13 +466,19 @@
     return 5;
   }
 
+  function addFromButton(addBtn) {
+    var id = addBtn.getAttribute('data-cart-add');
+    if (!id || !PRIZES[id]) return;
+    addOrUpdate(id, getDefaultQtyFromPage(id));
+    showToast();
+  }
+
   function bindAddButtons() {
     document.addEventListener('click', function (e) {
       var addBtn = e.target.closest('[data-cart-add]');
       if (addBtn) {
         e.preventDefault();
-        var id = addBtn.getAttribute('data-cart-add');
-        openModal(id, getDefaultQtyFromPage(id));
+        addFromButton(addBtn);
         return;
       }
       var openBtn = e.target.closest('[data-cart-open]');
@@ -481,30 +487,6 @@
         openDrawer();
       }
     });
-  }
-
-  function maybeShowWelcome() {
-    var params = new URLSearchParams(window.location.search);
-    if (params.get('welcome') !== '1') return;
-    ensureShell();
-    var toast = document.querySelector('[data-cart-toast]');
-    if (!toast) return;
-    var msg = toast.querySelector('.cart-toast__msg');
-    var actions = toast.querySelector('.cart-toast__actions');
-    if (msg) msg.textContent = 'Welcome to Gaviom! Browse sweepstakes and tap Add tickets when you are ready.';
-    if (actions) {
-      actions.innerHTML =
-        '<button type="button" class="btn btn-primary" data-welcome-close>Got it</button>';
-      actions.querySelector('[data-welcome-close]').addEventListener('click', hideToast);
-    }
-    setPanelOpen(toast, true);
-    clearTimeout(showToast._t);
-    showToast._t = setTimeout(hideToast, 8000);
-    if (window.history && window.history.replaceState) {
-      params.delete('welcome');
-      var qs = params.toString();
-      window.history.replaceState(null, '', window.location.pathname + (qs ? '?' + qs : '') + window.location.hash);
-    }
   }
 
   function init() {
@@ -516,7 +498,6 @@
     updateBadge();
     renderDrawer();
     bindAddButtons();
-    maybeShowWelcome();
   }
 
   window.GaviomCart = {

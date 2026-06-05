@@ -159,7 +159,7 @@
     });
 
     document.querySelectorAll('[data-presale-cta], [data-entry-cta], [data-sticky-cta], [data-bundle-cta]').forEach((el) => {
-      if (el.hasAttribute('data-cart-add')) return;
+      if (el.hasAttribute('data-cart-add') && el.hasAttribute('data-bundle-cta')) return;
       if (preLaunch) {
         el.textContent = el.dataset.presaleLabel || PRESALE_CTA_LABEL;
       }
@@ -292,12 +292,13 @@
           ticketsEl.textContent = `${entries} ticket${entries === '1' ? '' : 's'}`;
         }
         const presale = document.body.classList.contains('gv-prelaunch');
-        const tw = entries === '1' ? 'ticket' : 'tickets';
         if (ctaEl) {
           if (ctaEl.hasAttribute('data-cart-add')) {
             ctaEl.textContent = presale
-              ? `Add ${entries} tickets`
-              : `Add ${entries} ${tw} — $${price}`;
+              ? PRESALE_CTA_LABEL
+              : (ctaEl.dataset.presaleLabel
+                ? ctaEl.dataset.presaleLabel.replace('{price}', price)
+                : `Pre-order — $${price}`);
           } else {
             ctaEl.textContent = presale
               ? PRESALE_CTA_LABEL
@@ -313,7 +314,9 @@
         }
         const stickyEl = document.querySelector('[data-sticky-cta][data-cart-add]');
         if (stickyEl) {
-          stickyEl.textContent = presale ? `Add ${entries} tickets` : 'Add to cart';
+          stickyEl.textContent = presale
+            ? PRESALE_CTA_LABEL
+            : `Pre-order — $${price}`;
         }
         if (coTotal) coTotal.textContent = `$${parseFloat(price).toFixed(2)}`;
         if (coLines) {

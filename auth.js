@@ -104,7 +104,7 @@
       window.location.href = next;
       return;
     }
-    window.location.href = '/prizes.html?welcome=1';
+    window.location.href = '/prizes.html';
   }
 
   function ageFromDob(isoDate) {
