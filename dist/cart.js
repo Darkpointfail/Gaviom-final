@@ -468,7 +468,15 @@
 
   function addFromButton(addBtn) {
     var id = addBtn.getAttribute('data-cart-add');
-    if (!id || !PRIZES[id]) return;
+    var prize = id && PRIZES[id];
+    if (!prize) return;
+
+    /* Only the main bundle CTA adds to cart — everything else goes to the detail page */
+    if (!addBtn.hasAttribute('data-bundle-cta') && !addBtn.hasAttribute('data-sticky-cta')) {
+      window.location.href = prize.url;
+      return;
+    }
+
     addOrUpdate(id, getDefaultQtyFromPage(id));
     showToast();
   }
