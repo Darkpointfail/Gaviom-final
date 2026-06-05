@@ -1045,6 +1045,7 @@
         '.final-ctas a.btn-primary',
         '.sticky-cta a.btn-primary',
         '.nav-right a.btn-primary',
+        '.nav-right button.btn-primary',
         '.nav-mobile-actions a.btn-primary',
       ].join(', ');
 
