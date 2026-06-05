@@ -36,16 +36,34 @@
   <main class="co-main">
     <div class="wrap co-shell">
       <section class="co-order" aria-label="Order summary">
-        <p class="co-order-kicker font-mono" data-checkout-kicker>Sweepstakes tickets</p>
-        <h1 class="co-order-title font-display" data-checkout-title>MSC Cruise · 7 Nights</h1>
-        <p class="co-order-clarify" data-checkout-clarify>
-          You are purchasing <strong data-checkout-ticket-count>5 tickets</strong> to enter the
-          <strong data-checkout-event-name>MSC Cruise · 7 Nights</strong> sweepstakes.
-          You are <em>not</em> buying the cruise, prize, or trip itself.
-        </p>
-        <p class="co-order-detail" data-checkout-detail-line>Draw July 5, 2026 · Odds 1 in 6,000</p>
-        <p class="co-order-total-label font-mono">Total for tickets</p>
+        <div data-checkout-empty hidden>
+          <p class="co-order-kicker font-mono">Your cart</p>
+          <h1 class="co-order-title font-display">No tickets yet</h1>
+          <p class="co-order-clarify">Add tickets from one or more sweepstakes, then return here to complete your order in one checkout.</p>
+          <a href="prizes.html" class="btn btn-primary btn-lg">Browse sweepstakes</a>
+        </div>
+        <div data-checkout-single>
+          <p class="co-order-kicker font-mono" data-checkout-kicker>Sweepstakes tickets</p>
+          <h1 class="co-order-title font-display" data-checkout-title>MSC Cruise · 7 Nights</h1>
+          <p class="co-order-clarify" data-checkout-clarify>
+            You are purchasing <strong data-checkout-ticket-count>5 tickets</strong> to enter the
+            <strong data-checkout-event-name>MSC Cruise · 7 Nights</strong> sweepstakes.
+            You are <em>not</em> buying the cruise, prize, or trip itself.
+          </p>
+          <p class="co-order-detail" data-checkout-detail-line>Draw July 5, 2026 · Odds 1 in 6,000</p>
+        </div>
+        <div data-checkout-cart hidden>
+          <p class="co-order-kicker font-mono">Your cart</p>
+          <h1 class="co-order-title font-display" data-checkout-title>Multiple sweepstakes</h1>
+          <p class="co-order-clarify" data-checkout-clarify>
+            You are purchasing sweepstakes tickets only — not the prizes, trips, or products themselves.
+          </p>
+          <div class="co-cart-lines" data-cart-checkout-lines></div>
+          <p class="co-cart-upsell" data-cart-checkout-upsell hidden></p>
+        </div>
+        <p class="co-order-total-label font-mono" data-checkout-total-label>Total for tickets</p>
         <p class="co-order-total font-display" data-co-total>$45.00</p>
+        <p class="co-order-detail font-mono" data-checkout-ticket-summary hidden></p>
       </section>
 
       <form class="co-form" id="gaviom-checkout" action="#" method="post" novalidate>
@@ -171,6 +189,7 @@
     </div>
   </main>
 
+  <script src="cart.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

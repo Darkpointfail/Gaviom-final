@@ -48,9 +48,9 @@
         <h2 class="auth-card__title font-display">Sign in</h2>
         <p class="auth-card__sub">New here? <a href="/signup.html">Create an account</a></p>
 
-        <p class="auth-alert" data-auth-alert hidden role="alert"></p>
+        <p class="auth-alert" data-auth-alert hidden role="alert" aria-live="polite"></p>
 
-        <form class="co-form auth-form" id="auth-signin-form" novalidate>
+        <form class="co-form auth-form" id="auth-signin-form" action="/signin.html" method="post">
           <div class="co-field">
             <label for="signin-email">Email</label>
             <input id="signin-email" name="email" type="email" autocomplete="email" placeholder="you@email.com" required />
@@ -71,6 +71,5 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="/auth-config.js"></script>
   <script src="/auth.js"></script>
-  <script src="/app.js"></script>
 </body>
 </html>

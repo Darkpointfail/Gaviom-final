@@ -95,6 +95,7 @@ function footer() {
     </div>
     <div class="wrap footer-legal"><span>© 2026 Gaviom Inc.</span><span>18+ · Void where prohibited</span></div>
   </footer>
+  <script src="/cart.js"></script>
   <script src="/app.js"></script>`;
 }
 

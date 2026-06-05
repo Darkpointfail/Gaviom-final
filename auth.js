@@ -36,6 +36,25 @@
     el.textContent = message || '';
     el.classList.remove('auth-alert--error', 'auth-alert--success');
     if (type) el.classList.add('auth-alert--' + type);
+    if (message) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+
+  function setSubmitLabel(form, text) {
+    if (!form) return;
+    var btn = form.querySelector('[type="submit"]');
+    if (!btn) return;
+    if (!btn.dataset.defaultLabel) btn.dataset.defaultLabel = btn.textContent;
+    btn.textContent = text || btn.dataset.defaultLabel;
+  }
+
+  function friendlyAuthError(err) {
+    var msg = (err && err.message) ? String(err.message) : '';
+    if (/load failed|failed to fetch|networkerror/i.test(msg)) {
+      return 'Cannot reach Gaviom servers. Check your connection, or try again in a moment.';
+    }
+    return msg || 'Something went wrong. Please try again.';
   }
 
   function setLoading(form, loading) {
@@ -44,6 +63,11 @@
     form.querySelectorAll('button, input, select').forEach(function (node) {
       node.disabled = loading;
     });
+    if (loading) {
+      setSubmitLabel(form, form.id === 'auth-signup-form' ? 'Creating account…' : 'Signing in…');
+    } else {
+      setSubmitLabel(form, '');
+    }
   }
 
   function redirectAfterAuth() {
@@ -76,6 +100,100 @@
     });
   }
 
+  function clearFieldErrors(form) {
+    if (!form) return;
+    form.querySelectorAll('.auth-input-invalid').forEach(function (el) {
+      el.classList.remove('auth-input-invalid');
+    });
+  }
+
+  function markFieldInvalid(el) {
+    if (!el) return;
+    el.classList.add('auth-input-invalid');
+    el.focus({ preventScroll: false });
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function setupSignupDob() {
+    var dob = $('#signup-dob');
+    if (!dob) return;
+    var today = new Date();
+    var max = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+    var min = new Date(today.getFullYear() - 110, today.getMonth(), today.getDate());
+    dob.max = max.toISOString().slice(0, 10);
+    dob.min = min.toISOString().slice(0, 10);
+  }
+
+  function validateSignupForm(form, alertEl) {
+    clearFieldErrors(form);
+    var first = $('#signup-first');
+    var last = $('#signup-last');
+    var email = $('#signup-email');
+    var password = $('#signup-password');
+    var confirm = $('#signup-confirm');
+    var dob = $('#signup-dob');
+    var state = $('#signup-state');
+    var terms = $('#signup-terms');
+
+    if (!first || !first.value.trim()) {
+      showAlert(alertEl, 'Please enter your first name.', 'error');
+      markFieldInvalid(first);
+      return false;
+    }
+    if (!last || !last.value.trim()) {
+      showAlert(alertEl, 'Please enter your last name.', 'error');
+      markFieldInvalid(last);
+      return false;
+    }
+    if (!email || !email.value.trim()) {
+      showAlert(alertEl, 'Please enter your email address.', 'error');
+      markFieldInvalid(email);
+      return false;
+    }
+    if (!password || !password.value) {
+      showAlert(alertEl, 'Please choose a password (8+ characters).', 'error');
+      markFieldInvalid(password);
+      return false;
+    }
+    if (password.value.length < 8) {
+      showAlert(alertEl, 'Password must be at least 8 characters.', 'error');
+      markFieldInvalid(password);
+      return false;
+    }
+    if (!confirm || !confirm.value) {
+      showAlert(alertEl, 'Please confirm your password.', 'error');
+      markFieldInvalid(confirm);
+      return false;
+    }
+    if (password.value !== confirm.value) {
+      showAlert(alertEl, 'Passwords do not match.', 'error');
+      markFieldInvalid(confirm);
+      return false;
+    }
+    if (!dob || !dob.value) {
+      showAlert(alertEl, 'Please select your date of birth.', 'error');
+      markFieldInvalid(dob);
+      return false;
+    }
+    var age = ageFromDob(dob.value);
+    if (age === null || age < 18) {
+      showAlert(alertEl, 'You must be 18 or older to create an account.', 'error');
+      markFieldInvalid(dob);
+      return false;
+    }
+    if (!state || !state.value) {
+      showAlert(alertEl, 'Please select your state.', 'error');
+      markFieldInvalid(state);
+      return false;
+    }
+    if (!terms || !terms.checked) {
+      showAlert(alertEl, 'Please accept the Terms and Privacy Policy.', 'error');
+      if (terms) markFieldInvalid(terms);
+      return false;
+    }
+    return true;
+  }
+
   async function guardSignedIn() {
     var page = document.body.dataset.authPage;
     if (page !== 'signin' && page !== 'signup') return;
@@ -96,6 +214,10 @@
     form.addEventListener('submit', async function (ev) {
       ev.preventDefault();
       showAlert(alertEl, '', '');
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
       var email = ($('#signin-email') || {}).value || '';
       var password = ($('#signin-password') || {}).value || '';
       if (!email || !password) {
@@ -110,7 +232,7 @@
         showAlert(alertEl, 'Signed in. Redirecting…', 'success');
         redirectAfterAuth();
       } catch (err) {
-        showAlert(alertEl, err.message || 'Could not sign in. Check your credentials.', 'error');
+        showAlert(alertEl, friendlyAuthError(err), 'error');
       } finally {
         setLoading(form, false);
       }
@@ -135,7 +257,7 @@
           if (result.error) throw result.error;
           showAlert(alertEl, 'Password reset email sent. Check your inbox.', 'success');
         } catch (err) {
-          showAlert(alertEl, err.message || 'Could not send reset email.', 'error');
+          showAlert(alertEl, friendlyAuthError(err), 'error');
         } finally {
           setLoading(form, false);
         }
@@ -148,41 +270,25 @@
     if (!form) return;
     var alertEl = $('[data-auth-alert]');
     fillStateSelect($('#signup-state'));
+    setupSignupDob();
+
+    form.querySelectorAll('input, select').forEach(function (el) {
+      el.addEventListener('input', function () { el.classList.remove('auth-input-invalid'); });
+      el.addEventListener('change', function () { el.classList.remove('auth-input-invalid'); });
+    });
 
     form.addEventListener('submit', async function (ev) {
       ev.preventDefault();
       showAlert(alertEl, '', '');
-      var firstName = ($('#signup-first') || {}).value || '';
-      var lastName = ($('#signup-last') || {}).value || '';
-      var email = ($('#signup-email') || {}).value || '';
-      var password = ($('#signup-password') || {}).value || '';
-      var confirm = ($('#signup-confirm') || {}).value || '';
-      var dob = ($('#signup-dob') || {}).value || '';
-      var state = ($('#signup-state') || {}).value || '';
-      var terms = ($('#signup-terms') || {}).checked;
-      var marketing = ($('#signup-marketing') || {}).checked;
+      if (!validateSignupForm(form, alertEl)) return;
 
-      if (!firstName.trim() || !lastName.trim() || !email || !password || !dob || !state) {
-        showAlert(alertEl, 'Please complete all required fields.', 'error');
-        return;
-      }
-      if (password.length < 8) {
-        showAlert(alertEl, 'Password must be at least 8 characters.', 'error');
-        return;
-      }
-      if (password !== confirm) {
-        showAlert(alertEl, 'Passwords do not match.', 'error');
-        return;
-      }
-      var age = ageFromDob(dob);
-      if (age === null || age < 18) {
-        showAlert(alertEl, 'You must be 18 or older to create an account.', 'error');
-        return;
-      }
-      if (!terms) {
-        showAlert(alertEl, 'Please accept the Terms and Privacy Policy.', 'error');
-        return;
-      }
+      var firstName = $('#signup-first').value;
+      var lastName = $('#signup-last').value;
+      var email = $('#signup-email').value;
+      var password = $('#signup-password').value;
+      var dob = $('#signup-dob').value;
+      var state = $('#signup-state').value;
+      var marketing = ($('#signup-marketing') || {}).checked;
 
       setLoading(form, true);
       try {
@@ -210,7 +316,7 @@
           form.reset();
         }
       } catch (err) {
-        showAlert(alertEl, err.message || 'Could not create account. Try again.', 'error');
+        showAlert(alertEl, friendlyAuthError(err), 'error');
       } finally {
         setLoading(form, false);
       }

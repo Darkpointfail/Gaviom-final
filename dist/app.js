@@ -159,6 +159,7 @@
     });
 
     document.querySelectorAll('[data-presale-cta], [data-entry-cta], [data-sticky-cta], [data-bundle-cta]').forEach((el) => {
+      if (el.hasAttribute('data-cart-add')) return;
       if (preLaunch) {
         el.textContent = el.dataset.presaleLabel || PRESALE_CTA_LABEL;
       }
@@ -291,17 +292,28 @@
           ticketsEl.textContent = `${entries} ticket${entries === '1' ? '' : 's'}`;
         }
         const presale = document.body.classList.contains('gv-prelaunch');
+        const tw = entries === '1' ? 'ticket' : 'tickets';
         if (ctaEl) {
-          ctaEl.textContent = presale
-            ? PRESALE_CTA_LABEL
-            : (ctaEl.dataset.presaleLabel
-              ? ctaEl.dataset.presaleLabel.replace('{price}', price)
-              : `Enter — $${price}`);
-          const href = ctaEl.getAttribute('href') || '/checkout.html?prize=msc';
-          const base = href.split('?')[0];
-          const qs = new URLSearchParams(href.split('?')[1] || 'prize=msc');
-          qs.set('bundle', entries);
-          ctaEl.href = `${base}?${qs.toString()}`;
+          if (ctaEl.hasAttribute('data-cart-add')) {
+            ctaEl.textContent = presale
+              ? `Add ${entries} tickets`
+              : `Add ${entries} ${tw} — $${price}`;
+          } else {
+            ctaEl.textContent = presale
+              ? PRESALE_CTA_LABEL
+              : (ctaEl.dataset.presaleLabel
+                ? ctaEl.dataset.presaleLabel.replace('{price}', price)
+                : `Enter — $${price}`);
+            const href = ctaEl.getAttribute('href') || '/checkout.html?prize=msc';
+            const base = href.split('?')[0];
+            const qs = new URLSearchParams(href.split('?')[1] || 'prize=msc');
+            qs.set('bundle', entries);
+            ctaEl.href = `${base}?${qs.toString()}`;
+          }
+        }
+        const stickyEl = document.querySelector('[data-sticky-cta][data-cart-add]');
+        if (stickyEl) {
+          stickyEl.textContent = presale ? `Add ${entries} tickets` : 'Add to cart';
         }
         if (coTotal) coTotal.textContent = `$${parseFloat(price).toFixed(2)}`;
         if (coLines) {
@@ -862,6 +874,70 @@
       });
     }
 
+    function initCheckoutFromCart(items, cart) {
+      const totals = cart.getTotals(items);
+      const ticketWord = totals.tickets === 1 ? 'ticket' : 'tickets';
+      const fmt = cart.fmt;
+      const presale = document.body.classList.contains('gv-prelaunch');
+
+      const empty = document.querySelector('[data-checkout-empty]');
+      const single = document.querySelector('[data-checkout-single]');
+      const cartSection = document.querySelector('[data-checkout-cart]');
+      const totalLabel = document.querySelector('[data-checkout-total-label]');
+      const coTotal = document.querySelector('[data-co-total]');
+      const submit = document.querySelector('[data-checkout-submit], [data-bundle-cta]');
+      const back = document.querySelector('[data-checkout-back]');
+      const summary = document.querySelector('[data-checkout-ticket-summary]');
+
+      if (empty) empty.hidden = true;
+      if (single) single.hidden = true;
+      if (cartSection) cartSection.hidden = false;
+
+      const titleEl = cartSection?.querySelector('[data-checkout-title]');
+      if (titleEl) {
+        titleEl.textContent = items.length === 1 ? items[0].title : `${items.length} sweepstakes`;
+      }
+
+      const linesEl = document.querySelector('[data-cart-checkout-lines]');
+      if (linesEl) {
+        linesEl.innerHTML = items.map((item) => {
+          const unit = (item.lineTotal / item.qty).toFixed(2);
+          return (
+            '<article class="co-cart-line">' +
+            `<a href="${item.url}" class="co-cart-line__thumb"><img src="${item.image}" alt="" loading="lazy" /></a>` +
+            '<div>' +
+            `<a href="${item.url}" class="co-cart-line__title">${item.title}</a>` +
+            `<p class="co-cart-line__meta">${item.qty} ticket${item.qty === 1 ? '' : 's'} × $${unit}</p>` +
+            '</div>' +
+            `<strong class="co-cart-line__price">${fmt(item.lineTotal)}</strong>` +
+            '</article>'
+          );
+        }).join('');
+      }
+
+      const upsell = document.querySelector('[data-cart-checkout-upsell]');
+      if (upsell) {
+        upsell.innerHTML = cart.upsellMessage(items);
+        upsell.hidden = false;
+      }
+
+      if (totalLabel) totalLabel.hidden = false;
+      if (coTotal) coTotal.textContent = fmt(totals.subtotal);
+      if (summary) {
+        summary.textContent = `${totals.tickets} ${ticketWord} across ${items.length} sweepstakes`;
+        summary.hidden = false;
+      }
+      if (back) {
+        back.href = '/prizes.html';
+        back.textContent = '← Back to sweepstakes';
+      }
+      if (submit) {
+        submit.textContent = presale
+          ? `Pre-order ${totals.tickets} ${ticketWord} — ${fmt(totals.subtotal)}`
+          : `Pay ${fmt(totals.subtotal)} for ${totals.tickets} ${ticketWord}`;
+      }
+    }
+
     function initCheckoutPrize() {
       const form = document.getElementById('gaviom-checkout');
       if (!form) return;
@@ -871,6 +947,30 @@
 
       if (plan === 'monthly' || plan === 'annual') {
         initCheckoutMembership(plan);
+        return;
+      }
+
+      const cart = window.GaviomCart;
+      const items = cart ? cart.load() : [];
+
+      if (items.length > 0) {
+        initCheckoutFromCart(items, cart);
+        return;
+      }
+
+      if (!params.get('prize')) {
+        const empty = document.querySelector('[data-checkout-empty]');
+        const single = document.querySelector('[data-checkout-single]');
+        const cartSection = document.querySelector('[data-checkout-cart]');
+        const totalLabel = document.querySelector('[data-checkout-total-label]');
+        const coTotal = document.querySelector('[data-co-total]');
+        const submit = document.querySelector('[data-checkout-submit]');
+        if (empty) empty.hidden = false;
+        if (single) single.hidden = true;
+        if (cartSection) cartSection.hidden = true;
+        if (totalLabel) totalLabel.hidden = true;
+        if (coTotal) coTotal.hidden = true;
+        if (submit) submit.hidden = true;
         return;
       }
 
@@ -893,7 +993,7 @@
       const eventName = document.querySelector('[data-checkout-event-name]');
       const coTotal = document.querySelector('[data-co-total]');
       const submit = document.querySelector('[data-checkout-submit], [data-bundle-cta]');
-      const totalLabel = document.querySelector('.co-order-total-label');
+      const totalLabel = document.querySelector('[data-checkout-total-label]');
 
       if (back) {
         back.href = p.back;
@@ -938,6 +1038,7 @@
         'button.btn[data-checkout-submit]',
         'a.btn.btn-prize-cta',
         'button.btn.btn-prize-cta',
+        'button.btn[data-cart-add]',
         'a.btn.sweep-panel__cta',
         '.prize-card-foot .btn.btn-primary',
         '.spotlight-foot .btn.btn-primary',
