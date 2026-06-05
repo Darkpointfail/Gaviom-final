@@ -1157,6 +1157,18 @@ a.brand.corp-brand,
   align-items: center;
   gap: 10px;
 }
+.nav-right .nav-signin {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gold-light);
+  text-decoration: none;
+  pointer-events: none;
+  cursor: default;
+  white-space: nowrap;
+}
+.nav-right .nav-signin:hover {
+  color: var(--gold-light);
+}
 .nav .btn-ghost,
 .nav-right .btn-ghost {
   background: color-mix(in oklab, var(--navy) 40%, transparent);
