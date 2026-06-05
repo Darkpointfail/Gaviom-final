@@ -756,7 +756,7 @@
         back: '/prize-iphone.html',
         title: 'iPhone 17 Pro Max',
         cat: 'Tech · #4',
-        value: '$1,299 value',
+        value: '$2,000 value',
         draw: 'Draw July 5, 2026',
         maxEntries: 3000,
         hook: 'The phone you would have bought anyway, except someone else pays.',

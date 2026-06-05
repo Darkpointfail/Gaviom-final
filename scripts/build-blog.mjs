@@ -45,6 +45,18 @@ function headBlock({ title, description, path, type = 'website', article }) {
     mainEntityOfPage: { '@type': 'WebPage', '@id': url },
     image: `${siteUrl}/images/cruise-hero.png`,
   })}</script>`;
+    if (article.faq?.length) {
+      jsonLd += `
+  <script type="application/ld+json">${JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: article.faq.map(({ question, answer }) => ({
+      '@type': 'Question',
+      name: question,
+      acceptedAnswer: { '@type': 'Answer', text: answer },
+    })),
+  })}</script>`;
+    }
   } else if (path === '/blog/') {
     jsonLd = `
   <script type="application/ld+json">${JSON.stringify({

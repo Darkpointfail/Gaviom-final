@@ -1,8 +1,9 @@
-/** @typedef {{ slug: string, title: string, description: string, date: string, category: string, readMin: number, body: string, related: string[] }} Post */
+/** @typedef {{ slug: string, title: string, description: string, date: string, category: string, readMin: number, body: string, related: string[], faq?: { question: string, answer: string }[] }} Post */
 
 import { TRAVEL_POSTS } from './travel-posts.mjs';
 import { PERSONA_POSTS } from './persona-posts.mjs';
 import { SEO_EXPANSION_POSTS } from './seo-expansion-posts.mjs';
+import { SWEEPSTAKES_USA_POSTS } from './sweepstakes-usa-posts.mjs';
 
 /** @type {Post[]} */
 export const POSTS = [
@@ -368,6 +369,7 @@ export const POSTS = [
   ...TRAVEL_POSTS,
   ...PERSONA_POSTS,
   ...SEO_EXPANSION_POSTS,
+  ...SWEEPSTAKES_USA_POSTS,
 ];
 
 export const BLOG_META = {
