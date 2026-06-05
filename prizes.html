@@ -224,7 +224,17 @@
       var sortSelect = document.querySelector("[data-sweep-sort]");
       var resetBtn = document.querySelector("[data-sweep-reset]");
 
+      var DEFAULT_STATE = { price: "all", spots: "all", sort: "default" };
       var state = { price: "all", spots: "all", sort: "default" };
+
+      function clearSavedState() {
+        ["gaviom-prizes-scroll", "gaviom-prizes-filters", "gaviom-prizes-state"].forEach(function (key) {
+          try {
+            sessionStorage.removeItem(key);
+            localStorage.removeItem(key);
+          } catch (e) {}
+        });
+      }
 
       function matches(wrap) {
         var price = wrap.dataset.filterPrice;
@@ -263,11 +273,29 @@
         desired.forEach(function (w) { stack.appendChild(w); });
       }
 
+      function restoreDefaultOrder() {
+        var sorted = wraps.slice().sort(function (a, b) {
+          return Number(a.dataset.sweepSort) - Number(b.dataset.sweepSort);
+        });
+        sorted.forEach(function (w) { stack.appendChild(w); });
+      }
+
+      function syncFilterUI() {
+        priceChips.forEach(function (b) {
+          b.classList.toggle("active", b.dataset.filterPrice === state.price);
+        });
+        spotsChips.forEach(function (b) {
+          b.classList.toggle("active", b.dataset.filterSpots === state.spots);
+        });
+        if (sortSelect) sortSelect.value = state.sort;
+      }
+
       function applyFilters() {
         var visible = 0;
         wraps.forEach(function (wrap) {
           var show = matches(wrap);
           wrap.classList.toggle("is-filtered-out", !show);
+          wrap.classList.toggle("is-revealed", show);
           if (show) visible++;
         });
         if (emptyEl) emptyEl.hidden = visible > 0;
@@ -275,24 +303,7 @@
         sortWraps();
         updateJumpLinks();
         refreshDots();
-        ensureVisiblePanelsRevealed();
         observeNav();
-      }
-
-      function resetFiltersUI() {
-        state = { price: "all", spots: "all", sort: "default" };
-        priceChips.forEach(function (b) { b.classList.toggle("active", b.dataset.filterPrice === "all"); });
-        spotsChips.forEach(function (b) { b.classList.toggle("active", b.dataset.filterSpots === "all"); });
-        if (sortSelect) sortSelect.value = "default";
-      }
-
-      function isBackForwardNav() {
-        try {
-          var nav = performance.getEntriesByType("navigation")[0];
-          return !!(nav && nav.type === "back_forward");
-        } catch (e) {
-          return false;
-        }
       }
 
       function scrollToOverview() {
@@ -303,19 +314,23 @@
         }
       }
 
-      function repairAfterNavigation(ev) {
-        if (ev && (ev.persisted || isBackForwardNav())) {
-          resetFiltersUI();
-          applyFilters();
+      /** Always show all sweepstakes — used on load and when page is restored from history */
+      function resetToDefaults(opts) {
+        opts = opts || {};
+        clearSavedState();
+        state = { price: DEFAULT_STATE.price, spots: DEFAULT_STATE.spots, sort: DEFAULT_STATE.sort };
+        syncFilterUI();
+        wraps.forEach(function (wrap) {
+          wrap.classList.remove("is-filtered-out");
+          wrap.classList.add("is-revealed");
+        });
+        restoreDefaultOrder();
+        applyFilters();
+        if (opts.scrollTop) {
           requestAnimationFrame(function () {
             requestAnimationFrame(scrollToOverview);
           });
-          return;
         }
-        ensureVisiblePanelsRevealed();
-        refreshDots();
-        updateJumpLinks();
-        observeNav();
       }
 
       function updateJumpLinks() {
@@ -348,14 +363,6 @@
             link.classList.toggle("active", link.dataset.sweepJump === id);
           });
         }
-      }
-
-      function ensureVisiblePanelsRevealed() {
-        wraps.forEach(function (wrap) {
-          if (!wrap.classList.contains("is-filtered-out")) {
-            wrap.classList.add("is-revealed");
-          }
-        });
       }
 
       var navObs;
@@ -395,11 +402,7 @@
       }
       if (resetBtn) {
         resetBtn.addEventListener("click", function () {
-          state = { price: "all", spots: "all", sort: "default" };
-          priceChips.forEach(function (b) { b.classList.toggle("active", b.dataset.filterPrice === "all"); });
-          spotsChips.forEach(function (b) { b.classList.toggle("active", b.dataset.filterSpots === "all"); });
-          if (sortSelect) sortSelect.value = "default";
-          applyFilters();
+          resetToDefaults();
         });
       }
 
@@ -429,10 +432,16 @@
         });
       }
 
-      applyFilters();
+      resetToDefaults();
 
       window.addEventListener("pageshow", function (ev) {
-        repairAfterNavigation(ev);
+        if (ev.persisted) {
+          resetToDefaults({ scrollTop: true });
+        }
+      });
+
+      window.addEventListener("popstate", function () {
+        resetToDefaults({ scrollTop: true });
       });
     })();
   </script>
