@@ -8,7 +8,7 @@ import { faviconHeadLinks, FAVICON_VERSION } from './favicon-links.mjs';
 
 const root = process.cwd();
 const snippet = faviconHeadLinks();
-const marker = `favicon.png?v=${FAVICON_VERSION}`;
+const marker = `favicon.ico?v=${FAVICON_VERSION}`;
 
 function stripFaviconBlock(html) {
   let prev;
@@ -23,19 +23,13 @@ function stripFaviconBlock(html) {
 }
 
 function insertFavicon(html) {
-  const hadMarker = html.includes(marker);
+  if (html.includes(marker)) return html;
   html = stripFaviconBlock(html);
-  if (hadMarker) {
-    if (html.includes('<meta charset="UTF-8" />')) {
-      return html.replace('<meta charset="UTF-8" />', `<meta charset="UTF-8" />\n${snippet}\n`);
-    }
-    return html;
-  }
   if (html.includes('<meta charset="UTF-8" />')) {
     return html.replace('<meta charset="UTF-8" />', `<meta charset="UTF-8" />\n${snippet}\n`);
   }
   if (html.includes('<head>')) {
-    return html.replace('<head>', `<head>\n${snippet}`);
+    return html.replace('<head>', `<head>\n${snippet}\n`);
   }
   return html;
 }
@@ -46,7 +40,6 @@ for (const file of readdirSync(root)) {
   const path = join(root, file);
   let html = readFileSync(path, 'utf8');
   const next = insertFavicon(html);
-  if (next === html && html.includes(marker)) continue;
   if (next === html) continue;
   writeFileSync(path, next);
   updated++;

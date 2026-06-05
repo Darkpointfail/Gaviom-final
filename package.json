@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "images": "node scripts/optimize-images.mjs --source",
-    "build": "node scripts/build-favicons.mjs && node scripts/build-blog.mjs && node scripts/patch-favicon-html.mjs && node scripts/build-static.mjs && node scripts/optimize-images.mjs",
+    "build": "node scripts/build-blog.mjs && node scripts/patch-favicon-html.mjs && node scripts/build-static.mjs && node scripts/optimize-images.mjs",
     "favicons": "node scripts/build-favicons.mjs",
     "dev": "npx --yes serve -l 3001 .",
     "preview": "npm run build && npx --yes serve -l 3001 dist",
