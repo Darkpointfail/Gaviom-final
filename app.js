@@ -236,7 +236,7 @@
       if (navRight) {
         const actions = document.createElement('div');
         actions.className = 'nav-mobile-actions';
-        navRight.querySelectorAll('a.btn').forEach((a) => {
+        navRight.querySelectorAll('a.nav-signin, a.btn').forEach((a) => {
           actions.appendChild(a.cloneNode(true));
         });
         if (actions.childElementCount) {

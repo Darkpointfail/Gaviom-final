@@ -5614,6 +5614,21 @@ body.auth-page::after { display: none; }
 .auth-form.is-loading { opacity: 0.72; }
 .auth-form.is-loading .auth-submit { pointer-events: none; }
 .auth-alert:not([hidden]) { display: block; }
+.auth-already__msg {
+  margin: 0 0 20px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+.auth-already__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.auth-already__signout {
+  width: 100%;
+  min-height: 44px;
+}
 .auth-field-hint {
   margin: 6px 0 0;
   font-size: 11px;

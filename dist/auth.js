@@ -221,13 +221,54 @@
     return true;
   }
 
+  function showAlreadySignedIn(session, client) {
+    var card = document.querySelector('.auth-card');
+    if (!card || card.querySelector('[data-auth-already]')) return;
+
+    var form = card.querySelector('.auth-form');
+    var sub = card.querySelector('.auth-card__sub');
+    var title = card.querySelector('.auth-card__title');
+    var email = (session.user && session.user.email) || 'your account';
+
+    if (form) form.hidden = true;
+    if (sub) sub.hidden = true;
+    if (title) title.textContent = 'Already signed in';
+
+    var block = document.createElement('div');
+    block.className = 'auth-already';
+    block.setAttribute('data-auth-already', '');
+    block.innerHTML =
+      '<p class="auth-already__msg">You are signed in as <strong>' + email + '</strong>.</p>' +
+      '<div class="auth-already__actions">' +
+      '<button type="button" class="btn btn-primary btn-lg auth-submit" data-auth-continue>Continue to Sweepstakes</button>' +
+      '<button type="button" class="btn btn-ghost auth-already__signout" data-auth-signout>Sign out</button>' +
+      '</div>';
+
+    var insertBefore = form || card.querySelector('.auth-legal');
+    if (insertBefore) card.insertBefore(block, insertBefore);
+    else card.appendChild(block);
+
+    block.querySelector('[data-auth-continue]').addEventListener('click', redirectAfterAuth);
+    block.querySelector('[data-auth-signout]').addEventListener('click', async function () {
+      var btn = block.querySelector('[data-auth-signout]');
+      if (btn) btn.disabled = true;
+      try {
+        await client.auth.signOut();
+        window.location.reload();
+      } catch (err) {
+        if (btn) btn.disabled = false;
+        showAlert($('[data-auth-alert]'), friendlyAuthError(err), 'error');
+      }
+    });
+  }
+
   async function guardSignedIn() {
     var page = document.body.dataset.authPage;
     if (page !== 'signin' && page !== 'signup') return;
     try {
       var client = getClient();
       var result = await client.auth.getSession();
-      if (result.data.session) redirectAfterAuth();
+      if (result.data.session) showAlreadySignedIn(result.data.session, client);
     } catch (e) {
       /* config not ready yet */
     }
