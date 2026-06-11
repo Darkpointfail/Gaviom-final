@@ -13,22 +13,22 @@ export function FinalCTA() {
         aria-hidden
         style={{
           background:
-            'linear-gradient(135deg, #0A0A0F 0%, #1a1520 40%, #0f0f18 70%, #0A0A0F 100%)',
+            'linear-gradient(135deg, #FAF7F2 0%, #F4EFE6 40%, #F3EBD9 70%, #FAF7F2 100%)',
         }}
       />
       <div
-        className="absolute inset-0 opacity-50"
+        className="absolute inset-0 opacity-70"
         aria-hidden
         style={{
           background:
-            'radial-gradient(ellipse 70% 80% at 50% 50%, rgba(201,168,76,0.14) 0%, transparent 65%)',
+            'radial-gradient(ellipse 70% 80% at 50% 50%, rgba(201,168,76,0.18) 0%, transparent 65%)',
         }}
       />
       <FadeIn className="relative mx-auto max-w-3xl px-4 text-center sm:px-6">
-        <h2 className="font-display text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
+        <h2 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl lg:text-5xl">
           Ready to give your employees something to talk about?
         </h2>
-        <p className="mx-auto mt-5 max-w-lg text-lg text-white/60">
+        <p className="mx-auto mt-5 max-w-lg text-lg text-ink-3">
           Every proposal is custom-built. No commitment required to get a quote.
         </p>
         <button
@@ -38,7 +38,7 @@ export function FinalCTA() {
         >
           Get Your Custom Quote
         </button>
-        <p className="mt-4 text-xs text-white/40">
+        <p className="mt-4 text-xs text-muted">
           Typically respond within 24 hours
         </p>
       </FadeIn>

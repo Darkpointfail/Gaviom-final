@@ -10,7 +10,7 @@ export function PrizeCatalog() {
           <h2 className="mt-3 font-display text-3xl font-bold tracking-tight sm:text-4xl">
             Prizes your employees will actually want
           </h2>
-          <p className="mx-auto mt-4 max-w-lg text-white/55">
+          <p className="mx-auto mt-4 max-w-lg text-ink-3">
             Our catalog rotates regularly — here&apos;s a taste of what&apos;s up
             for grabs.
           </p>
@@ -31,7 +31,7 @@ export function PrizeCatalog() {
                 <h3 className="mt-4 font-display text-lg font-semibold">
                   {cat.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-white/55">
+                <p className="mt-2 text-sm leading-relaxed text-muted">
                   {cat.items}
                 </p>
               </div>

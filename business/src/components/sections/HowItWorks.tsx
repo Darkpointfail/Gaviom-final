@@ -41,7 +41,7 @@ export function HowItWorks() {
                 <h3 className="mt-4 font-display text-xl font-semibold tracking-tight">
                   {step.title}
                 </h3>
-                <p className="mt-3 text-sm leading-relaxed text-white/60">
+                <p className="mt-3 text-sm leading-relaxed text-ink-3">
                   {step.description}
                 </p>
               </div>

@@ -3,7 +3,7 @@ import { FadeIn } from '../FadeIn';
 
 export function WhatWeHandle() {
   return (
-    <section className="bg-ink py-20 sm:py-28">
+    <section className="py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <FadeIn className="text-center">
           <p className="section-badge">Full-service</p>
@@ -21,7 +21,7 @@ export function WhatWeHandle() {
                 <h3 className="mt-4 font-display text-lg font-semibold">
                   {item.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-white/55">
+                <p className="mt-2 text-sm leading-relaxed text-muted">
                   {item.description}
                 </p>
               </div>

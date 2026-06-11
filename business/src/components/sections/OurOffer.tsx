@@ -48,7 +48,7 @@ export function OurOffer() {
           <h2 className="mt-3 max-w-2xl font-display text-3xl font-bold tracking-tight sm:text-4xl">
             Everything you need to run a fair draw — nothing you don&apos;t.
           </h2>
-          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-white/60">
+          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-ink-3">
             You bring the audience and prize budget. Gaviom delivers the
             compliance stack, private entry portal, live draw, and post-win
             paperwork. Three ways to partner: Standard enrollment, a fully
@@ -66,7 +66,7 @@ export function OurOffer() {
                 <h3 className="mt-4 font-display text-lg font-semibold">
                   {item.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-white/55">
+                <p className="mt-2 text-sm leading-relaxed text-muted">
                   {item.description}
                 </p>
               </div>

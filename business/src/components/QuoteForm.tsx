@@ -88,7 +88,7 @@ export function QuoteForm({ presetPackage, onSuccess }: QuoteFormProps) {
         <p className="font-display text-lg font-semibold text-gold">
           Request received
         </p>
-        <p className="mt-2 text-sm text-white/70">
+        <p className="mt-2 text-sm text-ink-3">
           Our team will respond within 24 hours with a custom proposal.
         </p>
       </div>
@@ -96,13 +96,13 @@ export function QuoteForm({ presetPackage, onSuccess }: QuoteFormProps) {
   }
 
   const fieldClass =
-    'w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/35 outline-none transition focus:border-gold/50 focus:ring-1 focus:ring-gold/30';
+    'w-full rounded-xl border border-line bg-paper px-4 py-3 text-sm text-ink placeholder:text-muted-2 outline-none transition focus:border-gold/50 focus:ring-1 focus:ring-gold/30';
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="block sm:col-span-2">
-          <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-white/50">
+          <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted">
             Full Name
           </span>
           <input
@@ -116,7 +116,7 @@ export function QuoteForm({ presetPackage, onSuccess }: QuoteFormProps) {
           />
         </label>
         <label className="block">
-          <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-white/50">
+          <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted">
             Company Name
           </span>
           <input
@@ -130,7 +130,7 @@ export function QuoteForm({ presetPackage, onSuccess }: QuoteFormProps) {
           />
         </label>
         <label className="block">
-          <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-white/50">
+          <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted">
             Work Email
           </span>
           <input
@@ -144,7 +144,7 @@ export function QuoteForm({ presetPackage, onSuccess }: QuoteFormProps) {
           />
         </label>
         <label className="block">
-          <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-white/50">
+          <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted">
             Number of Employees
           </span>
           <select
@@ -154,14 +154,14 @@ export function QuoteForm({ presetPackage, onSuccess }: QuoteFormProps) {
             onChange={(e) => update('employees', e.target.value)}
           >
             {EMPLOYEE_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value} className="bg-card">
+              <option key={opt.value} value={opt.value} className="bg-canvas">
                 {opt.label}
               </option>
             ))}
           </select>
         </label>
         <label className="block">
-          <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-white/50">
+          <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted">
             Package Interest
           </span>
           <select
@@ -171,15 +171,15 @@ export function QuoteForm({ presetPackage, onSuccess }: QuoteFormProps) {
             onChange={(e) => update('packageInterest', e.target.value)}
           >
             {PACKAGE_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value} className="bg-card">
+              <option key={opt.value} value={opt.value} className="bg-canvas">
                 {opt.label}
               </option>
             ))}
           </select>
         </label>
         <label className="block sm:col-span-2">
-          <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-white/50">
-            Message <span className="normal-case text-white/30">(optional)</span>
+          <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted">
+            Message <span className="normal-case text-muted-2">(optional)</span>
           </span>
           <textarea
             rows={3}

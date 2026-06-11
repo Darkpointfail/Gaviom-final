@@ -3,14 +3,14 @@ import { FadeIn } from '../FadeIn';
 
 function GaviomCell({ value }: { value: boolean | string }) {
   if (value === true) {
-    return <span className="text-gold font-medium">✅ We handle it</span>;
+    return <span className="font-medium text-gold-dark">✅ We handle it</span>;
   }
-  return <span className="text-white/85">{value}</span>;
+  return <span className="text-ink-2">{value}</span>;
 }
 
 export function Comparison() {
   return (
-    <section className="bg-card/30 py-20 sm:py-28">
+    <section className="section-alt py-20 sm:py-28">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <FadeIn className="text-center">
           <p className="section-badge">Compare</p>
@@ -19,16 +19,16 @@ export function Comparison() {
           </h2>
         </FadeIn>
 
-        <FadeIn className="mt-12 overflow-hidden rounded-2xl border border-white/[0.08]">
+        <FadeIn className="mt-12 overflow-hidden rounded-2xl border border-line bg-canvas shadow-card">
           <div className="overflow-x-auto">
             <table className="w-full min-w-[480px] text-left text-sm">
               <thead>
-                <tr className="border-b border-white/[0.08] bg-white/[0.03]">
-                  <th className="px-5 py-4 font-medium text-white/40" />
-                  <th className="px-5 py-4 font-display font-semibold text-white/70">
+                <tr className="border-b border-line bg-paper-2/80">
+                  <th className="px-5 py-4 font-medium text-muted" />
+                  <th className="px-5 py-4 font-display font-semibold text-ink-3">
                     DIY
                   </th>
-                  <th className="px-5 py-4 font-display font-semibold text-gold">
+                  <th className="px-5 py-4 font-display font-semibold text-gold-dark">
                     With Gaviom
                   </th>
                 </tr>
@@ -38,15 +38,11 @@ export function Comparison() {
                   <tr
                     key={row.label}
                     className={
-                      i < COMPARISON_ROWS.length - 1
-                        ? 'border-b border-white/[0.06]'
-                        : ''
+                      i < COMPARISON_ROWS.length - 1 ? 'border-b border-line' : ''
                     }
                   >
-                    <td className="px-5 py-4 font-medium text-white/80">
-                      {row.label}
-                    </td>
-                    <td className="px-5 py-4 text-white/45">{row.diy}</td>
+                    <td className="px-5 py-4 font-medium text-ink">{row.label}</td>
+                    <td className="px-5 py-4 text-muted">{row.diy}</td>
                     <td className="px-5 py-4">
                       <GaviomCell value={row.gaviom} />
                     </td>

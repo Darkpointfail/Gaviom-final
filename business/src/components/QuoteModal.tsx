@@ -32,7 +32,7 @@ export function QuoteModal({ open, onClose, presetPackage }: QuoteModalProps) {
           <motion.button
             type="button"
             aria-label="Close quote form"
-            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+            className="absolute inset-0 bg-ink/40 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -42,7 +42,7 @@ export function QuoteModal({ open, onClose, presetPackage }: QuoteModalProps) {
             role="dialog"
             aria-modal="true"
             aria-labelledby="quote-modal-title"
-            className="relative z-10 w-full max-w-lg glass-card p-6 sm:p-8 shadow-glow"
+            className="relative z-10 w-full max-w-lg glass-card p-6 shadow-card-lg sm:p-8"
             initial={{ opacity: 0, y: 40, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.98 }}
@@ -51,7 +51,7 @@ export function QuoteModal({ open, onClose, presetPackage }: QuoteModalProps) {
             <button
               type="button"
               onClick={onClose}
-              className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 text-white/60 transition hover:border-white/25 hover:text-white"
+              className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-lg border border-line text-muted transition hover:border-ink-3 hover:text-ink"
               aria-label="Close"
             >
               ×
@@ -59,11 +59,11 @@ export function QuoteModal({ open, onClose, presetPackage }: QuoteModalProps) {
             <p className="section-badge mb-2">Custom quote</p>
             <h2
               id="quote-modal-title"
-              className="font-display text-2xl font-bold tracking-tight text-white"
+              className="font-display text-2xl font-bold tracking-tight text-ink"
             >
               Request your proposal
             </h2>
-            <p className="mt-2 text-sm leading-relaxed text-white/60">
+            <p className="mt-2 text-sm leading-relaxed text-ink-3">
               Every package is tailored to your headcount and goals. No commitment
               required.
             </p>

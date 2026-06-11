@@ -3,13 +3,13 @@ import { FadeIn } from '../FadeIn';
 
 export function ROI() {
   return (
-    <section className="relative overflow-hidden bg-ink py-20 sm:py-28">
+    <section className="relative overflow-hidden section-alt py-20 sm:py-28">
       <div
-        className="pointer-events-none absolute inset-0 opacity-40"
+        className="pointer-events-none absolute inset-0 opacity-60"
         aria-hidden
         style={{
           background:
-            'radial-gradient(ellipse 80% 60% at 50% 100%, rgba(201,168,76,0.12) 0%, transparent 60%)',
+            'radial-gradient(ellipse 80% 60% at 50% 100%, rgba(201,168,76,0.16) 0%, transparent 60%)',
         }}
       />
       <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -23,10 +23,10 @@ export function ROI() {
           {STATS.map((stat, i) => (
             <FadeIn key={stat.value} delay={i * 0.1} as="article">
               <div className="text-center">
-                <p className="font-display text-4xl font-bold text-gold sm:text-5xl">
+                <p className="font-display text-4xl font-bold text-gold-dark sm:text-5xl">
                   {stat.value}
                 </p>
-                <p className="mt-3 text-sm leading-relaxed text-white/55">
+                <p className="mt-3 text-sm leading-relaxed text-muted">
                   {stat.label}
                 </p>
               </div>

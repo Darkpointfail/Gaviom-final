@@ -22,7 +22,7 @@ export function WhoThisIsFor() {
                   <h3 className="font-display text-lg font-semibold">
                     {card.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-white/55">
+                  <p className="mt-2 text-sm leading-relaxed text-muted">
                     {card.description}
                   </p>
                 </div>

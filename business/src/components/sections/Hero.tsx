@@ -9,27 +9,26 @@ export function Hero() {
   return (
     <section className="relative min-h-[92vh] overflow-hidden pt-24">
       <div
-        className="pointer-events-none absolute inset-0 opacity-60"
+        className="pointer-events-none absolute inset-0 opacity-80"
         aria-hidden
       >
-        <div className="absolute -left-1/4 top-0 h-[600px] w-[600px] rounded-full bg-gold/10 blur-[120px] animate-float" />
+        <div className="absolute -left-1/4 top-0 h-[600px] w-[600px] rounded-full bg-gold/15 blur-[120px] animate-float" />
         <div
-          className="absolute -right-1/4 bottom-0 h-[500px] w-[500px] rounded-full bg-[#1a1a2e] blur-[100px]"
+          className="absolute -right-1/4 bottom-0 h-[500px] w-[500px] rounded-full bg-ochre-soft/70 blur-[100px]"
           style={{ animationDelay: '2s' }}
         />
         <div
-          className="absolute inset-0 bg-[length:200%_200%] opacity-30"
+          className="absolute inset-0 bg-[length:200%_200%] opacity-40"
           style={{
             backgroundImage:
-              'radial-gradient(circle at 20% 30%, rgba(201,168,76,0.15) 0%, transparent 45%), radial-gradient(circle at 80% 70%, rgba(255,255,255,0.04) 0%, transparent 40%)',
+              'radial-gradient(circle at 20% 30%, rgba(201,168,76,0.18) 0%, transparent 45%), radial-gradient(circle at 80% 70%, rgba(244,239,230,0.6) 0%, transparent 40%)',
             animation: 'gradient-shift 12s ease infinite',
           }}
         />
-        {/* subtle particles */}
         {Array.from({ length: 24 }).map((_, i) => (
           <motion.span
             key={i}
-            className="absolute h-1 w-1 rounded-full bg-gold/40"
+            className="absolute h-1 w-1 rounded-full bg-gold/50"
             style={{
               left: `${(i * 17 + 5) % 100}%`,
               top: `${(i * 23 + 10) % 100}%`,
@@ -60,7 +59,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="font-display max-w-4xl text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl"
+          className="font-display max-w-4xl text-4xl font-bold leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-6xl"
         >
           Turn Your Workforce Into Winners
         </motion.h1>
@@ -68,7 +67,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-6 max-w-2xl text-lg leading-relaxed text-white/65 sm:text-xl"
+          className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-3 sm:text-xl"
         >
           Give your employees the chance to win luxury prizes — iPhones, travel,
           watches, and more. We handle everything. You take the credit.
