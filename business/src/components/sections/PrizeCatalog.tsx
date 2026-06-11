@@ -24,16 +24,31 @@ export function PrizeCatalog() {
               as="article"
               className="min-w-[280px] shrink-0 snap-start md:min-w-0"
             >
-              <div className="glass-card card-hover h-full p-7">
-                <span className="text-3xl" aria-hidden>
-                  {cat.icon}
-                </span>
-                <h3 className="mt-4 font-display text-lg font-semibold">
-                  {cat.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted">
-                  {cat.items}
-                </p>
+              <div className="glass-card card-hover h-full overflow-hidden">
+                <div className="relative aspect-[16/10] overflow-hidden border-b border-line">
+                  {cat.image ? (
+                    <img
+                      src={cat.image}
+                      alt={cat.imageAlt}
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  ) : (
+                    <div
+                      className={`flex h-full w-full items-end bg-gradient-to-br ${'tone' in cat ? cat.tone : 'from-paper-2 to-ochre-soft'} p-5`}
+                      aria-hidden
+                    >
+                      <span className="font-display text-lg font-semibold text-ink/80">
+                        {cat.title}
+                      </span>
+                    </div>
+                  )}
+                </div>
+                <div className="p-7">
+                  <h3 className="font-display text-lg font-semibold">{cat.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted">{cat.items}</p>
+                </div>
               </div>
             </FadeIn>
           ))}

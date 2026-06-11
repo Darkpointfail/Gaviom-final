@@ -82,12 +82,45 @@ export const HANDLE_ITEMS = [
 ] as const;
 
 export const PRIZE_CATEGORIES = [
-  { icon: '📱', title: 'Tech', items: 'iPhone, MacBook, AirPods, PlayStation, DJI Drone' },
-  { icon: '✈️', title: 'Travel', items: 'Luxury weekend getaways, hotel stays, all-inclusive trips' },
-  { icon: '⌚', title: 'Watches & Jewelry', items: 'Premium timepieces and accessories' },
-  { icon: '🚗', title: 'Automotive', items: 'Car giveaways, accessories, electric vehicles' },
-  { icon: '🍽️', title: 'Experiences', items: 'Michelin-star dinners, spa days, exclusive events' },
-  { icon: '🎯', title: 'Lifestyle', items: 'Premium subscriptions, fitness gear, curated boxes' },
+  {
+    title: 'Tech',
+    items: 'iPhone, MacBook, AirPods, PlayStation, DJI Drone',
+    image: '/images/iphone-quote-hero-480w.webp',
+    imageAlt: 'iPhone prize from a Gaviom employee contest',
+  },
+  {
+    title: 'Travel',
+    items: 'Luxury weekend getaways, hotel stays, all-inclusive trips',
+    image: '/images/vegas-quote-hero-800w.webp',
+    imageAlt: 'Las Vegas travel prize from a Gaviom employee contest',
+  },
+  {
+    title: 'Watches & Jewelry',
+    items: 'Premium timepieces and accessories',
+    image: null,
+    imageAlt: '',
+    tone: 'from-paper-2 via-ochre-soft to-paper',
+  },
+  {
+    title: 'Automotive',
+    items: 'Car giveaways, accessories, electric vehicles',
+    image: null,
+    imageAlt: '',
+    tone: 'from-canvas via-paper-2 to-ochre-soft',
+  },
+  {
+    title: 'Experiences',
+    items: 'Michelin-star dinners, spa days, exclusive events',
+    image: '/images/cruise-mobile-hero.webp',
+    imageAlt: 'Cruise experience prize from a Gaviom employee contest',
+  },
+  {
+    title: 'Lifestyle',
+    items: 'Premium subscriptions, fitness gear, curated boxes',
+    image: null,
+    imageAlt: '',
+    tone: 'from-ochre-soft via-paper to-canvas',
+  },
 ] as const;
 
 export const COMPARISON_ROWS = [

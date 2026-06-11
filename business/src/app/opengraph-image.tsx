@@ -20,31 +20,24 @@ export default function OpenGraphImage() {
       >
         <div
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 16,
-            marginBottom: 40,
+            width: 72,
+            height: 4,
+            borderRadius: 999,
+            background: '#C9A84C',
+            marginBottom: 32,
+          }}
+        />
+        <div
+          style={{
+            fontSize: 22,
+            fontWeight: 600,
+            color: '#B8943E',
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            marginBottom: 20,
           }}
         >
-          <div
-            style={{
-              width: 56,
-              height: 56,
-              borderRadius: 28,
-              background: '#C9A84C',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: 28,
-              fontWeight: 700,
-              color: '#0A0A0A',
-            }}
-          >
-            G
-          </div>
-          <span style={{ fontSize: 28, color: '#6b7585' }}>
-            Gaviom / Business
-          </span>
+          Gaviom for Business
         </div>
         <div
           style={{
@@ -69,20 +62,6 @@ export default function OpenGraphImage() {
         >
           Luxury employee contest benefits. We handle everything — you take the
           credit.
-        </div>
-        <div
-          style={{
-            marginTop: 48,
-            padding: '16px 32px',
-            background: '#B8943E',
-            borderRadius: 12,
-            fontSize: 22,
-            fontWeight: 600,
-            color: '#0A0A0A',
-            alignSelf: 'flex-start',
-          }}
-        >
-          gaviom.com/business
         </div>
       </div>
     ),

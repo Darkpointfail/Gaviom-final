@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { HERO_PHOTO_STACK } from '@/lib/visuals';
 import { useQuoteModal } from '../QuoteModalProvider';
 
 export function Hero() {
@@ -25,65 +26,72 @@ export function Hero() {
             animation: 'gradient-shift 12s ease infinite',
           }}
         />
-        {Array.from({ length: 24 }).map((_, i) => (
-          <motion.span
-            key={i}
-            className="absolute h-1 w-1 rounded-full bg-gold/50"
-            style={{
-              left: `${(i * 17 + 5) % 100}%`,
-              top: `${(i * 23 + 10) % 100}%`,
-            }}
-            animate={{
-              opacity: [0.2, 0.7, 0.2],
-              scale: [1, 1.4, 1],
-            }}
-            transition={{
-              duration: 3 + (i % 4),
-              repeat: Infinity,
-              delay: i * 0.15,
-            }}
-          />
-        ))}
       </div>
 
-      <div className="relative mx-auto flex max-w-6xl flex-col items-center px-4 py-20 text-center sm:px-6 lg:px-8 lg:py-28">
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="section-badge mb-6"
-        >
-          Employee contest benefits
-        </motion.p>
-        <motion.h1
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="font-display max-w-4xl text-4xl font-bold leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-6xl"
-        >
-          Turn Your Workforce Into Winners
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-3 sm:text-xl"
-        >
-          Give your employees the chance to win luxury prizes — iPhones, travel,
-          watches, and more. We handle everything. You take the credit.
-        </motion.p>
+      <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:gap-16 lg:px-8 lg:py-24">
+        <div className="text-center lg:text-left">
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="section-badge mb-6"
+          >
+            Employee contest benefits
+          </motion.p>
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="font-display text-4xl font-bold leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-6xl"
+          >
+            Turn Your Workforce Into Winners
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mt-6 max-w-xl text-lg leading-relaxed text-ink-3 sm:text-xl"
+          >
+            Give your employees the chance to win luxury prizes — iPhones, travel,
+            watches, and more. We handle everything. You take the credit.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="mt-10 flex flex-col gap-4 sm:flex-row lg:justify-start"
+          >
+            <button type="button" onClick={() => openQuote()} className="btn-primary text-base px-8 py-4">
+              Get a Custom Quote
+            </button>
+            <a href="#how-it-works" className="btn-secondary text-base px-8 py-4">
+              See How It Works
+            </a>
+          </motion.div>
+        </div>
+
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center"
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="relative mx-auto h-[min(72vw,420px)] w-full max-w-md lg:mx-0 lg:h-[480px] lg:max-w-none"
+          aria-hidden
         >
-          <button type="button" onClick={() => openQuote()} className="btn-primary text-base px-8 py-4">
-            Get a Custom Quote
-          </button>
-          <a href="#how-it-works" className="btn-secondary text-base px-8 py-4">
-            See How It Works
-          </a>
+          {HERO_PHOTO_STACK.map((photo, i) => (
+            <div
+              key={photo.src}
+              className={`absolute left-1/2 w-[min(88%,320px)] -translate-x-1/2 overflow-hidden rounded-2xl border border-line bg-canvas shadow-card-lg ${photo.rotate} ${photo.offset}`}
+              style={{ top: `${i * 28}px` }}
+            >
+              <img
+                src={photo.src}
+                alt=""
+                className="aspect-[4/5] w-full object-cover"
+                loading={i === 0 ? 'eager' : 'lazy'}
+                decoding="async"
+              />
+            </div>
+          ))}
         </motion.div>
       </div>
     </section>

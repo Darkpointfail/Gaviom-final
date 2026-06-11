@@ -15,25 +15,20 @@ export function Testimonials() {
           {TESTIMONIALS.map((t, i) => (
             <FadeIn key={t.name} delay={i * 0.08} as="article">
               <div className="glass-card flex h-full flex-col p-8">
-                <p className="flex-1 text-sm leading-relaxed text-ink-2">
-                  &ldquo;{t.quote}&rdquo;
+                <span
+                  className="font-display text-4xl leading-none text-gold/50"
+                  aria-hidden
+                >
+                  &ldquo;
+                </span>
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-2">
+                  {t.quote}
                 </p>
-                <div className="mt-6 flex items-center gap-4 border-t border-line pt-6">
-                  <div
-                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-ochre-soft text-sm font-semibold text-ink-3"
-                    aria-hidden
-                  >
-                    {t.name
-                      .split(' ')
-                      .map((n) => n[0])
-                      .join('')}
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-ink">{t.name}</p>
-                    <p className="text-xs text-muted">
-                      {t.title}, {t.company}
-                    </p>
-                  </div>
+                <div className="mt-6 border-t border-line pt-6">
+                  <p className="text-sm font-semibold text-ink">{t.name}</p>
+                  <p className="text-xs text-muted">
+                    {t.title}, {t.company}
+                  </p>
                 </div>
               </div>
             </FadeIn>
