@@ -1,0 +1,213 @@
+'use client';
+
+import { FormEvent, useState } from 'react';
+import { EMPLOYEE_OPTIONS, PACKAGE_OPTIONS } from '@/lib/content';
+
+type QuoteFormProps = {
+  presetPackage?: string;
+  onSuccess?: () => void;
+};
+
+type FormState = {
+  name: string;
+  company: string;
+  email: string;
+  employees: string;
+  packageInterest: string;
+  message: string;
+};
+
+const WEBHOOK_URL = process.env.NEXT_PUBLIC_QUOTE_WEBHOOK_URL;
+
+export function QuoteForm({ presetPackage, onSuccess }: QuoteFormProps) {
+  const [form, setForm] = useState<FormState>({
+    name: '',
+    company: '',
+    email: '',
+    employees: '100-250',
+    packageInterest: presetPackage || 'Not sure yet',
+    message: '',
+  });
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>(
+    'idle',
+  );
+
+  const update = (key: keyof FormState, value: string) => {
+    setForm((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setStatus('loading');
+
+    const payload = {
+      ...form,
+      source: 'gaviom-business-landing',
+      submittedAt: new Date().toISOString(),
+    };
+
+    try {
+      if (WEBHOOK_URL) {
+        const res = await fetch(WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        if (!res.ok) throw new Error('Webhook failed');
+      } else {
+        const subject = encodeURIComponent(
+          `Gaviom Business Quote — ${form.company}`,
+        );
+        const body = encodeURIComponent(
+          [
+            `Name: ${form.name}`,
+            `Company: ${form.company}`,
+            `Email: ${form.email}`,
+            `Employees: ${form.employees}`,
+            `Package: ${form.packageInterest}`,
+            form.message ? `Message: ${form.message}` : '',
+          ]
+            .filter(Boolean)
+            .join('\n'),
+        );
+        window.location.href = `mailto:sales@gaviom.com?subject=${subject}&body=${body}`;
+      }
+
+      setStatus('success');
+      if (WEBHOOK_URL) {
+        setTimeout(() => onSuccess?.(), 2500);
+      }
+    } catch {
+      setStatus('error');
+    }
+  };
+
+  if (status === 'success') {
+    return (
+      <div className="rounded-xl border border-gold/30 bg-gold/10 p-6 text-center">
+        <p className="font-display text-lg font-semibold text-gold">
+          Request received
+        </p>
+        <p className="mt-2 text-sm text-white/70">
+          Our team will respond within 24 hours with a custom proposal.
+        </p>
+      </div>
+    );
+  }
+
+  const fieldClass =
+    'w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/35 outline-none transition focus:border-gold/50 focus:ring-1 focus:ring-gold/30';
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="grid gap-4 sm:grid-cols-2">
+        <label className="block sm:col-span-2">
+          <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-white/50">
+            Full Name
+          </span>
+          <input
+            required
+            type="text"
+            className={fieldClass}
+            value={form.name}
+            onChange={(e) => update('name', e.target.value)}
+            placeholder="Jane Smith"
+            autoComplete="name"
+          />
+        </label>
+        <label className="block">
+          <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-white/50">
+            Company Name
+          </span>
+          <input
+            required
+            type="text"
+            className={fieldClass}
+            value={form.company}
+            onChange={(e) => update('company', e.target.value)}
+            placeholder="Acme Inc."
+            autoComplete="organization"
+          />
+        </label>
+        <label className="block">
+          <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-white/50">
+            Work Email
+          </span>
+          <input
+            required
+            type="email"
+            className={fieldClass}
+            value={form.email}
+            onChange={(e) => update('email', e.target.value)}
+            placeholder="you@company.com"
+            autoComplete="email"
+          />
+        </label>
+        <label className="block">
+          <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-white/50">
+            Number of Employees
+          </span>
+          <select
+            required
+            className={fieldClass}
+            value={form.employees}
+            onChange={(e) => update('employees', e.target.value)}
+          >
+            {EMPLOYEE_OPTIONS.map((opt) => (
+              <option key={opt.value} value={opt.value} className="bg-card">
+                {opt.label}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="block">
+          <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-white/50">
+            Package Interest
+          </span>
+          <select
+            required
+            className={fieldClass}
+            value={form.packageInterest}
+            onChange={(e) => update('packageInterest', e.target.value)}
+          >
+            {PACKAGE_OPTIONS.map((opt) => (
+              <option key={opt.value} value={opt.value} className="bg-card">
+                {opt.label}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="block sm:col-span-2">
+          <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-white/50">
+            Message <span className="normal-case text-white/30">(optional)</span>
+          </span>
+          <textarea
+            rows={3}
+            className={fieldClass}
+            value={form.message}
+            onChange={(e) => update('message', e.target.value)}
+            placeholder="Tell us about your team, timeline, or prize preferences…"
+          />
+        </label>
+      </div>
+
+      {status === 'error' && (
+        <p className="text-sm text-red-400">
+          Something went wrong. Email us at{' '}
+          <a href="mailto:sales@gaviom.com" className="underline">
+            sales@gaviom.com
+          </a>
+          .
+        </p>
+      )}
+
+      <button
+        type="submit"
+        disabled={status === 'loading'}
+        className="btn-primary w-full disabled:opacity-60"
+      >
+        {status === 'loading' ? 'Submitting…' : 'Request My Custom Quote'}
+      </button>
+    </form>
+  );
+}

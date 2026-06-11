@@ -72,6 +72,21 @@
       "source": "/scripts/(.*)",
       "destination": "/404.html",
       "statusCode": 404
+    },
+    {
+      "source": "/blog/live-sweepstakes-draws-youtube.html",
+      "destination": "/blog/live-sweepstakes-draws-tiktok.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/corporate.html",
+      "destination": "/business/",
+      "statusCode": 301
+    },
+    {
+      "source": "/business",
+      "destination": "/business/",
+      "statusCode": 308
     }
   ]
 }

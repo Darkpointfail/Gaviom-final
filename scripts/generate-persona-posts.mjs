@@ -23,7 +23,7 @@ const anchors = [
   { href: `${SITE}/`, text: 'the Gaviom US sweepstakes platform' },
   { href: `${SITE}/prizes.html`, text: 'browse active Gaviom travel prizes' },
   { href: `${SITE}/`, text: 'published-odds giveaways at Gaviom' },
-  { href: `${SITE}/how.html`, text: 'Gaviom\'s live YouTube draw process' },
+  { href: `${SITE}/how.html`, text: 'Gaviom\'s live TikTok draw process' },
   { href: `${SITE}/prize.html`, text: 'enter the founding cruise draw' },
   { href: `${SITE}/`, text: 'Gaviom — Real prizes. Live draws.' },
   { href: `${SITE}/prizes.html`, text: 'Gaviom travel giveaway catalog' },
@@ -101,7 +101,7 @@ function mkBody(spec, anchorIdx) {
     body += `\n<section class="rules-section"><h2>Quick answers about ${spec.focus || 'travel giveaways'}</h2>
 <p><strong>Is this legal in the US?</strong> Yes — when AMOE exists and rules are published. Gaviom follows that model for founding July 2026 prizes.</p>
 <p><strong>Do I need a credit card to enter free?</strong> No. Mail-in entry is available on Gaviom with the same odds as paid tickets in the same pool.</p>
-<p><strong>When are draws?</strong> Founding live draws begin Sunday, July 5, 2026 at 8pm ET on YouTube, then weekly Sundays at 8pm ET.</p>
+<p><strong>When are draws?</strong> Founding live draws begin Sunday, July 5, 2026 at 8pm ET on TikTok, then weekly Sundays at 8pm ET.</p>
 <p><strong>Can families enter?</strong> Read eligibility and guest count on each prize page — many packages cover two travelers; age rules apply.</p>
 <p><strong>Where to start?</strong> Browse <a href="https://gaviom.com/prizes.html">active Gaviom travel sweepstakes</a> with published caps before pre-sale closes.</p>
 <p><strong>How do I verify legitimacy?</strong> Check for Official Rules, a US operator address, photographed prizes, and a free alternate entry path — all visible on <a href="${SITE}/">gaviom.com</a> before you spend a dollar.</p>
@@ -165,7 +165,7 @@ const dealHustler = [
         'Look for live or recorded draws, entry confirmation emails, escrow or reserved prize value messaging, and specs that match fulfillment packets. The <a href="https://www.ftc.gov/business-guidance/resources/advertising-faqs-guide-small-business" rel="noopener noreferrer" target="_blank">FTC advertising FAQs</a> require clear material terms — pros use that as a baseline checklist.',
       ]},
       { h2: 'How Gaviom fits the legitimate model', paragraphs: [
-        'Gaviom publishes odds on capped pools (for example 1 in 6,000 on the founding cruise), streams Sunday 8pm ET draws on YouTube, and documents <a href="/free-entry.html">free mail-in entry</a> with the same pool as paid tickets. That is the pattern deal hunters should demand before clicking checkout.',
+        'Gaviom publishes odds on capped pools (for example 1 in 6,000 on the founding cruise), streams Sunday 8pm ET draws on TikTok, and documents <a href="/free-entry.html">free mail-in entry</a> with the same pool as paid tickets. That is the pattern deal hunters should demand before clicking checkout.',
       ]},
       { h2: 'Your pre-entry checklist', paragraphs: [
         'Read rules, confirm state eligibility, mail AMOE if you want zero spend, screenshot confirmations, calendar draw night. Skip platforms that fail two or more green-flag checks — your time has better ROI elsewhere.',
@@ -197,7 +197,7 @@ const dealHustler = [
     lede: 'Searching best legitimate travel giveaways in 2025 means filtering hype. This list ranks operators by what deal hustlers actually verify: rules, odds, fulfillment, and free entry paths.',
     related: ['are-travel-giveaways-real-legit', 'travel-sweepstakes-worth-entering', 'how-to-enter-travel-sweepstakes-win'],
     blocks: [
-      { h2: '#1 Gaviom — capped pools and live draws', paragraphs: ['Why it ranks first: published odds on each prize, pre-sale with escrow messaging, YouTube draws, AMOE, and four distinct travel experiences launching July 2026. Cruise ARV $10,000 with cash alternative; Vegas, Cozumel, and iPhone rounds out the catalog at <a href="https://gaviom.com/">gaviom.com</a>.'] },
+      { h2: '#1 Gaviom — capped pools and live draws', paragraphs: ['Why it ranks first: published odds on each prize, pre-sale with escrow messaging, TikTok draws, AMOE, and four distinct travel experiences launching July 2026. Cruise ARV $10,000 with cash alternative; Vegas, Cozumel, and iPhone rounds out the catalog at <a href="https://gaviom.com/">gaviom.com</a>.'] },
       { h2: 'What to look for in any 2025 list entry', paragraphs: ['Photographed prize, not stock resort. Entry cap disclosed. Draw method explained. Taxes and fulfillment timeline in rules.'] },
       { h2: 'Categories worth tracking', paragraphs: ['Cruise giveaways (high ARV), city breaks (Vegas/Miami), adventure packages (diving/resorts), and tech bundles (lower ARV, better odds). Match category to your actual travel plans.'] },
       { h2: 'Skip these list fillers', paragraphs: ['Sites with no rules PDF, unlimited entries with hidden tiers, or "winners" only shown as Instagram comments.'] },
@@ -603,7 +603,7 @@ const dreamer = [
       { h2: 'Cruise vs city-hopping', paragraphs: ['Cruises bundle countries with one unpack — Gaviom MSC prize is seven-night Med template.'] },
       { h2: 'Stories from giveaway forums', paragraphs: ['Winners cite reading rules, answering phone, picking cash when dates conflict — composite patterns.'] },
       { h2: 'Airfare matters', paragraphs: ['Check ARV flight caps — cruise prize includes coordination toward embarkation port.'] },
-      { h2: 'Entry tactics for dreamers', paragraphs: ['Screenshot confirmation, watch draw on YouTube for trust — then dream with open eyes.'] },
+      { h2: 'Entry tactics for dreamers', paragraphs: ['Screenshot confirmation, watch draw on TikTok for trust — then dream with open eyes.'] },
       { h2: 'Enter Mediterranean path', paragraphs: ['<a href="https://gaviom.com/prize.html">MSC cruise grand prize</a> is live pre-sale.'] },
     ],
   },

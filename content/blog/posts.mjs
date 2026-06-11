@@ -15,7 +15,7 @@ export const POSTS = [
     date: '2026-05-02',
     category: 'Giveaway Guides',
     readMin: 7,
-    related: ['no-purchase-necessary-amoe-explained', 'sweepstakes-lottery-contest-difference', 'live-sweepstakes-draws-youtube'],
+    related: ['no-purchase-necessary-amoe-explained', 'sweepstakes-lottery-contest-difference', 'live-sweepstakes-draws-tiktok'],
     body: `
       <p class="blog-lede">If you have ever wondered why some brands can give away cars, cruises, or cash online without selling lottery tickets, you are looking at a sweepstakes. The model is old, but the internet made it visible to everyone. Here is how it works under US law and what you should expect from a trustworthy operator.</p>
       <section class="rules-section">
@@ -30,7 +30,7 @@ export const POSTS = [
       </section>
       <section class="rules-section">
         <h2>What happens from entry to payout</h2>
-        <p>On Gaviom, the flow is intentionally simple: you choose a sweepstakes, receive an entry confirmation, and wait for a <strong>live draw</strong> streamed on YouTube. If your entry is selected, we verify eligibility (age, residency, and any rule-specific requirements), then fulfill the prize or wire the cash equivalent within the timeline stated in the rules.</p>
+        <p>On Gaviom, the flow is intentionally simple: you choose a sweepstakes, receive an entry confirmation, and wait for a <strong>live draw</strong> streamed on TikTok. If your entry is selected, we verify eligibility (age, residency, and any rule-specific requirements), then fulfill the prize or wire the cash equivalent within the timeline stated in the rules.</p>
         <p>Reputable operators do not ask winners to pay upfront fees to "release" a prize. Taxes and paperwork come later, and we cover that in our guide to <a href="/blog/sweepstakes-winnings-taxes.html">sweepstakes taxes</a>.</p>
       </section>
       <section class="rules-section">
@@ -169,8 +169,8 @@ export const POSTS = [
     `,
   },
   {
-    slug: 'live-sweepstakes-draws-youtube',
-    title: 'Why We Draw Sweepstakes Winners Live on YouTube',
+    slug: 'live-sweepstakes-draws-tiktok',
+    title: 'Why We Draw Sweepstakes Winners Live on TikTok',
     description:
       'Public random draws, published seeds, and replayable video: how live streams reduce fraud concerns and build trust in online sweepstakes.',
     date: '2026-05-12',
@@ -178,7 +178,7 @@ export const POSTS = [
     readMin: 5,
     related: ['prize-escrow-trust-sweepstakes', 'how-online-sweepstakes-work-us', 'what-happens-when-you-win-sweepstakes'],
     body: `
-      <p class="blog-lede">Random number generators behind closed doors fuel skepticism. Gaviom draws winners on YouTube so anyone can watch the moment an entry ID is selected.</p>
+      <p class="blog-lede">Random number generators behind closed doors fuel skepticism. Gaviom draws winners on TikTok so anyone can watch the moment an entry ID is selected.</p>
       <section class="rules-section">
         <h2>What we publish around each draw</h2>
         <ul>
@@ -291,7 +291,7 @@ export const POSTS = [
     date: '2026-05-20',
     category: 'Giveaway Guides',
     readMin: 5,
-    related: ['live-sweepstakes-draws-youtube', 'what-happens-when-you-win-sweepstakes', 'how-online-sweepstakes-work-us'],
+    related: ['live-sweepstakes-draws-tiktok', 'what-happens-when-you-win-sweepstakes', 'how-online-sweepstakes-work-us'],
     body: `
       <p class="blog-lede">The biggest fear in online giveaways is simple: "Will they actually pay?" Escrow or reserved prize value is how serious operators answer that before marketing spend ramps.</p>
       <section class="rules-section">

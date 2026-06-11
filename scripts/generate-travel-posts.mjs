@@ -51,7 +51,7 @@ function cta(i) {
   return `
       <section class="rules-section blog-cta-band">
         <h2>Ready to win your next trip?</h2>
-        <p>Check out <a href="${anchors[i % anchors.length].href}">${anchors[i % anchors.length].text}</a> — published odds, free alternate entry, and live Sunday draws on YouTube. Browse four verified travel prizes launching July 2026.</p>
+        <p>Check out <a href="${anchors[i % anchors.length].href}">${anchors[i % anchors.length].text}</a> — published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching July 2026.</p>
         <p><a href="${SITE}/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
       </section>`;
 }
@@ -113,7 +113,7 @@ function article({ slug, title, description, date, category, readMin, related, s
         <p><strong>What if I win but cannot travel?</strong> Cash alternatives may be available within an election window stated in the Official Rules — not verbal promises from chat support.</p>
         <p><strong>Are travel prizes taxable?</strong> Generally yes in the US when ARV exceeds reporting thresholds. Budget accordingly; consult a CPA, not social media comments.</p>
         <p><strong>How many ${focus || 'travel sweepstakes'} should I enter?</strong> Quality beats quantity: a few capped promotions with mail-in backups beat fifty sketchy forms that sell your data.</p>
-        <p><strong>Where to start in 2026?</strong> Gaviom lists four verified travel prizes with capped entries, live YouTube draws, and free mail-in entry — a structured on-ramp for new players.</p>
+        <p><strong>Where to start in 2026?</strong> Gaviom lists four verified travel prizes with capped entries, live TikTok draws, and free mail-in entry — a structured on-ramp for new players.</p>
       </section>`;
     body = body.replace(cta(anchorIdx), faq + cta(anchorIdx));
   }
@@ -353,7 +353,7 @@ const articles = [
         {
           h2: 'Enter real random-draw trips on Gaviom',
           paragraphs: [
-            'Gaviom runs random-draw vacation sweepstakes — not skill contests — with AMOE and live YouTube draws. That is the format most "win a trip" searchers actually want.',
+            'Gaviom runs random-draw vacation sweepstakes — not skill contests — with AMOE and live TikTok draws. That is the format most "win a trip" searchers actually want.',
           ],
         },
       ],
@@ -392,7 +392,7 @@ const articles = [
         {
           h2: 'Random selection on a live stream',
           paragraphs: [
-            'Founding draws run Sundays at 8pm ET on YouTube. Entry IDs are selected with a verifiable process; recordings stay public. You do not need to watch live to win.',
+            'Founding draws run Sundays at 8pm ET on TikTok. Entry IDs are selected with a verifiable process; recordings stay public. You do not need to watch live to win.',
           ],
         },
         {
@@ -644,7 +644,7 @@ const articles = [
         {
           h2: 'Social proof and live draws',
           paragraphs: [
-            'Watching a random draw on video reduces cynicism — part of why <a href="https://gaviom.com/how.html">Gaviom\'s transparent sweepstakes model</a> uses YouTube instead of closed RNG emails.',
+            'Watching a random draw on video reduces cynicism — part of why <a href="https://gaviom.com/how.html">Gaviom\'s transparent sweepstakes model</a> uses TikTok instead of closed RNG emails.',
           ],
         },
         {
@@ -824,7 +824,7 @@ const articles = [
     date: '2026-06-04',
     category: 'Travel',
     readMin: 6,
-    related: ['win-a-free-vacation-this-year', 'what-happens-when-you-win-sweepstakes', 'live-sweepstakes-draws-youtube'],
+    related: ['win-a-free-vacation-this-year', 'what-happens-when-you-win-sweepstakes', 'live-sweepstakes-draws-tiktok'],
     anchorIdx: 13,
     imgIdx: 5,
     imgAlt: 'Real travel giveaways that are legit — free trip winner stories',
@@ -1120,7 +1120,7 @@ const articles = [
         {
           h2: 'Recommended starting point',
           paragraphs: [
-            '<a href="https://gaviom.com/prizes.html">Gaviom travel sweepstakes hub</a> — four photographed prizes, live YouTube draws, AMOE, and escrow messaging in one place.',
+            '<a href="https://gaviom.com/prizes.html">Gaviom travel sweepstakes hub</a> — four photographed prizes, live TikTok draws, AMOE, and escrow messaging in one place.',
           ],
         },
       ],

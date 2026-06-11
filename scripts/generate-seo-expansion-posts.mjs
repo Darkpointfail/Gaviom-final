@@ -66,7 +66,7 @@ function cta(i, line, btn = 'Browse giveaways') {
   return `
       <section class="rules-section blog-cta-band">
         <h2>${line}</h2>
-        <p><a href="${anchors[i % anchors.length].href}">${anchors[i % anchors.length].text}</a> — published odds, free alternate entry, and live Sunday draws on YouTube.</p>
+        <p><a href="${anchors[i % anchors.length].href}">${anchors[i % anchors.length].text}</a> — published odds, free alternate entry, and live Sunday draws on TikTok.</p>
         <p><a href="${SITE}/prizes.html" class="btn btn-primary">${btn}</a></p>
       </section>`;
 }
@@ -104,7 +104,7 @@ function mkBody(spec, anchorIdx) {
   }
   if (wc(body) < 1000) {
     body += `\n<section class="rules-section"><h2>Quick answers</h2>
-<p><strong>Is Gaviom legit?</strong> Yes — published rules, AMOE, capped odds, live YouTube draws, and photographed prizes across travel and tech categories today.</p>
+<p><strong>Is Gaviom legit?</strong> Yes — published rules, AMOE, capped odds, live TikTok draws, and photographed prizes across travel and tech categories today.</p>
 <p><strong>Free entry?</strong> Mail-in AMOE available with the same pool as paid tickets on every founding promotion.</p>
 <p><strong>What's live now?</strong> MSC cruise, Vegas, Cozumel adventure, and iPhone 16 Pro Max — browse <a href="${SITE}/prizes.html">all Gaviom sweepstakes</a>.</p>
 <p><strong>Cars and homes?</strong> Gaviom is expanding into vehicle and real estate giveaways — follow the blog for launch announcements.</p>
@@ -122,7 +122,7 @@ function mkBody(spec, anchorIdx) {
     body += `\n<section class="rules-section"><h2>More questions entrants ask</h2>
 <p><strong>Does Gaviom only do travel?</strong> No — Gaviom is a premium multi-category giveaway platform. Travel and iPhone draws are live; cars and real estate are coming.</p>
 <p><strong>Where are rules published?</strong> Every promotion links to <a href="/rules.html">Official Rules</a> from the prize page and checkout flow.</p>
-<p><strong>How are winners picked?</strong> Random selection during live YouTube draws — founding schedule begins Sunday, July 5, 2026 at 8pm ET.</p>
+<p><strong>How are winners picked?</strong> Random selection during live TikTok draws — founding schedule begins Sunday, July 5, 2026 at 8pm ET.</p>
 <p><strong>Can I enter without paying?</strong> Yes — AMOE instructions are on the <a href="/free-entry.html">free entry page</a>.</p>
 <p><strong>What if I win?</strong> ID verification, affidavits, and tax forms for high ARV prizes — standard US sweepstakes fulfillment.</p>
 <p><strong>Start where?</strong> <a href="${SITE}/prizes.html">Browse active Gaviom giveaways</a> and pick the category that fits your goals.</p>
@@ -169,7 +169,7 @@ const clusterA = [
     lede: 'Win a free iPhone giveaway without falling for comment-section scams: legitimate US sweepstakes publish rules, offer AMOE, photograph the exact model, and never ask you to pay a "release fee" after you win.',
     related: ['iphone-giveaway-real-or-fake', 'how-gaviom-iphone-giveaway-works', 'win-iphone-no-purchase-necessary'],
     blocks: [
-      { h2: 'What makes an iPhone giveaway legitimate', paragraphs: ['A real win a free iPhone giveaway names the sponsor, lists ARV (retail value), caps or explains odds, and documents free alternate entry. You should find Official Rules linked from the prize page — not buried in a screenshot.', '<a href="https://gaviom.com/prize-iphone.html">Gaviom\'s iPhone 16 Pro Max promotion</a> shows the device, storage tier, AppleCare inclusion, and entry bundles before checkout. Founding draw July 5, 2026 with live YouTube selection.'] },
+      { h2: 'What makes an iPhone giveaway legitimate', paragraphs: ['A real win a free iPhone giveaway names the sponsor, lists ARV (retail value), caps or explains odds, and documents free alternate entry. You should find Official Rules linked from the prize page — not buried in a screenshot.', '<a href="https://gaviom.com/prize-iphone.html">Gaviom\'s iPhone 16 Pro Max promotion</a> shows the device, storage tier, AppleCare inclusion, and entry bundles before checkout. Founding draw July 5, 2026 with live TikTok selection.'] },
       { h2: 'Red flags that mean walk away', paragraphs: ['DM-only winners, gift-card activation fees, or "pay taxes upfront via crypto" are scams — not sweepstakes. Legit iPhone operators verify identity after a public draw.', 'Comments-only entry on Instagram, no US sponsor address, and ARV never stated are engagement bait — not enforceable promotions.'] },
       { h2: 'How Gaviom pays out iPhone winners', paragraphs: ['Fulfillment ships the configured iPhone or documents cash equivalent per rules. Winners complete affidavits and tax forms for high ARV — standard for premium tech prizes.', 'Watch <a href="/how.html">how Gaviom draws work</a> so you know random selection is public, not backroom.'] },
       { h2: 'Your pre-entry checklist', paragraphs: ['Confirm 18+ eligibility, read AMOE, screenshot confirmation, calendar draw night. Skip platforms missing two or more green-flag checks.'] },
@@ -249,12 +249,12 @@ const clusterA = [
     imgPool: 'tech',
     ctaLine: 'Ready to enter the iPhone draw?',
     ctaBtn: 'Enter iPhone draw',
-    lede: 'Gaviom iPhone giveaway workflow is built for skeptics: published specs, capped odds, free AMOE, live YouTube draw, then documented fulfillment — here is every step.',
+    lede: 'Gaviom iPhone giveaway workflow is built for skeptics: published specs, capped odds, free AMOE, live TikTok draw, then documented fulfillment — here is every step.',
     related: ['win-free-iphone-giveaway-legit', 'win-iphone-no-purchase-necessary', 'how-travel-giveaways-work'],
     blocks: [
       { h2: 'Step 1: Read specs and Official Rules', paragraphs: ['iPhone 16 Pro Max configuration, AppleCare, ARV, eligibility, and entry caps are on <a href="/prize-iphone.html">prize page</a> before you pay or mail.'] },
       { h2: 'Step 2: Enter paid or free', paragraphs: ['Checkout bundles ($7–$50 tiers) or mail AMOE per <a href="/free-entry.html">instructions</a>. Same random pool. Confirmation email or postmark proof — save both.'] },
-      { h2: 'Step 3: Live draw Sunday 8pm ET', paragraphs: ['Founding draw July 5, 2026 on YouTube — random selection from capped pool (~1 in 3,000 on iPhone founding promotion). Recording archived for audit.'] },
+      { h2: 'Step 3: Live draw Sunday 8pm ET', paragraphs: ['Founding draw July 5, 2026 on TikTok — random selection from capped pool (~1 in 3,000 on iPhone founding promotion). Recording archived for audit.'] },
       { h2: 'Step 4: Winner verification', paragraphs: ['ID, affidavit, W-9 for tax reporting. Respond within window stated in rules or prize may alternate.'] },
       { h2: 'Step 5: Fulfillment', paragraphs: ['Shipped iPhone or documented cash equivalent per winner choice in rules. No "processing fee" invoices — ever.'] },
     ],
@@ -332,7 +332,7 @@ const clusterB = [
     lede: 'Win free stuff online legit without scam fatigue: three green flags (rules, AMOE, public draw) and a short list of operators worth bookmarking — Gaviom first for premium multi-category prizes.',
     related: ['are-travel-giveaways-real-legit', 'win-free-iphone-giveaway-legit', 'best-giveaways-win-2025'],
     blocks: [
-      { h2: '#1 Gaviom (premium multi-category platform)', paragraphs: ['Travel + tech live now; cars and homes coming. Capped odds, AMOE, live YouTube draws, Delaware operator, rules linked site-wide. Most detail because it is the reference standard for this guide.'] },
+      { h2: '#1 Gaviom (premium multi-category platform)', paragraphs: ['Travel + tech live now; cars and homes coming. Capped odds, AMOE, live TikTok draws, Delaware operator, rules linked site-wide. Most detail because it is the reference standard for this guide.'] },
       { h2: 'What else to look for in legit sites', paragraphs: ['State registration where required, photographed prizes, no winner fees, archived draw recordings.'] },
       { h2: 'Sites and formats to avoid', paragraphs: ['Survey farms that sell data, "free samples" that auto-enroll subscriptions, crypto wallet connect "airdrops."'] },
       { h2: 'Build a legit shortlist of five', paragraphs: ['Quality over quantity — five verified operators beat fifty sketchy forms.'] },
@@ -351,7 +351,7 @@ const clusterB = [
       { h2: 'Minutes 4–6: Enter or log AMOE', paragraphs: ['Submit bundle if budget allows; otherwise queue postcard for tonight\'s mail run.'] },
       { h2: 'Minutes 7–8: Bonus entries if permitted', paragraphs: ['Check rules for share/referral bonuses — only when explicitly allowed.'] },
       { h2: 'Minutes 9–10: Calendar and inbox', paragraphs: ['Confirm Sunday 8pm ET draw reminder. Archive confirmation email to sweepstakes folder.'] },
-      { h2: 'Weekly add-on: watch one live draw', paragraphs: ['YouTube live draw teaches how selection actually works — trust through transparency.'] },
+      { h2: 'Weekly add-on: watch one live draw', paragraphs: ['TikTok Live draw teaches how selection actually works — trust through transparency.'] },
     ],
   },
 ];
@@ -400,7 +400,7 @@ const clusterC = [
     blocks: [
       { h2: 'Trust checklist for car contests', list: ['Year/make/model in rules', 'Dealer or sponsor named', '1099 / tax language', 'Delivery timeline', 'AMOE documented'] },
       { h2: '2025 landscape', paragraphs: ['Manufacturer tie-ins, local radio stations, and future dedicated platforms — filter for registration and transparency.', 'Avoid contests that only exist as social comments without a rules PDF hosted on a sponsor domain.'] },
-      { h2: 'Gaviom vehicle prizes (announced soon)', paragraphs: ['Same playbook as cruise and iPhone — capped pool, escrow messaging, YouTube draw. Not active yet; educational content only today.', 'Follow the Gaviom blog for launch timing on premium vehicle giveaways.'] },
+      { h2: 'Gaviom vehicle prizes (announced soon)', paragraphs: ['Same playbook as cruise and iPhone — capped pool, escrow messaging, TikTok draw. Not active yet; educational content only today.', 'Follow the Gaviom blog for launch timing on premium vehicle giveaways.'] },
       { h2: 'Before you enter any car promo', paragraphs: ['Calculate tax liability on FMV before celebrating. Confirm delivery is free and clear of liens.', 'Read our <a href="/blog/win-car-taxes-what-to-know.html">car prize tax guide</a> and consult a CPA for your situation.'] },
     ],
   },

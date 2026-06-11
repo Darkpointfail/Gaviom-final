@@ -10,7 +10,7 @@ export const SWEEPSTAKES_USA_POSTS = [
     readMin: 7,
     related: ["what-makes-good-sweepstakes-website", "beginners-guide-sweepstakes-usa", "online-sweepstakes-explained"],
     faq: [
-      { question: "What is the best sweepstakes website in the USA?", answer: "The best site publishes rules, AMOE, capped odds, and public draws. Gaviom ranks highly for travel and tech founding prizes with live YouTube selection." },
+      { question: "What is the best sweepstakes website in the USA?", answer: "The best site publishes rules, AMOE, capped odds, and public draws. Gaviom ranks highly for travel and tech founding prizes with live TikTok selection." },
       { question: "Are online sweepstakes websites legal?", answer: "Yes, when they offer prize plus chance plus no required purchase with free alternate entry. State registration may apply for high ARV promotions." },
       { question: "Do I need to pay to enter sweepstakes online?", answer: "No lawful US sweepstakes requires purchase. Paid tickets are optional convenience; mail-in AMOE must enter the same pool." },
       { question: "How do I avoid fake sweepstakes websites?", answer: "Skip sites with no rules PDF, winner fees, or DM-only contact. Verify sponsor name and mailing address in Official Rules." },
@@ -38,7 +38,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <ul><li>Official Rules linked from footer and checkout</li><li>Free mail-in entry documented with same pool as paid tickets</li><li>Entry cap or odds published before draw</li><li>Public winner selection (live stream or archived video)</li><li>No fee to claim prize after random selection</li></ul>
 </section>
 <section class="rules-section"><h2>Why Gaviom belongs on a best-of list</h2>
-<p>Gaviom is a Delaware-operated sweepstakes platform launching July 2026 with live YouTube draws every Sunday at 8pm ET. Prize value is reserved before paid entries open, AMOE is documented on the free entry page, and specs are photographed — not stock-photo vague.</p>
+<p>Gaviom is a Delaware-operated sweepstakes platform launching July 2026 with live TikTok draws every Sunday at 8pm ET. Prize value is reserved before paid entries open, AMOE is documented on the free entry page, and specs are photographed — not stock-photo vague.</p>
 <p>If you want one dashboard for multiple online giveaways instead of scattered forms, start at <a href="/">gaviom.com</a> and read <a href="/how.html">how Gaviom works</a> before your first ticket.</p>
 </section>
 <section class="rules-section"><h2>Building your personal shortlist</h2>
@@ -48,7 +48,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US sweepstakes websites entrants</h2>
 <p>Before you enter any sweepstakes websites promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real sweepstakes websites operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -68,7 +68,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US sweepstakes websites entrants</h2>
 <p>Before you enter any sweepstakes websites promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real sweepstakes websites operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -76,7 +76,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section blog-faq" aria-labelledby="faq-heading">
 <h2 id="faq-heading">Frequently asked questions</h2>
 <h3>What is the best sweepstakes website in the USA?</h3>
-<p>The best site publishes rules, AMOE, capped odds, and public draws. Gaviom ranks highly for travel and tech founding prizes with live YouTube selection.</p>
+<p>The best site publishes rules, AMOE, capped odds, and public draws. Gaviom ranks highly for travel and tech founding prizes with live TikTok selection.</p>
 <h3>Are online sweepstakes websites legal?</h3>
 <p>Yes, when they offer prize plus chance plus no required purchase with free alternate entry. State registration may apply for high ARV promotions.</p>
 <h3>Do I need to pay to enter sweepstakes online?</h3>
@@ -123,7 +123,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <p>Handwritten postcards with required fields enter the identical random pool. Processing time counts — mail early before deadlines in the rules.</p>
 </section>
 <section class="rules-section"><h2>Random draws and winner selection</h2>
-<p>Reputable online sweepstakes use verifiable random selection — live streams, published seeds, or audit notes. Gaviom draws founding winners on YouTube Sundays at 8pm ET starting July 5, 2026.</p>
+<p>Reputable online sweepstakes use verifiable random selection — live streams, published seeds, or audit notes. Gaviom draws founding winners on TikTok Sundays at 8pm ET starting July 5, 2026.</p>
 <p>You do not need to watch live to win. Presence is never a condition of eligibility.</p>
 </section>
 <section class="rules-section"><h2>Fulfillment after you win</h2>
@@ -136,7 +136,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US online sweepstakes entrants</h2>
 <p>Before you enter any online sweepstakes promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real online sweepstakes operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -156,7 +156,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US online sweepstakes entrants</h2>
 <p>Before you enter any online sweepstakes promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real online sweepstakes operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -226,7 +226,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US US sweepstakes law entrants</h2>
 <p>Before you enter any US sweepstakes law promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real US sweepstakes law operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -246,7 +246,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US US sweepstakes law entrants</h2>
 <p>Before you enter any US sweepstakes law promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real US sweepstakes law operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -316,7 +316,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US winning sweepstakes entrants</h2>
 <p>Before you enter any winning sweepstakes promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real winning sweepstakes operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -336,7 +336,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US winning sweepstakes entrants</h2>
 <p>Before you enter any winning sweepstakes promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real winning sweepstakes operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -404,7 +404,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US sweepstakes vs contests entrants</h2>
 <p>Before you enter any sweepstakes vs contests promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real sweepstakes vs contests operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -424,7 +424,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US sweepstakes vs contests entrants</h2>
 <p>Before you enter any sweepstakes vs contests promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real sweepstakes vs contests operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -493,7 +493,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US travel sweepstakes entrants</h2>
 <p>Before you enter any travel sweepstakes promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real travel sweepstakes operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -513,7 +513,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US travel sweepstakes entrants</h2>
 <p>Before you enter any travel sweepstakes promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real travel sweepstakes operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -583,7 +583,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US cruise giveaways entrants</h2>
 <p>Before you enter any cruise giveaways promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real cruise giveaways operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -603,7 +603,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US cruise giveaways entrants</h2>
 <p>Before you enter any cruise giveaways promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real cruise giveaways operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -623,7 +623,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 </section>
 <section class="rules-section blog-cta-band">
 <h2>Enter the MSC cruise sweepstakes</h2>
-<p>Seven-night founding cruise with published odds, AMOE, and live YouTube draw.</p>
+<p>Seven-night founding cruise with published odds, AMOE, and live TikTok draw.</p>
 <p><a href="/prizes.html" class="btn btn-primary">Enter cruise draw</a> · <a href="/how.html" class="btn btn-ghost">How it works</a></p>
 </section>
     `,
@@ -641,7 +641,7 @@ export const SWEEPSTAKES_USA_POSTS = [
       { question: "Do I pay taxes on a free iPhone?", answer: "ARV is generally taxable income. Sponsors may issue 1099 forms." },
       { question: "Can I win an iPhone without purchase?", answer: "Yes — mail-in AMOE on Gaviom enters the same pool as paid tickets." },
       { question: "What iPhone model does Gaviom offer?", answer: "iPhone 16 Pro Max with documented specs on the prize page." },
-      { question: "When is the Gaviom iPhone draw?", answer: "Founding Sunday draws begin July 5, 2026 at 8pm ET on YouTube." }
+      { question: "When is the Gaviom iPhone draw?", answer: "Founding Sunday draws begin July 5, 2026 at 8pm ET on TikTok." }
     ],
     body: `
 <p class="blog-lede">Best iPhone giveaways in 2026 are flooded with comment-section fakes. Legitimate tech sweepstakes name the exact model, publish rules, offer AMOE, and never ask for gift-card fees after you win. Here is what to enter.</p>
@@ -671,7 +671,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US iPhone giveaways entrants</h2>
 <p>Before you enter any iPhone giveaways promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real iPhone giveaways operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -691,7 +691,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US iPhone giveaways entrants</h2>
 <p>Before you enter any iPhone giveaways promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real iPhone giveaways operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -707,7 +707,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <h3>What iPhone model does Gaviom offer?</h3>
 <p>iPhone 16 Pro Max with documented specs on the prize page.</p>
 <h3>When is the Gaviom iPhone draw?</h3>
-<p>Founding Sunday draws begin July 5, 2026 at 8pm ET on YouTube.</p>
+<p>Founding Sunday draws begin July 5, 2026 at 8pm ET on TikTok.</p>
 </section>
 <section class="rules-section blog-cta-band">
 <h2>Enter the iPhone founding draw</h2>
@@ -759,7 +759,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US American sweepstakes culture entrants</h2>
 <p>Before you enter any American sweepstakes culture promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real American sweepstakes culture operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -779,7 +779,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US American sweepstakes culture entrants</h2>
 <p>Before you enter any American sweepstakes culture promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real American sweepstakes culture operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -847,7 +847,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US free entry sweepstakes entrants</h2>
 <p>Before you enter any free entry sweepstakes promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real free entry sweepstakes operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -867,7 +867,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US free entry sweepstakes entrants</h2>
 <p>Before you enter any free entry sweepstakes promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real free entry sweepstakes operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -905,14 +905,14 @@ export const SWEEPSTAKES_USA_POSTS = [
       { question: "Are online giveaways rigged?", answer: "Compliant sweepstakes use random selection. Lack of rules is the red flag, not the internet itself." },
       { question: "How will I know if I won?", answer: "Operators contact you using info on your entry. Watch live draws to see selection happen." },
       { question: "Do I pay to receive my prize?", answer: "Never for lawful sweepstakes. Taxes are handled via paperwork, not upfront gift cards." },
-      { question: "Can I watch Gaviom draws live?", answer: "Yes — Sunday 8pm ET YouTube streams starting July 5, 2026." }
+      { question: "Can I watch Gaviom draws live?", answer: "Yes — Sunday 8pm ET TikTok Live streams starting July 5, 2026." }
     ],
     body: `
 <p class="blog-lede">Can you really win online giveaways? Yes — lawful operators fulfill prizes daily. The better question is whether the promotion you are staring at is a real sweepstakes or engagement bait. Here is how to tell and what happens after your name is drawn.</p>
 <figure class="blog-figure"><img src="/images/how-win.webp" alt="Can you really win online giveaways" width="800" height="450" loading="lazy" decoding="async" /></figure>
 <section class="rules-section"><h2>Proof that online giveaway wins are real</h2>
 <p>Registered sponsors issue 1099s, ship prizes, and publish winner lists. State regulators receive bonding paperwork on high-ARV promotions.</p>
-<p><a href="/winners.html">Gaviom winner announcements</a> will archive Gaviom outcomes; live YouTube draws provide public proof in real time.</p>
+<p><a href="/winners.html">Gaviom winner announcements</a> will archive Gaviom outcomes; live TikTok draws provide public proof in real time.</p>
 </section>
 <section class="rules-section"><h2>What a real win looks like end to end</h2>
 <p>Random selection → email/phone outreach → ID verification → affidavit → tax paperwork for high ARV → shipment or wire per rules.</p>
@@ -935,7 +935,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US winning online giveaways entrants</h2>
 <p>Before you enter any winning online giveaways promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real winning online giveaways operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -955,7 +955,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US winning online giveaways entrants</h2>
 <p>Before you enter any winning online giveaways promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real winning online giveaways operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -971,7 +971,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <h3>Do I pay to receive my prize?</h3>
 <p>Never for lawful sweepstakes. Taxes are handled via paperwork, not upfront gift cards.</p>
 <h3>Can I watch Gaviom draws live?</h3>
-<p>Yes — Sunday 8pm ET YouTube streams starting July 5, 2026.</p>
+<p>Yes — Sunday 8pm ET TikTok Live streams starting July 5, 2026.</p>
 </section>
 <section class="rules-section blog-cta-band">
 <h2>Enter giveaways you can actually win</h2>
@@ -1024,7 +1024,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US luxury vacation sweepstakes entrants</h2>
 <p>Before you enter any luxury vacation sweepstakes promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real luxury vacation sweepstakes operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -1044,7 +1044,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US luxury vacation sweepstakes entrants</h2>
 <p>Before you enter any luxury vacation sweepstakes promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real luxury vacation sweepstakes operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -1079,7 +1079,7 @@ export const SWEEPSTAKES_USA_POSTS = [
   {
     slug: "how-sweepstakes-winners-selected",
     title: "How Winners Are Selected in Sweepstakes",
-    description: "How sweepstakes winners are selected — random draws, live streams, audit trails, and Gaviom Sunday YouTube selection process explained.",
+    description: "How sweepstakes winners are selected — random draws, live streams, audit trails, and Gaviom Sunday TikTok selection process explained.",
     date: "2026-06-09",
     category: "Giveaway Guides",
     readMin: 6,
@@ -1089,7 +1089,7 @@ export const SWEEPSTAKES_USA_POSTS = [
       { question: "Do I need to watch the draw to win?", answer: "No. Presence is not required; operators contact winners using entry info." },
       { question: "Can employees win?", answer: "Usually excluded in rules. Check eligibility sections." },
       { question: "What if the winner does not respond?", answer: "Alternates are drawn per Official Rules time windows." },
-      { question: "Where are Gaviom draws held?", answer: "Live on YouTube — Sunday 8pm ET starting July 2026 founding schedule." }
+      { question: "Where are Gaviom draws held?", answer: "Live on TikTok — Sunday 8pm ET starting July 2026 founding schedule." }
     ],
     body: `
 <p class="blog-lede">How sweepstakes winners are selected should not be a mystery. Lawful US promotions use random drawing from a defined entry pool — often live-streamed or audited. Here is the selection pipeline from pool freeze to verified winner.</p>
@@ -1099,7 +1099,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <p>Pool freeze happens at a documented deadline — entries after cutoff are invalid.</p>
 </section>
 <section class="rules-section"><h2>Live draws vs silent drawings</h2>
-<p>Premium operators stream draws so entrants see randomness in real time. Gaviom founding schedule: Sundays 8pm ET on YouTube starting July 5, 2026.</p>
+<p>Premium operators stream draws so entrants see randomness in real time. Gaviom founding schedule: Sundays 8pm ET on TikTok starting July 5, 2026.</p>
 <p>Archived recordings let skeptics replay selection — transparency reduces conspiracy theories.</p>
 <h3>Random number generation</h3>
 <p>Operators may use audited RNG tools or physical draw methods. Methodology should be described in rules or draw narration.</p>
@@ -1119,7 +1119,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US sweepstakes winner selection entrants</h2>
 <p>Before you enter any sweepstakes winner selection promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real sweepstakes winner selection operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -1139,7 +1139,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US sweepstakes winner selection entrants</h2>
 <p>Before you enter any sweepstakes winner selection promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real sweepstakes winner selection operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -1155,7 +1155,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <h3>What if the winner does not respond?</h3>
 <p>Alternates are drawn per Official Rules time windows.</p>
 <h3>Where are Gaviom draws held?</h3>
-<p>Live on YouTube — Sunday 8pm ET starting July 2026 founding schedule.</p>
+<p>Live on TikTok — Sunday 8pm ET starting July 2026 founding schedule.</p>
 </section>
 <section class="rules-section"><h2>More on sweepstakes winner selection in the United States</h2>
 <p>The US sweepstakes model rewards operators who treat transparency as product design, not legal footnote. That means photographed prizes, capped entry pools, documented AMOE, and draws you can watch or replay.</p>
@@ -1217,7 +1217,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US sweepstakes scams entrants</h2>
 <p>Before you enter any sweepstakes scams promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real sweepstakes scams operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -1237,7 +1237,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US sweepstakes scams entrants</h2>
 <p>Before you enter any sweepstakes scams promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real sweepstakes scams operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -1257,7 +1257,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 </section>
 <section class="rules-section blog-cta-band">
 <h2>Enter scam-free sweepstakes</h2>
-<p>Gaviom — published rules, no winner fees, live YouTube selection, free mail-in entry.</p>
+<p>Gaviom — published rules, no winner fees, live TikTok selection, free mail-in entry.</p>
 <p><a href="/prizes.html" class="btn btn-primary">Browse sweepstakes</a> · <a href="/how.html" class="btn btn-ghost">How it works</a></p>
 </section>
     `,
@@ -1305,7 +1305,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US good sweepstakes websites entrants</h2>
 <p>Before you enter any good sweepstakes websites promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real good sweepstakes websites operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -1325,7 +1325,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US good sweepstakes websites entrants</h2>
 <p>Before you enter any good sweepstakes websites promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real good sweepstakes websites operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -1400,7 +1400,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US sweepstakes prize categories entrants</h2>
 <p>Before you enter any sweepstakes prize categories promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real sweepstakes prize categories operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -1420,7 +1420,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US sweepstakes prize categories entrants</h2>
 <p>Before you enter any sweepstakes prize categories promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real sweepstakes prize categories operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -1491,7 +1491,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US sweepstakes entry volume entrants</h2>
 <p>Before you enter any sweepstakes entry volume promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real sweepstakes entry volume operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -1511,7 +1511,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US sweepstakes entry volume entrants</h2>
 <p>Before you enter any sweepstakes entry volume promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real sweepstakes entry volume operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -1549,7 +1549,7 @@ export const SWEEPSTAKES_USA_POSTS = [
       { question: "Does psychology explain scam victims?", answer: "Yes — urgency and fake winner notices exploit the same hope mechanisms." },
       { question: "Do live draws change trust?", answer: "Public selection provides social proof that wins are real and random." },
       { question: "Why enter if odds are low?", answer: "Entertainment value and dream utility — like concerts or sports bets with lawful disclosure." },
-      { question: "How does Gaviom use transparency?", answer: "Published odds, AMOE, and live YouTube draws align psychology with facts." }
+      { question: "How does Gaviom use transparency?", answer: "Published odds, AMOE, and live TikTok draws align psychology with facts." }
     ],
     body: `
 <p class="blog-lede">The psychology behind giveaways explains why a stamp and a dream feel rational — hope, variable rewards, and social proof drive participation. Understanding the mechanics helps you enjoy sweepstakes as entertainment without falling for scams.</p>
@@ -1579,7 +1579,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US giveaway psychology entrants</h2>
 <p>Before you enter any giveaway psychology promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real giveaway psychology operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -1599,7 +1599,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US giveaway psychology entrants</h2>
 <p>Before you enter any giveaway psychology promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real giveaway psychology operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -1615,7 +1615,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <h3>Why enter if odds are low?</h3>
 <p>Entertainment value and dream utility — like concerts or sports bets with lawful disclosure.</p>
 <h3>How does Gaviom use transparency?</h3>
-<p>Published odds, AMOE, and live YouTube draws align psychology with facts.</p>
+<p>Published odds, AMOE, and live TikTok draws align psychology with facts.</p>
 </section>
 <section class="rules-section"><h2>More on giveaway psychology in the United States</h2>
 <p>The US sweepstakes model rewards operators who treat transparency as product design, not legal footnote. That means photographed prizes, capped entry pools, documented AMOE, and draws you can watch or replay.</p>
@@ -1675,7 +1675,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US sweepstakes beginners entrants</h2>
 <p>Before you enter any sweepstakes beginners promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real sweepstakes beginners operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -1695,7 +1695,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US sweepstakes beginners entrants</h2>
 <p>Before you enter any sweepstakes beginners promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real sweepstakes beginners operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -1754,7 +1754,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <p>Gaviom publishes founding pool sizes on each prize page before pre-sale closes.</p>
 </section>
 <section class="rules-section"><h2>Live draws as trust events</h2>
-<p>Streaming selection on YouTube turns compliance into content. Entrants see randomness; skeptics lose ammunition.</p>
+<p>Streaming selection on TikTok turns compliance into content. Entrants see randomness; skeptics lose ammunition.</p>
 <p>Founding schedule: Sundays 8pm ET starting July 5, 2026. Recordings archived for audit.</p>
 <h3>Winner announcements</h3>
 <p><a href="/winners.html">Gaviom winner announcements</a> documents verified outcomes after ID checks — public proof chain completes the loop.</p>
@@ -1770,7 +1770,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US sweepstakes transparency entrants</h2>
 <p>Before you enter any sweepstakes transparency promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real sweepstakes transparency operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -1790,7 +1790,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section"><h2>Practical checklist for US sweepstakes transparency entrants</h2>
 <p>Before you enter any sweepstakes transparency promotion, open <a href="/rules.html">Official Rules</a> and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open — not after complaints pile up.</p>
 <p>Use <a href="/free-entry.html">free mail-in entry</a> when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live YouTube selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. <a href="/how.html">how Gaviom works</a> explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. <a href="/winners.html">Gaviom winner announcements</a> will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real sweepstakes transparency operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? <a href="/prizes.html">browse Gaviom sweepstakes</a> — cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>

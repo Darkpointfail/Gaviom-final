@@ -94,7 +94,7 @@ function topbar() {
 function nav(active) {
   const link = (href, label, key) =>
     `<a href="${href}"${active === key ? ' class="active"' : ''}>${label}</a>`;
-  return `  <header class="nav"><div class="wrap nav-inner"><a href="/" class="brand" aria-label="Gaviom home"><span class="brand-mark">G</span> Gaviom</a><nav class="nav-links">${link('/', 'Home', 'home')}${link('/prizes.html', 'Sweepstakes', 'prizes')}${link('/winners.html', 'Winners', 'winners')}${link('/how.html', 'How it works', 'how')}${link('/impact.html', 'Impact', 'impact')}${link('/membership.html', 'Gaviom+', 'membership')}${link('/corporate.html', 'For business', 'corporate')}</nav><div class="nav-right"><a href="/signin.html" class="nav-signin">Sign in</a><a href="/prize.html" class="btn btn-primary" data-presale-cta data-entry-cta>Pre-order a ticket</a></div></div></header>`;
+  return `  <header class="nav"><div class="wrap nav-inner"><a href="/" class="brand" aria-label="Gaviom home"><span class="brand-mark">G</span> Gaviom</a><nav class="nav-links">${link('/', 'Home', 'home')}${link('/prizes.html', 'Sweepstakes', 'prizes')}${link('/winners.html', 'Winners', 'winners')}${link('/how.html', 'How it works', 'how')}${link('/impact.html', 'Impact', 'impact')}${link('/membership.html', 'Gaviom+', 'membership')}${link('/business/', 'For business', 'corporate')}</nav><div class="nav-right"><a href="/signin.html" class="nav-signin">Sign in</a><a href="/prize.html" class="btn btn-primary" data-presale-cta data-entry-cta>Pre-order a ticket</a></div></div></header>`;
 }
 
 function footer() {
@@ -102,7 +102,7 @@ function footer() {
     <div class="wrap footer-grid">
       <div class="footer-brand"><a href="/" class="brand"><span class="brand-mark">G</span> Gaviom</a><p class="footer-tagline">US sweepstakes with published odds, live draws, and reserved prize value. Operated by Gaviom Inc., Delaware.</p></div>
       <div class="footer-col"><h4>Play</h4><ul><li><a href="/prizes.html">All sweepstakes</a></li><li><a href="/prize.html">Grand prize</a></li></ul></div>
-      <div class="footer-col"><h4>Learn</h4><ul><li><a href="/blog/">Blog</a></li><li><a href="/how.html">How it works</a></li><li><a href="/corporate.html">For business</a></li></ul></div>
+      <div class="footer-col"><h4>Learn</h4><ul><li><a href="/blog/">Blog</a></li><li><a href="/how.html">How it works</a></li><li><a href="/business/">For business</a></li></ul></div>
       <div class="footer-col"><h4>Legal</h4><ul><li><a href="/rules.html">Official Rules</a></li><li><a href="/free-entry.html">Free entry by mail</a></li><li><a href="/terms.html">Terms</a></li><li><a href="/privacy.html">Privacy</a></li></ul></div>
     </div>
     <div class="wrap footer-legal"><span>© 2026 Gaviom Inc.</span><span>18+ · Void where prohibited</span></div>
@@ -289,7 +289,7 @@ function buildSitemap() {
     '/prize-iphone.html',
     '/how.html',
     '/membership.html',
-    '/corporate.html',
+    '/business/',
     '/winners.html',
     '/free-entry.html',
     '/checkout.html',

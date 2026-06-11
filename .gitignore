@@ -2,6 +2,9 @@
 Thumbs.db
 *.log
 node_modules/
+business/node_modules/
+business/.next/
+business/out/
 .npm/
 images/**/*.webp
 
