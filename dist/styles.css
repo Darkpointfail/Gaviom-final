@@ -4808,6 +4808,7 @@ body.gv-corp::before {
   .hero-home__slide-img { animation: none; transform: none; }
   body::before { animation: none; }
   .sweep-panel__media { opacity: 1; }
+  .sweep-panel__media img { transform: none !important; will-change: auto; }
   .sweep-panel__content { opacity: 1; }
   .sweep-panel-wrap { height: auto; }
   .sweep-panel { min-height: 88dvh; }
@@ -5013,6 +5014,20 @@ body.prizes-page .sweep-filters .sort-select {
 .sweep-stack {
   position: relative;
 }
+body.prizes-page .sweep-stack {
+  background-color: var(--ink);
+}
+body.prizes-page .sweep-stack::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0.038;
+  background-image: var(--grain-texture);
+  background-size: 220px 220px;
+  mix-blend-mode: soft-light;
+}
 .sweep-panel-wrap {
   scroll-margin-top: 80px;
 }
@@ -5024,15 +5039,79 @@ body.prizes-page .sweep-filters .sort-select {
 .sweep-panel-wrap.is-filtered-out {
   display: none;
 }
+/* Ambient divider — soft vertical fade between sweep panels */
 .sweep-bridge {
-  height: 10vh;
-  min-height: 72px;
-  background: linear-gradient(180deg, var(--paper), var(--paper-2) 55%, color-mix(in oklab, var(--ink) 6%, var(--paper-2)));
+  position: relative;
+  height: clamp(64px, 10vh, 112px);
+  min-height: 64px;
+  overflow: hidden;
   pointer-events: none;
+  z-index: 3;
+  isolation: isolate;
+  background-color: var(--ink);
+  background-image:
+    var(--grain-texture),
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--ink) 82%, transparent) 0%,
+      color-mix(in oklab, var(--navy-deep) 94%, var(--ink-violet)) 42%,
+      color-mix(in oklab, var(--navy-deep) 94%, var(--ink-violet)) 58%,
+      color-mix(in oklab, var(--ink) 82%, transparent) 100%
+    );
+  background-size: 180px 180px, 100% 100%;
+  background-blend-mode: soft-light, normal;
+}
+.sweep-bridge::before {
+  content: "";
+  position: absolute;
+  inset: -8% 0;
+  background:
+    radial-gradient(ellipse 90% 95% at 50% 50%, color-mix(in oklab, var(--gold) 16%, transparent) 0%, transparent 68%),
+    radial-gradient(ellipse 55% 35% at 50% 50%, color-mix(in oklab, var(--ochre-soft) 10%, transparent) 0%, transparent 72%),
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in oklab, var(--gold-light) 22%, transparent) 50%,
+      transparent 100%
+    );
+  opacity: 0.85;
+  animation: sweepBridgeGlow 16s ease-in-out infinite alternate;
+}
+.sweep-bridge::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 18%;
+  bottom: 18%;
+  backdrop-filter: blur(14px) saturate(1.12);
+  -webkit-backdrop-filter: blur(14px) saturate(1.12);
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    color-mix(in oklab, var(--ink-violet) 14%, transparent) 48%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(180deg, transparent 0%, #000 30%, #000 70%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 30%, #000 70%, transparent 100%);
+  opacity: 0.45;
+}
+@keyframes sweepBridgeGlow {
+  from { opacity: 0.7; transform: scaleY(1); }
+  to { opacity: 0.95; transform: scaleY(1.05); }
 }
 .sweep-panel-wrap:first-child .sweep-bridge {
-  height: 4vh;
-  min-height: 32px;
+  height: clamp(52px, 6vh, 88px);
+  min-height: 52px;
+  background-image:
+    var(--grain-texture),
+    linear-gradient(
+      180deg,
+      var(--paper-2) 0%,
+      color-mix(in oklab, var(--ink) 28%, var(--paper-2)) 24%,
+      color-mix(in oklab, var(--navy-deep) 90%, var(--ink)) 58%,
+      color-mix(in oklab, var(--ink) 78%, transparent) 100%
+    );
 }
 .sweep-panel {
   position: relative;
@@ -5066,6 +5145,24 @@ body.prizes-page .sweep-filters .sort-select {
   object-fit: cover;
   object-position: center;
   filter: saturate(0.94) contrast(1.03);
+  transform: translate3d(0, 0, 0) scale(1.06);
+  will-change: transform;
+}
+.sweep-panel__media::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: clamp(48px, 14%, 120px);
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    color-mix(in oklab, var(--ink) 42%, transparent) 55%,
+    color-mix(in oklab, var(--navy-deep) 88%, var(--ink)) 100%
+  );
 }
 .sweep-panel--grand .sweep-panel__media img {
   object-position: center 42%;

@@ -80,13 +80,8 @@
     },
     {
       "source": "/corporate.html",
-      "destination": "/business/",
+      "destination": "/business",
       "statusCode": 301
-    },
-    {
-      "source": "/business",
-      "destination": "/business/",
-      "statusCode": 308
     }
   ]
 }

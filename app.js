@@ -1427,6 +1427,43 @@
       });
     }
 
+    function initSweepParallax() {
+      if (!document.body.classList.contains('prizes-page')) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const imgs = document.querySelectorAll(
+        '.sweep-panel-wrap:not(.is-filtered-out) .sweep-panel__media img'
+      );
+      if (!imgs.length) return;
+
+      let ticking = false;
+
+      function update() {
+        ticking = false;
+        const vh = window.innerHeight || 1;
+        imgs.forEach((img) => {
+          const panel = img.closest('.sweep-panel');
+          if (!panel) return;
+          const rect = panel.getBoundingClientRect();
+          if (rect.bottom < -vh * 0.15 || rect.top > vh * 1.15) return;
+          const center = rect.top + rect.height * 0.5;
+          const progress = (center - vh * 0.5) / vh;
+          const y = progress * -22;
+          img.style.transform = `translate3d(0, ${y}px, 0) scale(1.06)`;
+        });
+      }
+
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+      update();
+    }
+
     function initCorporateDemo() {
       document.querySelectorAll('[data-corp-pills]').forEach((group) => {
         const key = group.dataset.corpPills;
@@ -1473,6 +1510,7 @@
       run(initBrandLogo);
       run(initBrandHome);
       run(initNavScroll);
+      run(initSweepParallax);
       run(initCorporateDemo);
       run(initMemCard);
       run(initTouchPressFeedback);
