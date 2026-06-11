@@ -3,6 +3,7 @@ import { FAQ } from '@/components/sections/FAQ';
 import { FinalCTA } from '@/components/sections/FinalCTA';
 import { Hero } from '@/components/sections/Hero';
 import { HowItWorks } from '@/components/sections/HowItWorks';
+import { OurOffer } from '@/components/sections/OurOffer';
 import { Packages } from '@/components/sections/Packages';
 import { PrizeCatalog } from '@/components/sections/PrizeCatalog';
 import { ROI } from '@/components/sections/ROI';
@@ -16,6 +17,7 @@ export default function BusinessPage() {
     <>
       <Hero />
       <SocialProof />
+      <OurOffer />
       <HowItWorks />
       <Packages />
       <WhatWeHandle />

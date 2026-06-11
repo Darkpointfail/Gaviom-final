@@ -19,8 +19,8 @@ export function Footer() {
             <a href="#faq" className="transition hover:text-white">
               FAQ
             </a>
-            <a href="mailto:sales@gaviom.com" className="transition hover:text-white">
-              sales@gaviom.com
+            <a href="mailto:info@getgaviom.com" className="transition hover:text-white">
+              info@getgaviom.com
             </a>
           </div>
         </div>

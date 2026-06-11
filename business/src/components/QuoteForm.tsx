@@ -70,7 +70,7 @@ export function QuoteForm({ presetPackage, onSuccess }: QuoteFormProps) {
             .filter(Boolean)
             .join('\n'),
         );
-        window.location.href = `mailto:sales@gaviom.com?subject=${subject}&body=${body}`;
+        window.location.href = `mailto:info@getgaviom.com?subject=${subject}&body=${body}`;
       }
 
       setStatus('success');
@@ -194,8 +194,8 @@ export function QuoteForm({ presetPackage, onSuccess }: QuoteFormProps) {
       {status === 'error' && (
         <p className="text-sm text-red-400">
           Something went wrong. Email us at{' '}
-          <a href="mailto:sales@gaviom.com" className="underline">
-            sales@gaviom.com
+          <a href="mailto:info@getgaviom.com" className="underline">
+            info@getgaviom.com
           </a>
           .
         </p>

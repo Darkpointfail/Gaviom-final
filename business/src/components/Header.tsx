@@ -19,8 +19,8 @@ export function Header() {
           </span>
         </Link>
         <nav className="hidden items-center gap-8 text-sm text-white/70 md:flex">
-          <a href="#how-it-works" className="transition hover:text-white">
-            How it works
+          <a href="#our-offer" className="transition hover:text-white">
+            Our offer
           </a>
           <a href="#packages" className="transition hover:text-white">
             Packages
