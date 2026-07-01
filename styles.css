@@ -4123,6 +4123,14 @@ html:has(body.how-page)::before {
   background-size: cover;
   filter: saturate(1.05) contrast(1.02) brightness(0.98);
 }
+.full-bleed-quote__photo--villa-responsive {
+  background-image: url("/images/home-eight-oclock-villa-480w.webp");
+}
+@media (min-width: 769px) {
+  .full-bleed-quote__photo--villa-responsive {
+    background-image: url("/images/home-eight-oclock-villa.webp");
+  }
+}
 .full-bleed-quote--vegas .full-bleed-quote__photo {
   background-position: center 40%;
   filter: saturate(1.12) contrast(1.06) brightness(0.88);

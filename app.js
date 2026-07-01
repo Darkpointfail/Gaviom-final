@@ -1764,6 +1764,7 @@
       }
 
       const homeMobile = isHomeMobile();
+      const narrowMobile = window.matchMedia('(max-width: 768px)').matches;
 
       function startCountdownLoop() {
         tickCountdown();
@@ -1779,11 +1780,19 @@
       }
 
       scheduleCartLoad();
-      run(initBrandLogo);
-      run(initBrandHome);
-      run(initNavScroll);
-      run(initStickyCta);
-      run(initMobileNav);
+      if (narrowMobile) {
+        scheduleIdle(initBrandLogo);
+        scheduleIdle(initBrandHome);
+        scheduleIdle(initNavScroll);
+        scheduleIdle(initStickyCta);
+        scheduleIdle(initMobileNav);
+      } else {
+        run(initBrandLogo);
+        run(initBrandHome);
+        run(initNavScroll);
+        run(initStickyCta);
+        run(initMobileNav);
+      }
 
       if (homeMobile) {
         whenVisible('.spotlight', () => scheduleIdle(initLiveCounters));

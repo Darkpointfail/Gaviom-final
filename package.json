@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "images": "node scripts/optimize-images.mjs --source",
-    "build": "node scripts/patch-launch-dates.mjs && node scripts/build-blog.mjs && node scripts/patch-favicon-html.mjs && node scripts/patch-preconnect-html.mjs && node scripts/patch-google-fonts-html.mjs && node scripts/patch-cart-html.mjs && node scripts/lighthouse-images.mjs --source && node scripts/patch-responsive-images.mjs && node scripts/patch-performance-html.mjs && node scripts/patch-mobile-perf-html.mjs && node scripts/patch-home-hero-static.mjs && node scripts/build-static.mjs && node scripts/build-business.mjs && node scripts/optimize-images.mjs && node scripts/minify-assets.mjs",
+    "build": "node scripts/patch-launch-dates.mjs && node scripts/build-blog.mjs && node scripts/patch-favicon-html.mjs && node scripts/patch-preconnect-html.mjs && node scripts/patch-google-fonts-html.mjs && node scripts/patch-cart-html.mjs && node scripts/lighthouse-images.mjs --source && node scripts/patch-responsive-images.mjs && node scripts/patch-pagespeed-images.mjs && node scripts/patch-performance-html.mjs && node scripts/patch-mobile-perf-html.mjs && node scripts/patch-home-hero-static.mjs && node scripts/build-static.mjs && node scripts/build-business.mjs && node scripts/optimize-images.mjs && node scripts/minify-assets.mjs",
     "build:business": "node scripts/build-business.mjs",
     "dev:business": "npm run dev --prefix business",
     "favicons": "node scripts/build-favicons.mjs",

@@ -1,89 +1,152 @@
 {
-  "generatedAt": "2026-07-01T16:27:18.787Z",
+  "generatedAt": "2026-07-01T16:45:19.880Z",
   "items": [
     {
       "label": "home-hero-desktop.webp",
-      "before": 95368,
-      "after": 94526,
-      "saved": 842,
+      "before": 90446,
+      "after": 89546,
+      "saved": 900,
       "file": "images/home-hero-desktop.webp"
     },
     {
       "label": "home-hero-desktop.avif",
-      "before": 73869,
-      "after": 74546,
-      "saved": -677,
+      "before": 65312,
+      "after": 65050,
+      "saved": 262,
       "file": "images/home-hero-desktop.avif"
     },
     {
       "label": "home-hero-mobile.webp",
-      "before": 61484,
-      "after": 61240,
-      "saved": 244,
+      "before": 59460,
+      "after": 59230,
+      "saved": 230,
       "file": "images/home-hero-mobile.webp"
     },
     {
       "label": "home-hero-mobile.avif",
-      "before": 52583,
-      "after": 53722,
-      "saved": -1139,
+      "before": 47133,
+      "after": 47353,
+      "saved": -220,
       "file": "images/home-hero-mobile.avif"
     },
     {
       "label": "home-hero-mobile-480w.webp",
-      "before": 31062,
-      "after": 30996,
-      "saved": 66,
+      "before": 31502,
+      "after": 31346,
+      "saved": 156,
       "file": "images/home-hero-mobile-480w.webp"
     },
     {
       "label": "home-hero-mobile-480w.avif",
-      "before": 22951,
-      "after": 22853,
-      "saved": 98,
+      "before": 23417,
+      "after": 23295,
+      "saved": 122,
       "file": "images/home-hero-mobile-480w.avif"
     },
     {
       "label": "diving-turtle-450w.webp",
-      "before": 28366,
-      "after": 28366,
+      "before": 24956,
+      "after": 24956,
       "saved": 0,
       "file": "images/diving-turtle-450w.webp"
     },
     {
       "label": "vegas-quote-hero-450w.webp",
-      "before": 36116,
-      "after": 36116,
+      "before": 32398,
+      "after": 32398,
       "saved": 0,
       "file": "images/vegas-quote-hero-450w.webp"
     },
     {
       "label": "cruise-hero-400w.webp",
-      "before": 20358,
-      "after": 20358,
+      "before": 18040,
+      "after": 18040,
       "saved": 0,
       "file": "images/cruise-hero-400w.webp"
     },
     {
       "label": "iphone-hero-550w.webp",
-      "before": 3272,
-      "after": 3272,
+      "before": 2864,
+      "after": 2864,
       "saved": 0,
       "file": "images/iphone-hero-550w.webp"
     },
     {
+      "label": "home-eight-oclock-villa-480w.webp",
+      "before": 22980,
+      "after": 22980,
+      "saved": 0,
+      "file": "images/home-eight-oclock-villa-480w.webp"
+    },
+    {
+      "label": "cruise-hero-800w.webp",
+      "before": 64698,
+      "after": 64698,
+      "saved": 0,
+      "file": "images/cruise-hero-800w.webp"
+    },
+    {
+      "label": "vegas-quote-hero-800w.webp",
+      "before": 78918,
+      "after": 78918,
+      "saved": 0,
+      "file": "images/vegas-quote-hero-800w.webp"
+    },
+    {
+      "label": "diving-turtle-800w.webp",
+      "before": 54866,
+      "after": 54866,
+      "saved": 0,
+      "file": "images/diving-turtle-800w.webp"
+    },
+    {
+      "label": "home-eight-oclock-villa-800w.webp",
+      "before": 63938,
+      "after": 63938,
+      "saved": 0,
+      "file": "images/home-eight-oclock-villa-800w.webp"
+    },
+    {
+      "label": "diving-turtle.webp",
+      "before": 93000,
+      "after": 93000,
+      "saved": 0,
+      "file": "images/diving-turtle.webp"
+    },
+    {
+      "label": "vegas-quote-hero.webp",
+      "before": 120812,
+      "after": 120812,
+      "saved": 0,
+      "file": "images/vegas-quote-hero.webp"
+    },
+    {
+      "label": "cruise-hero.webp",
+      "before": 521952,
+      "after": 504550,
+      "saved": 17402,
+      "file": "images/cruise-hero.webp"
+    },
+    {
       "label": "home-eight-oclock-villa.webp",
-      "before": 244090,
-      "after": 244090,
+      "before": 219132,
+      "after": 219132,
       "saved": 0,
       "file": "images/home-eight-oclock-villa.webp"
     },
     {
       "label": "gaviom-logo-110w.webp",
-      "before": 4932,
-      "after": 4932,
+      "before": 4760,
+      "after": 4760,
       "saved": 0,
       "file": "images/gaviom-logo-110w.webp"
+    },
+    {
+      "label": "gaviom-logo.webp",
+      "before": 10562,
+      "after": 10562,
+      "saved": 0,
+      "file": "images/gaviom-logo.webp"
     }
   ]
 }
