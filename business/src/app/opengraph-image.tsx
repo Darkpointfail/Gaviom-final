@@ -2,7 +2,7 @@ import { ImageResponse } from 'next/og';
 
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
-export const alt = 'Gaviom for Business — Employee Contest Benefits';
+export const alt = 'Gaviom for Business, Employee Prize Draw Platform';
 
 export default function OpenGraphImage() {
   return new ImageResponse(
@@ -41,27 +41,27 @@ export default function OpenGraphImage() {
         </div>
         <div
           style={{
-            fontSize: 64,
+            fontSize: 52,
             fontWeight: 700,
             color: '#1a2030',
-            lineHeight: 1.1,
+            lineHeight: 1.12,
             letterSpacing: '-0.02em',
             maxWidth: 900,
           }}
         >
-          Turn Your Workforce Into Winners
+          Fully managed employee prize draws for your company
         </div>
         <div
           style={{
             marginTop: 28,
-            fontSize: 26,
+            fontSize: 24,
             color: '#4a5568',
-            maxWidth: 800,
-            lineHeight: 1.4,
+            maxWidth: 820,
+            lineHeight: 1.45,
           }}
         >
-          Luxury employee contest benefits. We handle everything — you take the
-          credit.
+          Ticket packs or custom draws. Compliance, comms, and certification
+          handled end-to-end.
         </div>
       </div>
     ),

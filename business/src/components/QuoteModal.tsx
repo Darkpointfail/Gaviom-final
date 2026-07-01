@@ -56,16 +56,16 @@ export function QuoteModal({ open, onClose, presetPackage }: QuoteModalProps) {
             >
               ×
             </button>
-            <p className="section-badge mb-2">Custom quote</p>
+            <p className="section-badge mb-2">Get in touch</p>
             <h2
               id="quote-modal-title"
               className="font-display text-2xl font-bold tracking-tight text-ink"
             >
-              Request your proposal
+              Tell us about your program
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-ink-3">
-              Every package is tailored to your headcount and goals. No commitment
-              required.
+              Ticket packs, custom draw, or partner inquiry. We respond within one
+              business day.
             </p>
             <div className="mt-6">
               <QuoteForm presetPackage={presetPackage} onSuccess={onClose} />

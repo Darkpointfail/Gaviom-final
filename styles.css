@@ -1,8 +1,8 @@
-/* Gaviom v2 — US Sweepstakes design system */
+/* Gaviom v2, US Sweepstakes design system */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  /* Crème ivoire chaud — papier luxe (base #FAF7F2) */
+  /* Crème ivoire chaud, papier luxe (base #FAF7F2) */
   --ivory:        #FAF7F2;
   --paper:        var(--ivory);
   --paper-2:      #F4EFE6;
@@ -40,7 +40,7 @@
   --gold-dark:    #B8943E;
   --gold-deep:    #1A1500;
   --ink-deep:     #0A0A0A;
-  /* Deep night surfaces — navy / indigo */
+  /* Deep night surfaces, navy / indigo */
   --navy:         #0D2B45;
   --navy-deep:    #051525;
   --ink-violet:   #1A0A2E;
@@ -79,7 +79,7 @@ body {
   position: relative;
   min-height: 100vh;
 }
-/* Atmospheric mesh + noise grain — site-wide depth */
+/* Atmospheric mesh + noise grain, site-wide depth */
 html::before {
   content: "";
   position: fixed;
@@ -151,7 +151,7 @@ body.prizes-page .sweep-panel__media,
   background-image: none;
   box-shadow: none;
 }
-/* Photos & video — above vignette, no dark overlay on media */
+/* Photos & video, above vignette, no dark overlay on media */
 .prize-photo-wrap,
 .prize-photo,
 .hero-home__video,
@@ -414,7 +414,7 @@ ul { list-style: none; }
   animation: btn-shine 2.8s linear infinite;
   animation-delay: var(--shine-delay, 0s);
 }
-/* Header Pre-order — continuous bright shine loop */
+/* Header Pre-order, continuous bright shine loop */
 .nav-right .btn-primary .btn-shine,
 .nav-mobile-actions .btn-primary .btn-shine {
   z-index: 1;
@@ -461,7 +461,7 @@ ul { list-style: none; }
     animation: none;
   }
 }
-/* Entry bundle picker — static only, no ticket shine */
+/* Entry bundle picker, static only, no ticket shine */
 .bundle-opt,
 .bundle-opt::before,
 .bundle-opt::after {
@@ -859,7 +859,7 @@ ul { list-style: none; }
   font-variant-numeric: tabular-nums;
 }
 
-/* TopBar — warm announcement strip (contrasts navy nav below) */
+/* TopBar, warm announcement strip (contrasts navy nav below) */
 .topbar {
   position: relative;
   isolation: isolate;
@@ -928,7 +928,7 @@ ul { list-style: none; }
   box-shadow: 0 0 0 2px color-mix(in oklab, var(--ochre-soft) 80%, transparent);
 }
 
-/* Nav — navy header, gold type (matches logo) */
+/* Nav, navy header, gold type (matches logo) */
 .nav {
   position: sticky;
   top: 0;
@@ -1787,7 +1787,7 @@ a.brand.corp-brand {
 .grand-banner-img { aspect-ratio: 16/10; }
 .grand-banner-body { padding: 32px; display: flex; flex-direction: column; justify-content: center; }
 
-/* Prizes page — compact layout */
+/* Prizes page, compact layout */
 .prizes-page .prizes-top {
   padding: 28px 0 20px;
   border-bottom: 1px solid var(--line);
@@ -2489,7 +2489,7 @@ a.brand.corp-brand {
   flex-shrink: 0;
 }
 
-/* Checkout — simple payment page (no gallery) */
+/* Checkout, simple payment page (no gallery) */
 .checkout-page {
   background: var(--paper-2);
   min-height: 100vh;
@@ -2800,7 +2800,7 @@ body.checkout-page::after {
   }
 }
 
-/* Winners & How — warm gold page background (no green atmospheric tint) */
+/* Winners & How, warm gold page background (no green atmospheric tint) */
 html:has(body.winners-page)::before,
 html:has(body.how-page)::before {
   background:
@@ -3323,7 +3323,7 @@ html:has(body.how-page)::before {
   transition: transform 0.7s cubic-bezier(0.34, 1.2, 0.64, 1);
 }
 .mem-card-scene.is-flipped .mem-card-flip {
-  transform: rotateY(180deg);
+  transform: rotateX(180deg);
 }
 .mem-card-scene.is-flipped .mem-pass--front { pointer-events: none; }
 .mem-card-scene.is-flipped .mem-pass--back { pointer-events: auto; }
@@ -3365,9 +3365,11 @@ html:has(body.how-page)::before {
   }
 }
 .mem-pass--back {
-  transform: rotateY(180deg);
+  transform: rotateX(180deg) translateZ(0.1px);
   background: linear-gradient(160deg, var(--ink-violet), var(--navy-deep) 45%, var(--gold-deep));
   pointer-events: none;
+  display: flex;
+  flex-direction: column;
 }
 .mem-pass__mesh {
   position: absolute;
@@ -3574,72 +3576,31 @@ html:has(body.how-page)::before {
   z-index: 1;
 }
 .mem-pass__stripe {
-  height: 42px;
+  flex-shrink: 0;
+  height: 48px;
   background: linear-gradient(180deg, var(--gold-deep), color-mix(in oklab, var(--gold-dark) 35%, var(--gold-deep)));
   border-bottom: 1px solid color-mix(in oklab, var(--gold) 25%, transparent);
-  margin-top: 28px;
 }
-.mem-pass__back-body {
-  padding: 28px 32px 24px;
-}
-.mem-pass__back-label {
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  opacity: 0.5;
-  margin-bottom: 4px;
-}
-.mem-pass__back-id {
-  font-size: 13px;
-  letter-spacing: 0.08em;
-  margin-bottom: 18px;
-}
-.mem-pass__perks {
-  list-style: none;
+.mem-pass__back-inner {
+  flex: 1;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  padding: 28px 34px 32px;
   gap: 10px;
 }
-.mem-pass__perks li {
-  font-size: 12px;
-  color: color-mix(in oklab, var(--paper) 80%, transparent);
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-}
-.mem-pass__perks li span {
+.mem-pass__back-brand {
   font-family: "Bricolage Grotesque", sans-serif;
+  font-size: clamp(26px, 5vw, 34px);
   font-weight: 700;
-  font-size: 15px;
-  color: var(--gold-light);
-  min-width: 2.2em;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: color-mix(in oklab, var(--gold-light) 88%, var(--paper));
 }
 .mem-pass__back-sig {
-  margin-top: 16px;
-  font-size: 9px;
-  letter-spacing: 0.1em;
-  opacity: 0.45;
-}
-.mem-pass__qr {
-  position: absolute;
-  bottom: 26px;
-  right: 28px;
-  width: 60px;
-  height: 60px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 3px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
   opacity: 0.5;
-}
-.mem-pass__qr span {
-  background: color-mix(in oklab, var(--paper) 85%, transparent);
-  border-radius: 2px;
-}
-.mem-pass__qr span:nth-child(3n),
-.mem-pass__qr span:nth-child(5),
-.mem-pass__qr span:nth-child(8),
-.mem-pass__qr span:nth-child(11) {
-  opacity: 0.2;
 }
 .mem-card-hint {
   margin-top: 14px;
@@ -3708,7 +3669,7 @@ html:has(body.how-page)::before {
 .stat-ink strong { display: block; font-family: "Bricolage Grotesque", sans-serif; font-size: clamp(40px, 5vw, 56px); font-weight: 700; margin-bottom: 8px; }
 .stat-ink span { font-size: 14px; color: color-mix(in oklab, var(--paper) 65%, transparent); }
 
-/* Editorial — dreamy tone */
+/* Editorial, dreamy tone */
 .sensory-kicker {
   font-family: "Newsreader", Georgia, serif;
   font-style: italic;
@@ -3862,7 +3823,7 @@ html:has(body.how-page)::before {
 }
 .full-bleed-quote .btn { margin-top: 32px; }
 
-/* Winners — live draw photo + presale banner */
+/* Winners, live draw photo + presale banner */
 .full-bleed-quote--live-draw {
   min-height: 560px;
   height: 75vh;
@@ -3973,7 +3934,7 @@ html:has(body.how-page)::before {
   margin-top: 0;
 }
 
-/* How it works — ready to dive in */
+/* How it works, ready to dive in */
 .full-bleed-quote--ready .full-bleed-quote__photo {
   background-position: center 55%;
   filter: saturate(1.05) contrast(1.08) brightness(0.88);
@@ -4269,7 +4230,7 @@ html:has(body.how-page)::before {
   .faq summary { font-size: 16px; }
 }
 
-/* ——— Gaviom for Business (corporate.html) ——— */
+/* ,,, Gaviom for Business (corporate.html) ,,, */
 body.gv-corp::before {
   opacity: 0.45;
   background:
@@ -4815,7 +4776,7 @@ body.gv-corp::before {
   .sweep-scroll { scroll-snap-type: none; }
 }
 
-/* Sweepstakes — magazine scroll (prizes.html, desktop snap only) */
+/* Sweepstakes, magazine scroll (prizes.html, desktop snap only) */
 @media (min-width: 981px) {
   html:has(body.prizes-page) {
     scroll-behavior: smooth;
@@ -4949,7 +4910,7 @@ body.prizes-page .sticky-cta {
   min-width: 42px;
 }
 
-/* Prizes page — Option D: warm hero + lighter card zones */
+/* Prizes page, Option D: warm hero + lighter card zones */
 body.prizes-page {
   --sweep-warm: #F6F1E8;
   --sweep-card: var(--canvas);
@@ -5039,7 +5000,7 @@ body.prizes-page .sweep-stack::before {
 .sweep-panel-wrap.is-filtered-out {
   display: none;
 }
-/* Ambient divider — soft vertical fade between sweep panels */
+/* Ambient divider, soft vertical fade between sweep panels */
 .sweep-bridge {
   position: relative;
   height: clamp(64px, 10vh, 112px);
@@ -5611,7 +5572,7 @@ body.prizes-page .sweep-stack::before {
   line-height: 1.25;
 }
 
-/* Auth — sign in / sign up */
+/* Auth, sign in / sign up */
 .auth-page {
   background: var(--paper-2);
   min-height: 100vh;
@@ -5812,7 +5773,7 @@ body.auth-page::after { display: none; }
   .auth-field-row { grid-template-columns: 1fr; }
 }
 
-/* Cart — drawer, modal, header icon */
+/* Cart, drawer, modal, header icon */
 .nav-cart {
   position: relative;
   display: inline-flex;

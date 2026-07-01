@@ -17,18 +17,21 @@ export function Header() {
           <span className="text-muted"> / Business</span>
         </Link>
         <nav className="hidden items-center gap-8 text-sm text-ink-3 md:flex">
-          <a href="#our-offer" className="transition hover:text-ink">
-            Our offer
+          <a href="#choose-path" className="transition hover:text-ink">
+            Options
           </a>
-          <a href="#packages" className="transition hover:text-ink">
-            Packages
+          <a href="#ticket-packs" className="transition hover:text-ink">
+            Ticket packs
+          </a>
+          <a href="#custom-draw" className="transition hover:text-ink">
+            Custom draw
           </a>
           <a href="#faq" className="transition hover:text-ink">
             FAQ
           </a>
         </nav>
         <button type="button" onClick={() => openQuote()} className="btn-primary !py-2.5 !text-xs sm:!text-sm">
-          Get a Custom Quote
+          Book discovery call
         </button>
       </div>
     </header>

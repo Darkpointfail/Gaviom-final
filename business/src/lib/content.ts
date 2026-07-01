@@ -1,218 +1,126 @@
-export const PACKAGES = [
+import type { IconName } from '@/components/Icon';
+
+export const TRUST_BAR_ITEMS = [
+  'Fully funded by your company',
+  'Certified, audited draws',
+  'Zero operational lift',
+  'Compliant across all 50 states',
+] as const;
+
+export const PATH_OPTIONS = [
   {
-    badge: 'Most Popular',
-    badgeVariant: 'gold' as const,
-    title: 'Standard',
+    id: 'standard',
+    anchor: '#ticket-packs',
+    label: 'Buy ticket packs for your employees',
+    tagline: 'Standard Account',
+    shortLine:
+      'Fast to launch. Employees get entries automatically, no setup required.',
+    cta: 'Learn more',
+  },
+  {
+    id: 'custom',
+    anchor: '#custom-draw',
+    label: 'Build a custom draw for your company',
+    tagline: 'Custom Account',
+    shortLine:
+      'Fully tailored to your company and your budget, with a guaranteed winner.',
+    cta: 'Learn more',
+  },
+] as const;
+
+export const STANDARD_BULLETS = [
+  'Zero friction for the company',
+  'Entry value varies by prize',
+  'Employees can become Gaviom B2C customers over time',
+] as const;
+
+export const CUSTOM_BULLETS = [
+  'Prizes selected together from our B2B catalog',
+  'Entry pricing defined around your budget',
+  'Internal communication fully handled by us',
+  'Draw organized and certified by us',
+  'Guarantee that an employee walks away with a meaningful prize',
+] as const;
+
+export const SHARED_HANDLE_ITEMS = [
+  {
+    icon: 'award' as IconName,
+    title: 'Prize funding & management',
     description:
-      'The plug-and-play employee benefit. Every employee gets automatic contest entries upon activation.',
-    features: [
-      'Entries into active contests upon enrollment',
-      'Access to rotating prize catalog (Tech, Travel, Experiences, Lifestyle)',
-      'Employees can purchase additional tickets at their expense',
-      'Scales with your headcount automatically',
-      'Zero HR management required',
-    ],
-    packageValue: 'Standard',
+      'Your company funds the program. We source, reserve, and deliver premium prizes end-to-end.',
   },
   {
-    badge: 'Best Experience',
-    badgeVariant: 'white' as const,
-    title: 'Custom',
+    icon: 'broadcast' as IconName,
+    title: 'Draw organization',
     description:
-      'A fully tailored contest program built around your company culture and employee interests.',
-    features: [
-      'Prize selection from our premium B2B catalog',
-      'Contest built exclusively for your employees',
-      'Internal communication assets provided',
-      'Certified live draw, fully transparent',
-      'Guaranteed winner every cycle',
-      'White-glove account management',
-    ],
-    packageValue: 'Custom',
+      'Independent certification, documented selection, and an audit trail your leadership can review.',
   },
   {
-    badge: 'Best Value',
-    badgeVariant: 'gold' as const,
-    title: 'Enterprise',
+    icon: 'messages' as IconName,
+    title: 'Communication',
     description:
-      'A recurring monthly benefit program that keeps employees engaged all year long.',
-    features: [
-      'Fresh contest entries credited every month',
-      'Exclusive subscriber-only prizes',
-      'Employees can upgrade and buy additional entries',
-      'Scales as headcount changes',
-      'Monthly participation reporting for HR',
-      'Annual or monthly billing available',
-    ],
-    packageValue: 'Enterprise',
+      'Launch emails, reminders, and winner outreach, professionally written and managed for you.',
+  },
+  {
+    icon: 'chart' as IconName,
+    title: 'Visibility & reporting',
+    description:
+      'Participation metrics and cycle summaries HR and executives can use in reviews and planning.',
   },
 ] as const;
 
-export const HANDLE_ITEMS = [
+export const WHY_GAVIOM_POINTS = [
   {
-    icon: '🏆',
-    title: 'Prize Sourcing & Fulfillment',
-    description: 'We source, purchase, and deliver every prize.',
+    icon: 'sparkles' as IconName,
+    title: 'Premium prize catalog',
+    description:
+      'Luxury travel, fine dining, and top-tier tech, curated for employee reward draws, not generic gift cards.',
   },
   {
-    icon: '🎯',
-    title: 'Contest Setup & Management',
-    description: 'Full setup from enrollment to launch.',
+    icon: 'shield' as IconName,
+    title: 'Independent draw certification',
+    description:
+      'Auditable process with documented selection. Your team watches a verified event, not an opaque announcement.',
   },
   {
-    icon: '📺',
-    title: 'Certified Live Draws',
-    description: 'Transparent, documented, and verifiable by anyone.',
+    icon: 'clipboard' as IconName,
+    title: 'Legal & compliance, handled',
+    description:
+      'We carry the regulatory responsibility. Rules, alternate entry, and jurisdiction review are built in.',
   },
   {
-    icon: '📣',
-    title: 'Winner Communication',
-    description: 'We announce and coordinate with winners directly.',
-  },
-  {
-    icon: '📊',
-    title: 'HR Reporting Dashboard',
-    description: 'Participation data and engagement metrics delivered to you.',
-  },
-  {
-    icon: '🔒',
-    title: 'Full Compliance',
-    description: 'Every contest is legally structured and certified.',
-  },
-] as const;
-
-export const PRIZE_CATEGORIES = [
-  {
-    title: 'Tech',
-    items: 'iPhone, MacBook, AirPods, PlayStation, DJI Drone',
-    image: '/images/iphone-quote-hero-480w.webp',
-    imageAlt: 'iPhone prize from a Gaviom employee contest',
-  },
-  {
-    title: 'Travel',
-    items: 'Luxury weekend getaways, hotel stays, all-inclusive trips',
-    image: '/images/vegas-quote-hero-800w.webp',
-    imageAlt: 'Las Vegas travel prize from a Gaviom employee contest',
-  },
-  {
-    title: 'Watches & Jewelry',
-    items: 'Premium timepieces and accessories',
-    image: null,
-    imageAlt: '',
-    tone: 'from-paper-2 via-ochre-soft to-paper',
-  },
-  {
-    title: 'Automotive',
-    items: 'Car giveaways, accessories, electric vehicles',
-    image: null,
-    imageAlt: '',
-    tone: 'from-canvas via-paper-2 to-ochre-soft',
-  },
-  {
-    title: 'Experiences',
-    items: 'Michelin-star dinners, spa days, exclusive events',
-    image: '/images/cruise-mobile-hero.webp',
-    imageAlt: 'Cruise experience prize from a Gaviom employee contest',
-  },
-  {
-    title: 'Lifestyle',
-    items: 'Premium subscriptions, fitness gear, curated boxes',
-    image: null,
-    imageAlt: '',
-    tone: 'from-ochre-soft via-paper to-canvas',
-  },
-] as const;
-
-export const COMPARISON_ROWS = [
-  { label: 'Legal review & compliance', diy: 'Your team', gaviom: true },
-  { label: 'Prize procurement', diy: 'Your budget, your time', gaviom: true },
-  { label: 'Draw certification', diy: 'Manual process', gaviom: 'Certified & live' },
-  { label: 'Employee communication', diy: 'Your HR team', gaviom: true },
-  { label: 'Ongoing management', diy: 'Recurring workload', gaviom: 'Zero workload' },
-  { label: 'Time to launch', diy: 'Weeks', gaviom: 'Days' },
-] as const;
-
-export const AUDIENCE_CARDS = [
-  {
-    icon: '🏢',
-    title: 'Companies 50–500 employees',
-    description: 'Modernize your benefits without complexity',
-  },
-  {
-    icon: '👥',
-    title: 'HR & People Teams',
-    description: 'High-impact perk, zero admin overhead',
-  },
-  {
-    icon: '🤝',
-    title: 'Employee Benefit Brokers',
-    description: 'Add a differentiated offering to your book of clients',
-  },
-  {
-    icon: '🏗️',
-    title: 'PEO Brokers',
-    description: 'Bundle Gaviom into your client packages seamlessly',
-  },
-] as const;
-
-export const STATS = [
-  { value: '1 contest', label: 'can engage your entire workforce at once' },
-  { value: '0 hours', label: 'of HR time required after setup' },
-  { value: '100%', label: 'managed and fulfilled by Gaviom' },
-] as const;
-
-export const TESTIMONIALS = [
-  {
-    quote:
-      'We wanted a benefit that felt premium without adding another platform for HR to manage. Gaviom delivered — our team still talks about the first draw.',
-    name: 'Sarah Mitchell',
-    title: 'VP of People',
-    company: 'Northwind Logistics',
-  },
-  {
-    quote:
-      'Our clients ask for differentiation beyond standard medical and 401(k). Gaviom gives brokers a story that actually lands in executive meetings.',
-    name: 'David Chen',
-    title: 'Benefits Practice Lead',
-    company: 'Summit HR Partners',
-  },
-  {
-    quote:
-      'Setup took days, not quarters. Employees understood it immediately, and we did not touch fulfillment once.',
-    name: 'Rachel Torres',
-    title: 'Chief People Officer',
-    company: 'Harbor Capital',
+    icon: 'headset' as IconName,
+    title: 'Full-service delivery',
+    description:
+      'Funding, sourcing, comms, and draw execution. Nothing left for HR to coordinate or chase.',
   },
 ] as const;
 
 export const FAQ_ITEMS = [
   {
-    question: 'How is pricing determined?',
+    question: 'Is this legal?',
     answer:
-      'Pricing is custom-built based on your headcount, contest frequency, and prize tier. Contact us for a tailored quote.',
+      'Yes. Every Gaviom corporate program is structured as a lawful US prize promotion with published rules, alternate entry methods where required, and jurisdiction review. We handle compliance documentation so your legal team is not building this from scratch.',
   },
   {
-    question: 'How long does it take to get started?',
-    answer: 'Most companies are up and running within a few days of signing.',
-  },
-  {
-    question: 'Do employees need to pay anything?',
+    question: 'What does it cost my company?',
     answer:
-      'Employees receive free entries as part of their company enrollment. They have the option to purchase additional tickets at their own expense.',
+      'Pricing depends on headcount, path (ticket packs vs. custom draw), and prize scope. Ticket packs scale per employee; custom draws are scoped to your budget with transparent entry pricing. We provide written pricing before you commit.',
   },
   {
-    question: 'Are the draws certified and transparent?',
-    answer: 'Yes. Every draw is conducted live, recorded, and fully auditable.',
-  },
-  {
-    question: 'Can we choose the prizes?',
+    question: 'Do employees have to pay anything?',
     answer:
-      'Yes — our Custom and Enterprise packages allow full prize customization from our B2B catalog.',
+      'Under the Standard Account, each employee receives company-funded entries at enrollment. Employees may optionally purchase additional entries for prizes that interest them, at their own expense. Custom draws are fully company-funded unless you choose otherwise.',
   },
   {
-    question: 'Is this legal in all US states?',
+    question: 'Who manages the draw?',
     answer:
-      'Yes. Our contest structure is fully compliant with US sweepstakes law across all states.',
+      'Gaviom manages the entire program: portal setup, communications, draw organization, certification, and prize fulfillment. HR receives reporting; we operate the program day to day.',
+  },
+  {
+    question: 'What happens to employee data?',
+    answer:
+      'Employee data stays within your private company portal. We use roster information only to administer the program, communicate with participants, and fulfill prizes. We do not sell employee data or mix corporate programs with public consumer marketing.',
   },
 ] as const;
 
@@ -224,8 +132,11 @@ export const EMPLOYEE_OPTIONS = [
 ] as const;
 
 export const PACKAGE_OPTIONS = [
-  { value: 'Standard', label: 'Standard' },
-  { value: 'Custom', label: 'Custom' },
-  { value: 'Enterprise', label: 'Enterprise' },
+  { value: 'Ticket Packs (Standard)', label: 'Ticket Packs (Standard)' },
+  { value: 'Custom Draw', label: 'Custom Draw' },
+  { value: 'Partner / Broker', label: 'Partner / Broker' },
   { value: 'Not sure yet', label: 'Not sure yet' },
 ] as const;
+
+export const CALENDLY_URL =
+  process.env.NEXT_PUBLIC_CALENDLY_URL || 'https://calendly.com/getgaviom/discovery';

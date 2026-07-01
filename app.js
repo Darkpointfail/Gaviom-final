@@ -298,13 +298,13 @@
               ? PRESALE_CTA_LABEL
               : (ctaEl.dataset.presaleLabel
                 ? ctaEl.dataset.presaleLabel.replace('{price}', price)
-                : `Pre-order — $${price}`);
+                : `Pre-order, $${price}`);
           } else {
             ctaEl.textContent = presale
               ? PRESALE_CTA_LABEL
               : (ctaEl.dataset.presaleLabel
                 ? ctaEl.dataset.presaleLabel.replace('{price}', price)
-                : `Enter — $${price}`);
+                : `Enter, $${price}`);
             const href = ctaEl.getAttribute('href') || '/checkout.html?prize=msc';
             const base = href.split('?')[0];
             const qs = new URLSearchParams(href.split('?')[1] || 'prize=msc');
@@ -316,7 +316,7 @@
         if (stickyEl) {
           stickyEl.textContent = presale
             ? PRESALE_CTA_LABEL
-            : `Pre-order — $${price}`;
+            : `Pre-order, $${price}`;
         }
         if (coTotal) coTotal.textContent = `$${parseFloat(price).toFixed(2)}`;
         if (coLines) {
@@ -328,7 +328,7 @@
           const n = parseInt(entries, 10);
           const tw = n === 1 ? 'ticket' : 'tickets';
           submit.textContent = document.body.classList.contains('gv-prelaunch')
-            ? `Pre-order ${n} ${tw} — $${parseFloat(price).toFixed(2)}`
+            ? `Pre-order ${n} ${tw}, $${parseFloat(price).toFixed(2)}`
             : `Pay $${parseFloat(price).toFixed(2)} for ${n} ${tw}`;
         }
       }
@@ -557,7 +557,7 @@
       const m = plans[plan] || plans.monthly;
       const fmt = (n) => '$' + parseFloat(n).toFixed(2);
 
-      document.title = 'Checkout Gaviom+ — Gaviom';
+      document.title = 'Checkout Gaviom+, Gaviom';
 
       const kicker = document.querySelector('[data-checkout-kicker]');
       const titleEl = document.querySelector('[data-checkout-title]');
@@ -871,7 +871,7 @@
         }
         const methodLabel = method ? method.value : 'payment';
         showCheckoutNotice(
-          `Pre-sale preview — ${methodLabel} checkout opens at launch. You are not charged yet.`,
+          `Pre-sale preview, ${methodLabel} checkout opens at launch. You are not charged yet.`,
           false
         );
       });
@@ -936,7 +936,7 @@
       }
       if (submit) {
         submit.textContent = presale
-          ? `Pre-order ${totals.tickets} ${ticketWord} — ${fmt(totals.subtotal)}`
+          ? `Pre-order ${totals.tickets} ${ticketWord}, ${fmt(totals.subtotal)}`
           : `Pay ${fmt(totals.subtotal)} for ${totals.tickets} ${ticketWord}`;
       }
     }
@@ -1013,7 +1013,7 @@
       if (coTotal) coTotal.textContent = fmt(price);
       if (submit) {
         submit.textContent = document.body.classList.contains('gv-prelaunch')
-          ? `Pre-order ${entries} ${ticketWord} — ${fmt(price)}`
+          ? `Pre-order ${entries} ${ticketWord}, ${fmt(price)}`
           : `Pay ${fmt(price)} for ${entries} ${ticketWord}`;
       }
     }
@@ -1325,9 +1325,14 @@
         const front = scene.querySelector('.mem-pass--front');
         if (back) back.setAttribute('aria-hidden', flipped ? 'false' : 'true');
         if (front) front.setAttribute('aria-hidden', flipped ? 'true' : 'false');
-        if (inner) inner.style.transform = '';
+        if (inner) inner.style.transform = flipped ? 'rotateX(0deg) rotateY(0deg)' : '';
         if (glare) glare.style.background = '';
         if (holo) holo.style.transform = '';
+        if (hint) {
+          hint.textContent = flipped
+            ? (isCoarse ? 'Tap to flip back' : 'Click to flip back')
+            : (isCoarse ? 'Touch to tilt · Tap to flip' : 'Move to tilt · Click to flip');
+        }
       };
 
       scene.addEventListener('keydown', (e) => {

@@ -71,7 +71,7 @@
       weak_password:
         'Choose a stronger password (at least 8 characters).',
       unexpected_failure:
-        'Account service error — often caused by email confirmation not being configured. Check Supabase Auth settings.',
+        'Account service error, often caused by email confirmation not being configured. Check Supabase Auth settings.',
     };
 
     if (known[code]) return known[code];

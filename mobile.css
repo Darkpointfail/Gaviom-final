@@ -1,4 +1,4 @@
-/* Gaviom v2 — mobile & touch optimizations */
+/* Gaviom v2, mobile & touch optimizations */
 
 :root {
   --safe-top: env(safe-area-inset-top, 0px);
@@ -34,7 +34,7 @@ body.nav-open .nav {
   padding-right: max(16px, calc(16px + var(--safe-right)));
 }
 
-/* ——— Mobile navigation (injected by app.js) ——— */
+/* ,,, Mobile navigation (injected by app.js) ,,, */
 .nav-menu-btn {
   display: none;
   align-items: center;
@@ -239,7 +239,7 @@ body.nav-open .nav-menu-icon::after {
   border-color: color-mix(in oklab, var(--gold-light) 55%, transparent);
 }
 
-/* ——— Tablet & below (≤980px) ——— */
+/* ,,, Tablet & below (≤980px) ,,, */
 @media (max-width: 980px) {
   html {
     scroll-padding-top: calc(var(--nav-h) + 40px + var(--safe-top));
@@ -526,7 +526,7 @@ body.nav-open .nav-menu-icon::after {
     padding: 24px 20px;
   }
 
-  /* Home hero — align with desktop (video + gradient, no cream card) */
+  /* Home hero, align with desktop (video + gradient, no cream card) */
   .hero-home--video .hero-home__copy {
     padding: 0;
     background: none;
@@ -801,7 +801,7 @@ body.nav-open .nav-menu-icon::after {
   }
 }
 
-/* ——— Phone (≤640px) ——— */
+/* ,,, Phone (≤640px) ,,, */
 @media (max-width: 640px) {
   .h-hero {
     font-size: clamp(32px, 9vw, 44px);
@@ -963,7 +963,7 @@ body.nav-open .nav-menu-icon::after {
   }
 }
 
-/* ——— Small phones (≤400px) ——— */
+/* ,,, Small phones (≤400px) ,,, */
 @media (max-width: 400px) {
   .bundle-grid {
     grid-template-columns: 1fr;
@@ -1051,7 +1051,7 @@ body.nav-open .nav-menu-icon::after {
     display: none;
   }
 
-  /* ——— Prizes page: magazine layout (mobile only, desktop unchanged) ——— */
+  /* ,,, Prizes page: magazine layout (mobile only, desktop unchanged) ,,, */
   body.prizes-page .sweep-scroll {
     scroll-snap-type: none !important;
   }
@@ -1374,7 +1374,7 @@ body.nav-open .nav-menu-icon::after {
   }
 }
 
-/* Prizes — free tactile scroll, no snap (phone only) */
+/* Prizes, free tactile scroll, no snap (phone only) */
 @media (max-width: 768px) {
   html:has(body.prizes-page) {
     scroll-behavior: auto;

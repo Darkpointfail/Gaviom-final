@@ -56,7 +56,7 @@ export function QuoteForm({ presetPackage, onSuccess }: QuoteFormProps) {
         if (!res.ok) throw new Error('Webhook failed');
       } else {
         const subject = encodeURIComponent(
-          `Gaviom Business Quote — ${form.company}`,
+          `Gaviom Business Quote, ${form.company}`,
         );
         const body = encodeURIComponent(
           [
@@ -186,7 +186,7 @@ export function QuoteForm({ presetPackage, onSuccess }: QuoteFormProps) {
             className={fieldClass}
             value={form.message}
             onChange={(e) => update('message', e.target.value)}
-            placeholder="Tell us about your team, timeline, or prize preferences…"
+            placeholder="Tell us about your team, culture goals, and timeline…"
           />
         </label>
       </div>
@@ -206,7 +206,7 @@ export function QuoteForm({ presetPackage, onSuccess }: QuoteFormProps) {
         disabled={status === 'loading'}
         className="btn-primary w-full disabled:opacity-60"
       >
-        {status === 'loading' ? 'Submitting…' : 'Request My Custom Quote'}
+        {status === 'loading' ? 'Submitting…' : 'Send inquiry'}
       </button>
     </form>
   );

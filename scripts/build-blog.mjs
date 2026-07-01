@@ -191,7 +191,7 @@ function buildIndex() {
   const main = `    <section class="blog-hero">
       <div class="wrap">
         <p class="eyebrow"><span class="bar"></span> Gaviom Blog</p>
-        <h1 class="blog-hero-title font-display">Travel, Tech, Car &amp; Home Giveaway Guides</h1>
+        <h1 class="blog-hero-title font-display">Giveaway Guides &amp; HR Engagement Insights</h1>
         <p class="lede blog-hero-lede">${escapeHtml(BLOG_META.blogDescription)}</p>
         <div class="blog-filters chips" aria-label="Filter by category">${filterBtns}</div>
       </div>
@@ -202,7 +202,7 @@ function buildIndex() {
     <section class="blog-cta-band">
       <div class="wrap blog-cta-inner">
         <h2 class="font-display">Ready to enter?</h2>
-        <p class="lede">Browse travel, tech, and founding sweepstakes on Gaviom — or start with the iPhone and cruise draws.</p>
+        <p class="lede">Browse founding sweepstakes, read transparency guides, or explore how employers build culture through engagement.</p>
         <div class="blog-cta-actions">
           <a href="/prizes.html" class="btn btn-primary btn-lg">Browse sweepstakes</a>
           <a href="/how.html" class="btn btn-ghost btn-lg">How it works</a>
@@ -227,7 +227,7 @@ function buildIndex() {
     </script>`;
 
   return layout({
-    title: 'Gaviom Blog — Travel, Tech, Car & Home Giveaway Guides',
+    title: 'Gaviom Blog, Travel, Tech, Car & Home Giveaway Guides',
     description: BLOG_META.blogDescription,
     path: '/blog/',
     active: 'blog',

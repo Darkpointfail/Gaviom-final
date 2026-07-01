@@ -1,30 +1,23 @@
-/** Site-root prize photography (served from /images/, not under /business). */
-export const PRIZE_PHOTOS = {
-  iphone: {
-    src: '/images/iphone-quote-hero-800w.webp',
-    thumb: '/images/iphone-quote-hero-480w.webp',
-    alt: 'iPhone prize from a Gaviom employee contest',
-  },
-  vegas: {
-    src: '/images/vegas-quote-hero-800w.webp',
-    thumb: '/images/vegas-quote-hero-800w.webp',
-    alt: 'Las Vegas travel prize from a Gaviom employee contest',
-  },
-  cruise: {
-    src: '/images/cruise-mobile-hero.webp',
-    thumb: '/images/cruise-mobile-hero.webp',
-    alt: 'Cruise experience prize from a Gaviom employee contest',
-  },
-} as const;
+/** Premium workplace & experience photography, no casino or promo imagery. */
+const unsplash = (id: string, w = 800) =>
+  `https://images.unsplash.com/${id}?w=${w}&auto=format&fit=crop&q=80`;
 
-export const HERO_PHOTO_STACK = [
-  { ...PRIZE_PHOTOS.vegas, rotate: '-rotate-3', offset: 'translate-y-0 z-30' },
-  { ...PRIZE_PHOTOS.iphone, rotate: 'rotate-2', offset: 'translate-y-8 z-20 scale-[0.96]' },
-  { ...PRIZE_PHOTOS.cruise, rotate: '-rotate-1', offset: 'translate-y-16 z-10 scale-[0.92]' },
-] as const;
+export const HERO_VISUAL = {
+  src: unsplash('photo-1566073771259-6a8506099945', 960),
+  alt: 'Luxury resort pool and lounge at golden hour',
+};
 
-export const PRIZE_STRIP = [
-  { ...PRIZE_PHOTOS.iphone, label: 'Tech' },
-  { ...PRIZE_PHOTOS.vegas, label: 'Travel' },
-  { ...PRIZE_PHOTOS.cruise, label: 'Experiences' },
-] as const;
+export const STANDARD_VISUAL = {
+  src: unsplash('photo-1556761175-5973dc0f32e7', 960),
+  alt: 'Professional team in a bright modern office',
+};
+
+export const CUSTOM_VISUAL = {
+  src: unsplash('photo-1414235077428-338989a2e8c0', 960),
+  alt: 'Fine dining table setting in an upscale restaurant',
+};
+
+export const WHY_VISUAL = {
+  src: '/images/cruise-balcony.webp',
+  alt: 'Balcony view from a luxury cruise at golden hour',
+};

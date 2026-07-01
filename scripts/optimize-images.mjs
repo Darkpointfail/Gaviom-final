@@ -21,7 +21,7 @@ function isRaster(name) {
   return ext === '.png' || ext === '.jpg' || ext === '.jpeg';
 }
 
-/** Favicons and tab marks must stay PNG — HTML and Safari reference .png paths */
+/** Favicons and tab marks must stay PNG, HTML and Safari reference .png paths */
 function isFaviconOrBrandRaster(name) {
   return (
     /^gaviom-favicon/i.test(name) ||

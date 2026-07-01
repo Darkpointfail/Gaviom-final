@@ -3,6 +3,7 @@ import { Inter, Sora } from 'next/font/google';
 import { Footer } from '@/components/Footer';
 import { Header } from '@/components/Header';
 import { QuoteModalProvider } from '@/components/QuoteModalProvider';
+import { siteIcons, siteManifest } from '@/lib/site';
 import './globals.css';
 
 const inter = Inter({
@@ -19,15 +20,19 @@ const sora = Sora({
 
 const siteUrl = 'https://gaviom.com/business';
 
+const title = 'Gaviom for Business | Employee Prize Draw Platform';
+const description =
+  'Fully managed employee reward draws for companies. Buy ticket packs or build a custom draw. Gaviom handles compliance, communication, certification, and fulfillment.';
+
 export const metadata: Metadata = {
-  title: 'Gaviom for Business | Employee Contest Benefits',
-  description:
-    'Give your employees the chance to win luxury prizes. Gaviom handles everything — prize sourcing, draws, and fulfillment. Zero HR workload.',
+  title,
+  description,
   metadataBase: new URL('https://gaviom.com'),
+  icons: siteIcons,
+  manifest: siteManifest,
   openGraph: {
-    title: 'Gaviom for Business | Employee Contest Benefits',
-    description:
-      'Give your employees the chance to win luxury prizes. Gaviom handles everything — prize sourcing, draws, and fulfillment. Zero HR workload.',
+    title,
+    description,
     url: siteUrl,
     siteName: 'Gaviom',
     locale: 'en_US',
@@ -36,9 +41,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Gaviom for Business | Employee Contest Benefits',
-    description:
-      'Give your employees the chance to win luxury prizes. Gaviom handles everything.',
+    title,
+    description,
     images: ['/business/opengraph-image'],
   },
   robots: { index: true, follow: true },

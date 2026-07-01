@@ -1,5 +1,5 @@
 /**
- * Gaviom cart — localStorage, drawer, add-to-cart modal.
+ * Gaviom cart, localStorage, drawer, add-to-cart modal.
  * Ready for future Stripe integration via checkout.html.
  */
 (function () {
@@ -124,7 +124,7 @@
       if (bundle5) {
         var need = 5 - low.qty;
         var extra = linePrice(p, low.qty + need) - low.lineTotal;
-        return 'Add <strong>' + need + ' more ticket' + (need > 1 ? 's' : '') + '</strong> on ' + p.title + ' for ' + fmt(extra) + ' — better bundle odds.';
+        return 'Add <strong>' + need + ' more ticket' + (need > 1 ? 's' : '') + '</strong> on ' + p.title + ' for ' + fmt(extra) + ', better bundle odds.';
       }
     }
     return 'Add 3 more tickets on any sweepstakes for stronger odds across multiple draws.';
@@ -287,7 +287,7 @@
       body.innerHTML =
         '<div class="cart-empty">' +
           '<p class="cart-empty__title font-display">Your cart is empty</p>' +
-          '<p class="cart-empty__sub">Add tickets from any live sweepstakes — checkout once for every draw.</p>' +
+          '<p class="cart-empty__sub">Add tickets from any live sweepstakes, checkout once for every draw.</p>' +
           '<a href="/prizes.html" class="btn btn-primary">Browse sweepstakes</a>' +
         '</div>';
       if (foot) foot.hidden = true;
@@ -471,7 +471,7 @@
     var prize = id && PRIZES[id];
     if (!prize) return;
 
-    /* Only the main bundle CTA adds to cart — everything else goes to the detail page */
+    /* Only the main bundle CTA adds to cart, everything else goes to the detail page */
     if (!addBtn.hasAttribute('data-bundle-cta') && !addBtn.hasAttribute('data-sticky-cta')) {
       window.location.href = prize.url;
       return;

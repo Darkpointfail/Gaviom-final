@@ -5,6 +5,7 @@ export const BLOG_CATEGORIES = {
   CARS: 'Car Giveaways',
   REAL_ESTATE: 'Real Estate Giveaways',
   GUIDES: 'Giveaway Guides',
+  BUSINESS: 'For Business',
 };
 
 /** @type {Record<string, string>} Filter key for blog index UI */
@@ -14,6 +15,7 @@ export const CATEGORY_FILTER_KEY = {
   [BLOG_CATEGORIES.CARS]: 'cars',
   [BLOG_CATEGORIES.REAL_ESTATE]: 'realestate',
   [BLOG_CATEGORIES.GUIDES]: 'guides',
+  [BLOG_CATEGORIES.BUSINESS]: 'business',
 };
 
 export const CATEGORY_FILTERS = [
@@ -23,4 +25,5 @@ export const CATEGORY_FILTERS = [
   { key: 'cars', label: 'Cars' },
   { key: 'realestate', label: 'Real Estate' },
   { key: 'guides', label: 'Guides' },
+  { key: 'business', label: 'For Business' },
 ];

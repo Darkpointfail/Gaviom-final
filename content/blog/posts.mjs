@@ -4,6 +4,7 @@ import { TRAVEL_POSTS } from './travel-posts.mjs';
 import { PERSONA_POSTS } from './persona-posts.mjs';
 import { SEO_EXPANSION_POSTS } from './seo-expansion-posts.mjs';
 import { SWEEPSTAKES_USA_POSTS } from './sweepstakes-usa-posts.mjs';
+import { HR_BUSINESS_SEO_POSTS } from './hr-business-seo-posts.mjs';
 
 /** @type {Post[]} */
 export const POSTS = [
@@ -370,11 +371,12 @@ export const POSTS = [
   ...PERSONA_POSTS,
   ...SEO_EXPANSION_POSTS,
   ...SWEEPSTAKES_USA_POSTS,
+  ...HR_BUSINESS_SEO_POSTS,
 ];
 
 export const BLOG_META = {
   siteUrl: 'https://gaviom.com',
   blogTitle: 'Gaviom Blog',
   blogDescription:
-    'How to win free trips, iPhones, cars, and homes. Guides, tips, and giveaway news from Gaviom — America\'s premium sweepstakes platform.',
+    'Sweepstakes guides, travel and tech giveaways, HR engagement insights, and transparency tips from Gaviom, America\'s premium sweepstakes platform.',
 };

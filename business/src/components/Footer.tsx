@@ -6,15 +6,19 @@ export function Footer() {
           <div>
             <p className="font-display text-lg font-semibold text-ink">Gaviom for Business</p>
             <p className="mt-2 max-w-sm text-sm leading-relaxed text-muted">
-              Luxury employee contest benefits. Operated by Gaviom Inc., Delaware.
+              Fully managed employee prize draws for HR leaders and benefits
+              partners. Operated by Gaviom Inc., Delaware.
             </p>
           </div>
           <div className="flex flex-wrap gap-x-10 gap-y-4 text-sm text-ink-3">
             <a href="https://gaviom.com" className="transition hover:text-ink">
               Consumer site
             </a>
-            <a href="#packages" className="transition hover:text-ink">
-              Packages
+            <a href="#choose-path" className="transition hover:text-ink">
+              Options
+            </a>
+            <a href="#partners" className="transition hover:text-ink">
+              Partners
             </a>
             <a href="#faq" className="transition hover:text-ink">
               FAQ
