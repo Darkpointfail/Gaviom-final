@@ -11,11 +11,11 @@
       .replace(/'/g, '&#039;');
   }
 
-  /* Pre-launch: site opens early July 2026 · first Sunday draw after launch */
-  const LAUNCH_AT = Date.parse('2026-07-01T16:00:00.000Z'); /* Jul 1, 2026 · 12:00 ET */
-  const FIRST_DRAW_AT = Date.parse('2026-07-06T00:00:00.000Z'); /* Jul 5, 2026 · 8:00 PM ET */
-  const FIRST_DRAW_DATE_LABEL = 'Sunday, July 5 · 8pm ET';
-  const FIRST_DRAW_DATE_SHORT = 'July 5, 8pm ET';
+  /* Pre-launch: site opens September 1, 2026 · first Sunday draw after launch */
+  const LAUNCH_AT = Date.parse('2026-09-01T16:00:00.000Z'); /* Sep 1, 2026 · 12:00 ET */
+  const FIRST_DRAW_AT = Date.parse('2026-09-07T00:00:00.000Z'); /* Sep 6, 2026 · 8:00 PM ET */
+  const FIRST_DRAW_DATE_LABEL = 'Sunday, September 6 · 8pm ET';
+  const FIRST_DRAW_DATE_SHORT = 'September 6, 8pm ET';
   const PRESALE_CTA_LABEL = 'Pre-order a ticket';
 
   function pad2(n) {
@@ -138,7 +138,7 @@
 
     document.querySelectorAll('[data-topbar-extra]').forEach((el) => {
       el.textContent = preLaunch || preDraw
-        ? '· Pre-sale open · First draw July 5, 8pm ET'
+        ? '· Pre-sale open · First draw September 6, 8pm ET'
         : '· Drawn live every Sunday, 8pm ET';
     });
 
@@ -599,7 +599,7 @@
         title: 'MSC Cruise · 7 Nights',
         cat: 'Travel · #1',
         value: '$10,000 value',
-        draw: 'Draw July 5, 2026',
+        draw: 'Draw September 6, 2026',
         maxEntries: 6000,
         hook: 'Seven nights at sea. Balcony cabin. Mediterranean sunsets on repeat.',
         images: [
@@ -653,7 +653,7 @@
         title: 'Scuba Diving Discovery · Cozumel, Mexico',
         cat: 'Experiences · #2',
         value: '$4,000',
-        draw: 'Draw July 5, 2026',
+        draw: 'Draw September 6, 2026',
         maxEntries: 1000,
         hook: 'No certification needed. Two guided dives in water so clear it looks edited.',
         images: [
@@ -707,7 +707,7 @@
         title: 'Las Vegas Trip · 4 Nights',
         cat: 'Travel · #3',
         value: '$4,200 value',
-        draw: 'Draw July 5, 2026',
+        draw: 'Draw September 6, 2026',
         maxEntries: 4800,
         hook: 'Four nights on the Strip. Suite views. Flights covered. No itinerary spreadsheet required.',
         images: [
@@ -757,7 +757,7 @@
         title: 'iPhone 17 Pro Max',
         cat: 'Tech · #4',
         value: '$2,000 value',
-        draw: 'Draw July 5, 2026',
+        draw: 'Draw September 6, 2026',
         maxEntries: 3000,
         hook: 'The phone you would have bought anyway, except someone else pays.',
         images: [

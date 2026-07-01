@@ -106,7 +106,7 @@ function padSection(focus, L, variant = 0) {
     `\n<section class="rules-section"><h2>Practical checklist for US ${focus} entrants</h2>
 <p>Before you enter any ${focus} promotion, open ${L.rules} and confirm eligibility, ARV, entry caps, and draw date. Legitimate operators publish these details before paid entries open, not after complaints pile up.</p>
 <p>Use ${L.free} when you want zero spend. Mail-in AMOE must enter the same random pool as paid tickets on lawful US sweepstakes. Save postmark dates and confirmation emails in a dedicated folder.</p>
-<p>Favor operators with public draws and archived recordings. ${L.how} explains Gaviom's live TikTok selection model starting Sunday, July 5, 2026 at 8pm ET. ${L.winners} will document outcomes over time.</p>
+<p>Favor operators with public draws and archived recordings. ${L.how} explains Gaviom's live TikTok selection model starting Sunday, September 6, 2026 at 8pm ET. ${L.winners} will document outcomes over time.</p>
 <p>Never pay a fee to "release" a prize. Real ${focus} operators verify identity after random selection, then coordinate fulfillment or cash alternatives per published terms.</p>
 <p>When comparing options, divide your entries by the published cap for honest odds math. A 3,000-entry iPhone pool beats a million-comment Instagram post for expected value per minute spent.</p>
 <p>Ready to start? ${L.prizes}, cruise, Vegas, diving, and iPhone founding draws with photographed specs and reserved prize value.</p>
@@ -213,7 +213,7 @@ function buildSpecs() {
         {
           h2: 'Why Gaviom belongs on a best-of list',
           p: [
-            'Gaviom is a Delaware-operated sweepstakes platform launching July 2026 with live TikTok draws every Sunday at 8pm ET. Prize value is reserved before paid entries open, AMOE is documented on the free entry page, and specs are photographed, not stock-photo vague.',
+            'Gaviom is a Delaware-operated sweepstakes platform launching September 2026 with live TikTok draws every Sunday at 8pm ET. Prize value is reserved before paid entries open, AMOE is documented on the free entry page, and specs are photographed, not stock-photo vague.',
             `If you want one dashboard for multiple online giveaways instead of scattered forms, start at ${L.site} and read ${L.how} before your first ticket.`,
           ],
         },
@@ -264,7 +264,7 @@ function buildSpecs() {
         {
           h2: 'Random draws and winner selection',
           p: [
-            'Reputable online sweepstakes use verifiable random selection, live streams, published seeds, or audit notes. Gaviom draws founding winners on TikTok Sundays at 8pm ET starting July 5, 2026.',
+            'Reputable online sweepstakes use verifiable random selection, live streams, published seeds, or audit notes. Gaviom draws founding winners on TikTok Sundays at 8pm ET starting September 6, 2026.',
             'You do not need to watch live to win. Presence is never a condition of eligibility.',
           ],
         },
@@ -521,7 +521,7 @@ function buildSpecs() {
           h2: 'Travel sweepstakes vs brand vacation contests',
           p: [
             'National brand contests may attract million-entry pools for one trip. Dedicated platforms cap entries and stream draws, better odds visibility.',
-            `${L.how} explains Gaviom live Sunday selection starting July 5, 2026.`,
+            `${L.how} explains Gaviom live Sunday selection starting September 6, 2026.`,
           ],
         },
         {
@@ -666,7 +666,7 @@ function buildSpecs() {
         { q: 'Do I pay taxes on a free iPhone?', a: 'ARV is generally taxable income. Sponsors may issue 1099 forms.' },
         { q: 'Can I win an iPhone without purchase?', a: 'Yes, mail-in AMOE on Gaviom enters the same pool as paid tickets.' },
         { q: 'What iPhone model does Gaviom offer?', a: 'iPhone 16 Pro Max with documented specs on the prize page.' },
-        { q: 'When is the Gaviom iPhone draw?', a: 'Founding Sunday draws begin July 5, 2026 at 8pm ET on TikTok.' },
+        { q: 'When is the Gaviom iPhone draw?', a: 'Founding Sunday draws begin September 6, 2026 at 8pm ET on TikTok.' },
       ],
       ctaTitle: 'Enter the iPhone founding draw',
       ctaText: 'iPhone 16 Pro Max with published odds, AMOE, and live selection, legit tech sweepstakes for 2026.',
@@ -850,7 +850,7 @@ function buildSpecs() {
         { q: 'Are online giveaways rigged?', a: 'Compliant sweepstakes use random selection. Lack of rules is the red flag, not the internet itself.' },
         { q: 'How will I know if I won?', a: 'Operators contact you using info on your entry. Watch live draws to see selection happen.' },
         { q: 'Do I pay to receive my prize?', a: 'Never for lawful sweepstakes. Taxes are handled via paperwork, not upfront gift cards.' },
-        { q: 'Can I watch Gaviom draws live?', a: 'Yes, Sunday 8pm ET TikTok Live streams starting July 5, 2026.' },
+        { q: 'Can I watch Gaviom draws live?', a: 'Yes, Sunday 8pm ET TikTok Live streams starting September 6, 2026.' },
       ],
       ctaTitle: 'Enter giveaways you can actually win',
       ctaText: 'Transparent Gaviom founding draws, real prizes, public selection, documented fulfillment.',
@@ -941,7 +941,7 @@ function buildSpecs() {
         {
           h2: 'Live draws vs silent drawings',
           p: [
-            'Premium operators stream draws so entrants see randomness in real time. Gaviom founding schedule: Sundays 8pm ET on TikTok starting July 5, 2026.',
+            'Premium operators stream draws so entrants see randomness in real time. Gaviom founding schedule: Sundays 8pm ET on TikTok starting September 6, 2026.',
             'Archived recordings let skeptics replay selection, transparency reduces conspiracy theories.',
           ],
           h3: [
@@ -975,7 +975,7 @@ function buildSpecs() {
         { q: 'Do I need to watch the draw to win?', a: 'No. Presence is not required; operators contact winners using entry info.' },
         { q: 'Can employees win?', a: 'Usually excluded in rules. Check eligibility sections.' },
         { q: 'What if the winner does not respond?', a: 'Alternates are drawn per Official Rules time windows.' },
-        { q: 'Where are Gaviom draws held?', a: 'Live on TikTok, Sunday 8pm ET starting July 2026 founding schedule.' },
+        { q: 'Where are Gaviom draws held?', a: 'Live on TikTok, Sunday 8pm ET starting September 2026 founding schedule.' },
       ],
       ctaTitle: 'Watch the next draw live',
       ctaText: 'Gaviom streams random winner selection, enter now, watch Sunday, see transparency in action.',
@@ -1380,7 +1380,7 @@ function buildSpecs() {
           h2: 'Live draws as trust events',
           p: [
             'Streaming selection on TikTok turns compliance into content. Entrants see randomness; skeptics lose ammunition.',
-            'Founding schedule: Sundays 8pm ET starting July 5, 2026. Recordings archived for audit.',
+            'Founding schedule: Sundays 8pm ET starting September 6, 2026. Recordings archived for audit.',
           ],
           h3: [
             { title: 'Winner announcements', p: [`${L.winners} documents verified outcomes after ID checks, public proof chain completes the loop.`] },

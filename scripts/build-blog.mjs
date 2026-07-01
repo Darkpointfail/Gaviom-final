@@ -3,6 +3,7 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { POSTS, BLOG_META } from '../content/blog/posts.mjs';
 import { faviconHeadLinks } from './favicon-links.mjs';
+import { TOPBAR_FIRST_DRAW_EXTRA } from './launch-dates.mjs';
 import { googleAnalyticsHead } from './analytics-head.mjs';
 import { BLOG_CATEGORIES, CATEGORY_FILTER_KEY, CATEGORY_FILTERS } from '../content/blog/categories.mjs';
 
@@ -88,7 +89,7 @@ ${faviconHeadLinks()}
 }
 
 function topbar() {
-  return `  <div class="topbar"><div class="wrap topbar-inner"><div class="topbar-left"><span><span class="live-dot soon-dot"></span> <span data-topbar-label>Gaviom launches in</span> <span data-cd="launch" data-cd-format="compact">--</span></span><span class="extra" data-topbar-extra>· Pre-sale open · First draw July 5, 8pm ET</span></div><div><a class="tlink" href="/free-entry.html">Free entry by mail</a> · <a class="tlink" href="/rules.html">Official Rules</a></div></div></div>`;
+  return `  <div class="topbar"><div class="wrap topbar-inner"><div class="topbar-left"><span><span class="live-dot soon-dot"></span> <span data-topbar-label>Gaviom launches in</span> <span data-cd="launch" data-cd-format="compact">--</span></span><span class="extra" data-topbar-extra>${TOPBAR_FIRST_DRAW_EXTRA}</span></div><div><a class="tlink" href="/free-entry.html">Free entry by mail</a> · <a class="tlink" href="/rules.html">Official Rules</a></div></div></div>`;
 }
 
 function nav(active) {

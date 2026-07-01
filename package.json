@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "images": "node scripts/optimize-images.mjs --source",
-    "build": "node scripts/build-blog.mjs && node scripts/patch-favicon-html.mjs && node scripts/patch-cart-html.mjs && node scripts/build-static.mjs && node scripts/build-business.mjs && node scripts/optimize-images.mjs",
+    "build": "node scripts/patch-launch-dates.mjs && node scripts/build-blog.mjs && node scripts/patch-favicon-html.mjs && node scripts/patch-cart-html.mjs && node scripts/build-static.mjs && node scripts/build-business.mjs && node scripts/optimize-images.mjs",
     "build:business": "node scripts/build-business.mjs",
     "dev:business": "npm run dev --prefix business",
     "favicons": "node scripts/build-favicons.mjs",

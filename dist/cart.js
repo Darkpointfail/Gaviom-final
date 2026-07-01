@@ -13,7 +13,7 @@
       title: 'MSC Cruise · 7 Nights',
       url: '/prize.html',
       image: '/images/msc-cruise-hero.webp',
-      draw: 'Draw July 5, 2026',
+      draw: 'Draw September 6, 2026',
       odds: 6000,
       bundles: [
         { tickets: 1, price: 12 },
@@ -26,7 +26,7 @@
       title: 'Scuba Discovery · Cozumel',
       url: '/prize-diving.html',
       image: '/images/diving-turtle.webp',
-      draw: 'Draw July 5, 2026',
+      draw: 'Draw September 6, 2026',
       odds: 1000,
       bundles: [
         { tickets: 1, price: 12 },
@@ -39,7 +39,7 @@
       title: 'iPhone 17 Pro Max',
       url: '/prize-iphone.html',
       image: '/images/iphone-hero.webp',
-      draw: 'Draw July 5, 2026',
+      draw: 'Draw September 6, 2026',
       odds: 3000,
       bundles: [
         { tickets: 1, price: 7 },
@@ -52,7 +52,7 @@
       title: '5-Star Weekend · Las Vegas or Miami',
       url: '/prize-vegas.html',
       image: 'https://images.unsplash.com/photo-1623107935331-7164fb0d6978?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-      draw: 'Draw July 5, 2026',
+      draw: 'Draw September 6, 2026',
       odds: 4800,
       bundles: [
         { tickets: 1, price: 10 },

@@ -51,7 +51,7 @@ function cta(i) {
   return `
       <section class="rules-section blog-cta-band">
         <h2>Ready to win your next trip?</h2>
-        <p>Check out <a href="${anchors[i % anchors.length].href}">${anchors[i % anchors.length].text}</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching July 2026.</p>
+        <p>Check out <a href="${anchors[i % anchors.length].href}">${anchors[i % anchors.length].text}</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
         <p><a href="${SITE}/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
       </section>`;
 }
@@ -248,7 +248,7 @@ const articles = [
         {
           h2: 'Where to enter this month',
           paragraphs: [
-            'Gaviom pre-sale is open ahead of a July 1 launch, with first live draws July 5. If you want one dashboard for multiple travel prizes, start at <a href="https://gaviom.com/prizes.html">verified vacation sweepstakes at Gaviom</a> rather than scattered Instagram forms.',
+            'Gaviom pre-sale is open ahead of a September 1 launch, with first live draws September 6. If you want one dashboard for multiple travel prizes, start at <a href="https://gaviom.com/prizes.html">verified vacation sweepstakes at Gaviom</a> rather than scattered Instagram forms.',
           ],
         },
       ],
@@ -784,7 +784,7 @@ const articles = [
         {
           h2: 'Set a 2026 travel sweepstakes calendar',
           paragraphs: [
-            'Mark draw dates, mail-by deadlines for AMOE, and promotion end times. Gaviom founding draws begin July 5, 2026, entries sold in pre-sale count toward the same pools.',
+            'Mark draw dates, mail-by deadlines for AMOE, and promotion end times. Gaviom founding draws begin September 6, 2026, entries sold in pre-sale count toward the same pools.',
           ],
         },
         {
@@ -820,7 +820,7 @@ const articles = [
     slug: 'real-people-won-free-trips',
     title: 'Real People Who Won Free Trips: What They Did Right',
     description:
-      'Real travel giveaways that are legit produce verifiable winners. Learn common habits before Gaviom\'s July 2026 founding draws, enter today.',
+      'Real travel giveaways that are legit produce verifiable winners. Learn common habits before Gaviom\'s September 2026 founding draws, enter today.',
     date: '2026-06-04',
     category: 'Travel',
     readMin: 6,

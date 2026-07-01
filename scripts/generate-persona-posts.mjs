@@ -62,7 +62,7 @@ function cta(i, line) {
   return `
       <section class="rules-section blog-cta-band">
         <h2>${line}</h2>
-        <p><a href="${anchors[i % anchors.length].href}">${anchors[i % anchors.length].text}</a>, published odds, free alternate entry, and live Sunday draws. Pre-sale open ahead of July 2026 founding draws.</p>
+        <p><a href="${anchors[i % anchors.length].href}">${anchors[i % anchors.length].text}</a>, published odds, free alternate entry, and live Sunday draws. Pre-sale open ahead of September 2026 founding draws.</p>
         <p><a href="${SITE}/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
       </section>`;
 }
@@ -99,9 +99,9 @@ function mkBody(spec, anchorIdx) {
   }
   if (wc(body) < 1100) {
     body += `\n<section class="rules-section"><h2>Quick answers about ${spec.focus || 'travel giveaways'}</h2>
-<p><strong>Is this legal in the US?</strong> Yes, when AMOE exists and rules are published. Gaviom follows that model for founding July 2026 prizes.</p>
+<p><strong>Is this legal in the US?</strong> Yes, when AMOE exists and rules are published. Gaviom follows that model for founding September 2026 prizes.</p>
 <p><strong>Do I need a credit card to enter free?</strong> No. Mail-in entry is available on Gaviom with the same odds as paid tickets in the same pool.</p>
-<p><strong>When are draws?</strong> Founding live draws begin Sunday, July 5, 2026 at 8pm ET on TikTok, then weekly Sundays at 8pm ET.</p>
+<p><strong>When are draws?</strong> Founding live draws begin Sunday, September 6, 2026 at 8pm ET on TikTok, then weekly Sundays at 8pm ET.</p>
 <p><strong>Can families enter?</strong> Read eligibility and guest count on each prize page, many packages cover two travelers; age rules apply.</p>
 <p><strong>Where to start?</strong> Browse <a href="https://gaviom.com/prizes.html">active Gaviom travel sweepstakes</a> with published caps before pre-sale closes.</p>
 <p><strong>How do I verify legitimacy?</strong> Check for Official Rules, a US operator address, photographed prizes, and a free alternate entry path, all visible on <a href="${SITE}/">gaviom.com</a> before you spend a dollar.</p>
@@ -197,7 +197,7 @@ const dealHustler = [
     lede: 'Searching best legitimate travel giveaways in 2025 means filtering hype. This list ranks operators by what deal hustlers actually verify: rules, odds, fulfillment, and free entry paths.',
     related: ['are-travel-giveaways-real-legit', 'travel-sweepstakes-worth-entering', 'how-to-enter-travel-sweepstakes-win'],
     blocks: [
-      { h2: '#1 Gaviom, capped pools and live draws', paragraphs: ['Why it ranks first: published odds on each prize, pre-sale with escrow messaging, TikTok draws, AMOE, and four distinct travel experiences launching July 2026. Cruise ARV $10,000 with cash alternative; Vegas, Cozumel, and iPhone rounds out the catalog at <a href="https://gaviom.com/">gaviom.com</a>.'] },
+      { h2: '#1 Gaviom, capped pools and live draws', paragraphs: ['Why it ranks first: published odds on each prize, pre-sale with escrow messaging, TikTok draws, AMOE, and four distinct travel experiences launching September 2026. Cruise ARV $10,000 with cash alternative; Vegas, Cozumel, and iPhone rounds out the catalog at <a href="https://gaviom.com/">gaviom.com</a>.'] },
       { h2: 'What to look for in any 2025 list entry', paragraphs: ['Photographed prize, not stock resort. Entry cap disclosed. Draw method explained. Taxes and fulfillment timeline in rules.'] },
       { h2: 'Categories worth tracking', paragraphs: ['Cruise giveaways (high ARV), city breaks (Vegas/Miami), adventure packages (diving/resorts), and tech bundles (lower ARV, better odds). Match category to your actual travel plans.'] },
       { h2: 'Skip these list fillers', paragraphs: ['Sites with no rules PDF, unlimited entries with hidden tiers, or "winners" only shown as Instagram comments.'] },
@@ -620,7 +620,7 @@ const dreamer = [
       { h2: 'Match trend to Gaviom prize', paragraphs: ['Cruise (Med), Vegas (domestic blowout), Cozumel (Caribbean nature), iPhone (content gear for travel creators).'] },
       { h2: 'SEO timing for dreamers', paragraphs: ['Search "travel giveaway 2025" early year, enter before caps fill on best odds.'] },
       { h2: 'Photo-first destinations', paragraphs: ['Pick places you will actually photograph, not just influencer backdrops.'] },
-      { h2: 'Enter founding 2026 draws', paragraphs: ['July 2026 launch, pre-sale entries count now.'] },
+      { h2: 'Enter founding 2026 draws', paragraphs: ['September 2026 launch, pre-sale entries count now.'] },
     ],
   },
   {

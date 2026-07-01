@@ -122,7 +122,7 @@ function mkBody(spec, anchorIdx) {
     body += `\n<section class="rules-section"><h2>More questions entrants ask</h2>
 <p><strong>Does Gaviom only do travel?</strong> No, Gaviom is a premium multi-category giveaway platform. Travel and iPhone draws are live; cars and real estate are coming.</p>
 <p><strong>Where are rules published?</strong> Every promotion links to <a href="/rules.html">Official Rules</a> from the prize page and checkout flow.</p>
-<p><strong>How are winners picked?</strong> Random selection during live TikTok draws, founding schedule begins Sunday, July 5, 2026 at 8pm ET.</p>
+<p><strong>How are winners picked?</strong> Random selection during live TikTok draws, founding schedule begins Sunday, September 6, 2026 at 8pm ET.</p>
 <p><strong>Can I enter without paying?</strong> Yes, AMOE instructions are on the <a href="/free-entry.html">free entry page</a>.</p>
 <p><strong>What if I win?</strong> ID verification, affidavits, and tax forms for high ARV prizes, standard US sweepstakes fulfillment.</p>
 <p><strong>Start where?</strong> <a href="${SITE}/prizes.html">Browse active Gaviom giveaways</a> and pick the category that fits your goals.</p>
@@ -169,7 +169,7 @@ const clusterA = [
     lede: 'Win a free iPhone giveaway without falling for comment-section scams: legitimate US sweepstakes publish rules, offer AMOE, photograph the exact model, and never ask you to pay a "release fee" after you win.',
     related: ['iphone-giveaway-real-or-fake', 'how-gaviom-iphone-giveaway-works', 'win-iphone-no-purchase-necessary'],
     blocks: [
-      { h2: 'What makes an iPhone giveaway legitimate', paragraphs: ['A real win a free iPhone giveaway names the sponsor, lists ARV (retail value), caps or explains odds, and documents free alternate entry. You should find Official Rules linked from the prize page, not buried in a screenshot.', '<a href="https://gaviom.com/prize-iphone.html">Gaviom\'s iPhone 16 Pro Max promotion</a> shows the device, storage tier, AppleCare inclusion, and entry bundles before checkout. Founding draw July 5, 2026 with live TikTok selection.'] },
+      { h2: 'What makes an iPhone giveaway legitimate', paragraphs: ['A real win a free iPhone giveaway names the sponsor, lists ARV (retail value), caps or explains odds, and documents free alternate entry. You should find Official Rules linked from the prize page, not buried in a screenshot.', '<a href="https://gaviom.com/prize-iphone.html">Gaviom\'s iPhone 16 Pro Max promotion</a> shows the device, storage tier, AppleCare inclusion, and entry bundles before checkout. Founding draw September 6, 2026 with live TikTok selection.'] },
       { h2: 'Red flags that mean walk away', paragraphs: ['DM-only winners, gift-card activation fees, or "pay taxes upfront via crypto" are scams, not sweepstakes. Legit iPhone operators verify identity after a public draw.', 'Comments-only entry on Instagram, no US sponsor address, and ARV never stated are engagement bait, not enforceable promotions.'] },
       { h2: 'How Gaviom pays out iPhone winners', paragraphs: ['Fulfillment ships the configured iPhone or documents cash equivalent per rules. Winners complete affidavits and tax forms for high ARV, standard for premium tech prizes.', 'Watch <a href="/how.html">how Gaviom draws work</a> so you know random selection is public, not backroom.'] },
       { h2: 'Your pre-entry checklist', paragraphs: ['Confirm 18+ eligibility, read AMOE, screenshot confirmation, calendar draw night. Skip platforms missing two or more green-flag checks.'] },
@@ -202,7 +202,7 @@ const clusterA = [
     lede: 'Best tech giveaways 2025 combine real ARV, capped entry pools, and AMOE, not follower-count lotteries. Here is what is worth your time and where Gaviom ranks.',
     related: ['win-free-iphone-giveaway-legit', 'how-gaviom-iphone-giveaway-works', 'best-giveaways-win-2025'],
     blocks: [
-      { h2: '#1 Gaviom iPhone 16 Pro Max (most accessible premium tech draw)', paragraphs: ['Capped pool, published odds, live draw, AppleCare included in ARV. Pre-sale open ahead of July 2026 founding Sunday draws. Free postcard entry documented.'] },
+      { h2: '#1 Gaviom iPhone 16 Pro Max (most accessible premium tech draw)', paragraphs: ['Capped pool, published odds, live draw, AppleCare included in ARV. Pre-sale open ahead of September 2026 founding Sunday draws. Free postcard entry documented.'] },
       { h2: 'Other tech categories worth watching', paragraphs: ['Brand-console bundles during holiday Q4, carrier trade-in promos (often rebates not sweepstakes), and retailer gift-card cascades, read rules to confirm random draw vs instant rebate.'] },
       { h2: 'AirPods, MacBook, PS5, what to verify', paragraphs: ['Model year, refurbished vs new, region lock, and whether ARV is MSRP or street price. Ambiguity in rules favors the sponsor at fulfillment time.'] },
       { h2: 'Strategy for gadget sweepstakes', paragraphs: ['Prioritize capped pools where you can calculate 1/N odds. Enter AMOE weekly; buy bundles only when the math still feels fun.'] },
@@ -254,7 +254,7 @@ const clusterA = [
     blocks: [
       { h2: 'Step 1: Read specs and Official Rules', paragraphs: ['iPhone 16 Pro Max configuration, AppleCare, ARV, eligibility, and entry caps are on <a href="/prize-iphone.html">prize page</a> before you pay or mail.'] },
       { h2: 'Step 2: Enter paid or free', paragraphs: ['Checkout bundles ($7–$50 tiers) or mail AMOE per <a href="/free-entry.html">instructions</a>. Same random pool. Confirmation email or postmark proof, save both.'] },
-      { h2: 'Step 3: Live draw Sunday 8pm ET', paragraphs: ['Founding draw July 5, 2026 on TikTok, random selection from capped pool (~1 in 3,000 on iPhone founding promotion). Recording archived for audit.'] },
+      { h2: 'Step 3: Live draw Sunday 8pm ET', paragraphs: ['Founding draw September 6, 2026 on TikTok, random selection from capped pool (~1 in 3,000 on iPhone founding promotion). Recording archived for audit.'] },
       { h2: 'Step 4: Winner verification', paragraphs: ['ID, affidavit, W-9 for tax reporting. Respond within window stated in rules or prize may alternate.'] },
       { h2: 'Step 5: Fulfillment', paragraphs: ['Shipped iPhone or documented cash equivalent per winner choice in rules. No "processing fee" invoices, ever.'] },
     ],
