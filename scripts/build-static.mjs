@@ -40,5 +40,20 @@ for (const name of readdirSync(root)) {
   }
 }
 
+const requiredImages = [
+  'vegas-quote-hero-480w.webp',
+  'vegas-quote-hero-800w.webp',
+  'diving-turtle-480w.webp',
+  'cruise-hero-480w.webp',
+];
+const imagesOut = join(out, 'images');
+for (const name of requiredImages) {
+  const p = join(imagesOut, name);
+  if (!existsSync(p)) {
+    console.error(`build-static: missing deploy image ${name} (check images/ is tracked in git)`);
+    process.exit(1);
+  }
+}
+
 const htmlCount = readdirSync(out).filter((f) => f.endsWith('.html')).length;
 console.log(`Built static site → dist/ (${htmlCount} HTML pages)`);

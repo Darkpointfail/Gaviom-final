@@ -66,15 +66,15 @@ const REPLACEMENTS = [
   ],
   [
     /src="\/images\/cruise-hero-800w\.webp" srcset="\/images\/cruise-hero-480w\.webp 480w, \/images\/cruise-hero-800w\.webp 800w" sizes="\(max-width: 900px\) 100vw, 420px"/g,
-    'src="/images/cruise-hero-400w.webp" srcset="/images/cruise-hero-400w.webp 400w, /images/cruise-hero-800w.webp 800w" sizes="(max-width: 900px) 100vw, 420px"',
+    'src="/images/cruise-hero-480w.webp" srcset="/images/cruise-hero-480w.webp 480w, /images/cruise-hero-800w.webp 800w" sizes="(max-width: 900px) 100vw, 420px" width="480" height="268"',
   ],
   [
     /src="\/images\/vegas-quote-hero-800w\.webp" srcset="\/images\/vegas-strip-mobile-480w\.webp 480w, \/images\/vegas-quote-hero-800w\.webp 800w, \/images\/vegas-quote-hero\.webp 1024w" sizes="\(max-width: 768px\) 100vw, 900px" width="1024" height="686"/g,
-    'src="/images/vegas-quote-hero-450w.webp" srcset="/images/vegas-quote-hero-450w.webp 450w, /images/vegas-quote-hero-800w.webp 800w" sizes="(max-width: 768px) 100vw, 425px" width="450" height="300"',
+    'src="/images/vegas-quote-hero-480w.webp" srcset="/images/vegas-quote-hero-480w.webp 480w, /images/vegas-quote-hero-800w.webp 800w" sizes="(max-width: 768px) 100vw, 425px" width="480" height="322"',
   ],
   [
     /<img class="prize-photo" src="\/images\/diving-turtle\.webp"([^>]*?)loading="lazy"\s*\/>/g,
-    '<img class="prize-photo" src="/images/diving-turtle-450w.webp" srcset="/images/diving-turtle-450w.webp 450w, /images/diving-turtle-800w.webp 800w" sizes="(max-width: 768px) 100vw, 425px" width="450" height="300"$1loading="lazy" decoding="async" />',
+    '<img class="prize-photo" src="/images/diving-turtle-480w.webp" srcset="/images/diving-turtle-480w.webp 480w, /images/diving-turtle-800w.webp 800w" sizes="(max-width: 768px) 100vw, 425px" width="480" height="320"$1loading="lazy" decoding="async" />',
   ],
   [
     /<img class="prize-photo" src="\/images\/iphone-hero\.webp"([^>]*?)loading="lazy"\s*\/>/g,
@@ -82,7 +82,7 @@ const REPLACEMENTS = [
   ],
   [
     /<figure class="blog-figure"><img src="\/images\/diving-turtle\.webp"/g,
-    '<figure class="blog-figure"><img src="/images/diving-turtle-450w.webp" srcset="/images/diving-turtle-450w.webp 450w, /images/diving-turtle-800w.webp 800w" sizes="(max-width: 768px) 100vw, 720px" width="450" height="300"',
+    '<figure class="blog-figure"><img src="/images/diving-turtle-480w.webp" srcset="/images/diving-turtle-480w.webp 480w, /images/diving-turtle-800w.webp 800w" sizes="(max-width: 768px) 100vw, 720px" width="480" height="320"',
   ],
   [
     /<figure class="blog-figure"><img src="\/images\/iphone-hero\.webp"/g,
@@ -90,7 +90,7 @@ const REPLACEMENTS = [
   ],
   [
     /<figure class="blog-figure"><img src="\/images\/cruise-hero-800w\.webp"/g,
-    '<figure class="blog-figure"><img src="/images/cruise-hero-400w.webp" srcset="/images/cruise-hero-400w.webp 400w, /images/cruise-hero-800w.webp 800w" sizes="(max-width: 768px) 100vw, 720px" width="400" height="220"',
+    '<figure class="blog-figure"><img src="/images/cruise-hero-480w.webp" srcset="/images/cruise-hero-480w.webp 480w, /images/cruise-hero-800w.webp 800w" sizes="(max-width: 768px) 100vw, 720px" width="480" height="268"',
   ],
 ];
 
