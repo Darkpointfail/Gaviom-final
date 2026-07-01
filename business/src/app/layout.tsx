@@ -58,9 +58,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${sora.variable}`}>
-      <head>
-        <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
-      </head>
       <body className="font-sans">
         <QuoteModalProvider>
           <Header />

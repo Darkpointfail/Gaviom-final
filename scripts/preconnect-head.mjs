@@ -7,10 +7,7 @@ export const PRECONNECT_ORIGINS = [
   'https://www.google-analytics.com',
 ];
 
-export const PRECONNECT_UNSplash = 'https://images.unsplash.com';
-
-/** @param {{ unsplash?: boolean }} [opts] */
-export function preconnectHeadLinks({ unsplash = false } = {}) {
+export function preconnectHeadLinks() {
   const lines = ['  <!-- Resource hints: external origins -->'];
 
   for (const href of PRECONNECT_ORIGINS) {
@@ -21,10 +18,6 @@ export function preconnectHeadLinks({ unsplash = false } = {}) {
     }
   }
 
-  if (unsplash) {
-    lines.push(`  <link rel="preconnect" href="${PRECONNECT_UNSplash}" crossorigin />`);
-  }
-
   return lines.join('\n');
 }
 
@@ -33,9 +26,9 @@ const PRECONNECT_LINE =
 
 const PRECONNECT_COMMENT = /^\s*<!-- Resource hints: external origins -->\s*\n?/gm;
 
-/** @param {string} html @param {{ unsplash?: boolean }} [opts] */
-export function injectPreconnectIntoHtml(html, { unsplash = false } = {}) {
-  const block = preconnectHeadLinks({ unsplash });
+/** @param {string} html */
+export function injectPreconnectIntoHtml(html) {
+  const block = preconnectHeadLinks();
   let next = html.replace(PRECONNECT_COMMENT, '').replace(PRECONNECT_LINE, '');
 
   const charsetMatch = next.match(/<meta\s+charset="[^"]+"\s*\/?>/i);

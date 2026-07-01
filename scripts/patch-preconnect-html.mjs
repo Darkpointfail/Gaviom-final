@@ -13,12 +13,11 @@ for (const file of readdirSync(root)) {
   if (!file.endsWith('.html')) continue;
   const path = join(root, file);
   const html = readFileSync(path, 'utf8');
-  const unsplash = html.includes('images.unsplash.com');
-  const next = injectPreconnectIntoHtml(html, { unsplash });
+  const next = injectPreconnectIntoHtml(html);
   if (next === html) continue;
   writeFileSync(path, next);
   updated++;
-  console.log(`updated preconnect in ${file}${unsplash ? ' (+ unsplash)' : ''}`);
+  console.log(`updated preconnect in ${file}`);
 }
 
 console.log(`patch-preconnect-html: ${updated} root pages updated`);
