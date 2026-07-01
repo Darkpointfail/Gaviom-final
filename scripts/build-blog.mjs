@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url';
 import { POSTS, BLOG_META } from '../content/blog/posts.mjs';
 import { faviconHeadLinks } from './favicon-links.mjs';
 import { TOPBAR_FIRST_DRAW_EXTRA } from './launch-dates.mjs';
-import { googleAnalyticsHead } from './analytics-head.mjs';
+import { googleAnalyticsDeferred } from './analytics-head.mjs';
 import { preconnectHeadLinks } from './preconnect-head.mjs';
 import { GOOGLE_FONTS_STANDARD, googleFontsStylesheetLink } from './google-fonts-head.mjs';
 import { BLOG_CATEGORIES, CATEGORY_FILTER_KEY, CATEGORY_FILTERS } from '../content/blog/categories.mjs';
@@ -75,7 +75,6 @@ function headBlock({ title, description, path, type = 'website', article }) {
   return `  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 ${preconnectHeadLinks()}
-${googleAnalyticsHead()}
 ${faviconHeadLinks()}
   <title>${escapeHtml(title)}</title>
   <meta name="description" content="${escapeHtml(description)}" />
@@ -111,8 +110,9 @@ function footer() {
     </div>
     <div class="wrap footer-legal"><span>© 2026 Gaviom Inc.</span><span>18+ · Void where prohibited</span></div>
   </footer>
-  <script src="/cart.js"></script>
-  <script src="/app.js"></script>`;
+  <script defer src="/cart.js?v=20260705-perf"></script>
+  <script defer src="/app.js?v=20260705-perf"></script>
+${googleAnalyticsDeferred()}`;
 }
 
 function layout({ title, description, path, type, article, active, breadcrumbs, main }) {
@@ -121,8 +121,9 @@ function layout({ title, description, path, type, article, active, breadcrumbs, 
 <head>
 ${headBlock({ title, description, path, type, article })}
 ${googleFontsStylesheetLink(GOOGLE_FONTS_STANDARD)}
-  <link rel="stylesheet" href="/styles.css" />
-  <link rel="stylesheet" href="/mobile.css" />
+  <link rel="preload" as="style" href="/styles.css?v=20260705-perf" />
+  <link rel="stylesheet" href="/styles.css?v=20260705-perf" />
+  <link rel="stylesheet" href="/mobile.css?v=20260705-perf" />
 </head>
 <body>
 ${topbar()}

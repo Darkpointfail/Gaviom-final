@@ -136,4 +136,26 @@
 <li><strong>Mail:</strong> Gaviom Inc., PO Box 4218, Wilmington, DE 19801</li></ul>
 </section>
 </article>
+  <script>
+(function () {
+  function loadGA() {
+    if (window.__gaviomGaLoaded) return;
+    window.__gaviomGaLoaded = true;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-SSJ8R41VP4';
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', 'G-SSJ8R41VP4');
+  }
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(loadGA, { timeout: 4000 });
+  } else {
+    window.addEventListener('load', function () { setTimeout(loadGA, 1500); }, { once: true });
+  }
+})();
+</script>
 </body></html>

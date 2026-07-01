@@ -427,11 +427,16 @@
     });
   }
 
+  function setProgressFill(fill, pct) {
+    const scale = Math.max(0, Math.min(100, Number(pct) || 0)) / 100;
+    fill.style.setProperty('--progress', String(scale));
+  }
+
   function syncProgressFromCounter(val, cap) {
     const pct = Math.min(99, Math.round((val / cap) * 100));
     document.querySelectorAll('[data-progress-dynamic]').forEach((track) => {
       const fill = track.querySelector('.progress-fill, i');
-      if (fill) fill.style.width = pct + '%';
+      if (fill) setProgressFill(fill, pct);
       track.classList.toggle('hot', pct > 80);
       track.setAttribute('data-progress', String(pct));
     });
@@ -474,7 +479,7 @@
       const fill = track.querySelector('i, .progress-fill');
       if (fill && pct) {
         requestAnimationFrame(() => {
-          fill.style.width = pct + '%';
+          setProgressFill(fill, parseInt(pct, 10));
           track.classList.toggle('hot', parseInt(pct, 10) > 80);
         });
       }
@@ -484,7 +489,7 @@
       const fill = track.querySelector('i, .progress-fill');
       if (fill && pct) {
         requestAnimationFrame(() => {
-          fill.style.width = pct + '%';
+          setProgressFill(fill, parseInt(pct, 10));
           track.classList.toggle('hot', parseInt(pct, 10) > 80);
         });
       }
@@ -785,7 +790,7 @@
         maxEntries: 4800,
         hook: 'Four nights on the Strip. Suite views. Flights covered. No itinerary spreadsheet required.',
         images: [
-          '/images/vegas-quote-hero-1280w.webp',
+          '/images/vegas-quote-hero.webp',
           '/images/vegas-gallery-fountains.webp',
           '/images/vegas-gallery-sphere.webp',
           '/images/vegas-gallery-pool.webp',

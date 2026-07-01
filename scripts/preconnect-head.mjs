@@ -3,8 +3,6 @@
 export const PRECONNECT_ORIGINS = [
   'https://fonts.googleapis.com',
   'https://fonts.gstatic.com',
-  'https://www.googletagmanager.com',
-  'https://www.google-analytics.com',
 ];
 
 export function preconnectHeadLinks() {

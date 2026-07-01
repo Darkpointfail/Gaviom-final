@@ -7,8 +7,6 @@
   <!-- Resource hints: external origins -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://www.googletagmanager.com" />
-  <link rel="preconnect" href="https://www.google-analytics.com" />
 
 
 
@@ -18,7 +16,7 @@
   <meta name="google-site-verification" content="REPLACE_WITH_YOUR_CODE" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>html { background: #FAF7F2; }</style>
+    <style id="critical-home">*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{background:#051525;overflow-x:hidden;scroll-behavior:smooth}body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:16px;line-height:1.5;color:#0a1628;background:#faf7f2;-webkit-font-smoothing:antialiased;min-height:100vh;position:relative}.wrap{width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,40px)}.hero-home--video{position:relative;overflow:hidden;isolation:isolate;background:#051525;min-height:760px;padding:96px 0 120px}.hero-home__lcp{position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover;object-position:center 36%;display:block;pointer-events:none}.hero-overlay{position:absolute;inset:0;z-index:2;pointer-events:none}.hero-home__content{position:relative;z-index:4}.topbar,.nav{position:relative;z-index:10}</style>
   <meta name="description" content="Real prizes. Live draws. From $7. US sweepstakes with published odds, verified prizes, and weekly TikTok draws." />
   <link rel="canonical" href="https://gaviom.com/" />
   <meta property="og:type" content="website" />
@@ -34,9 +32,9 @@
   <noscript><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&amp;family=Geist+Mono:wght@400&amp;family=Geist:wght@400;500;600&amp;display=swap" rel="stylesheet" /></noscript>
   <link rel="preload" as="image" href="/images/home-hero-mobile.webp?v=beach" type="image/webp" media="(max-width: 768px)" fetchpriority="high" />
   <link rel="preload" as="image" href="/images/home-hero-desktop.webp?v=beach" type="image/webp" media="(min-width: 769px)" fetchpriority="high" />
-  <link rel="prefetch" href="/prizes.html" />
-  <link rel="stylesheet" href="/styles.css?v=20260704-countdown" />
-  <link rel="stylesheet" href="/mobile.css?v=20260704-countdown" />
+<link rel="preload" as="style" href="/styles.css?v=20260705-perf" />
+  <link rel="stylesheet" href="/styles.css?v=20260705-perf" />
+  <link rel="stylesheet" href="/mobile.css?v=20260705-perf" />
 </head>
 <body>
   <div class="topbar">
@@ -74,17 +72,19 @@
 
   <main>
     <section class="hero-home hero-home--video hero-home--video-fallback">
-      <img
-        class="hero-home__lcp"
-        src="/images/home-hero-mobile.webp?v=beach"
-        srcset="/images/home-hero-mobile.webp?v=beach 686w, /images/home-hero-desktop.webp?v=beach 1600w"
-        sizes="(max-width: 768px) 100vw, 100vw"
-        width="1600"
-        height="893"
-        fetchpriority="high"
-        decoding="async"
-        alt="Tropical beach with turquoise water and palm trees"
-      />
+      <picture>
+        <source media="(max-width: 768px)" srcset="/images/home-hero-mobile.webp?v=beach" type="image/webp" />
+        <source media="(min-width: 769px)" srcset="/images/home-hero-desktop.webp?v=beach" type="image/webp" />
+        <img
+          class="hero-home__lcp"
+          src="/images/home-hero-desktop.webp?v=beach"
+          width="1600"
+          height="893"
+          fetchpriority="high"
+          decoding="async"
+          alt="Tropical beach with turquoise water and palm trees"
+        />
+      </picture>
       <div class="hero-overlay" aria-hidden="true"></div>
       <div class="wrap hero-home__content">
         <div class="hero-grid">
@@ -176,7 +176,7 @@
           </a>
           <a href="/prize-vegas.html" class="prize-card">
             <div class="prize-card-img">
-              <div class="prize-photo-wrap"><img class="prize-photo" src="/images/vegas-quote-hero-800w.webp" srcset="/images/vegas-strip-mobile-480w.webp 480w, /images/vegas-quote-hero-800w.webp 800w, /images/vegas-quote-hero-1280w.webp 1280w" sizes="(max-width: 768px) 100vw, 900px" width="1024" height="686" alt="Las Vegas at night" loading="lazy" decoding="async" /></div>
+              <div class="prize-photo-wrap"><img class="prize-photo" src="/images/vegas-quote-hero-800w.webp" srcset="/images/vegas-strip-mobile-480w.webp 480w, /images/vegas-quote-hero-800w.webp 800w, /images/vegas-quote-hero.webp 1024w" sizes="(max-width: 768px) 100vw, 900px" width="1024" height="686" alt="Las Vegas at night" loading="lazy" decoding="async" /></div>
               <div class="prize-card-badges"><span class="badge badge-launch">Early odds</span></div>
             </div>
             <div class="prize-card-body">
@@ -263,14 +263,30 @@
     </div>
   </div>
 
-  <script src="cart.js"></script>
-  <script src="/app.js?v=20260704-beach"></script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SSJ8R41VP4"></script>
+  <script defer src="cart.js?v=20260705-perf"></script>
+  <script defer src="/app.js?v=20260705-perf"></script>
+
   <script>
+(function () {
+  function loadGA() {
+    if (window.__gaviomGaLoaded) return;
+    window.__gaviomGaLoaded = true;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-SSJ8R41VP4';
+    document.head.appendChild(s);
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag() { dataLayer.push(arguments); }
+    window.gtag = gtag;
     gtag('js', new Date());
     gtag('config', 'G-SSJ8R41VP4');
-  </script>
+  }
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(loadGA, { timeout: 4000 });
+  } else {
+    window.addEventListener('load', function () { setTimeout(loadGA, 1500); }, { once: true });
+  }
+})();
+</script>
 </body>
 </html>

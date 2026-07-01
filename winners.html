@@ -1,23 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SSJ8R41VP4"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
 
-    gtag('config', 'G-SSJ8R41VP4');
-  </script>
 
 
   <meta charset="UTF-8" />
   <!-- Resource hints: external origins -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://www.googletagmanager.com" />
-  <link rel="preconnect" href="https://www.google-analytics.com" />
 
 
 
@@ -31,8 +21,9 @@
   <title>Winners, Gaviom</title>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Geist+Mono:wght@400;500&family=Geist:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="/styles.css?v=20260605-cart" />
-  <link rel="stylesheet" href="/mobile.css?v=20260522-grain" />
+    <link rel="preload" as="style" href="/styles.css?v=20260705-perf" />
+  <link rel="stylesheet" href="/styles.css?v=20260705-perf" />
+  <link rel="stylesheet" href="/mobile.css?v=20260705-perf" />
 </head>
 <body class="winners-page">
   <div class="topbar"><div class="wrap topbar-inner"><div class="topbar-left"><span><span class="live-dot soon-dot"></span> <span data-topbar-label>Gaviom launches in</span> <span data-cd="launch" data-cd-format="compact">--</span></span><span class="extra" data-topbar-extra>· Pre-sale open · First draw September 6, 8pm ET</span></div><div><a class="tlink" href="/free-entry.html">Free entry by mail</a> · <a class="tlink" href="/rules.html">Official Rules</a></div></div></div>
@@ -81,7 +72,29 @@
 
   <footer class="footer"><div class="wrap footer-grid"><div class="footer-brand"><div class="brand"><span class="brand-mark" aria-hidden="true">G</span> Gaviom</div><p class="footer-tagline">A new US sweepstakes platform. Winner stories published after each live draw. Operated by Gaviom Inc., a Delaware corporation.</p></div><div class="footer-col"><h4>Play</h4><ul><li><a href="/prizes.html">All sweepstakes</a></li><li><a href="/winners.html">Winners</a></li></ul></div><div class="footer-col"><h4>Company</h4><ul><li></li><li><a href="/how.html">How it works</a></li></ul></div><div class="footer-col"><h4>Legal</h4><ul><li><a href="/rules.html">Official Rules</a></li><li><a href="/free-entry.html">Free entry by mail</a></li></ul></div></div><div class="wrap footer-legal"><span>© 2026 Gaviom Inc.</span><span>18+ · Void where prohibited</span></div><p class="footer-signature">Made in Wilmington, Delaware.</p></footer>
   <div class="sticky-cta" aria-hidden="true"><div class="wrap row"><div class="info"><span class="lbl" data-sticky-label>First draw in</span><span class="val" data-cd="draw" data-cd-format="compact">--</span></div><a class="btn btn-primary btn-lg" href="/prize.html" data-presale-cta data-presale-price="12">Pre-order, from $12</a></div></div>
-  <script src="cart.js"></script>
-  <script src="/app.js"></script>
+  <script defer src="cart.js?v=20260705-perf"></script>
+  <script defer src="/app.js?v=20260705-perf"></script>
+  <script>
+(function () {
+  function loadGA() {
+    if (window.__gaviomGaLoaded) return;
+    window.__gaviomGaLoaded = true;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-SSJ8R41VP4';
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', 'G-SSJ8R41VP4');
+  }
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(loadGA, { timeout: 4000 });
+  } else {
+    window.addEventListener('load', function () { setTimeout(loadGA, 1500); }, { once: true });
+  }
+})();
+</script>
 </body>
 </html>

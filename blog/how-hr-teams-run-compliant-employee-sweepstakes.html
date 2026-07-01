@@ -6,17 +6,6 @@
   <!-- Resource hints: external origins -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://www.googletagmanager.com" />
-  <link rel="preconnect" href="https://www.google-analytics.com" />
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SSJ8R41VP4"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-SSJ8R41VP4');
-  </script>
   <link rel="icon" href="/favicon.ico?v=3" type="image/x-icon" sizes="48x48" />
   <link rel="manifest" href="/site.webmanifest" />
   <meta name="google-site-verification" content="REPLACE_WITH_YOUR_CODE" />
@@ -37,8 +26,9 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"How HR Teams Run Compliant Employee Sweepstakes","description":"A practical overview of AMOE, official rules, tax documentation, and why private employee-only promotions differ from public consumer giveaways.","datePublished":"2026-06-03","dateModified":"2026-06-03","author":{"@type":"Organization","name":"Gaviom Inc.","url":"https://gaviom.com"},"publisher":{"@type":"Organization","name":"Gaviom Inc.","logo":{"@type":"ImageObject","url":"https://gaviom.com/images/cruise-hero.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://gaviom.com/blog/how-hr-teams-run-compliant-employee-sweepstakes.html"},"image":"https://gaviom.com/images/cruise-hero.png"}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can employees pay to enter a company sweepstakes?","acceptedAnswer":{"@type":"Answer","text":"Employer-funded programs typically enroll employees at no cost. If optional paid upgrades exist, US law requires a free alternate method of entry with equal odds in the same pool."}},{"@type":"Question","name":"Do employee sweepstakes need official rules?","acceptedAnswer":{"@type":"Answer","text":"Yes. Written rules covering eligibility, prize value, selection method, and AMOE are standard for lawful US promotions, including closed workforce programs."}}]}</script>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Geist+Mono:wght@400;500&family=Geist:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css" />
-  <link rel="stylesheet" href="/mobile.css" />
+  <link rel="preload" as="style" href="/styles.css?v=20260705-perf" />
+  <link rel="stylesheet" href="/styles.css?v=20260705-perf" />
+  <link rel="stylesheet" href="/mobile.css?v=20260705-perf" />
 </head>
 <body>
   <div class="topbar"><div class="wrap topbar-inner"><div class="topbar-left"><span><span class="live-dot soon-dot"></span> <span data-topbar-label>Gaviom launches in</span> <span data-cd="launch" data-cd-format="compact">--</span></span><span class="extra" data-topbar-extra>· Pre-sale open · First draw September 6, 8pm ET</span></div><div><a class="tlink" href="/free-entry.html">Free entry by mail</a> · <a class="tlink" href="/rules.html">Official Rules</a></div></div></div>
@@ -111,7 +101,29 @@
     </div>
     <div class="wrap footer-legal"><span>© 2026 Gaviom Inc.</span><span>18+ · Void where prohibited</span></div>
   </footer>
-  <script src="/cart.js"></script>
-  <script src="/app.js"></script>
+  <script defer src="/cart.js?v=20260705-perf"></script>
+  <script defer src="/app.js?v=20260705-perf"></script>
+  <script>
+(function () {
+  function loadGA() {
+    if (window.__gaviomGaLoaded) return;
+    window.__gaviomGaLoaded = true;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-SSJ8R41VP4';
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', 'G-SSJ8R41VP4');
+  }
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(loadGA, { timeout: 4000 });
+  } else {
+    window.addEventListener('load', function () { setTimeout(loadGA, 1500); }, { once: true });
+  }
+})();
+</script>
 </body>
 </html>

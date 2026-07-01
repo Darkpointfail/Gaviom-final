@@ -1,23 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SSJ8R41VP4"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
 
-    gtag('config', 'G-SSJ8R41VP4');
-  </script>
 
 
   <meta charset="UTF-8" />
   <!-- Resource hints: external origins -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://www.googletagmanager.com" />
-  <link rel="preconnect" href="https://www.google-analytics.com" />
 
 
 
@@ -30,8 +20,9 @@
   <meta name="description" content="Terms of Service for gaviom.com and Gaviom Inc. sweepstakes. Official Rules control if there is a conflict." />
   <title>Terms of Service, Gaviom</title>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Geist+Mono:wght@400;500&family=Geist:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css" />
-  <link rel="stylesheet" href="/mobile.css" />
+    <link rel="preload" as="style" href="/styles.css?v=20260705-perf" />
+  <link rel="stylesheet" href="/styles.css?v=20260705-perf" />
+  <link rel="stylesheet" href="/mobile.css?v=20260705-perf" />
 </head>
 <body class="rules-page">
   <header class="nav"><div class="wrap nav-inner"><a href="/" class="brand"><span class="brand-mark" aria-hidden="true">G</span> Gaviom</a><nav class="nav-links"><a href="/rules.html">Official Rules</a><a href="/privacy.html">Privacy</a></nav></div></header>
@@ -63,7 +54,29 @@
     </div>
   </main>
   <footer class="footer"><div class="wrap footer-legal"><span>© 2026 Gaviom Inc.</span><a href="/rules.html">Official Rules</a></div></footer>
-  <script src="cart.js"></script>
-  <script src="/app.js"></script>
+  <script defer src="cart.js?v=20260705-perf"></script>
+  <script defer src="/app.js?v=20260705-perf"></script>
+  <script>
+(function () {
+  function loadGA() {
+    if (window.__gaviomGaLoaded) return;
+    window.__gaviomGaLoaded = true;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-SSJ8R41VP4';
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', 'G-SSJ8R41VP4');
+  }
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(loadGA, { timeout: 4000 });
+  } else {
+    window.addEventListener('load', function () { setTimeout(loadGA, 1500); }, { once: true });
+  }
+})();
+</script>
 </body>
 </html>
