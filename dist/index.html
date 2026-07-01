@@ -18,6 +18,7 @@
   <meta name="google-site-verification" content="REPLACE_WITH_YOUR_CODE" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>html { background: #FAF7F2; }</style>
   <meta name="description" content="Real prizes. Live draws. From $7. US sweepstakes with published odds, verified prizes, and weekly TikTok draws." />
   <link rel="canonical" href="https://gaviom.com/" />
   <meta property="og:type" content="website" />
@@ -31,11 +32,11 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&amp;family=Geist+Mono:wght@400&amp;family=Geist:wght@400;500;600&amp;display=swap" />
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&amp;family=Geist+Mono:wght@400&amp;family=Geist:wght@400;500;600&amp;display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
   <noscript><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&amp;family=Geist+Mono:wght@400&amp;family=Geist:wght@400;500;600&amp;display=swap" rel="stylesheet" /></noscript>
-  <link rel="preload" as="video" href="/images/hero-ocean-720.mp4" type="video/mp4" media="(min-width: 769px)" />
-  <link rel="preload" as="image" href="/images/home-hero-mobile.webp" type="image/webp" media="(max-width: 768px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="/images/home-hero-desktop.webp" type="image/webp" media="(min-width: 769px)" fetchpriority="high" />
-  <link rel="stylesheet" href="/styles.css?v=20260702-countdown" />
-  <link rel="stylesheet" href="/mobile.css?v=20260703-mobile" />
+  <link rel="preload" as="image" href="/images/home-hero-mobile.webp?v=beach" type="image/webp" media="(max-width: 768px)" fetchpriority="high" />
+  <link rel="preload" as="image" href="/images/home-hero-desktop.webp?v=beach" type="image/webp" media="(min-width: 769px)" fetchpriority="high" />
+  <link rel="prefetch" href="/prizes.html" />
+  <link rel="stylesheet" href="/styles.css?v=20260704-countdown" />
+  <link rel="stylesheet" href="/mobile.css?v=20260704-countdown" />
 </head>
 <body>
   <div class="topbar">
@@ -72,51 +73,19 @@
   </header>
 
   <main>
-    <section class="hero-home hero-home--video hero-home--video-pending">
+    <section class="hero-home hero-home--video hero-home--video-fallback">
       <img
         class="hero-home__lcp"
-        src="/images/home-hero-mobile.webp"
-        srcset="/images/home-hero-mobile.webp 800w, /images/home-hero-desktop.webp 1600w"
+        src="/images/home-hero-mobile.webp?v=beach"
+        srcset="/images/home-hero-mobile.webp?v=beach 686w, /images/home-hero-desktop.webp?v=beach 1600w"
         sizes="(max-width: 768px) 100vw, 100vw"
         width="1600"
         height="893"
         fetchpriority="high"
         decoding="async"
-        alt="Win seven nights aboard the MSC Magnifica"
+        alt="Tropical beach with turquoise water and palm trees"
       />
-      <div class="hero-home__video" aria-hidden="true" data-hero-video>
-        <video class="hero-home__clip is-active" autoplay muted loop playsinline preload="none" disablePictureInPicture>
-          <source src="/images/hero-ocean-720.mp4" type="video/mp4" media="(min-width: 769px)" />
-        </video>
-      </div>
       <div class="hero-overlay" aria-hidden="true"></div>
-      <script>
-        (function () {
-          var section = document.querySelector('.hero-home--video');
-          var video = document.querySelector('.hero-home__clip');
-          if (!section || !video || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-          if (window.matchMedia('(max-width: 768px)').matches) return;
-
-          function markReady() {
-            section.classList.add('hero-home--video-ready', 'hero-home--video-live');
-            section.classList.remove('hero-home--video-pending', 'hero-home--video-fallback');
-          }
-
-          function tryPlay() {
-            video.muted = true;
-            var playPromise = video.play();
-            if (playPromise && typeof playPromise.then === 'function') {
-              playPromise.then(markReady).catch(function () {});
-            } else {
-              markReady();
-            }
-          }
-
-          video.addEventListener('loadeddata', tryPlay, { once: true });
-          video.addEventListener('playing', markReady, { once: true });
-          tryPlay();
-        }());
-      </script>
       <div class="wrap hero-home__content">
         <div class="hero-grid">
         <div class="hero-text hero-home__copy">
@@ -295,7 +264,7 @@
   </div>
 
   <script src="cart.js"></script>
-  <script src="/app.js?v=20260702-countdown"></script>
+  <script src="/app.js?v=20260704-beach"></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-SSJ8R41VP4"></script>
   <script>
     window.dataLayer = window.dataLayer || [];

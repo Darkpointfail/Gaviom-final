@@ -1288,6 +1288,20 @@
           return;
         }
 
+        if (section.hasAttribute('data-hero-video-boot')) {
+          if (section.classList.contains('hero-home--video-live')) {
+            videoOk = true;
+            playClip().catch(function () {});
+            return;
+          }
+          if (!fallbackTimer) {
+            fallbackTimer = setTimeout(() => {
+              if (!videoOk) markVideoFallback();
+            }, 3500);
+          }
+          return;
+        }
+
         if (reducedMotion || !video) {
           markVideoFallback();
           return;
@@ -1304,8 +1318,7 @@
         if (canUseVideo()) {
           video.classList.add('is-active');
           playClip().then((ok) => {
-            if (ok && canUseVideo()) markVideoReady();
-            else if (!videoOk) markVideoFallback();
+            if (!ok && !videoOk) markVideoFallback();
           });
           return;
         }
@@ -1319,8 +1332,7 @@
         }, 3500);
 
         playClip().then((ok) => {
-          if (ok && canUseVideo()) markVideoReady();
-          else if (!ok && !videoOk) markVideoFallback();
+          if (!ok && !videoOk) markVideoFallback();
         });
       }
 
@@ -1330,25 +1342,18 @@
         if (video) {
           if (section.classList.contains('hero-home--video-live')) {
             videoOk = true;
-          } else {
+          } else if (!isMobileHero && !section.hasAttribute('data-hero-video-boot') && video.readyState === 0) {
+            video.preload = 'auto';
             video.load();
           }
           video.addEventListener('playing', () => {
             if (video.videoWidth > 0) markVideoReady();
           });
           video.addEventListener('loadeddata', () => {
-            if (canUseVideo()) {
-              playClip().then((ok) => {
-                if (ok) markVideoReady();
-              });
-            }
+            if (canUseVideo() && !videoOk) playClip();
           });
           video.addEventListener('canplay', () => {
-            if (canUseVideo() && !videoOk) {
-              playClip().then((ok) => {
-                if (ok) markVideoReady();
-              });
-            }
+            if (canUseVideo() && !videoOk) playClip();
           });
           video.addEventListener('error', () => {
             if (!videoOk) markVideoFallback();

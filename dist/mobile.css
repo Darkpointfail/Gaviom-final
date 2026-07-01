@@ -716,6 +716,11 @@ body.nav-open .nav-menu-icon::after {
   .countdown-blocks--premium .countdown-unit {
     font-size: 8px;
     letter-spacing: 0.12em;
+    color: color-mix(in oklab, var(--gold-dark) 75%, var(--ink));
+  }
+
+  .hero-home--video .countdown-blocks--premium .countdown-unit {
+    color: color-mix(in oklab, var(--gold) 90%, var(--paper));
   }
 
   .countdown-sep-colon {
@@ -1576,6 +1581,62 @@ body.nav-open .nav-menu-icon::after {
 
   body.prizes-page [data-sweep-wrap="04"] .sweep-panel__media img {
     object-position: center 38%;
+  }
+
+  body.prizes-page--mag .sweep-filters {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  body.prizes-page--mag .sweep-masthead__head {
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+  }
+
+  body.prizes-page--mag .sweep-hero__copy {
+    margin-bottom: 16px;
+  }
+
+  body.prizes-page--mag .sweep-masthead__stats {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    width: 100%;
+    border-radius: var(--r-md);
+  }
+
+  body.prizes-page--mag .sweep-hero__stats > div {
+    padding: 10px 8px !important;
+    border-left: 1px solid var(--mag-rule, var(--line));
+  }
+
+  body.prizes-page--mag .sweep-hero__stats > div:first-child {
+    border-left: none;
+  }
+
+  body.prizes-page--mag .sweep-filters .chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+
+  body.prizes-page--mag .sweep-panel__veil,
+  body.prizes-page--mag .sweep-panel__veil--grand {
+    background: linear-gradient(
+      to top,
+      color-mix(in oklab, var(--mag-ink, #070d14) 96%, transparent) 0%,
+      color-mix(in oklab, var(--mag-ink, #070d14) 55%, transparent) 24%,
+      color-mix(in oklab, var(--mag-ink, #070d14) 10%, transparent) 46%,
+      transparent 58%
+    ) !important;
+  }
+
+  body.prizes-page--mag .sweep-panel__content {
+    max-width: none;
+  }
+
+  body.prizes-page--mag .sweep-panel__detail-link {
+    padding: 8px 0;
   }
 }
 
