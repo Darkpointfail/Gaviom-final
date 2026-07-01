@@ -123,7 +123,7 @@ ${headBlock({ title, description, path, type, article })}
 ${googleFontsStylesheetLink(GOOGLE_FONTS_STANDARD)}
   <link rel="preload" as="style" href="/styles.css?v=20260705-perf" />
   <link rel="stylesheet" href="/styles.css?v=20260705-perf" />
-  <link rel="stylesheet" href="/mobile.css?v=20260705-perf" />
+  <link rel="stylesheet" href="/mobile.css?v=20260705-perf" media="screen and (max-width: 1024px)" />
 </head>
 <body>
 ${topbar()}

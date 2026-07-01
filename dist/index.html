@@ -9,8 +9,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
 
-
-
   <link rel="icon" href="/favicon.ico?v=3" type="image/x-icon" sizes="48x48" />
   <link rel="manifest" href="/site.webmanifest" />
   <meta name="google-site-verification" content="REPLACE_WITH_YOUR_CODE" />
@@ -30,11 +28,12 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&amp;family=Geist+Mono:wght@400&amp;family=Geist:wght@400;500;600&amp;display=swap" />
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&amp;family=Geist+Mono:wght@400&amp;family=Geist:wght@400;500;600&amp;display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
   <noscript><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&amp;family=Geist+Mono:wght@400&amp;family=Geist:wght@400;500;600&amp;display=swap" rel="stylesheet" /></noscript>
-  <link rel="preload" as="image" href="/images/home-hero-mobile.webp?v=beach" type="image/webp" media="(max-width: 768px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="/images/home-hero-desktop.webp?v=beach" type="image/webp" media="(min-width: 769px)" fetchpriority="high" />
-<link rel="preload" as="style" href="/styles.css?v=20260705-perf" />
+  <link rel="preload" as="image" href="/images/home-hero-mobile.avif?v=lcp20260701" type="image/avif" media="(max-width: 768px)" fetchpriority="high" />
+  <link rel="preload" as="image" href="/images/home-hero-mobile.webp?v=lcp20260701" type="image/webp" media="(max-width: 768px)" fetchpriority="high" />
+  <link rel="preload" as="image" href="/images/home-hero-desktop.avif?v=lcp20260701" type="image/avif" media="(min-width: 769px)" fetchpriority="high" />
+  <link rel="preload" as="image" href="/images/home-hero-desktop.webp?v=lcp20260701" type="image/webp" media="(min-width: 769px)" fetchpriority="high" /><link rel="preload" as="style" href="/styles.css?v=20260705-perf" />
   <link rel="stylesheet" href="/styles.css?v=20260705-perf" />
-  <link rel="stylesheet" href="/mobile.css?v=20260705-perf" />
+  <link rel="stylesheet" href="/mobile.css?v=20260705-perf" media="screen and (max-width: 1024px)" />
 </head>
 <body>
   <div class="topbar">
@@ -53,7 +52,7 @@
 
   <header class="nav">
     <div class="wrap nav-inner">
-      <a href="/" class="brand" aria-label="Gaviom home" data-brand-logo="1"><img class="brand-logo" src="/images/gaviom-logo.webp" alt="" width="120" height="93" decoding="async" /></a>
+      <a href="/" class="brand" aria-label="Gaviom home" data-brand-logo="1"><img class="brand-logo" src="/images/gaviom-logo-110w.webp" srcset="/images/gaviom-logo-110w.webp 110w, /images/gaviom-logo.webp 453w" sizes="120px" alt="" width="120" height="93" decoding="async" /></a>
       <nav class="nav-links">
         <a href="/" class="active">Home</a>
         <a href="/prizes.html">Sweepstakes</a>
@@ -73,11 +72,13 @@
   <main>
     <section class="hero-home hero-home--video hero-home--video-fallback">
       <picture>
-        <source media="(max-width: 768px)" srcset="/images/home-hero-mobile.webp?v=beach" type="image/webp" />
-        <source media="(min-width: 769px)" srcset="/images/home-hero-desktop.webp?v=beach" type="image/webp" />
+        <source media="(max-width: 768px)" srcset="/images/home-hero-mobile.avif?v=lcp20260701" type="image/avif" />
+        <source media="(min-width: 769px)" srcset="/images/home-hero-desktop.avif?v=lcp20260701" type="image/avif" />
+        <source media="(max-width: 768px)" srcset="/images/home-hero-mobile.webp?v=lcp20260701" type="image/webp" />
+        <source media="(min-width: 769px)" srcset="/images/home-hero-desktop.webp?v=lcp20260701" type="image/webp" />
         <img
           class="hero-home__lcp"
-          src="/images/home-hero-desktop.webp?v=beach"
+          src="/images/home-hero-desktop.webp?v=lcp20260701"
           width="1600"
           height="893"
           fetchpriority="high"
@@ -112,7 +113,7 @@
         </div>
         <a href="/prize.html" class="spotlight">
           <div class="spotlight-img">
-            <div class="prize-photo-wrap"><img class="prize-photo" src="/images/cruise-hero-800w.webp" srcset="/images/cruise-hero-480w.webp 480w, /images/cruise-hero-800w.webp 800w" sizes="(max-width: 900px) 100vw, 420px" alt="Cruise ship at sea, golden hour" loading="lazy" decoding="async" /></div>
+            <div class="prize-photo-wrap"><img class="prize-photo" src="/images/cruise-hero-400w.webp" srcset="/images/cruise-hero-400w.webp 400w, /images/cruise-hero-800w.webp 800w" sizes="(max-width: 900px) 100vw, 420px" alt="Cruise ship at sea, golden hour" loading="lazy" decoding="async" /></div>
           </div>
           <div class="spotlight-body">
             <div style="display:flex;gap:8px;margin-bottom:8px;">
@@ -159,7 +160,7 @@
         <div class="grid-3">
           <a href="/prize-diving.html" class="prize-card">
             <div class="prize-card-img">
-              <div class="prize-photo-wrap"><img class="prize-photo" src="/images/diving-turtle.webp" alt="Crystal-clear water, Riviera Maya" loading="lazy" /></div>
+              <div class="prize-photo-wrap"><img class="prize-photo" src="/images/diving-turtle-450w.webp" srcset="/images/diving-turtle-450w.webp 450w, /images/diving-turtle-800w.webp 800w" sizes="(max-width: 768px) 100vw, 425px" width="450" height="300" alt="Crystal-clear water, Riviera Maya" loading="lazy" decoding="async" /></div>
               <div class="prize-card-badges"><span class="badge badge-launch">Early odds</span></div>
             </div>
             <div class="prize-card-body">
@@ -176,7 +177,7 @@
           </a>
           <a href="/prize-vegas.html" class="prize-card">
             <div class="prize-card-img">
-              <div class="prize-photo-wrap"><img class="prize-photo" src="/images/vegas-quote-hero-800w.webp" srcset="/images/vegas-strip-mobile-480w.webp 480w, /images/vegas-quote-hero-800w.webp 800w, /images/vegas-quote-hero.webp 1024w" sizes="(max-width: 768px) 100vw, 900px" width="1024" height="686" alt="Las Vegas at night" loading="lazy" decoding="async" /></div>
+              <div class="prize-photo-wrap"><img class="prize-photo" src="/images/vegas-quote-hero-450w.webp" srcset="/images/vegas-quote-hero-450w.webp 450w, /images/vegas-quote-hero-800w.webp 800w" sizes="(max-width: 768px) 100vw, 425px" width="450" height="300" alt="Las Vegas at night" loading="lazy" decoding="async" /></div>
               <div class="prize-card-badges"><span class="badge badge-launch">Early odds</span></div>
             </div>
             <div class="prize-card-body">
@@ -193,7 +194,7 @@
           </a>
           <a href="/prize-iphone.html" class="prize-card">
             <div class="prize-card-img">
-              <div class="prize-photo-wrap"><img class="prize-photo" src="/images/iphone-hero.webp" alt="iPhone 17 Pro Max" loading="lazy" /></div>
+              <div class="prize-photo-wrap"><img class="prize-photo" src="/images/iphone-hero-550w.webp" srcset="/images/iphone-hero-550w.webp 550w, /images/iphone-hero-800w.webp 800w" sizes="(max-width: 768px) 100vw, 425px" width="550" height="300" alt="iPhone 17 Pro Max" loading="lazy" decoding="async" /></div>
             </div>
             <div class="prize-card-body">
               <div class="prize-card-cat">Tech</div>
@@ -213,7 +214,7 @@
     </section>
 
     <section class="full-bleed-quote full-bleed-quote--villa" aria-label="Gaviom sweepstakes platform">
-      <div class="full-bleed-quote__media full-bleed-quote__photo" style="background-image:url('/images/home-eight-oclock-villa.webp')"></div>
+      <div class="full-bleed-quote__media full-bleed-quote__photo" style="background-image:url('/images/home-eight-oclock-villa.webp?v=lcp20260701')"></div>
       <div class="full-bleed-quote__overlay">
         <p class="full-bleed-quote__text">A new way to win: published odds, verified prizes, live draws.</p>
         <p class="full-bleed-quote__cap">Gaviom · US sweepstakes · Founding draw September 6, 8pm ET</p>
@@ -239,7 +240,7 @@
   <footer class="footer">
     <div class="wrap footer-grid">
       <div class="footer-brand">
-        <a href="/" class="brand" aria-label="Gaviom home" data-brand-logo="1"><img class="brand-logo brand-logo--footer" src="/images/gaviom-logo.webp" alt="" width="140" height="108" decoding="async" /></a>
+        <a href="/" class="brand" aria-label="Gaviom home" data-brand-logo="1"><img class="brand-logo brand-logo--footer" src="/images/gaviom-logo-110w.webp" srcset="/images/gaviom-logo-110w.webp 110w, /images/gaviom-logo.webp 453w" sizes="140px" alt="" width="140" height="108" decoding="async" /></a>
         <p class="footer-tagline">A new US sweepstakes platform. Curated prizes, transparent odds, live draws from day one. Operated by Gaviom Inc., a Delaware corporation.</p>
       </div>
       <div class="footer-col"><h4>Play</h4><ul><li><a href="/prizes.html">All sweepstakes</a></li><li><a href="/prize.html">Grand prize</a></li><li><a href="/winners.html">Winners</a></li><li><a href="#">My entries</a></li></ul></div>

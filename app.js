@@ -1141,7 +1141,8 @@
     }
 
     function initBrandLogo() {
-      const LOGO_SRC = '/images/gaviom-logo.webp';
+      const LOGO_SRC = '/images/gaviom-logo-110w.webp';
+      const LOGO_SRCSET = '/images/gaviom-logo-110w.webp 110w, /images/gaviom-logo.webp 453w';
       const MARK_SRC = '/images/gaviom-mark.webp';
 
       function stripBrandText(el) {
@@ -1155,6 +1156,10 @@
         const img = document.createElement('img');
         img.className = className;
         img.src = src;
+        img.srcset = LOGO_SRCSET;
+        img.sizes = '120px';
+        img.width = 120;
+        img.height = 93;
         img.alt = '';
         img.decoding = 'async';
         img.loading = 'eager';
@@ -1589,11 +1594,6 @@
     }
 
     function boot() {
-      tickCountdown();
-      if (!window.__gaviomCdInterval) {
-        /* 1s tick — avoids extra layout work from sub-second updates */
-        window.__gaviomCdInterval = setInterval(tickCountdown, 1000);
-      }
       const run = (fn) => {
         try {
           fn();
@@ -1601,27 +1601,39 @@
           console.error('[Gaviom]', err);
         }
       };
-      run(initButtonShine);
+      function scheduleIdle(fn) {
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(() => run(fn), { timeout: 2500 });
+        } else {
+          setTimeout(() => run(fn), 16);
+        }
+      }
+
+      tickCountdown();
+      if (!window.__gaviomCdInterval) {
+        window.__gaviomCdInterval = setInterval(tickCountdown, 1000);
+      }
       run(initBrandLogo);
       run(initBrandHome);
       run(initNavScroll);
-      run(initSweepParallax);
-      run(initCorporateDemo);
-      run(initMemCard);
-      run(initTouchPressFeedback);
-      run(initHeroDreamVideo);
       run(initStickyCta);
       run(initMobileNav);
-      run(setupBundleSelector);
       run(initLiveCounters);
       run(initProgress);
-      run(initChips);
-      run(initThumbs);
-      run(initPlaceholders);
-      run(initGallery);
-      run(initCheckoutPrize);
-      run(initCheckoutPayMethods);
-      run(initCheckoutForm);
+      scheduleIdle(initButtonShine);
+      scheduleIdle(initSweepParallax);
+      scheduleIdle(initCorporateDemo);
+      scheduleIdle(initMemCard);
+      scheduleIdle(initTouchPressFeedback);
+      scheduleIdle(initHeroDreamVideo);
+      scheduleIdle(setupBundleSelector);
+      scheduleIdle(initChips);
+      scheduleIdle(initThumbs);
+      scheduleIdle(initPlaceholders);
+      scheduleIdle(initGallery);
+      scheduleIdle(initCheckoutPrize);
+      scheduleIdle(initCheckoutPayMethods);
+      scheduleIdle(initCheckoutForm);
     }
 
   if (document.readyState === 'loading') {

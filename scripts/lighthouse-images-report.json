@@ -1,0 +1,75 @@
+{
+  "generatedAt": "2026-07-01T16:05:53.196Z",
+  "items": [
+    {
+      "label": "home-hero-desktop.webp",
+      "before": 101784,
+      "after": 99364,
+      "saved": 2420,
+      "file": "images/home-hero-desktop.webp"
+    },
+    {
+      "label": "home-hero-desktop.avif",
+      "before": 74986,
+      "after": 73414,
+      "saved": 1572,
+      "file": "images/home-hero-desktop.avif"
+    },
+    {
+      "label": "home-hero-mobile.webp",
+      "before": 64532,
+      "after": 63416,
+      "saved": 1116,
+      "file": "images/home-hero-mobile.webp"
+    },
+    {
+      "label": "home-hero-mobile.avif",
+      "before": 51685,
+      "after": 53116,
+      "saved": -1431,
+      "file": "images/home-hero-mobile.avif"
+    },
+    {
+      "label": "diving-turtle-450w.webp",
+      "before": 28366,
+      "after": 28366,
+      "saved": 0,
+      "file": "images/diving-turtle-450w.webp"
+    },
+    {
+      "label": "vegas-quote-hero-450w.webp",
+      "before": 36116,
+      "after": 36116,
+      "saved": 0,
+      "file": "images/vegas-quote-hero-450w.webp"
+    },
+    {
+      "label": "cruise-hero-400w.webp",
+      "before": 20358,
+      "after": 20358,
+      "saved": 0,
+      "file": "images/cruise-hero-400w.webp"
+    },
+    {
+      "label": "iphone-hero-550w.webp",
+      "before": 3272,
+      "after": 3272,
+      "saved": 0,
+      "file": "images/iphone-hero-550w.webp"
+    },
+    {
+      "label": "home-eight-oclock-villa.webp",
+      "before": 244090,
+      "after": 244090,
+      "saved": 0,
+      "file": "images/home-eight-oclock-villa.webp"
+    },
+    {
+      "label": "gaviom-logo-110w.webp",
+      "before": 4932,
+      "after": 4932,
+      "saved": 0,
+      "file": "images/gaviom-logo-110w.webp"
+    }
+  ]
+}

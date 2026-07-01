@@ -734,10 +734,11 @@ ul { list-style: none; }
   border-radius: 50%;
   background: var(--live);
   animation: pulse 1.6s ease-in-out infinite;
+  will-change: transform, opacity;
 }
 @keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 0 oklch(0.55 0.17 28 / 0.45); }
-  50% { box-shadow: 0 0 0 6px oklch(0.55 0.17 28 / 0); }
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.72; }
 }
 
 /* Chips */
@@ -1840,7 +1841,7 @@ a.brand.corp-brand {
   box-shadow: var(--sh-dream), 0 0 0 1px color-mix(in oklab, var(--gold) 22%, transparent);
 }
 .spotlight-img { position: relative; aspect-ratio: 21/9; overflow: hidden; }
-.spotlight-img .prize-photo-wrap { animation: ken-burns 18s ease-in-out infinite alternate; }
+.spotlight-img .prize-photo-wrap { animation: ken-burns 18s ease-in-out infinite alternate; will-change: transform; }
 .spotlight-body { padding: 24px; }
 .spotlight-title { font-family: "Bricolage Grotesque", sans-serif; font-size: clamp(24px, 3vw, 34px); font-weight: 700; letter-spacing: -0.025em; margin: 8px 0 16px; }
 .spotlight-stats {
@@ -2186,7 +2187,7 @@ a.brand.corp-brand {
     radial-gradient(60% 70% at 10% 100%, color-mix(in oklab, var(--sky-soft) 80%, transparent) 0%, transparent 70%),
     linear-gradient(180deg, var(--paper) 0%, color-mix(in oklab, var(--ochre-soft) 25%, var(--paper)) 100%);
 }
-.pd-gallery-main .prize-photo-wrap { animation: ken-burns 18s ease-in-out infinite alternate; }
+.pd-gallery-main .prize-photo-wrap { animation: ken-burns 18s ease-in-out infinite alternate; will-change: transform; }
 .pd-gallery-main > .pd-gallery-main-media {
   position: absolute;
   inset: 0;
@@ -5478,9 +5479,13 @@ body.prizes-page .sweep-stack::before {
 .sweep-panel__spots-bar span {
   display: block;
   height: 100%;
+  width: 100%;
   border-radius: inherit;
   background: var(--action);
-  transition: width 0.6s ease;
+  transform: scaleX(var(--spots-progress, 1));
+  transform-origin: left center;
+  transition: transform 0.6s ease;
+  will-change: transform;
 }
 .sweep-panel-wrap[data-filter-spots="filling"] .sweep-panel__spots-bar span {
   background: var(--ochre);

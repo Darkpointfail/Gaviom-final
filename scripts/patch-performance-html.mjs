@@ -93,25 +93,10 @@ function patchIndexHero(html) {
 
   html = html.replace(/\s*<link rel="prefetch" href="\/prizes\.html"\s*\/?>\s*/g, '\n');
 
-  const oldHero =
-    /<img\s+class="hero-home__lcp"[\s\S]*?alt="Tropical beach with turquoise water and palm trees"\s*\/>/;
-  const newHero = `<picture>
-        <source media="(max-width: 768px)" srcset="/images/home-hero-mobile.webp?v=beach" type="image/webp" />
-        <source media="(min-width: 769px)" srcset="/images/home-hero-desktop.webp?v=beach" type="image/webp" />
-        <img
-          class="hero-home__lcp"
-          src="/images/home-hero-desktop.webp?v=beach"
-          width="1600"
-          height="893"
-          fetchpriority="high"
-          decoding="async"
-          alt="Tropical beach with turquoise water and palm trees"
-        />
-      </picture>`;
-
-  if (oldHero.test(html) && !html.includes('<picture>\n        <source media="(max-width: 768px)" srcset="/images/home-hero-mobile')) {
-    html = html.replace(oldHero, newHero);
-  }
+  html = html.replace(
+    /url\('\/images\/home-eight-oclock-villa\.webp'\)/,
+    "url('/images/home-eight-oclock-villa.webp?v=lcp20260701')"
+  );
 
   return html;
 }

@@ -14,6 +14,12 @@ images/**/*.webp
 !images/vegas-quote-hero-*.webp
 !images/vegas-strip-mobile.webp
 !images/vegas-strip-mobile-*.webp
+!images/**/*.avif
+!images/*-450w.webp
+!images/*-400w.webp
+!images/*-550w.webp
+!images/gaviom-logo-110w.webp
+!images/home-eight-oclock-villa.webp
 
 # Environment variables — never commit secrets
 .env
