@@ -7,6 +7,8 @@ business/.next/
 business/out/
 .npm/
 images/**/*.webp
+!images/home-hero-mobile.webp
+!images/home-hero-desktop.webp
 
 # Environment variables — never commit secrets
 .env
