@@ -58,15 +58,85 @@
     return target;
   }
 
+  const PREMIUM_BLOCK_PARTS = [
+    { key: 'd', label: 'Days' },
+    { key: 'h', label: 'Hours' },
+    { key: 'm', label: 'Mins' },
+    { key: 's', label: 'Secs' },
+  ];
+
+  function renderCountdownMarkup(parts, fmt) {
+    const num = (v) => `<span class="countdown-number">${pad2(v)}</span>`;
+    if (fmt === 'clock') {
+      return `<span class="countdown-clock">${num(parts.h)}<span class="countdown-sep">:</span>${num(parts.m)}<span class="countdown-sep">:</span>${num(parts.s)}</span>`;
+    }
+    if (fmt === 'blocks-premium') {
+      const segments = PREMIUM_BLOCK_PARTS.map((p, i) => {
+        const sep =
+          i > 0
+            ? '<span class="countdown-sep-colon" aria-hidden="true">:</span>'
+            : '';
+        return `${sep}<span class="countdown-segment" data-cd-part="${p.key}"><span class="countdown-number">${pad2(parts[p.key])}</span><span class="countdown-unit">${p.label}</span></span>`;
+      }).join('');
+      return `<span class="countdown-blocks countdown-blocks--premium">${segments}</span>`;
+    }
+    if (fmt === 'blocks') {
+      const seg = (v, unit) =>
+        `<span class="countdown-segment"><span class="countdown-number">${pad2(v)}</span><span class="countdown-unit">${unit}</span></span>`;
+      return `<span class="countdown-blocks">${seg(parts.d, 'days')}${seg(parts.h, 'hrs')}${seg(parts.m, 'min')}${seg(parts.s, 'sec')}</span>`;
+    }
+    if (fmt === 'short') {
+      return `<span class="countdown-inline">${num(parts.d)}<span class="countdown-unit">d</span><span class="countdown-inline__gap" aria-hidden="true"></span>${num(parts.h)}<span class="countdown-unit">h</span><span class="countdown-inline__gap" aria-hidden="true"></span>${num(parts.m)}<span class="countdown-unit">m</span><span class="countdown-inline__gap" aria-hidden="true"></span>${num(parts.s)}<span class="countdown-unit">s</span></span>`;
+    }
+    return `<span class="countdown-inline countdown-inline--compact">${num(parts.d)}<span class="countdown-unit">d</span><span class="countdown-inline__gap" aria-hidden="true"></span>${num(parts.h)}<span class="countdown-unit">h</span><span class="countdown-inline__gap" aria-hidden="true"></span>${num(parts.m)}<span class="countdown-unit">m</span><span class="countdown-inline__gap" aria-hidden="true"></span>${num(parts.s)}<span class="countdown-unit">s</span></span>`;
+  }
+
+  function pulsePremiumSegments(blocks) {
+    const sec = blocks.querySelector('[data-cd-part="s"]');
+    if (!sec) return;
+    sec.classList.remove('countdown-segment--pulse');
+    void sec.offsetWidth;
+    sec.classList.add('countdown-segment--pulse');
+    const colon = sec.previousElementSibling;
+    if (colon && colon.classList.contains('countdown-sep-colon')) {
+      colon.classList.remove('countdown-sep-colon--flash');
+      void colon.offsetWidth;
+      colon.classList.add('countdown-sep-colon--flash');
+    }
+  }
+
+  function applyPremiumBlocks(el, parts) {
+    const blocks = el.querySelector('.countdown-blocks--premium');
+    if (!blocks) {
+      el.innerHTML = renderCountdownMarkup(parts, 'blocks-premium');
+      return;
+    }
+    PREMIUM_BLOCK_PARTS.forEach(({ key }) => {
+      const seg = blocks.querySelector(`[data-cd-part="${key}"]`);
+      if (!seg) return;
+      const numEl = seg.querySelector('.countdown-number');
+      if (!numEl) return;
+      const next = pad2(parts[key]);
+      if (numEl.textContent !== next) {
+        numEl.textContent = next;
+        numEl.classList.remove('countdown-number--change');
+        void numEl.offsetWidth;
+        numEl.classList.add('countdown-number--change');
+      }
+    });
+    pulsePremiumSegments(blocks);
+  }
+
   function applyCountdownEl(el, targetMs) {
     const now = Date.now();
     el.classList.remove('cd-soon');
     const parts = formatCompact(targetMs - now);
     const fmt = el.dataset.cdFormat || 'compact';
-    if (fmt === 'clock') el.textContent = parts.clock;
-    else if (fmt === 'blocks') el.textContent = parts.blocks;
-    else if (fmt === 'short') el.textContent = parts.compact.replace(/ /g, ' ');
-    else el.textContent = parts.compact;
+    if (fmt === 'blocks-premium') {
+      applyPremiumBlocks(el, parts);
+      return;
+    }
+    el.innerHTML = renderCountdownMarkup(parts, fmt);
   }
 
   function initLaunchMode() {
@@ -101,15 +171,19 @@
     const launchParts = formatCompact(Math.max(0, LAUNCH_AT - now));
     document.querySelectorAll('[data-cd="d"]').forEach((el) => {
       el.textContent = pad2(launchParts.d);
+      el.classList.add('countdown-number');
     });
     document.querySelectorAll('[data-cd="h"]').forEach((el) => {
       el.textContent = pad2(launchParts.h);
+      el.classList.add('countdown-number');
     });
     document.querySelectorAll('[data-cd="m"]').forEach((el) => {
       el.textContent = pad2(launchParts.m);
+      el.classList.add('countdown-number');
     });
     document.querySelectorAll('[data-cd="s"]').forEach((el) => {
       el.textContent = pad2(launchParts.s);
+      el.classList.add('countdown-number');
     });
 
     document.querySelectorAll('[data-cd-label="launch"]').forEach((el) => {
@@ -1149,12 +1223,12 @@
     function initHeroDreamVideo() {
       const section = document.querySelector('.hero-home--video');
       const root = document.querySelector('[data-hero-video]');
-      const slideRoot = document.querySelector('[data-hero-slides]');
       if (!section || !root) return;
 
       const video = root.querySelector('.hero-home__clip');
       const content = section.querySelector('.hero-home__content');
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const isMobileHero = window.matchMedia('(max-width: 768px)').matches;
       let videoOk = false;
       let fallbackTimer = null;
 
@@ -1182,7 +1256,6 @@
         if (fallbackTimer) clearTimeout(fallbackTimer);
         section.classList.add('hero-home--video-ready', 'hero-home--video-live');
         section.classList.remove('hero-home--video-fallback', 'hero-home--video-pending');
-        if (slideRoot) slideRoot.hidden = true;
         ensureHeroContentVisible();
       }
 
@@ -1191,9 +1264,6 @@
         if (fallbackTimer) clearTimeout(fallbackTimer);
         section.classList.remove('hero-home--video-ready', 'hero-home--video-live', 'hero-home--video-pending');
         section.classList.add('hero-home--video-fallback');
-        if (slideRoot) {
-          slideRoot.hidden = false;
-        }
         if (video) {
           video.classList.remove('is-active');
           video.pause();
@@ -1208,6 +1278,16 @@
       function startHeroVideo() {
         ensureHeroContentVisible();
 
+        if (isMobileHero) {
+          section.classList.add('hero-home--video-ready');
+          section.classList.remove('hero-home--video-pending', 'hero-home--video-live', 'hero-home--video-fallback');
+          if (video) {
+            video.pause();
+            video.classList.remove('is-active');
+          }
+          return;
+        }
+
         if (reducedMotion || !video) {
           markVideoFallback();
           return;
@@ -1220,7 +1300,6 @@
 
         section.classList.add('hero-home--video-pending');
         section.classList.remove('hero-home--video-fallback');
-        if (slideRoot) slideRoot.hidden = true;
 
         if (canUseVideo()) {
           video.classList.add('is-active');
@@ -1502,6 +1581,7 @@
     function boot() {
       tickCountdown();
       if (!window.__gaviomCdInterval) {
+        /* 1s tick — avoids extra layout work from sub-second updates */
         window.__gaviomCdInterval = setInterval(tickCountdown, 1000);
       }
       const run = (fn) => {

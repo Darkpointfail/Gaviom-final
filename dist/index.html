@@ -1,24 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SSJ8R41VP4"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-SSJ8R41VP4');
-  </script>
 
 
   <meta charset="UTF-8" />
+  <!-- Resource hints: external origins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://www.googletagmanager.com" />
+  <link rel="preconnect" href="https://www.google-analytics.com" />
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+
+
+
+
+
   <link rel="icon" href="/favicon.ico?v=3" type="image/x-icon" sizes="48x48" />
   <link rel="manifest" href="/site.webmanifest" />
   <meta name="google-site-verification" content="REPLACE_WITH_YOUR_CODE" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Real prizes. Live draws. From $7. US sweepstakes with published odds, verified prizes, and weekly TikTok draws." />
+  <link rel="canonical" href="https://gaviom.com/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Gaviom" />
   <meta property="og:title" content="Gaviom, US Sweepstakes Platform" />
@@ -27,34 +30,14 @@
   <meta name="twitter:title" content="Gaviom, US Sweepstakes Platform" />
   <meta name="twitter:description" content="Real prizes. Live draws. From $7." />
   <title>Gaviom, US Sweepstakes Platform</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Geist+Mono:wght@400;500&family=Geist:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&amp;family=Geist+Mono:wght@400&amp;family=Geist:wght@400;500;600&amp;display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&amp;family=Geist+Mono:wght@400&amp;family=Geist:wght@400;500;600&amp;display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&amp;family=Geist+Mono:wght@400&amp;family=Geist:wght@400;500;600&amp;display=swap" rel="stylesheet" /></noscript>
   <link rel="preload" as="video" href="/images/hero-ocean-720.mp4" type="video/mp4" media="(min-width: 769px)" />
-  <link rel="preload" as="video" href="/images/hero-ocean-360.mp4" type="video/mp4" media="(max-width: 768px)" />
-  <link rel="stylesheet" href="/styles.css?v=20260524-hero-fast" />
-  <link rel="stylesheet" href="/mobile.css?v=20260527-mobile-hero-fix" />
-  <style>
-    @media (max-width: 980px) {
-      .hero-home--video {
-        background-image:
-          linear-gradient(
-            180deg,
-            color-mix(in oklab, var(--paper) 10%, transparent) 0%,
-            color-mix(in oklab, var(--paper) 20%, transparent) 62%,
-            color-mix(in oklab, var(--paper) 30%, transparent) 100%
-          ),
-          url("/images/cruise-mobile-hero.webp?v=20260527b") !important;
-        background-repeat: no-repeat !important;
-        background-size: cover !important;
-        background-position: center 36% !important;
-      }
-
-      .hero-home--video .hero-home__video {
-        display: none !important;
-      }
-    }
-  </style>
+  <link rel="preload" as="image" href="/images/home-hero-mobile.webp" type="image/webp" media="(max-width: 768px)" fetchpriority="high" />
+  <link rel="preload" as="image" href="/images/home-hero-desktop.webp" type="image/webp" media="(min-width: 769px)" fetchpriority="high" />
+  <link rel="stylesheet" href="/styles.css?v=20260702-countdown" />
+  <link rel="stylesheet" href="/mobile.css?v=20260702-countdown" />
 </head>
 <body>
   <div class="topbar">
@@ -92,23 +75,29 @@
 
   <main>
     <section class="hero-home hero-home--video hero-home--video-pending">
+      <img
+        class="hero-home__lcp"
+        src="/images/home-hero-desktop.webp"
+        srcset="/images/home-hero-mobile.webp 800w, /images/home-hero-desktop.webp 1600w"
+        sizes="(max-width: 768px) 100vw, 100vw"
+        width="1600"
+        height="893"
+        fetchpriority="high"
+        decoding="async"
+        alt="Win seven nights aboard the MSC Magnifica"
+      />
       <div class="hero-home__video" aria-hidden="true" data-hero-video>
-        <div class="hero-home__slides" data-hero-slides hidden>
-          <div class="hero-home__slide is-active">
-            <img class="hero-home__slide-img" src="/images/cruise-hero-1280w.webp" srcset="/images/cruise-hero-480w.webp 480w, /images/cruise-hero-800w.webp 800w, /images/cruise-hero-1280w.webp 1280w, /images/cruise-hero-1920w.webp 1920w" sizes="100vw" alt="" width="2400" height="1350" decoding="async" loading="lazy" />
-          </div>
-        </div>
-        <video class="hero-home__clip is-active" autoplay muted loop playsinline preload="auto" disablePictureInPicture>
+        <video class="hero-home__clip is-active" autoplay muted loop playsinline preload="none" disablePictureInPicture>
           <source src="/images/hero-ocean-720.mp4" type="video/mp4" media="(min-width: 769px)" />
-          <source src="/images/hero-ocean-360.mp4" type="video/mp4" />
         </video>
-        <div class="hero-overlay" aria-hidden="true"></div>
       </div>
+      <div class="hero-overlay" aria-hidden="true"></div>
       <script>
         (function () {
           var section = document.querySelector('.hero-home--video');
           var video = document.querySelector('.hero-home__clip');
           if (!section || !video || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+          if (window.matchMedia('(max-width: 768px)').matches) return;
 
           function markReady() {
             section.classList.add('hero-home--video-ready', 'hero-home--video-live');
@@ -131,16 +120,18 @@
         }());
       </script>
       <div class="wrap hero-home__content">
-        <div class="launch-countdown launch-countdown--hero">
-          <p class="launch-countdown__label">Official launch · September 1, 2026</p>
-          <p class="launch-countdown__timer font-mono" data-cd="launch" data-cd-format="blocks">--</p>
-          <p class="launch-countdown__note">Pre-order entries now · First live draw Sunday, September 6 at 8pm ET.</p>
-        </div>
         <div class="hero-grid">
         <div class="hero-text hero-home__copy">
           <div class="hero-eyebrow">
             <span class="bar"></span>
             Launching September 1 · Pre-sale open
+          </div>
+          <div class="launch-countdown launch-countdown--hero launch-countdown--premium">
+            <div class="launch-countdown__panel">
+              <p class="launch-countdown__label">Official launch · September 1, 2026</p>
+              <div class="launch-countdown__timer" data-cd="launch" data-cd-format="blocks-premium" role="timer" aria-live="polite">--</div>
+              <p class="launch-countdown__note">Pre-order entries now · First live draw Sunday, September 6 at 8:00 PM ET.</p>
+            </div>
           </div>
           <p class="hero-supertitle">Real prizes. Live draws. From $7.</p>
           <h1 class="hero-title font-display">
@@ -285,7 +276,7 @@
         <p class="footer-tagline">A new US sweepstakes platform. Curated prizes, transparent odds, live draws from day one. Operated by Gaviom Inc., a Delaware corporation.</p>
       </div>
       <div class="footer-col"><h4>Play</h4><ul><li><a href="/prizes.html">All sweepstakes</a></li><li><a href="/prize.html">Grand prize</a></li><li><a href="/winners.html">Winners</a></li><li><a href="#">My entries</a></li></ul></div>
-      <div class="footer-col"><h4>Company</h4><ul><li></li><li><a href="/how.html">How it works</a></li><li><a href="/business/">For business</a></li><li><a href="#">About</a></li><li><a href="#">Press</a></li><li><a href="#">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Company</h4><ul><li></li><li><a href="/how.html">How it works</a></li><li><a href="/business/">For business</a></li><li><a href="#">About</a></li><li><a href="#">Press</a></li><li><a href="/contact">Contact</a></li></ul></div>
       <div class="footer-col"><h4>Legal</h4><ul><li><a href="/rules.html">Official Rules</a></li><li><a href="/free-entry.html">Free entry by mail</a></li><li><a href="/terms.html">Terms of service</a></li><li><a href="/privacy.html">Privacy policy</a></li></ul></div>
     </div>
     <div class="wrap footer-legal">
@@ -306,6 +297,13 @@
   </div>
 
   <script src="cart.js"></script>
-  <script src="/app.js"></script>
+  <script src="/app.js?v=20260702-countdown"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SSJ8R41VP4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SSJ8R41VP4');
+  </script>
 </body>
 </html>

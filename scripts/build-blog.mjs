@@ -5,6 +5,8 @@ import { POSTS, BLOG_META } from '../content/blog/posts.mjs';
 import { faviconHeadLinks } from './favicon-links.mjs';
 import { TOPBAR_FIRST_DRAW_EXTRA } from './launch-dates.mjs';
 import { googleAnalyticsHead } from './analytics-head.mjs';
+import { preconnectHeadLinks } from './preconnect-head.mjs';
+import { GOOGLE_FONTS_STANDARD, googleFontsStylesheetLink } from './google-fonts-head.mjs';
 import { BLOG_CATEGORIES, CATEGORY_FILTER_KEY, CATEGORY_FILTERS } from '../content/blog/categories.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -58,7 +60,7 @@ function headBlock({ title, description, path, type = 'website', article }) {
     })),
   })}</script>`;
     }
-  } else if (path === '/blog/') {
+  } else if (path === '/blog') {
     jsonLd = `
   <script type="application/ld+json">${JSON.stringify({
     '@context': 'https://schema.org',
@@ -72,6 +74,7 @@ function headBlock({ title, description, path, type = 'website', article }) {
 
   return `  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+${preconnectHeadLinks()}
 ${googleAnalyticsHead()}
 ${faviconHeadLinks()}
   <title>${escapeHtml(title)}</title>
@@ -117,9 +120,7 @@ function layout({ title, description, path, type, article, active, breadcrumbs, 
 <html lang="en">
 <head>
 ${headBlock({ title, description, path, type, article })}
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Geist+Mono:wght@400;500&family=Geist:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet" />
+${googleFontsStylesheetLink(GOOGLE_FONTS_STANDARD)}
   <link rel="stylesheet" href="/styles.css" />
   <link rel="stylesheet" href="/mobile.css" />
 </head>
@@ -230,7 +231,7 @@ function buildIndex() {
   return layout({
     title: 'Gaviom Blog, Travel, Tech, Car & Home Giveaway Guides',
     description: BLOG_META.blogDescription,
-    path: '/blog/',
+    path: '/blog',
     active: 'blog',
     breadcrumbs: `<a href="/">Home</a> <span>/</span> <span class="crumb-current">Blog</span>`,
     main,
@@ -297,7 +298,11 @@ function buildSitemap() {
     '/rules.html',
     '/terms.html',
     '/privacy.html',
-    '/blog/',
+    '/impact.html',
+    '/contact',
+    '/signin.html',
+    '/signup.html',
+    '/blog',
   ];
 
   const urls = [

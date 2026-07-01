@@ -5,6 +5,7 @@ import { PERSONA_POSTS } from './persona-posts.mjs';
 import { SEO_EXPANSION_POSTS } from './seo-expansion-posts.mjs';
 import { SWEEPSTAKES_USA_POSTS } from './sweepstakes-usa-posts.mjs';
 import { HR_BUSINESS_SEO_POSTS } from './hr-business-seo-posts.mjs';
+import { US_CANADA_SEO_POSTS } from './us-canada-seo-posts.mjs';
 
 /** @type {Post[]} */
 export const POSTS = [
@@ -372,11 +373,12 @@ export const POSTS = [
   ...SEO_EXPANSION_POSTS,
   ...SWEEPSTAKES_USA_POSTS,
   ...HR_BUSINESS_SEO_POSTS,
+  ...US_CANADA_SEO_POSTS,
 ];
 
 export const BLOG_META = {
   siteUrl: 'https://gaviom.com',
   blogTitle: 'Gaviom Blog',
   blogDescription:
-    'Sweepstakes guides, travel and tech giveaways, HR engagement insights, and transparency tips from Gaviom, America\'s premium sweepstakes platform.',
+    'Sweepstakes guides for the US and Canada, travel and tech giveaways, HR engagement insights, and transparency tips from Gaviom.',
 };

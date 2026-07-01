@@ -28,6 +28,9 @@ export const metadata: Metadata = {
   title,
   description,
   metadataBase: new URL('https://gaviom.com'),
+  alternates: {
+    canonical: siteUrl,
+  },
   icons: siteIcons,
   manifest: siteManifest,
   openGraph: {
@@ -55,6 +58,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${sora.variable}`}>
+      <head>
+        <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
+      </head>
       <body className="font-sans">
         <QuoteModalProvider>
           <Header />

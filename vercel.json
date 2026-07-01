@@ -69,6 +69,29 @@
   ],
   "redirects": [
     {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.gaviom.com" }],
+      "destination": "https://gaviom.com/:path*",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/index.html",
+      "destination": "/blog",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog",
+      "has": [{ "type": "query", "key": "page" }],
+      "destination": "/blog",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog",
+      "has": [{ "type": "query", "key": "p" }],
+      "destination": "/blog",
+      "statusCode": 301
+    },
+    {
       "source": "/scripts/(.*)",
       "destination": "/404.html",
       "statusCode": 404
@@ -82,6 +105,12 @@
       "source": "/corporate.html",
       "destination": "/business",
       "statusCode": 301
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/contact",
+      "destination": "/contact.html"
     }
   ]
 }
