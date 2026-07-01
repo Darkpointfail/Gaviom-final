@@ -10,6 +10,10 @@ images/**/*.webp
 !images/home-hero-mobile.webp
 !images/home-hero-desktop.webp
 !images/vegas-gallery-*.webp
+!images/vegas-quote-hero.webp
+!images/vegas-quote-hero-*.webp
+!images/vegas-strip-mobile.webp
+!images/vegas-strip-mobile-*.webp
 
 # Environment variables — never commit secrets
 .env
