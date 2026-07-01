@@ -1,15 +1,15 @@
 /**
  * Mobile-only perf patches (desktop render unchanged):
- * - Async styles.css on viewports <=768px; blocking on desktop
- * - Font preload only on desktop (mobile: fonts after first paint)
- * - Hero LCP: sync decode, mobile src fallback, 480w srcset
+ * - Async styles.css + mobile.css on viewports <=768px / <=1024px
+ * - Font preload only on desktop
+ * - Hero LCP: sync decode, 480w src fallback, srcset
  * - Remove blocking cart.js (lazy-loaded from app.js)
  */
 import { readFileSync, writeFileSync, readdirSync, statSync } from 'fs';
 import { join } from 'path';
 
 const root = process.cwd();
-const HERO_V = 'mob20260702';
+const HERO_V = 'mob20260703';
 
 function walk(dir, out = []) {
   for (const name of readdirSync(dir)) {
@@ -41,6 +41,16 @@ function splitStylesheetLoading(html) {
   );
 }
 
+function splitMobileStylesheet(html) {
+  if (html.includes("onload=\"this.media='screen and (max-width:1024px)'\"")) return html;
+
+  return html.replace(
+    /<link rel="stylesheet" href="(\/mobile\.css\?v=[^"]+)" media="screen and \(max-width: 1024px\)"[^>]*\/?>/,
+    `<link rel="stylesheet" href="$1" media="print" onload="this.media='screen and (max-width:1024px)'" />
+  <noscript><link rel="stylesheet" href="$1" media="screen and (max-width: 1024px)" /></noscript>`
+  );
+}
+
 function patchHomeFonts(html) {
   return html.replace(
     /<link rel="preload" as="style" href="(https:\/\/fonts\.googleapis\.com[^"]+)"\s*\/?>/,
@@ -60,9 +70,9 @@ function patchHeroLcp(html) {
         <source media="(min-width: 769px)" srcset="/images/home-hero-desktop.webp?v=${HERO_V}" type="image/webp" />
         <img
           class="hero-home__lcp"
-          src="/images/home-hero-mobile.webp?v=${HERO_V}"
-          width="686"
-          height="1024"
+          src="/images/home-hero-mobile-480w.webp?v=${HERO_V}"
+          width="480"
+          height="716"
           fetchpriority="high"
           decoding="sync"
           alt="Tropical beach with turquoise water and palm trees"
@@ -80,10 +90,11 @@ function patchHeroLcp(html) {
   <link rel="preload" as="image" href="/images/home-hero-desktop.avif?v=${HERO_V}" type="image/avif" media="(min-width: 769px)" fetchpriority="high" />
   <link rel="preload" as="image" href="/images/home-hero-desktop.webp?v=${HERO_V}" type="image/webp" media="(min-width: 769px)" />`;
 
-  html = html.replace(
-    /(<noscript><link href="https:\/\/fonts\.googleapis\.com[^<]+<\/noscript>)\s*/,
-    `$1\n${preloads}\n`
-  );
+  if (html.includes('rel="preload" as="image" href="/images/home-hero-mobile-480w')) {
+    return html;
+  }
+
+  html = html.replace(/(<\/noscript>)(\s*<link rel="preload" as="style" href="\/styles\.css)/, `$1\n${preloads}\n$2`);
 
   return html;
 }
@@ -97,6 +108,7 @@ for (const file of walk(root)) {
   let html = readFileSync(file, 'utf8');
   const original = html;
   html = splitStylesheetLoading(html);
+  html = splitMobileStylesheet(html);
   html = removeCartScript(html);
   if (file === join(root, 'index.html')) {
     html = patchHomeFonts(html);
@@ -108,4 +120,4 @@ for (const file of walk(root)) {
   }
 }
 
-console.log(`patch-mobile-perf-html: ${updated} pages (mobile async CSS, lazy cart, hero v=${HERO_V})`);
+console.log(`patch-mobile-perf-html: ${updated} pages (async CSS, hero v=${HERO_V})`);

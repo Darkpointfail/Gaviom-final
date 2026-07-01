@@ -1579,6 +1579,10 @@ a.brand.corp-brand {
   align-items: center;
   flex-wrap: wrap;
 }
+.hero-home--video.hero-home--video-fallback:has(.hero-home__lcp) {
+  background: var(--navy-deep);
+  background-image: none;
+}
 .hero-home--video.hero-home--video-fallback {
   background:
     url("/images/home-hero-desktop.webp?v=beach") center / cover no-repeat,

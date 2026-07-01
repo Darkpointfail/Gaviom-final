@@ -468,6 +468,30 @@
     targets.forEach((el) => io.observe(el));
   }
 
+  function whenVisible(selector, fn, rootMargin) {
+    const nodes = typeof selector === 'string'
+      ? Array.from(document.querySelectorAll(selector))
+      : [selector].filter(Boolean);
+    if (!nodes.length) return;
+    if (!('IntersectionObserver' in window)) {
+      nodes.forEach((n) => fn(n));
+      return;
+    }
+    const io = new IntersectionObserver((entries, obs) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        obs.unobserve(entry.target);
+        fn(entry.target);
+      });
+    }, { rootMargin: rootMargin || '100px 0px' });
+    nodes.forEach((n) => io.observe(n));
+  }
+
+  function isHomeMobile() {
+    const path = location.pathname.replace(/\/$/, '') || '/';
+    return (path === '' || path === '/index.html') && window.matchMedia('(max-width: 768px)').matches;
+  }
+
   function setupBundleSelector() {
     document.querySelectorAll('[data-bundle-root]').forEach((root) => {
       const opts = root.querySelectorAll('[data-bundle]');
@@ -593,8 +617,11 @@
     }, 3200);
   }
 
-  function initProgress() {
-    document.querySelectorAll('[data-progress]:not([data-progress-dynamic])').forEach((track) => {
+  function initProgress(root) {
+    const tracks = root
+      ? (root.matches?.('[data-progress]') ? [root] : root.querySelectorAll?.('[data-progress]') || [])
+      : document.querySelectorAll('[data-progress]');
+    Array.from(tracks).forEach((track) => {
       const pct = track.getAttribute('data-progress');
       const fill = track.querySelector('i, .progress-fill');
       if (fill && pct) {
@@ -604,7 +631,11 @@
         });
       }
     });
-    document.querySelectorAll('[data-progress-dynamic]').forEach((track) => {
+    const dynamicRoot = root || document;
+    const dynamicTracks = root
+      ? (root.matches?.('[data-progress-dynamic]') ? [root] : [])
+      : dynamicRoot.querySelectorAll('[data-progress-dynamic]');
+    Array.from(dynamicTracks).forEach((track) => {
       const pct = track.getAttribute('data-progress');
       const fill = track.querySelector('i, .progress-fill');
       if (fill && pct) {
@@ -1732,18 +1763,37 @@
         }
       }
 
-      tickCountdown();
-      if (!window.__gaviomCdInterval) {
-        window.__gaviomCdInterval = setInterval(tickCountdown, 1000);
+      const homeMobile = isHomeMobile();
+
+      function startCountdownLoop() {
+        tickCountdown();
+        if (!window.__gaviomCdInterval) {
+          window.__gaviomCdInterval = setInterval(tickCountdown, 1000);
+        }
       }
+
+      if (homeMobile) {
+        scheduleIdle(startCountdownLoop);
+      } else {
+        startCountdownLoop();
+      }
+
       scheduleCartLoad();
       run(initBrandLogo);
       run(initBrandHome);
       run(initNavScroll);
       run(initStickyCta);
       run(initMobileNav);
-      run(initLiveCounters);
-      run(initProgress);
+
+      if (homeMobile) {
+        whenVisible('.spotlight', () => scheduleIdle(initLiveCounters));
+        document.querySelectorAll('[data-progress], [data-progress-dynamic]').forEach((track) => {
+          whenVisible(track, () => initProgress(track));
+        });
+      } else {
+        run(initLiveCounters);
+        run(initProgress);
+      }
       scheduleIdle(initButtonShine);
       scheduleIdle(initDeferredMotion);
       scheduleIdle(initSweepParallax);
