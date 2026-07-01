@@ -84,7 +84,9 @@ function addStylesheetPreload(html) {
 function patchIndexHero(html) {
   if (!html.includes('class="hero-home__lcp"')) return html;
 
-  if (!html.includes('id="critical-home"')) {
+  if (html.includes('id="critical-home"')) {
+    html = html.replace(/<style id="critical-home">[\s\S]*?<\/style>/, criticalHomeStyleTag().trim());
+  } else {
     html = html.replace(
       /<style>html \{ background: #FAF7F2; \}<\/style>/,
       criticalHomeStyleTag()

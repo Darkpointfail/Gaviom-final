@@ -552,6 +552,7 @@ body.nav-open .nav-menu-icon::after {
 
   .hero-home--video .hero-home__lcp {
     object-position: center 36%;
+    filter: none;
   }
 
   .hero-home--video .hero-home__video {
@@ -1536,6 +1537,14 @@ body.nav-open .nav-menu-icon::after {
 }
 
 /* Prizes, free tactile scroll, no snap (phone only) */
+@media (max-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .spotlight-img .prize-photo-wrap:not(.is-animating),
+  .prize-card-img .prize-photo-wrap:not(.is-animating) {
+    animation: none !important;
+    will-change: auto;
+  }
+}
+
 @media (max-width: 768px) {
   html:has(body.prizes-page) {
     scroll-behavior: auto;

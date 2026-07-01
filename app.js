@@ -91,17 +91,35 @@
     return `<span class="countdown-inline countdown-inline--compact">${num(parts.d)}<span class="countdown-unit">d</span><span class="countdown-inline__gap" aria-hidden="true"></span>${num(parts.h)}<span class="countdown-unit">h</span><span class="countdown-inline__gap" aria-hidden="true"></span>${num(parts.m)}<span class="countdown-unit">m</span><span class="countdown-inline__gap" aria-hidden="true"></span>${num(parts.s)}<span class="countdown-unit">s</span></span>`;
   }
 
+  let pendingAnimRetriggers = [];
+  let animRetriggerScheduled = false;
+
+  function retriggerClass(el, className) {
+    if (!el) return;
+    pendingAnimRetriggers.push({ el, className });
+    if (!animRetriggerScheduled) {
+      animRetriggerScheduled = true;
+      requestAnimationFrame(flushAnimRetriggers);
+    }
+  }
+
+  function flushAnimRetriggers() {
+    animRetriggerScheduled = false;
+    const batch = pendingAnimRetriggers;
+    pendingAnimRetriggers = [];
+    if (!batch.length) return;
+    batch.forEach(({ el, className }) => el.classList.remove(className));
+    void document.body.offsetWidth;
+    batch.forEach(({ el, className }) => el.classList.add(className));
+  }
+
   function pulsePremiumSegments(blocks) {
     const sec = blocks.querySelector('[data-cd-part="s"]');
     if (!sec) return;
-    sec.classList.remove('countdown-segment--pulse');
-    void sec.offsetWidth;
-    sec.classList.add('countdown-segment--pulse');
+    retriggerClass(sec, 'countdown-segment--pulse');
     const colon = sec.previousElementSibling;
     if (colon && colon.classList.contains('countdown-sep-colon')) {
-      colon.classList.remove('countdown-sep-colon--flash');
-      void colon.offsetWidth;
-      colon.classList.add('countdown-sep-colon--flash');
+      retriggerClass(colon, 'countdown-sep-colon--flash');
     }
   }
 
@@ -119,9 +137,7 @@
       const next = pad2(parts[key]);
       if (numEl.textContent !== next) {
         numEl.textContent = next;
-        numEl.classList.remove('countdown-number--change');
-        void numEl.offsetWidth;
-        numEl.classList.add('countdown-number--change');
+        retriggerClass(numEl, 'countdown-number--change');
       }
     });
     pulsePremiumSegments(blocks);
@@ -139,68 +155,62 @@
     el.innerHTML = renderCountdownMarkup(parts, fmt);
   }
 
-  function initLaunchMode() {
-    const now = Date.now();
+  let cdCache = null;
+  let cdPhase = { preLaunch: null, preDraw: null };
+
+  function ensureCountdownCache() {
+    if (cdCache) return cdCache;
+    cdCache = {
+      launch: Array.from(document.querySelectorAll('[data-cd="launch"]')),
+      draw: Array.from(document.querySelectorAll('[data-cd="draw"]')),
+      compact: Array.from(document.querySelectorAll('[data-cd="compact"]')),
+      clock: Array.from(document.querySelectorAll('[data-cd="clock"]')),
+      d: Array.from(document.querySelectorAll('[data-cd="d"]')),
+      h: Array.from(document.querySelectorAll('[data-cd="h"]')),
+      m: Array.from(document.querySelectorAll('[data-cd="m"]')),
+      s: Array.from(document.querySelectorAll('[data-cd="s"]')),
+      firstDrawDate: Array.from(document.querySelectorAll('[data-first-draw-date]')),
+      cdLabelLaunch: Array.from(document.querySelectorAll('[data-cd-label="launch"]')),
+      cdLabelDraw: Array.from(document.querySelectorAll('[data-cd-label="draw"]')),
+      statDraw: Array.from(document.querySelectorAll('[data-stat-draw]')),
+      topbarLabel: Array.from(document.querySelectorAll('[data-topbar-label]')),
+      topbarExtra: Array.from(document.querySelectorAll('[data-topbar-extra]')),
+      stickyLabel: Array.from(document.querySelectorAll('[data-sticky-label]')),
+      liveDots: Array.from(document.querySelectorAll('.live-dot')),
+      presaleCtas: Array.from(document.querySelectorAll('[data-presale-cta], [data-entry-cta], [data-sticky-cta], [data-bundle-cta]')),
+      progressLabels: Array.from(document.querySelectorAll('[data-progress-label]')),
+    };
+    cdCache.firstDrawDate.forEach((el) => {
+      el.textContent = el.dataset.firstDrawFormat === 'short' ? FIRST_DRAW_DATE_SHORT : FIRST_DRAW_DATE_LABEL;
+    });
+    return cdCache;
+  }
+
+  function syncLaunchPhase(now) {
     const preLaunch = now < LAUNCH_AT;
     const preDraw = now < FIRST_DRAW_AT;
+    if (cdPhase.preLaunch === preLaunch && cdPhase.preDraw === preDraw) return;
+
+    cdPhase = { preLaunch, preDraw };
+    const c = ensureCountdownCache();
+
     document.body.classList.toggle('gv-prelaunch', preLaunch);
     document.body.classList.toggle('gv-predraw', preDraw);
 
-    document.querySelectorAll('[data-cd="launch"]').forEach((el) => {
-      applyCountdownEl(el, LAUNCH_AT);
-    });
-
-    document.querySelectorAll('[data-cd="draw"]').forEach((el) => {
-      applyCountdownEl(el, getDrawTarget());
-    });
-
-    document.querySelectorAll('[data-cd="compact"]').forEach((el) => {
-      const scope = el.dataset.cdScope || (preLaunch ? 'launch' : 'draw');
-      if (scope === 'launch') applyCountdownEl(el, LAUNCH_AT);
-      else applyCountdownEl(el, getDrawTarget());
-    });
-
-    document.querySelectorAll('[data-cd="clock"]').forEach((el) => {
-      applyCountdownEl(el, getDrawTarget());
-    });
-
-    document.querySelectorAll('[data-first-draw-date]').forEach((el) => {
-      el.textContent = el.dataset.firstDrawFormat === 'short' ? FIRST_DRAW_DATE_SHORT : FIRST_DRAW_DATE_LABEL;
-    });
-
-    const launchParts = formatCompact(Math.max(0, LAUNCH_AT - now));
-    document.querySelectorAll('[data-cd="d"]').forEach((el) => {
-      el.textContent = pad2(launchParts.d);
-      el.classList.add('countdown-number');
-    });
-    document.querySelectorAll('[data-cd="h"]').forEach((el) => {
-      el.textContent = pad2(launchParts.h);
-      el.classList.add('countdown-number');
-    });
-    document.querySelectorAll('[data-cd="m"]').forEach((el) => {
-      el.textContent = pad2(launchParts.m);
-      el.classList.add('countdown-number');
-    });
-    document.querySelectorAll('[data-cd="s"]').forEach((el) => {
-      el.textContent = pad2(launchParts.s);
-      el.classList.add('countdown-number');
-    });
-
-    document.querySelectorAll('[data-cd-label="launch"]').forEach((el) => {
+    c.cdLabelLaunch.forEach((el) => {
       el.textContent = preLaunch ? 'Gaviom launches in' : 'Next launch milestone';
     });
-    document.querySelectorAll('[data-cd-label="draw"]').forEach((el) => {
+    c.cdLabelDraw.forEach((el) => {
       if (preDraw) {
         el.textContent = el.dataset.cdLabelPredraw || 'First draw';
       } else {
         el.textContent = el.dataset.cdLabelLive || 'Closes in';
       }
     });
-    document.querySelectorAll('[data-stat-draw]').forEach((el) => {
+    c.statDraw.forEach((el) => {
       el.textContent = preDraw ? FIRST_DRAW_DATE_SHORT : el.dataset.statLive || 'Live';
     });
-
-    document.querySelectorAll('[data-topbar-label]').forEach((el) => {
+    c.topbarLabel.forEach((el) => {
       const prize = el.dataset.topbarPrize;
       if (preLaunch) el.textContent = 'Gaviom launches in';
       else if (preDraw) {
@@ -209,43 +219,77 @@
         el.textContent = prize ? `${prize} closes in` : 'Grand Sweepstakes closes in';
       }
     });
-
-    document.querySelectorAll('[data-topbar-extra]').forEach((el) => {
+    c.topbarExtra.forEach((el) => {
       el.textContent = preLaunch || preDraw
         ? '· Pre-sale open · First draw September 6, 8pm ET'
         : '· Drawn live every Sunday, 8pm ET';
     });
-
-    document.querySelectorAll('[data-sticky-label]').forEach((el) => {
+    c.stickyLabel.forEach((el) => {
       const prize = el.dataset.stickyPrize;
       if (preLaunch) el.textContent = 'Pre-sale · launches in';
       else if (preDraw) el.textContent = prize ? `${prize} · first draw in` : 'First draw in';
       else el.textContent = prize ? `${prize} closes in` : 'Grand Sweepstakes closes in';
     });
-
-    document.querySelectorAll('.live-dot').forEach((dot) => {
+    c.liveDots.forEach((dot) => {
       const wrap = dot.closest('.badge-live, .topbar-left > span');
-      if (preDraw && wrap) {
-        dot.classList.add('soon-dot');
-      } else {
-        dot.classList.remove('soon-dot');
-      }
+      if (preDraw && wrap) dot.classList.add('soon-dot');
+      else dot.classList.remove('soon-dot');
     });
-
-    document.querySelectorAll('[data-presale-cta], [data-entry-cta], [data-sticky-cta], [data-bundle-cta]').forEach((el) => {
+    c.presaleCtas.forEach((el) => {
       if (el.hasAttribute('data-cart-add') && el.hasAttribute('data-bundle-cta')) return;
       if (preLaunch) {
         el.textContent = el.dataset.presaleLabel || PRESALE_CTA_LABEL;
       }
     });
-
-    document.querySelectorAll('[data-progress-label]').forEach((el) => {
+    c.progressLabels.forEach((el) => {
       el.textContent = preLaunch ? 'Pre-sale entries reserved' : 'Entries received';
     });
   }
 
+  function tickCountdownTimers(now) {
+    const c = ensureCountdownCache();
+    const preLaunch = now < LAUNCH_AT;
+
+    c.launch.forEach((el) => applyCountdownEl(el, LAUNCH_AT));
+    c.draw.forEach((el) => applyCountdownEl(el, getDrawTarget()));
+    c.compact.forEach((el) => {
+      const scope = el.dataset.cdScope || (preLaunch ? 'launch' : 'draw');
+      if (scope === 'launch') applyCountdownEl(el, LAUNCH_AT);
+      else applyCountdownEl(el, getDrawTarget());
+    });
+    c.clock.forEach((el) => applyCountdownEl(el, getDrawTarget()));
+
+    const launchParts = formatCompact(Math.max(0, LAUNCH_AT - now));
+    c.d.forEach((el) => {
+      el.textContent = pad2(launchParts.d);
+      el.classList.add('countdown-number');
+    });
+    c.h.forEach((el) => {
+      el.textContent = pad2(launchParts.h);
+      el.classList.add('countdown-number');
+    });
+    c.m.forEach((el) => {
+      el.textContent = pad2(launchParts.m);
+      el.classList.add('countdown-number');
+    });
+    c.s.forEach((el) => {
+      el.textContent = pad2(launchParts.s);
+      el.classList.add('countdown-number');
+    });
+  }
+
+  function initLaunchMode() {
+    const now = Date.now();
+    ensureCountdownCache();
+    syncLaunchPhase(now);
+    tickCountdownTimers(now);
+  }
+
   function tickCountdown() {
-    initLaunchMode();
+    if (document.hidden) return;
+    const now = Date.now();
+    syncLaunchPhase(now);
+    tickCountdownTimers(now);
   }
 
   function initStickyCta() {
@@ -253,7 +297,10 @@
     const footer = document.querySelector('.footer');
     if (!bar) return;
 
+    let ticking = false;
+
     function update() {
+      ticking = false;
       const y = window.scrollY;
       let show = y > 520;
       if (footer) {
@@ -265,7 +312,13 @@
       document.body.classList.toggle('has-sticky-cta', show);
     }
 
-    window.addEventListener('scroll', update, { passive: true });
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
     update();
   }
 
@@ -346,6 +399,73 @@
         if (!mq.matches) setOpen(false);
       });
     });
+  }
+
+  function cartScriptSrc() {
+    const appEl = document.querySelector('script[src*="app.js"]');
+    const isBlog = location.pathname.startsWith('/blog/');
+    const base = isBlog ? '/cart.js' : 'cart.js';
+    if (appEl && appEl.src) {
+      const match = appEl.src.match(/(\?v=[^#]+)/);
+      if (match) return base + match[1];
+    }
+    return base;
+  }
+
+  let cartLoadPromise = null;
+
+  function ensureCartScript() {
+    if (window.GaviomCart) return Promise.resolve(window.GaviomCart);
+    if (cartLoadPromise) return cartLoadPromise;
+    cartLoadPromise = new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = cartScriptSrc();
+      s.defer = true;
+      s.onload = () => resolve(window.GaviomCart);
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+    return cartLoadPromise;
+  }
+
+  function scheduleCartLoad() {
+    if (/checkout\.html/i.test(location.pathname)) {
+      ensureCartScript();
+      return;
+    }
+    if (!document.querySelector('[data-cart-add],[data-cart-open],[data-cart-checkout-lines]')) return;
+
+    function warm() {
+      ensureCartScript();
+    }
+    document.addEventListener('pointerdown', warm, { once: true, capture: true, passive: true });
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(warm, { timeout: 4500 });
+    } else {
+      setTimeout(warm, 4500);
+    }
+  }
+
+  function initDeferredMotion() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!window.matchMedia('(max-width: 768px)').matches) return;
+    if (!('IntersectionObserver' in window)) return;
+
+    const targets = document.querySelectorAll(
+      '.spotlight-img .prize-photo-wrap, .prize-card-img .prize-photo-wrap'
+    );
+    if (!targets.length) return;
+
+    const io = new IntersectionObserver((entries, obs) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-animating');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '80px 0px' });
+
+    targets.forEach((el) => io.observe(el));
   }
 
   function setupBundleSelector() {
@@ -1231,6 +1351,8 @@
     }
 
     function initHeroDreamVideo() {
+      if (window.matchMedia('(max-width: 768px)').matches) return;
+
       const section = document.querySelector('.hero-home--video');
       const root = document.querySelector('[data-hero-video]');
       if (!section || !root) return;
@@ -1528,6 +1650,7 @@
 
     function initSweepParallax() {
       if (!document.body.classList.contains('prizes-page')) return;
+      if (window.matchMedia('(max-width: 980px)').matches) return;
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
       const imgs = document.querySelectorAll(
@@ -1613,6 +1736,7 @@
       if (!window.__gaviomCdInterval) {
         window.__gaviomCdInterval = setInterval(tickCountdown, 1000);
       }
+      scheduleCartLoad();
       run(initBrandLogo);
       run(initBrandHome);
       run(initNavScroll);
@@ -1621,6 +1745,7 @@
       run(initLiveCounters);
       run(initProgress);
       scheduleIdle(initButtonShine);
+      scheduleIdle(initDeferredMotion);
       scheduleIdle(initSweepParallax);
       scheduleIdle(initCorporateDemo);
       scheduleIdle(initMemCard);

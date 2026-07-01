@@ -17,6 +17,7 @@ images/**/*.webp
 !images/**/*.avif
 !images/*-450w.webp
 !images/*-400w.webp
+!images/*-480w.webp
 !images/*-550w.webp
 !images/gaviom-logo-110w.webp
 !images/home-eight-oclock-villa.webp

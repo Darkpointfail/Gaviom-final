@@ -1,33 +1,47 @@
 {
-  "generatedAt": "2026-07-01T16:05:53.196Z",
+  "generatedAt": "2026-07-01T16:18:53.426Z",
   "items": [
     {
       "label": "home-hero-desktop.webp",
-      "before": 101784,
-      "after": 99364,
-      "saved": 2420,
+      "before": 97596,
+      "after": 96328,
+      "saved": 1268,
       "file": "images/home-hero-desktop.webp"
     },
     {
       "label": "home-hero-desktop.avif",
-      "before": 74986,
-      "after": 73414,
-      "saved": 1572,
+      "before": 73074,
+      "after": 73346,
+      "saved": -272,
       "file": "images/home-hero-desktop.avif"
     },
     {
       "label": "home-hero-mobile.webp",
-      "before": 64532,
-      "after": 63416,
-      "saved": 1116,
+      "before": 62684,
+      "after": 62074,
+      "saved": 610,
       "file": "images/home-hero-mobile.webp"
     },
     {
       "label": "home-hero-mobile.avif",
-      "before": 51685,
-      "after": 53116,
-      "saved": -1431,
+      "before": 52696,
+      "after": 52922,
+      "saved": -226,
       "file": "images/home-hero-mobile.avif"
+    },
+    {
+      "label": "home-hero-mobile-480w.webp",
+      "before": 31300,
+      "after": 31046,
+      "saved": 254,
+      "file": "images/home-hero-mobile-480w.webp"
+    },
+    {
+      "label": "home-hero-mobile-480w.avif",
+      "before": 22977,
+      "after": 22709,
+      "saved": 268,
+      "file": "images/home-hero-mobile-480w.avif"
     },
     {
       "label": "diving-turtle-450w.webp",

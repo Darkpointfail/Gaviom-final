@@ -64,6 +64,24 @@ async function writeAvif(input, outPath, width, quality) {
   return after;
 }
 
+/** Match .hero-home__lcp filter baked into mobile pixels (no runtime filter on LCP). */
+function heroMobileGrade(pipe) {
+  return pipe.modulate({ brightness: 0.9, saturation: 0.88 }).linear(1.08, -10.24);
+}
+
+async function writeHeroMobileVariant(input, baseName, width, qualityWebp, qualityAvif) {
+  const webpOut = join(imagesDir, baseName);
+  const avifOut = join(imagesDir, baseName.replace('.webp', '.avif'));
+  let pipe = sharp(input, { failOn: 'none' }).resize({ width, withoutEnlargement: true });
+  pipe = heroMobileGrade(pipe);
+  const beforeW = existsSync(webpOut) ? bytes(webpOut) : 0;
+  await pipe.clone().webp({ quality: qualityWebp, effort: 4 }).toFile(webpOut);
+  logSave(basename(webpOut), beforeW || bytes(webpOut), bytes(webpOut), webpOut);
+  const beforeA = existsSync(avifOut) ? bytes(avifOut) : 0;
+  await pipe.clone().avif({ quality: qualityAvif, effort: 4 }).toFile(avifOut);
+  logSave(basename(avifOut), beforeA || bytes(avifOut), bytes(avifOut), avifOut);
+}
+
 async function recompressHero() {
   for (const name of ['home-hero-desktop.webp', 'home-hero-mobile.webp']) {
     const input = resolveInput(name);
@@ -76,6 +94,11 @@ async function recompressHero() {
     await writeWebp(input, out, meta.width, HERO_WEBP_Q);
     const avifName = name.replace('.webp', '.avif');
     await writeAvif(input, join(imagesDir, avifName), meta.width, HERO_AVIF_Q);
+  }
+
+  const mobileSrc = resolveInput('home-hero-mobile.webp');
+  if (mobileSrc) {
+    await writeHeroMobileVariant(mobileSrc, 'home-hero-mobile-480w.webp', 480, 74, 50);
   }
 }
 
