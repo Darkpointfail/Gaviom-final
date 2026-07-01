@@ -51,7 +51,7 @@
       id: 'vegas',
       title: '5-Star Weekend · Las Vegas or Miami',
       url: '/prize-vegas.html',
-      image: 'https://images.unsplash.com/photo-1623107935331-7164fb0d6978?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+      image: '/images/vegas-strip-mobile-480w.webp',
       draw: 'Draw September 6, 2026',
       odds: 4800,
       bundles: [

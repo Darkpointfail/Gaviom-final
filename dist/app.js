@@ -785,10 +785,10 @@
         maxEntries: 4800,
         hook: 'Four nights on the Strip. Suite views. Flights covered. No itinerary spreadsheet required.',
         images: [
-          'https://images.unsplash.com/photo-1623107935331-7164fb0d6978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=85',
-          'https://images.unsplash.com/photo-1581351721010-8cf859cb14a4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=85',
-          'https://images.unsplash.com/photo-1664020361093-79cdc912cfb2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=85',
-          'https://images.unsplash.com/photo-1634400139456-292e44ca5327?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=85',
+          '/images/vegas-quote-hero-1280w.webp',
+          '/images/vegas-gallery-fountains.webp',
+          '/images/vegas-gallery-sphere.webp',
+          '/images/vegas-gallery-pool.webp',
         ],
         lede: 'Four nights in a Strip-view suite at a 5-star property, round-trip flights, and resort credits toward shows and dining, built for a long weekend that feels bigger than four days.',
         sections: [

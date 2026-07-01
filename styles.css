@@ -1576,7 +1576,7 @@ a.brand.corp-brand {
 }
 .hero-home--video.hero-home--video-fallback {
   background:
-    url("https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80") center / cover no-repeat,
+    url("/images/home-hero-desktop.webp") center / cover no-repeat,
     var(--paper);
 }
 .hero-home__content {

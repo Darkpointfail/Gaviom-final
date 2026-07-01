@@ -9,6 +9,7 @@ business/out/
 images/**/*.webp
 !images/home-hero-mobile.webp
 !images/home-hero-desktop.webp
+!images/vegas-gallery-*.webp
 
 # Environment variables — never commit secrets
 .env
