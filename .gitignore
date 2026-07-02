@@ -34,3 +34,10 @@ images/**/*.webp
 
 # Local Supabase overrides (optional — anon key is public; use if you prefer not to commit keys)
 auth-config.local.js
+
+# Cursor agent skills (installed via npx skills / Stripe plugin)
+.agents/
+.cursor/
+skills-lock.json
+.vercel
+.env*

@@ -1,4 +1,4 @@
-/** @typedef {{ slug: string, title: string, description: string, date: string, category: string, readMin: number, body: string, related: string[], faq?: { question: string, answer: string }[] }} Post */
+/** @typedef {{ slug: string, title: string, description: string, date: string, category: string, readMin: number, body: string, related: string[], faq?: { question: string, answer: string }[], tags?: string[], author?: string, updated?: string, seoTitle?: string, featuredImage?: string, section?: string, ctaType?: 'b2b' }} Post */
 
 import { TRAVEL_POSTS } from './travel-posts.mjs';
 import { PERSONA_POSTS } from './persona-posts.mjs';

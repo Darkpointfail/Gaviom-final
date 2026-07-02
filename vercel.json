@@ -177,12 +177,101 @@
       "source": "/blog/beginners-guide-sweepstakes-usa.html",
       "destination": "/blog/gaviom-sweepstakes-guide-enter-win-online.html",
       "statusCode": 301
+    },
+    {
+      "source": "/blog/:slug.html",
+      "destination": "/blog/:slug",
+      "statusCode": 301
     }
   ],
   "rewrites": [
     {
       "source": "/contact",
       "destination": "/contact.html"
+    },
+    {
+      "source": "/blog/feed.xml",
+      "destination": "/blog/feed.xml"
+    },
+    {
+      "source": "/blog/search",
+      "destination": "/blog/search.html"
+    },
+    {
+      "source": "/blog/search-index.json",
+      "destination": "/blog/search-index.json"
+    },
+    {
+      "source": "/blog/giveaways/page/:page",
+      "destination": "/blog/giveaways/page/:page/index.html"
+    },
+    {
+      "source": "/blog/giveaways",
+      "destination": "/blog/giveaways/index.html"
+    },
+    {
+      "source": "/blog/sweepstakes/page/:page",
+      "destination": "/blog/sweepstakes/page/:page/index.html"
+    },
+    {
+      "source": "/blog/sweepstakes",
+      "destination": "/blog/sweepstakes/index.html"
+    },
+    {
+      "source": "/blog/contests/page/:page",
+      "destination": "/blog/contests/page/:page/index.html"
+    },
+    {
+      "source": "/blog/contests",
+      "destination": "/blog/contests/index.html"
+    },
+    {
+      "source": "/blog/how-to/page/:page",
+      "destination": "/blog/how-to/page/:page/index.html"
+    },
+    {
+      "source": "/blog/how-to",
+      "destination": "/blog/how-to/index.html"
+    },
+    {
+      "source": "/blog/news/page/:page",
+      "destination": "/blog/news/page/:page/index.html"
+    },
+    {
+      "source": "/blog/news",
+      "destination": "/blog/news/index.html"
+    },
+    {
+      "source": "/blog/winners/page/:page",
+      "destination": "/blog/winners/page/:page/index.html"
+    },
+    {
+      "source": "/blog/winners",
+      "destination": "/blog/winners/index.html"
+    },
+    {
+      "source": "/blog/business/page/:page",
+      "destination": "/blog/business/page/:page/index.html"
+    },
+    {
+      "source": "/blog/business",
+      "destination": "/blog/business/index.html"
+    },
+    {
+      "source": "/blog/tag/:tag/page/:page",
+      "destination": "/blog/tag/:tag/page/:page/index.html"
+    },
+    {
+      "source": "/blog/tag/:tag",
+      "destination": "/blog/tag/:tag/index.html"
+    },
+    {
+      "source": "/blog/page/:page",
+      "destination": "/blog/page/:page/index.html"
+    },
+    {
+      "source": "/blog/:slug",
+      "destination": "/blog/:slug.html"
     }
   ]
 }
