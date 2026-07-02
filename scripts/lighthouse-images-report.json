@@ -1,46 +1,39 @@
 {
-  "generatedAt": "2026-07-02T11:10:53.045Z",
+  "generatedAt": "2026-07-02T13:45:57.674Z",
   "items": [
     {
       "label": "home-hero-desktop.webp",
-      "before": 85694,
-      "after": 85276,
-      "saved": 418,
+      "before": 83382,
+      "after": 82846,
+      "saved": 536,
       "file": "images/home-hero-desktop.webp"
     },
     {
       "label": "home-hero-desktop.avif",
-      "before": 63328,
-      "after": 63379,
-      "saved": -51,
+      "before": 61500,
+      "after": 58438,
+      "saved": 3062,
       "file": "images/home-hero-desktop.avif"
     },
     {
-      "label": "home-hero-mobile.webp",
-      "before": 57942,
-      "after": 57926,
-      "saved": 16,
-      "file": "images/home-hero-mobile.webp"
-    },
-    {
       "label": "home-hero-mobile.avif",
-      "before": 48075,
-      "after": 48038,
-      "saved": 37,
+      "before": 47861,
+      "after": 48100,
+      "saved": -239,
       "file": "images/home-hero-mobile.avif"
     },
     {
       "label": "home-hero-mobile-480w.webp",
-      "before": 30930,
-      "after": 31044,
-      "saved": -114,
+      "before": 30910,
+      "after": 30910,
+      "saved": 0,
       "file": "images/home-hero-mobile-480w.webp"
     },
     {
       "label": "home-hero-mobile-480w.avif",
-      "before": 22996,
-      "after": 23007,
-      "saved": -11,
+      "before": 22897,
+      "after": 22897,
+      "saved": 0,
       "file": "images/home-hero-mobile-480w.avif"
     },
     {
@@ -122,9 +115,9 @@
     },
     {
       "label": "cruise-hero.webp",
-      "before": 472994,
-      "after": 471664,
-      "saved": 1330,
+      "before": 468238,
+      "after": 467338,
+      "saved": 900,
       "file": "images/cruise-hero.webp"
     },
     {
