@@ -80,7 +80,6 @@ module.exports = async function handler(req, res) {
         ...built.metadata,
         customer_email: email,
       },
-      automatic_payment_methods: { enabled: true },
       allow_promotion_codes: false,
       billing_address_collection: 'auto',
     });

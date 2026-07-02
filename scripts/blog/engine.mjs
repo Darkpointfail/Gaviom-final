@@ -1,7 +1,9 @@
 import { CANNIBALIZED_REDIRECTS } from '../../content/blog/cannibalization.mjs';
 import { BLOG_CATEGORIES } from '../../content/blog/categories.mjs';
+import { getCluster } from '../../content/blog/clusters.mjs';
 import {
   asideBlock,
+  injectClusterBlocks,
   injectStrategyBlocks,
   normalizeBodyHtml,
   seoDescription,
@@ -348,6 +350,15 @@ export function pickRelatedPosts(post, allPosts) {
     picked.push(p);
   };
 
+  const cluster = post.cluster ? getCluster(post.cluster) : null;
+  if (cluster?.relatedPool) {
+    for (const slug of cluster.relatedPool) {
+      if (slug === post.slug) continue;
+      add(bySlug.get(slug));
+      if (picked.length >= 3) break;
+    }
+  }
+
   for (const slug of post.related || []) {
     add(bySlug.get(resolveRelatedSlug(slug)));
     if (picked.length >= 3) break;
@@ -408,11 +419,29 @@ function injectTravelCrossLink(html) {
   return html.slice(0, idx) + TRAVEL_CROSS_LINK + html.slice(idx);
 }
 
+const PCH_CLUSTER_NAV = `
+      <nav class="blog-cluster-nav rules-section" aria-label="PCH intent cluster">
+        <h2 class="font-display">More trusted sweepstakes guides</h2>
+        <p>Explore the full PCH Intent Capture cluster: alternatives, big-prize legitimacy, and how modern random draws work.</p>
+        <p><a href="/blog/best-sweepstakes-like-pch">Best sweepstakes like PCH</a> · <a href="/blog/alternatives-to-pch-sweepstakes">PCH alternatives</a> · <a href="/blog/legit-sweepstakes-big-prizes">Legit big prizes</a> · <a href="/blog/sweepstakes">Sweepstakes hub</a></p>
+      </nav>`;
+
+/** @param {string} html @param {EnrichedPost} post */
+function injectClusterNav(html, post) {
+  if (post.cluster !== 'pch-intent' || html.includes('blog-cluster-nav')) return html;
+  const marker = '<section class="rules-section blog-cta-band">';
+  const idx = html.lastIndexOf(marker);
+  if (idx === -1) return html + PCH_CLUSTER_NAV;
+  return html.slice(0, idx) + PCH_CLUSTER_NAV + html.slice(idx);
+}
+
 /** @param {EnrichedPost} post @param {EnrichedPost[]} allPosts */
 export function buildPostPage(post, allPosts) {
   let bodyHtml = normalizeBodyHtml(post.body.trim(), post);
   bodyHtml = injectStrategyBlocks(bodyHtml, post);
+  bodyHtml = injectClusterBlocks(bodyHtml, post);
   if (post.category === BLOG_CATEGORIES.TRAVEL) bodyHtml = injectTravelCrossLink(bodyHtml);
+  if (post.cluster === 'pch-intent') bodyHtml = injectClusterNav(bodyHtml, post);
   bodyHtml = injectHeadingIds(bodyHtml);
   const toc = buildToc(bodyHtml);
   const faqBlock = renderFaqSection(post.faq);

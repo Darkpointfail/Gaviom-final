@@ -1,4 +1,4 @@
-/** @typedef {{ slug: string, title: string, description: string, date: string, category: string, readMin: number, body: string, related: string[], faq?: { question: string, answer: string }[], tags?: string[], author?: string, updated?: string, seoTitle?: string, featuredImage?: string, section?: string, ctaType?: 'b2b' }} Post */
+/** @typedef {{ slug: string, title: string, description: string, date: string, category: string, readMin: number, body: string, related: string[], faq?: { question: string, answer: string }[], tags?: string[], author?: string, updated?: string, seoTitle?: string, featuredImage?: string, section?: string, cluster?: string, ctaType?: 'b2b' }} Post */
 
 import { TRAVEL_POSTS } from './travel-posts.mjs';
 import { PERSONA_POSTS } from './persona-posts.mjs';
@@ -7,6 +7,7 @@ import { SWEEPSTAKES_USA_POSTS } from './sweepstakes-usa-posts.mjs';
 import { HR_BUSINESS_SEO_POSTS } from './hr-business-seo-posts.mjs';
 import { US_CANADA_SEO_POSTS } from './us-canada-seo-posts.mjs';
 import { TRUST_POSTS } from './trust-posts.mjs';
+import { PCH_INTENT_POSTS } from './pch-intent-posts.mjs';
 import { CANNIBALIZED_REMOVED } from './cannibalization.mjs';
 
 /** @type {Post[]} */
@@ -529,6 +530,7 @@ export const POSTS = [
   ...HR_BUSINESS_SEO_POSTS,
   ...US_CANADA_SEO_POSTS,
   ...TRUST_POSTS,
+  ...PCH_INTENT_POSTS,
 ].filter((post) => !CANNIBALIZED_REMOVED.has(post.slug));
 
 export const BLOG_META = {

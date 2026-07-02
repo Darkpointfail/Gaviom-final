@@ -66,7 +66,8 @@ export const CATEGORY_IMAGES = {
   [BLOG_CATEGORIES.BUSINESS]: '/images/gaviom-logo.webp',
 };
 
-const SWEEPSTAKES_KW = /sweepstakes|odds|amoe|no-purchase|legit|legal|compliance|tax|scam|trust|gaviom/i;
+const SWEEPSTAKES_KW =
+  /sweepstakes|odds|amoe|no-purchase|legit|legal|compliance|tax|scam|trust|gaviom|pch|publishers-clearing|big-prize|big-cash|trusted-sweepstakes/i;
 const CONTEST_KW = /contest|skill|lottery|difference|vs-/i;
 const WINNER_KW = /winner|won|win-a|when-you-win|prize-fulfill|taxes/i;
 const NEWS_KW = /launch|announce|2026|news|update|live-draw/i;
@@ -120,6 +121,11 @@ export function inferTags(post) {
   if (/tax/i.test(post.slug)) tags.add('taxes');
   if (/canada|canadian/i.test(post.slug)) tags.add('canada');
   if (/usa|us-|united-states/i.test(post.slug)) tags.add('usa');
+  if (/pch|publishers-clearing|like-pch/i.test(post.slug)) tags.add('pch-alternatives');
+  if (post.cluster === 'pch-intent') {
+    tags.add('pch-intent');
+    tags.add('trusted-sweepstakes');
+  }
 
   tags.add(inferSection(post));
   return [...tags].slice(0, 8);

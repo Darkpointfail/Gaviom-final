@@ -1,3 +1,4 @@
+import { getCluster, isClusterPost } from './clusters.mjs';
 import { BLOG_CATEGORIES } from './categories.mjs';
 
 /** @typedef {import('./posts.mjs').Post} Post */
@@ -143,6 +144,61 @@ ${canadaNote}
 <p><a href="${STRATEGY.consumerCtaHref}" class="btn btn-primary">${STRATEGY.consumerCtaLabel}</a> · <a href="/free-entry.html" class="btn btn-ghost">Free entry by mail</a></p>
 </section>`;
     }
+  }
+
+  return out;
+}
+
+/**
+ * Ensure PCH Intent cluster posts meet internal link quotas and trust layer.
+ * @param {string} html
+ * @param {Post} post
+ */
+export function injectClusterBlocks(html, post) {
+  if (!isClusterPost(post)) return html;
+  const cluster = getCluster(post.cluster);
+  if (!cluster) return html;
+
+  let out = html;
+  const { linkRules, trustSlugs } = cluster;
+
+  const prizeCount = linkRules.prizeHrefs.filter((href) => out.includes(`href="${href}"`)).length;
+  if (prizeCount < linkRules.minPrizeLinks) {
+    out += `
+<section class="rules-section blog-cluster-links">
+<h2>Active big-prize sweepstakes on Gaviom</h2>
+<p>Explore current founding draws with published caps and free mail-in entry:</p>
+<ul>
+<li><a href="/prizes.html">Browse all active sweepstakes</a></li>
+<li><a href="/prize.html">MSC cruise grand prize</a></li>
+<li><a href="/prize-vegas.html">Las Vegas weekend package</a></li>
+<li><a href="/prize-iphone.html">iPhone 16 Pro Max sweepstakes</a></li>
+</ul>
+</section>`;
+  }
+
+  const howToCount = linkRules.howToWinSlugs.filter((slug) =>
+    new RegExp(`/blog/${slug}(?:\\.html)?`).test(out)
+  ).length;
+  if (howToCount < linkRules.minHowToLinks) {
+    out += `
+<section class="rules-section blog-cluster-links">
+<h2>How-to guides for smarter entries</h2>
+<p>Improve your approach with strategy articles from the Gaviom blog:</p>
+<ul>
+<li><a href="/blog/improve-chances-winning-sweepstakes.html">How to improve your sweepstakes odds</a></li>
+<li><a href="/blog/how-to-win-giveaways-tips.html">Tips to win giveaways lawfully</a></li>
+</ul>
+</section>`;
+  }
+
+  const hasTrustLink = trustSlugs.some((slug) => new RegExp(`/blog/${slug}(?:\\.html)?`).test(out));
+  if (!hasTrustLink) {
+    out += `
+<section class="rules-section blog-cluster-trust">
+<h2>Trust and scam prevention</h2>
+<p>Before entering any big-prize promotion, read <a href="/blog/is-gaviom-legit.html">is Gaviom legit</a>, <a href="/blog/sweepstakes-scams-how-to-avoid.html">how to avoid sweepstakes scams</a>, and <a href="/blog/how-sweepstakes-winners-selected.html">how winners are selected</a>.</p>
+</section>`;
   }
 
   return out;
