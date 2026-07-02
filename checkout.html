@@ -18,13 +18,15 @@
   <meta name="description" content="Secure Gaviom checkout to pre-order sweepstakes tickets with published odds and entry confirmation." />
   <title>Checkout, Gaviom</title>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Geist+Mono:wght@400;500&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20260605-cart" />
-  <link rel="stylesheet" href="mobile.css?v=20260522-pay" />
+  <link rel="stylesheet" href="styles.css?v=20260706-perf" />
+  <link rel="stylesheet" href="mobile.css?v=20260706-perf" />
 </head>
 <body class="checkout-page">
-  <header class="co-head">
+  <header class="co-head auth-head">
     <div class="wrap co-head-inner">
-      <a href="index.html" class="brand"><span class="brand-mark" aria-hidden="true">G</span> Gaviom</a>
+      <a href="/" class="brand" aria-label="Gaviom home" data-brand-logo="1">
+        <img class="brand-logo" src="/images/gaviom-logo-110w.webp" srcset="/images/gaviom-logo-110w.webp 110w, /images/gaviom-logo.webp 453w" sizes="120px" alt="Gaviom" width="120" height="93" decoding="async" />
+      </a>
       <a href="prize.html" class="co-head-back" data-checkout-back>← Back</a>
     </div>
   </header>
@@ -68,106 +70,15 @@
           <input id="email" name="email" type="email" placeholder="you@email.com" autocomplete="email" required />
         </div>
 
-        <fieldset class="co-pay-fieldset">
-          <legend class="co-pay-legend">Choose payment method</legend>
-          <div class="co-pay-list" role="radiogroup" aria-label="Payment method">
-            <label class="co-pay-opt">
-              <input type="radio" name="pay_method" value="apple" checked />
-              <span class="co-pay-opt__body">
-                <span class="co-pay-opt__icon co-pay-opt__icon--apple" aria-hidden="true"> Pay</span>
-                <span class="co-pay-opt__text">
-                  <strong>Apple Pay</strong>
-                  <small>Fast checkout on iPhone</small>
-                </span>
-              </span>
-            </label>
-            <label class="co-pay-opt">
-              <input type="radio" name="pay_method" value="google" />
-              <span class="co-pay-opt__body">
-                <span class="co-pay-opt__icon co-pay-opt__icon--google" aria-hidden="true">G</span>
-                <span class="co-pay-opt__text">
-                  <strong>Google Pay</strong>
-                  <small>One tap on Android</small>
-                </span>
-              </span>
-            </label>
-            <label class="co-pay-opt">
-              <input type="radio" name="pay_method" value="paypal" />
-              <span class="co-pay-opt__body">
-                <span class="co-pay-opt__icon co-pay-opt__icon--paypal" aria-hidden="true">P</span>
-                <span class="co-pay-opt__text">
-                  <strong>PayPal</strong>
-                  <small>Pay with balance or card</small>
-                </span>
-              </span>
-            </label>
-            <label class="co-pay-opt">
-              <input type="radio" name="pay_method" value="card" />
-              <span class="co-pay-opt__body">
-                <span class="co-pay-opt__icon co-pay-opt__icon--card" aria-hidden="true">💳</span>
-                <span class="co-pay-opt__text">
-                  <strong>Credit or debit card</strong>
-                  <small>Visa, Mastercard, Amex</small>
-                </span>
-              </span>
-            </label>
-            <label class="co-pay-opt">
-              <input type="radio" name="pay_method" value="venmo" />
-              <span class="co-pay-opt__body">
-                <span class="co-pay-opt__icon co-pay-opt__icon--venmo" aria-hidden="true">V</span>
-                <span class="co-pay-opt__text">
-                  <strong>Venmo</strong>
-                  <small>US only</small>
-                </span>
-              </span>
-            </label>
-            <label class="co-pay-opt">
-              <input type="radio" name="pay_method" value="cashapp" />
-              <span class="co-pay-opt__body">
-                <span class="co-pay-opt__icon co-pay-opt__icon--cashapp" aria-hidden="true">$</span>
-                <span class="co-pay-opt__text">
-                  <strong>Cash App Pay</strong>
-                  <small>Verify in seconds</small>
-                </span>
-              </span>
-            </label>
-          </div>
-        </fieldset>
-
-        <div class="co-card-panel" data-checkout-card-panel hidden>
-          <div class="co-field">
-            <label for="card">Card number</label>
-            <!--
-  ⚠️ PCI DSS WARNING, READ BEFORE LAUNCH
-  These fields (card number, expiry, CVC) are MOCK only.
-  They must NEVER be submitted to a server or processed as-is.
-
-  Before accepting real payments:
-  1. Remove these raw input fields entirely
-  2. Replace with Stripe Payment Element:
-     https://stripe.com/docs/payments/payment-element
-  3. Let Stripe handle card data, your server never sees PAN or CVC
-  4. Only receive a paymentMethod.id from Stripe to confirm server-side
-
-  Connecting this form to a backend without this change = PCI violation.
--->
-            <input id="card" name="card" type="text" inputmode="numeric" autocomplete="cc-number" placeholder="1234 5678 9012 3456" />
-          </div>
-          <div class="co-field-row">
-            <div class="co-field">
-              <label for="exp">Expiry</label>
-              <input id="exp" name="exp" type="text" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/YY" />
-            </div>
-            <div class="co-field">
-              <label for="cvc">CVC</label>
-              <input id="cvc" name="cvc" type="text" inputmode="numeric" autocomplete="cc-csc" placeholder="123" />
-            </div>
-            <div class="co-field">
-              <label for="zip">ZIP</label>
-              <input id="zip" name="zip" type="text" autocomplete="postal-code" placeholder="10001" />
-            </div>
-          </div>
-        </div>
+        <section class="co-pay-stripe" aria-label="Secure payment">
+          <p class="co-pay-stripe__eyebrow font-mono"><span class="bar"></span> Secure payment</p>
+          <p class="co-pay-stripe__text">You&apos;ll complete payment on Stripe&apos;s secure page — Apple Pay, Google Pay, and major cards accepted. Gaviom never sees or stores your card number.</p>
+          <ul class="co-pay-stripe__methods font-mono" aria-hidden="true">
+            <li>Apple Pay</li>
+            <li>Google Pay</li>
+            <li>Visa · Mastercard · Amex</li>
+          </ul>
+        </section>
 
         <label class="co-consent">
           <input type="checkbox" name="consent" required />
@@ -178,9 +89,9 @@
         <p class="co-form-status font-mono" data-checkout-notice hidden role="status"></p>
 
         <button type="submit" class="co-pay-submit btn btn-primary btn-xl btn-block" data-bundle-cta data-checkout-submit>
-          Pay $45.00 for 5 tickets
+          Continue to secure payment
         </button>
-        <p class="co-form-fine font-mono" data-checkout-fine>Secure checkout · Tickets confirmed instantly · Win the prize only if drawn</p>
+        <p class="co-form-fine font-mono" data-checkout-fine>Powered by Stripe · Tickets confirmed after payment · Win the prize only if drawn</p>
       </form>
     </div>
   </main>

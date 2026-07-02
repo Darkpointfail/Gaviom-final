@@ -1041,43 +1041,65 @@
     function showCheckoutNotice(message, isError) {
       const notice = document.querySelector('[data-checkout-notice]');
       if (!notice) return;
+      if (!message) {
+        notice.hidden = true;
+        notice.textContent = '';
+        notice.classList.remove('is-error');
+        return;
+      }
       notice.hidden = false;
       notice.textContent = message;
       notice.classList.toggle('is-error', Boolean(isError));
     }
 
+    function getCheckoutPayload(email) {
+      const params = new URLSearchParams(window.location.search);
+      const plan = params.get('plan');
+      if (plan === 'monthly' || plan === 'annual') {
+        return { type: 'membership', plan: 'monthly', email };
+      }
+      const cart = window.GaviomCart;
+      const items = cart ? cart.load() : [];
+      if (items.length > 0) {
+        return {
+          type: 'cart',
+          email,
+          items: items.map((item) => ({ prizeId: item.prizeId, qty: item.qty })),
+        };
+      }
+      const prize = params.get('prize');
+      if (prize) {
+        const qty = parseInt(params.get('bundle') || '5', 10) || 5;
+        return { type: 'single', email, prize, qty };
+      }
+      return null;
+    }
+
     function initCheckoutPayMethods() {
-      const form = document.getElementById('gaviom-checkout');
-      const cardPanel = document.querySelector('[data-checkout-card-panel]');
-      if (!form || !cardPanel) return;
+      /* Stripe Checkout handles payment methods on the hosted page. */
+    }
 
-      const sync = () => {
-        const method = form.querySelector('input[name="pay_method"]:checked');
-        const isCard = method && method.value === 'card';
-        cardPanel.hidden = !isCard;
-        if (isCard) {
-          const card = cardPanel.querySelector('#card');
-          if (card) card.focus({ preventScroll: true });
-        }
-      };
-
-      form.querySelectorAll('input[name="pay_method"]').forEach((radio) => {
-        radio.addEventListener('change', sync);
-      });
-      sync();
+    function initCheckoutCanceledNotice() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('canceled') !== '1') return;
+      showCheckoutNotice('Payment canceled. Your cart is still saved — try again when ready.', false);
     }
 
     function initCheckoutForm() {
       const form = document.getElementById('gaviom-checkout');
       if (!form) return;
 
-      form.addEventListener('submit', (e) => {
+      initCheckoutCanceledNotice();
+
+      form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const email = form.querySelector('#email');
+        const emailEl = form.querySelector('#email');
         const consent = form.querySelector('.co-consent input[type="checkbox"]');
-        const method = form.querySelector('input[name="pay_method"]:checked');
-        if (email && !email.value.trim()) {
-          email.focus();
+        const submit = form.querySelector('[data-checkout-submit], [data-bundle-cta]');
+        const email = emailEl ? emailEl.value.trim() : '';
+
+        if (!email) {
+          if (emailEl) emailEl.focus();
           showCheckoutNotice('Enter your email to continue.', true);
           return;
         }
@@ -1086,24 +1108,49 @@
           showCheckoutNotice('Please confirm eligibility to continue.', true);
           return;
         }
-        if (method && method.value === 'card') {
-          const card = form.querySelector('#card');
-          if (card && !card.value.trim()) {
-            card.focus();
-            showCheckoutNotice('Enter your card number.', true);
-            return;
-          }
+
+        const payload = getCheckoutPayload(email);
+        if (!payload) {
+          showCheckoutNotice('Your cart is empty. Add tickets from a sweepstakes first.', true);
+          return;
         }
-        const submit = form.querySelector('[data-checkout-submit], [data-bundle-cta]');
+
+        const defaultLabel = submit ? submit.textContent : '';
         if (submit) {
           submit.disabled = true;
-          submit.textContent = 'Processing…';
+          submit.textContent = 'Redirecting to Stripe…';
         }
-        const methodLabel = method ? method.value : 'payment';
-        showCheckoutNotice(
-          `Pre-sale preview, ${methodLabel} checkout opens at launch. You are not charged yet.`,
-          false
-        );
+        showCheckoutNotice('', false);
+
+        try {
+          const configRes = await fetch('/api/stripe-config', { credentials: 'same-origin' });
+          const config = await configRes.json();
+          if (!config.configured) {
+            throw new Error('Payments are not live yet. Stripe keys must be added in Vercel.');
+          }
+
+          const res = await fetch('/api/create-checkout-session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify(payload),
+          });
+          const data = await res.json();
+          if (!res.ok) {
+            throw new Error(data.error || 'Checkout could not start.');
+          }
+          if (data.url) {
+            window.location.href = data.url;
+            return;
+          }
+          throw new Error('No checkout URL returned.');
+        } catch (err) {
+          showCheckoutNotice(err.message || 'Something went wrong. Please try again.', true);
+          if (submit) {
+            submit.disabled = false;
+            submit.textContent = defaultLabel;
+          }
+        }
       });
     }
 
@@ -1815,7 +1862,11 @@
       scheduleIdle(initThumbs);
       scheduleIdle(initPlaceholders);
       scheduleIdle(initGallery);
-      scheduleIdle(initCheckoutPrize);
+      scheduleIdle(() => {
+        ensureCartScript()
+          .then(() => initCheckoutPrize())
+          .catch(() => initCheckoutPrize());
+      });
       scheduleIdle(initCheckoutPayMethods);
       scheduleIdle(initCheckoutForm);
     }

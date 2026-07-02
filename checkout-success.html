@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Resource hints: external origins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+
+  <link rel="icon" href="/favicon.ico?v=3" type="image/x-icon" sizes="48x48" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Payment confirmed · Gaviom</title>
+  <meta name="description" content="Your Gaviom sweepstakes ticket purchase is confirmed." />
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Geist+Mono:wght@400;500&family=Geist:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet" />  <link rel="preload" as="style" href="/styles.css?v=20260706-perf" media="(min-width: 769px)" />
+  <link rel="stylesheet" href="/styles.css?v=20260706-perf" media="(min-width: 769px)" />
+  <link rel="stylesheet" href="/styles.css?v=20260706-perf" media="print" onload="this.media='(max-width:768px)'" />
+  <noscript><link rel="stylesheet" href="/styles.css?v=20260706-perf" /></noscript>
+  <link rel="stylesheet" href="/mobile.css?v=20260706-perf" media="print" onload="this.media='screen and (max-width:1024px)'" />
+  <noscript><link rel="stylesheet" href="/mobile.css?v=20260706-perf" media="screen and (max-width: 1024px)" /></noscript>
+</head>
+<body class="checkout-page checkout-success-page">
+  <header class="co-head auth-head">
+    <div class="wrap co-head-inner">
+      <a href="/" class="brand" aria-label="Gaviom home" data-brand-logo="1">
+        <img class="brand-logo" src="/images/gaviom-logo-110w.webp" srcset="/images/gaviom-logo-110w.webp 110w, /images/gaviom-logo.webp 453w" sizes="120px" alt="Gaviom" width="120" height="93" decoding="async" />
+      </a>
+      <a href="/prizes.html" class="co-head-back">Browse sweepstakes</a>
+    </div>
+  </header>
+
+  <main class="co-main">
+    <div class="wrap co-shell">
+      <section class="auth-card checkout-success-card" aria-live="polite">
+        <p class="auth-aside__eyebrow font-mono"><span class="bar"></span> Payment confirmed</p>
+        <h1 class="auth-card__title font-display" data-success-title>Thank you!</h1>
+        <p class="auth-card__sub" data-success-lede>Verifying your payment…</p>
+        <p class="co-order-detail font-mono" data-success-email hidden></p>
+        <p class="co-order-total font-display" data-success-amount hidden></p>
+        <p class="auth-alert auth-alert--error" data-success-error hidden role="alert"></p>
+        <div class="checkout-success-actions" data-success-actions hidden>
+          <a href="/prizes.html" class="btn btn-primary btn-lg">Enter more sweepstakes</a>
+          <a href="/how.html" class="btn btn-ghost btn-lg">How draws work</a>
+        </div>
+        <p class="auth-legal font-mono">Confirmation email sent by Stripe · Keep your receipt · Questions? <a href="/contact.html">Contact us</a></p>
+      </section>
+    </div>
+  </main>
+
+  <script>
+(function () {
+  var params = new URLSearchParams(window.location.search);
+  var sessionId = params.get('session_id');
+  var title = document.querySelector('[data-success-title]');
+  var lede = document.querySelector('[data-success-lede]');
+  var emailEl = document.querySelector('[data-success-email]');
+  var amountEl = document.querySelector('[data-success-amount]');
+  var errEl = document.querySelector('[data-success-error]');
+  var actions = document.querySelector('[data-success-actions]');
+
+  function fmt(cents, currency) {
+    if (cents == null) return '';
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: (currency || 'usd').toUpperCase() }).format(cents / 100);
+  }
+
+  function clearCart() {
+    try {
+      localStorage.removeItem('gaviom-cart-v1');
+    } catch (e) {}
+  }
+
+  if (!sessionId) {
+    if (lede) lede.textContent = 'Missing payment reference. If you completed checkout, check your email for a Stripe receipt.';
+    if (actions) actions.hidden = false;
+    return;
+  }
+
+  fetch('/api/checkout-session?session_id=' + encodeURIComponent(sessionId), { credentials: 'same-origin' })
+    .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+    .then(function (result) {
+      if (!result.ok) {
+        throw new Error(result.data.error || 'Could not verify payment');
+      }
+      clearCart();
+      if (title) title.textContent = 'Payment confirmed';
+      if (lede) {
+        lede.textContent = result.data.mode === 'subscription'
+          ? 'Your Gaviom+ membership is active. Tickets will appear in your account each month.'
+          : 'Your sweepstakes tickets are confirmed. Good luck in the draw!';
+      }
+      if (emailEl && result.data.email) {
+        emailEl.hidden = false;
+        emailEl.textContent = 'Confirmation sent to ' + result.data.email;
+      }
+      if (amountEl && result.data.amountTotal != null) {
+        amountEl.hidden = false;
+        amountEl.textContent = fmt(result.data.amountTotal, result.data.currency);
+      }
+      if (actions) actions.hidden = false;
+    })
+    .catch(function (err) {
+      if (errEl) {
+        errEl.hidden = false;
+        errEl.textContent = err.message || 'Verification failed. If you were charged, contact us with your Stripe receipt.';
+      }
+      if (lede) lede.textContent = 'We could not verify this session automatically.';
+      if (actions) actions.hidden = false;
+    });
+})();
+  </script>
+  <script>
+(function () {
+  function loadGA() {
+    if (window.__gaviomGaLoaded) return;
+    window.__gaviomGaLoaded = true;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-SSJ8R41VP4';
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', 'G-SSJ8R41VP4');
+  }
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(loadGA, { timeout: 4000 });
+  } else {
+    window.addEventListener('load', function () { setTimeout(loadGA, 1500); }, { once: true });
+  }
+})();
+</script>
+</body>
+</html>

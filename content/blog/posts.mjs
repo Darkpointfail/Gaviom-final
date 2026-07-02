@@ -322,7 +322,7 @@ export const POSTS = [
     description:
       'How the $17/month membership works, ticket splits, eligible contest pools, and what is not included compared to buying premium prizes directly.',
     date: '2026-05-19',
-    category: 'Giveaway Guides',
+    category: 'For Business',
     readMin: 6,
     related: ['entry-bundles-odds-explained', 'how-online-sweepstakes-work-us', 'employee-sweepstakes-companies'],
     body: `
@@ -351,7 +351,7 @@ export const POSTS = [
     description:
       'Dive into the world of Gaviom Sweepstakes with our comprehensive guide, exploring how to enter, win, and stay safe in online and local prize promotions.',
     date: '2026-07-02',
-    category: 'Giveaway Guides',
+    category: 'For Business',
     readMin: 12,
     related: [
       'how-online-sweepstakes-work-us',
@@ -503,7 +503,7 @@ export const POSTS = [
     description:
       'IRS reporting, Form 1099-MISC thresholds, state tax nuances, and why operators collect W-9 information before shipping high-value prizes.',
     date: '2026-05-21',
-    category: 'Giveaway Guides',
+    category: 'For Business',
     readMin: 7,
     related: ['what-happens-when-you-win-sweepstakes', 'online-sweepstakes-legal-by-state', 'cruise-sweepstakes-prize-guide'],
     body: `

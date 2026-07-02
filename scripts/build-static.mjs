@@ -17,6 +17,7 @@ const skip = new Set([
   'content',
   'scripts',
   'business',
+  'api',
   'package.json',
   'package-lock.json',
   '.gitignore',
