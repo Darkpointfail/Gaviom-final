@@ -1115,17 +1115,16 @@
       }
     }
 
-    function getCheckoutPayload(email) {
+    function getCheckoutOrderPayload() {
       const params = new URLSearchParams(window.location.search);
       const plan = params.get('plan');
       if (plan === 'monthly' || plan === 'annual') {
-        return { type: 'membership', plan: 'monthly', email };
+        return { type: 'membership', plan: 'monthly', isSubscription: true };
       }
       const items = loadCartItemsFallback();
       if (items.length > 0) {
         return {
           type: 'cart',
-          email,
           items: items.map((item) => ({ prizeId: item.prizeId, qty: item.qty })),
         };
       }
@@ -1136,36 +1135,151 @@
       }
       if (prize) {
         const qty = parseInt(params.get('bundle') || '5', 10) || 5;
-        return { email, prize, qty };
+        return { prize, qty };
       }
       return null;
     }
 
-    let embeddedCheckoutInstance = null;
+    function getCheckoutPayload(email) {
+      const order = getCheckoutOrderPayload();
+      if (!order) return null;
+      if (order.isSubscription) {
+        return { type: 'membership', plan: 'monthly', email };
+      }
+      return { ...order, email };
+    }
 
-    async function mountEmbeddedCheckout(clientSecret, publishableKey) {
-      if (!window.Stripe) {
-        throw new Error('Stripe could not load. Disable ad blockers and refresh.');
+    const stripeCheckout = {
+      stripe: null,
+      elements: null,
+      clientSecret: null,
+      paymentIntentId: null,
+      ready: false,
+      isSubscription: false,
+    };
+
+    async function initStripePaymentElement() {
+      const panel = document.querySelector('[data-stripe-payment-panel]');
+      const mountEl = document.getElementById('payment-element');
+      if (!panel || !mountEl) return;
+
+      const order = getCheckoutOrderPayload();
+      if (!order) {
+        panel.hidden = true;
+        return;
       }
-      const panel = document.querySelector('[data-stripe-checkout-panel]');
-      const mountEl = document.getElementById('stripe-embedded-checkout');
-      if (!panel || !mountEl) {
-        throw new Error('Payment form could not open. Refresh and try again.');
+
+      if (order.isSubscription) {
+        stripeCheckout.isSubscription = true;
+        return;
       }
-      if (embeddedCheckoutInstance) {
-        try {
-          embeddedCheckoutInstance.destroy();
-        } catch (e) {
-          /* ignore */
-        }
-        embeddedCheckoutInstance = null;
-        mountEl.innerHTML = '';
-      }
-      const stripe = window.Stripe(publishableKey);
-      embeddedCheckoutInstance = await stripe.initEmbeddedCheckout({ clientSecret });
+
       panel.hidden = false;
-      embeddedCheckoutInstance.mount('#stripe-embedded-checkout');
-      panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      mountEl.innerHTML = '<p class="co-payment-loading font-mono">Loading secure card form…</p>';
+
+      try {
+        const configRes = await fetch('/api/stripe-config', { credentials: 'same-origin' });
+        const config = await configRes.json();
+        if (!config.configured || !config.publishableKey) {
+          throw new Error('Payments are not live yet. Stripe keys must be added in Vercel.');
+        }
+
+        const res = await fetch('/api/create-payment-intent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify(order),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || 'Could not load payment form.');
+        }
+
+        if (!window.Stripe) {
+          throw new Error('Stripe could not load. Disable ad blockers and refresh.');
+        }
+
+        const stripe = window.Stripe(config.publishableKey);
+        const elements = stripe.elements({
+          clientSecret: data.clientSecret,
+          appearance: {
+            theme: 'stripe',
+            variables: {
+              colorPrimary: '#2d6a4f',
+              borderRadius: '10px',
+              fontFamily: 'Geist, system-ui, sans-serif',
+            },
+          },
+        });
+        const paymentElement = elements.create('payment', {
+          layout: 'tabs',
+          wallets: { applePay: 'never', googlePay: 'never' },
+        });
+
+        mountEl.innerHTML = '';
+        paymentElement.mount('#payment-element');
+
+        stripeCheckout.stripe = stripe;
+        stripeCheckout.elements = elements;
+        stripeCheckout.clientSecret = data.clientSecret;
+        stripeCheckout.paymentIntentId = data.paymentIntentId;
+        stripeCheckout.ready = true;
+        stripeCheckout.isSubscription = false;
+      } catch (err) {
+        mountEl.innerHTML = '';
+        showCheckoutNotice(err.message || 'Payment form failed to load. Refresh and try again.', true);
+      }
+    }
+
+    async function confirmStripePayment(email) {
+      const updateRes = await fetch('/api/update-payment-intent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({
+          paymentIntentId: stripeCheckout.paymentIntentId,
+          email,
+        }),
+      });
+      const updateData = await updateRes.json();
+      if (!updateRes.ok) {
+        throw new Error(updateData.error || 'Could not save your email for this payment.');
+      }
+
+      const returnUrl = `${window.location.origin}/checkout-success.html?payment_intent=${encodeURIComponent(stripeCheckout.paymentIntentId)}`;
+      const result = await stripeCheckout.stripe.confirmPayment({
+        elements: stripeCheckout.elements,
+        clientSecret: stripeCheckout.clientSecret,
+        confirmParams: {
+          return_url: returnUrl,
+          receipt_email: email,
+          payment_method_data: {
+            billing_details: { email },
+          },
+        },
+      });
+
+      if (result.error) {
+        throw new Error(result.error.message || 'Payment could not be completed.');
+      }
+    }
+
+    async function startMembershipCheckout(email) {
+      const res = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ type: 'membership', plan: 'monthly', email }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Checkout could not start.');
+      }
+      if (data.url) {
+        window.location.href = data.url;
+        return;
+      }
+      throw new Error('No checkout URL returned.');
     }
 
     function initCheckoutPayMethods() {
@@ -1211,48 +1325,25 @@
         const defaultLabel = submit ? submit.textContent : '';
         if (submit) {
           submit.disabled = true;
-          submit.textContent = 'Loading payment form…';
+          submit.textContent = 'Processing…';
         }
         showCheckoutNotice('', false);
 
         try {
-          const configRes = await fetch('/api/stripe-config', { credentials: 'same-origin' });
-          const config = await configRes.json();
-          if (!config.configured || !config.publishableKey) {
-            throw new Error('Payments are not live yet. Stripe keys must be added in Vercel.');
+          if (stripeCheckout.isSubscription) {
+            await startMembershipCheckout(email);
+            return;
           }
 
-          const res = await fetch('/api/create-checkout-session', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'same-origin',
-            body: JSON.stringify(payload),
-          });
-          const data = await res.json();
-          if (!res.ok) {
-            throw new Error(data.error || 'Checkout could not start.');
+          if (!stripeCheckout.ready) {
+            throw new Error('Payment form is still loading. Wait a moment and try again.');
           }
-          if (data.clientSecret) {
-            await mountEmbeddedCheckout(data.clientSecret, config.publishableKey);
-            if (submit) {
-              submit.hidden = true;
-            }
-            const fine = document.querySelector('[data-checkout-fine]');
-            if (fine) {
-              fine.textContent = 'Powered by Stripe · Tickets confirmed after payment · Win the prize only if drawn';
-            }
-            return;
-          }
-          if (data.url) {
-            window.location.href = data.url;
-            return;
-          }
-          throw new Error('No payment form returned.');
+
+          await confirmStripePayment(email);
         } catch (err) {
           showCheckoutNotice(err.message || 'Something went wrong. Please try again.', true);
           if (submit) {
             submit.disabled = false;
-            submit.hidden = false;
             submit.textContent = defaultLabel;
           }
         }
@@ -1318,8 +1409,8 @@
       }
       if (submit) {
         submit.textContent = presale
-          ? `Pre-order ${totals.tickets} ${ticketWord}, ${fmt(totals.subtotal)}`
-          : `Pay ${fmt(totals.subtotal)} for ${totals.tickets} ${ticketWord}`;
+          ? `Confirm pre-order · ${fmt(totals.subtotal)}`
+          : `Confirm purchase · ${fmt(totals.subtotal)}`;
       }
     }
 
@@ -1395,8 +1486,8 @@
       if (coTotal) coTotal.textContent = fmt(price);
       if (submit) {
         submit.textContent = document.body.classList.contains('gv-prelaunch')
-          ? `Pre-order ${entries} ${ticketWord}, ${fmt(price)}`
-          : `Pay ${fmt(price)} for ${entries} ${ticketWord}`;
+          ? `Confirm pre-order · ${fmt(price)}`
+          : `Confirm purchase · ${fmt(price)}`;
       }
     }
 
@@ -1973,10 +2064,16 @@
       scheduleIdle(initGallery);
       if (/checkout\.html/i.test(location.pathname)) {
         ensureCartScript()
-          .then(() => initCheckoutPrize())
-          .catch(() => initCheckoutPrize());
-        run(initCheckoutPayMethods);
-        run(initCheckoutForm);
+          .then(async () => {
+            initCheckoutPrize();
+            await initStripePaymentElement();
+            initCheckoutForm();
+          })
+          .catch(async () => {
+            initCheckoutPrize();
+            await initStripePaymentElement();
+            initCheckoutForm();
+          });
       } else {
         scheduleIdle(() => {
           ensureCartScript()

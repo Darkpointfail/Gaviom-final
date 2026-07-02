@@ -1,9 +1,5 @@
 const Stripe = require('stripe');
-const {
-  buildTicketLineItems,
-  buildSingleLineItem,
-  buildMembershipLineItem,
-} = require('./lib/catalog');
+const { resolveOrder } = require('./lib/resolve-order');
 
 function siteOrigin(req) {
   const proto = req.headers['x-forwarded-proto'] || 'https';
@@ -36,46 +32,28 @@ module.exports = async function handler(req, res) {
       return res.status(400).json({ error: 'Invalid JSON body' });
     }
   }
-  if (!body || typeof body !== 'object') {
-    return res.status(400).json({ error: 'Missing request body' });
-  }
 
-  const email = (body.email || '').trim().toLowerCase();
+  const email = (body?.email || '').trim().toLowerCase();
   if (!isValidEmail(email)) {
     return res.status(400).json({ error: 'Enter a valid email address' });
   }
 
-  let built;
-  let mode = 'payment';
-
-  if (body.type === 'membership' || body.plan === 'monthly' || body.plan === 'annual') {
-    built = buildMembershipLineItem();
-    mode = 'subscription';
-  } else if (body.type === 'cart' && Array.isArray(body.items)) {
-    built = buildTicketLineItems(body.items);
-  } else if (body.prize) {
-    const qty = parseInt(body.qty || body.bundle, 10) || 5;
-    built = buildSingleLineItem(String(body.prize).trim(), qty);
-  } else if (Array.isArray(body.items) && body.items.length) {
-    built = buildTicketLineItems(body.items);
-  } else {
-    return res.status(400).json({ error: 'Nothing to checkout' });
+  const resolved = resolveOrder(body);
+  if (resolved.error) {
+    return res.status(400).json({ error: resolved.error });
   }
 
-  if (built.error) {
-    return res.status(400).json({ error: built.error });
-  }
-
+  const { built, mode } = resolved;
   const origin = siteOrigin(req);
   const stripe = new Stripe(secretKey);
 
   try {
     const session = await stripe.checkout.sessions.create({
       mode,
-      ui_mode: 'embedded',
       customer_email: email,
       line_items: built.lineItems,
-      return_url: `${origin}/checkout-success.html?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${origin}/checkout-success.html?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/checkout.html?canceled=1`,
       metadata: {
         ...built.metadata,
         customer_email: email,
@@ -86,7 +64,7 @@ module.exports = async function handler(req, res) {
     });
 
     return res.status(200).json({
-      clientSecret: session.client_secret,
+      url: session.url,
       sessionId: session.id,
     });
   } catch (err) {

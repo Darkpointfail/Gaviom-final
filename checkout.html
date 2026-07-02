@@ -71,6 +71,12 @@
           <input id="email" name="email" type="email" placeholder="you@email.com" autocomplete="email" required />
         </div>
 
+        <section class="co-card-panel" data-stripe-payment-panel aria-label="Card payment">
+          <p class="co-pay-stripe__eyebrow font-mono"><span class="bar"></span> Card details</p>
+          <p class="co-pay-stripe__text">Enter your card below. Visa, Mastercard, and Amex accepted. Gaviom never sees or stores your card number.</p>
+          <div id="payment-element" class="co-payment-element"></div>
+        </section>
+
         <label class="co-consent">
           <input type="checkbox" name="consent" required />
           <span>I confirm I'm 18+ and eligible under the <a href="rules.html">Official Rules</a>. NO PURCHASE NECESSARY, <a href="free-entry.html">free entry</a> available with the same odds.</span>
@@ -80,15 +86,9 @@
         <p class="co-form-status font-mono" data-checkout-notice hidden role="status"></p>
 
         <button type="submit" class="co-pay-submit btn btn-primary btn-xl btn-block" data-bundle-cta data-checkout-submit>
-          Continue to card payment
+          Confirm purchase
         </button>
-        <p class="co-form-fine font-mono" data-checkout-fine>Step 2 opens below — enter your card securely via Stripe.</p>
-
-        <section class="co-card-panel" data-stripe-checkout-panel hidden aria-label="Card payment">
-          <p class="co-pay-stripe__eyebrow font-mono"><span class="bar"></span> Step 2 · Pay with card</p>
-          <p class="co-pay-stripe__text">Visa, Mastercard, and Amex accepted. Gaviom never sees or stores your card number.</p>
-          <div id="stripe-embedded-checkout" class="co-stripe-embedded"></div>
-        </section>
+        <p class="co-form-fine font-mono" data-checkout-fine>Secure payment powered by Stripe · Tickets confirmed after payment.</p>
       </form>
     </div>
   </main>

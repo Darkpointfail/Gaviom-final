@@ -3123,6 +3123,15 @@ body.checkout-page::after {
 .co-stripe-embedded iframe {
   width: 100% !important;
 }
+.co-payment-element {
+  min-height: 200px;
+  margin-top: 4px;
+}
+.co-payment-loading {
+  font-size: 13px;
+  color: var(--muted);
+  padding: 12px 0;
+}
 .co-field-row {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;

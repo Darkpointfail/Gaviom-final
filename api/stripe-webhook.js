@@ -8,21 +8,12 @@ async function readRawBody(req) {
   return Buffer.concat(chunks);
 }
 
-async function persistOrder(session) {
+async function persistOrderRecord(record) {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key || key.includes('REPLACE')) return;
 
-  const payload = {
-    stripe_session_id: session.id,
-    stripe_payment_intent: typeof session.payment_intent === 'string' ? session.payment_intent : session.payment_intent?.id || null,
-    customer_email: session.customer_details?.email || session.metadata?.customer_email || null,
-    amount_total: session.amount_total,
-    currency: session.currency,
-    mode: session.mode,
-    metadata: session.metadata || {},
-    status: session.payment_status || session.status,
-  };
+  const payload = record;
 
   try {
     const res = await fetch(`${url}/rest/v1/orders`, {
@@ -69,7 +60,31 @@ async function handler(req, res) {
   }
 
   if (event.type === 'checkout.session.completed') {
-    await persistOrder(event.data.object);
+    const session = event.data.object;
+    await persistOrderRecord({
+      stripe_session_id: session.id,
+      stripe_payment_intent: typeof session.payment_intent === 'string' ? session.payment_intent : session.payment_intent?.id || null,
+      customer_email: session.customer_details?.email || session.metadata?.customer_email || null,
+      amount_total: session.amount_total,
+      currency: session.currency,
+      mode: session.mode,
+      metadata: session.metadata || {},
+      status: session.payment_status || session.status,
+    });
+  }
+
+  if (event.type === 'payment_intent.succeeded') {
+    const pi = event.data.object;
+    await persistOrderRecord({
+      stripe_session_id: null,
+      stripe_payment_intent: pi.id,
+      customer_email: pi.receipt_email || pi.metadata?.customer_email || null,
+      amount_total: pi.amount_received || pi.amount,
+      currency: pi.currency,
+      mode: 'payment',
+      metadata: pi.metadata || {},
+      status: pi.status,
+    });
   }
 
   return res.status(200).json({ received: true });
