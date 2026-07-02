@@ -1151,21 +1151,35 @@
 
     const stripeCheckout = {
       stripe: null,
-      elements: null,
+      cardElement: null,
       clientSecret: null,
       paymentIntentId: null,
+      orderKey: null,
       ready: false,
       isSubscription: false,
     };
 
-    async function initStripePaymentElement() {
+    function showCardError(message) {
+      const el = document.getElementById('card-errors');
+      if (!el) return;
+      if (!message) {
+        el.hidden = true;
+        el.textContent = '';
+        return;
+      }
+      el.hidden = false;
+      el.textContent = message;
+    }
+
+    async function initStripeCardElement() {
       const panel = document.querySelector('[data-stripe-payment-panel]');
-      const mountEl = document.getElementById('payment-element');
+      const mountEl = document.getElementById('card-element');
       if (!panel || !mountEl) return;
 
       const order = getCheckoutOrderPayload();
       if (!order) {
         panel.hidden = true;
+        stripeCheckout.ready = false;
         return;
       }
 
@@ -1174,8 +1188,22 @@
         return;
       }
 
+      const orderKey = JSON.stringify(order);
+      if (stripeCheckout.ready && stripeCheckout.orderKey === orderKey) return;
+
+      if (stripeCheckout.cardElement) {
+        try {
+          stripeCheckout.cardElement.destroy();
+        } catch (e) {
+          /* ignore */
+        }
+        stripeCheckout.cardElement = null;
+      }
+
       panel.hidden = false;
-      mountEl.innerHTML = '<p class="co-payment-loading font-mono">Loading secure card form…</p>';
+      mountEl.classList.remove('is-ready');
+      mountEl.innerHTML = '<p class="co-payment-loading font-mono">Loading card fields…</p>';
+      showCardError('');
 
       try {
         const configRes = await fetch('/api/stripe-config', { credentials: 'same-origin' });
@@ -1196,38 +1224,44 @@
         }
 
         if (!window.Stripe) {
-          throw new Error('Stripe could not load. Disable ad blockers and refresh.');
+          throw new Error('Stripe is blocked. Disable ad blockers and refresh this page.');
         }
 
         const stripe = window.Stripe(config.publishableKey);
-        const elements = stripe.elements({
-          clientSecret: data.clientSecret,
-          appearance: {
-            theme: 'stripe',
-            variables: {
-              colorPrimary: '#2d6a4f',
-              borderRadius: '10px',
+        const elements = stripe.elements();
+        const cardElement = elements.create('card', {
+          style: {
+            base: {
+              fontSize: '16px',
+              color: '#0a1628',
               fontFamily: 'Geist, system-ui, sans-serif',
+              '::placeholder': { color: '#8896a8' },
             },
+            invalid: { color: '#b42318' },
           },
-        });
-        const paymentElement = elements.create('payment', {
-          layout: 'tabs',
-          wallets: { applePay: 'never', googlePay: 'never' },
         });
 
         mountEl.innerHTML = '';
-        paymentElement.mount('#payment-element');
+        cardElement.mount('#card-element');
+        cardElement.on('ready', () => {
+          mountEl.classList.add('is-ready');
+        });
+        cardElement.on('change', (event) => {
+          showCardError(event.error ? event.error.message : '');
+        });
 
         stripeCheckout.stripe = stripe;
-        stripeCheckout.elements = elements;
+        stripeCheckout.cardElement = cardElement;
         stripeCheckout.clientSecret = data.clientSecret;
         stripeCheckout.paymentIntentId = data.paymentIntentId;
+        stripeCheckout.orderKey = orderKey;
         stripeCheckout.ready = true;
         stripeCheckout.isSubscription = false;
       } catch (err) {
         mountEl.innerHTML = '';
-        showCheckoutNotice(err.message || 'Payment form failed to load. Refresh and try again.', true);
+        stripeCheckout.ready = false;
+        showCardError('');
+        showCheckoutNotice(err.message || 'Card form failed to load. Refresh and try again.', true);
       }
     }
 
@@ -1247,20 +1281,19 @@
       }
 
       const returnUrl = `${window.location.origin}/checkout-success.html?payment_intent=${encodeURIComponent(stripeCheckout.paymentIntentId)}`;
-      const result = await stripeCheckout.stripe.confirmPayment({
-        elements: stripeCheckout.elements,
-        clientSecret: stripeCheckout.clientSecret,
-        confirmParams: {
-          return_url: returnUrl,
-          receipt_email: email,
-          payment_method_data: {
-            billing_details: { email },
-          },
+      const result = await stripeCheckout.stripe.confirmCardPayment(stripeCheckout.clientSecret, {
+        payment_method: {
+          card: stripeCheckout.cardElement,
+          billing_details: { email },
         },
       });
 
       if (result.error) {
         throw new Error(result.error.message || 'Payment could not be completed.');
+      }
+
+      if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
+        window.location.href = returnUrl;
       }
     }
 
@@ -2063,17 +2096,19 @@
       scheduleIdle(initPlaceholders);
       scheduleIdle(initGallery);
       if (/checkout\.html/i.test(location.pathname)) {
-        ensureCartScript()
-          .then(async () => {
-            initCheckoutPrize();
-            await initStripePaymentElement();
-            initCheckoutForm();
-          })
-          .catch(async () => {
-            initCheckoutPrize();
-            await initStripePaymentElement();
-            initCheckoutForm();
-          });
+        initCheckoutForm();
+        (async () => {
+          await initStripeCardElement();
+          ensureCartScript()
+            .then(async () => {
+              initCheckoutPrize();
+              await initStripeCardElement();
+            })
+            .catch(async () => {
+              initCheckoutPrize();
+              await initStripeCardElement();
+            });
+        })();
       } else {
         scheduleIdle(() => {
           ensureCartScript()

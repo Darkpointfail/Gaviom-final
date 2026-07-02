@@ -3124,13 +3124,28 @@ body.checkout-page::after {
   width: 100% !important;
 }
 .co-payment-element {
-  min-height: 200px;
-  margin-top: 4px;
+  min-height: 44px;
+  margin-top: 8px;
+  padding: 12px 14px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  background: var(--paper);
+}
+.co-payment-element.is-ready {
+  min-height: 52px;
 }
 .co-payment-loading {
   font-size: 13px;
   color: var(--muted);
-  padding: 12px 0;
+  padding: 4px 0;
+}
+.co-card-errors {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--live);
+}
+.co-card-errors[hidden] {
+  display: none !important;
 }
 .co-field-row {
   display: grid;
