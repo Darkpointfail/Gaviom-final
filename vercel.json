@@ -117,6 +117,66 @@
       "source": "/corporate.html",
       "destination": "/business",
       "statusCode": 301
+    },
+    {
+      "source": "/blog/sweepstakes-vs-contests-vs-lotteries.html",
+      "destination": "/blog/sweepstakes-lottery-contest-difference.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/online-sweepstakes-explained.html",
+      "destination": "/blog/how-online-sweepstakes-work-us.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/best-legitimate-travel-giveaways-2025.html",
+      "destination": "/blog/best-legitimate-travel-giveaways-2026.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/how-to-enter-travel-sweepstakes-win.html",
+      "destination": "/blog/how-to-enter-travel-sweepstakes-and-win.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/step-by-step-enter-win-travel-contest.html",
+      "destination": "/blog/how-to-enter-travel-sweepstakes-and-win.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/vacation-sweepstakes-guide-beginners.html",
+      "destination": "/blog/vacation-sweepstakes-beginners-guide.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/how-to-spot-fake-travel-giveaway.html",
+      "destination": "/blog/spot-fake-travel-giveaway-vs-real.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/free-flight-hotel-giveaway-real.html",
+      "destination": "/blog/free-flight-and-hotel-giveaway-legit.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/best-travel-sweepstakes-today.html",
+      "destination": "/blog/best-legitimate-travel-giveaways-2026.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/win-a-free-vacation-this-year.html",
+      "destination": "/blog/ultimate-guide-vacation-sweepstakes-us.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/are-travel-contests-real.html",
+      "destination": "/blog/are-travel-giveaways-real-legit.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/beginners-guide-sweepstakes-usa.html",
+      "destination": "/blog/gaviom-sweepstakes-guide-enter-win-online.html",
+      "statusCode": 301
     }
   ],
   "rewrites": [

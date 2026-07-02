@@ -7,6 +7,7 @@ import { SWEEPSTAKES_USA_POSTS } from './sweepstakes-usa-posts.mjs';
 import { HR_BUSINESS_SEO_POSTS } from './hr-business-seo-posts.mjs';
 import { US_CANADA_SEO_POSTS } from './us-canada-seo-posts.mjs';
 import { TRUST_POSTS } from './trust-posts.mjs';
+import { CANNIBALIZED_REMOVED } from './cannibalization.mjs';
 
 /** @type {Post[]} */
 export const POSTS = [
@@ -292,7 +293,7 @@ export const POSTS = [
     description:
       'Learn how escrowed prize funds protect players, reduce bait-and-switch risk, and why Gaviom advertises 100% prize value reserved before entries open.',
     date: '2026-05-20',
-    category: 'Giveaway Guides',
+    category: 'For Business',
     readMin: 5,
     related: ['live-sweepstakes-draws-tiktok', 'what-happens-when-you-win-sweepstakes', 'how-online-sweepstakes-work-us'],
     body: `
@@ -354,7 +355,7 @@ export const POSTS = [
     readMin: 12,
     related: [
       'how-online-sweepstakes-work-us',
-      'beginners-guide-sweepstakes-usa',
+      'is-gaviom-legit',
       'best-sweepstakes-websites-usa',
       'sweepstakes-scams-how-to-avoid',
       'sweepstakes-winnings-taxes',
@@ -486,13 +487,13 @@ export const POSTS = [
           <li>Use free AMOE when you want zero spend; use bundles when you want more entries in a pool you already trust.</li>
           <li>Calendar live draw nights and watch at least one selection process each year.</li>
         </ul>
-        <p>New to the vocabulary? Start with our <a href="/blog/beginners-guide-sweepstakes-usa.html">beginner’s guide to US sweepstakes</a>, then compare operators in <a href="/blog/best-sweepstakes-websites-usa.html">best sweepstakes websites in the USA</a>.</p>
+        <p>New to the vocabulary? Start with our <a href="/blog/gaviom-sweepstakes-guide-enter-win-online.html">beginner’s guide to US sweepstakes</a>, then compare operators in <a href="/blog/best-sweepstakes-websites-usa.html">best sweepstakes websites in the USA</a>.</p>
       </section>
 
       <section class="rules-section blog-cta-band">
         <h2>Ready to enter Gaviom Sweepstakes?</h2>
         <p>Browse founding prizes with published caps, free alternate entry, and live Sunday draws. Pre-sale is open now; first draw September 6, 2026 at 8pm ET.</p>
-        <p><a href="/prizes.html" class="btn btn-primary">Browse active sweepstakes</a></p>
+        <p><a href="/prizes.html" class="btn btn-primary">Enter in Draw</a></p>
       </section>
     `,
   },
@@ -528,7 +529,7 @@ export const POSTS = [
   ...HR_BUSINESS_SEO_POSTS,
   ...US_CANADA_SEO_POSTS,
   ...TRUST_POSTS,
-];
+].filter((post) => !CANNIBALIZED_REMOVED.has(post.slug));
 
 export const BLOG_META = {
   siteUrl: '',

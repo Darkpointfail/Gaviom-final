@@ -16,6 +16,7 @@ import {
   seoTitle,
   STRATEGY,
 } from '../content/blog/strategy.mjs';
+import { CANNIBALIZED_REDIRECTS } from '../content/blog/cannibalization.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const blogDir = join(root, 'blog');
@@ -163,8 +164,19 @@ function postBySlug(slug) {
   return POSTS.find((p) => p.slug === slug);
 }
 
+function resolveRelatedSlug(slug) {
+  return CANNIBALIZED_REDIRECTS[slug] ?? slug;
+}
+
 function relatedPosts(slugs) {
+  const seen = new Set();
   return slugs
+    .map((s) => resolveRelatedSlug(s))
+    .filter((s) => {
+      if (seen.has(s)) return false;
+      seen.add(s);
+      return true;
+    })
     .map((s) => postBySlug(s))
     .filter(Boolean)
     .map(
