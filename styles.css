@@ -1787,6 +1787,18 @@ a.brand.corp-brand {
     animation: none !important;
   }
 }
+@media (max-width: 768px) {
+  .countdown-segment--pulse .countdown-number,
+  .countdown-sep-colon--flash,
+  .countdown-number--change {
+    animation: none !important;
+  }
+  .countdown-inline--compact {
+    display: inline-block;
+    min-width: 11ch;
+    font-variant-numeric: tabular-nums;
+  }
+}
 .hero-home__content .hero-grid {
   display: grid;
   grid-template-columns: 1.05fr 0.95fr;

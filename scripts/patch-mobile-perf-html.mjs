@@ -9,7 +9,7 @@ import { readFileSync, writeFileSync, readdirSync, statSync } from 'fs';
 import { join } from 'path';
 
 const root = process.cwd();
-const HERO_V = 'mob20260703';
+const HERO_V = 'mob20260702';
 
 function walk(dir, out = []) {
   for (const name of readdirSync(dir)) {
@@ -64,9 +64,9 @@ function patchHeroLcp(html) {
   html = html.replace(
     /<picture>[\s\S]*?<\/picture>/,
     `<picture>
-        <source media="(max-width: 768px)" srcset="/images/home-hero-mobile-480w.avif?v=${HERO_V} 480w, /images/home-hero-mobile.avif?v=${HERO_V} 686w" sizes="100vw" type="image/avif" />
+        <source media="(max-width: 768px)" srcset="/images/home-hero-mobile-480w.avif?v=${HERO_V}" type="image/avif" />
         <source media="(min-width: 769px)" srcset="/images/home-hero-desktop.avif?v=${HERO_V}" type="image/avif" />
-        <source media="(max-width: 768px)" srcset="/images/home-hero-mobile-480w.webp?v=${HERO_V} 480w, /images/home-hero-mobile.webp?v=${HERO_V} 686w" sizes="100vw" type="image/webp" />
+        <source media="(max-width: 768px)" srcset="/images/home-hero-mobile-480w.webp?v=${HERO_V}" type="image/webp" />
         <source media="(min-width: 769px)" srcset="/images/home-hero-desktop.webp?v=${HERO_V}" type="image/webp" />
         <img
           class="hero-home__lcp"

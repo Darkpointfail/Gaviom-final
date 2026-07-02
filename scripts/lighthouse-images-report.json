@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-07-02T19:06:15.313Z",
+  "generatedAt": "2026-07-02T19:17:49.728Z",
   "items": [
     {
       "label": "home-hero-desktop.avif",
-      "before": 59618,
+      "before": 60525,
       "after": 60525,
-      "saved": -907,
+      "saved": 0,
       "file": "images/home-hero-desktop.avif"
     },
     {
@@ -108,9 +108,9 @@
     },
     {
       "label": "cruise-hero.webp",
-      "before": 455882,
-      "after": 454010,
-      "saved": 1872,
+      "before": 454010,
+      "after": 452970,
+      "saved": 1040,
       "file": "images/cruise-hero.webp"
     },
     {

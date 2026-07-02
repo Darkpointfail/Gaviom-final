@@ -110,14 +110,21 @@
     }
   }
 
+  function shouldAnimateCountdown() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
+    if (window.matchMedia('(max-width: 768px)').matches) return false;
+    return true;
+  }
+
   function flushAnimRetriggers() {
     animRetriggerScheduled = false;
     const batch = pendingAnimRetriggers;
     pendingAnimRetriggers = [];
-    if (!batch.length) return;
+    if (!batch.length || !shouldAnimateCountdown()) return;
     batch.forEach(({ el, className }) => el.classList.remove(className));
-    void document.body.offsetWidth;
-    batch.forEach(({ el, className }) => el.classList.add(className));
+    requestAnimationFrame(() => {
+      batch.forEach(({ el, className }) => el.classList.add(className));
+    });
   }
 
   function pulsePremiumSegments(blocks) {
@@ -144,10 +151,25 @@
       const next = pad2(parts[key]);
       if (numEl.textContent !== next) {
         numEl.textContent = next;
-        retriggerClass(numEl, 'countdown-number--change');
+        if (shouldAnimateCountdown()) retriggerClass(numEl, 'countdown-number--change');
       }
     });
-    pulsePremiumSegments(blocks);
+    if (shouldAnimateCountdown()) pulsePremiumSegments(blocks);
+  }
+
+  function applyCompactInline(el, parts) {
+    const inline = el.querySelector('.countdown-inline');
+    if (!inline) {
+      el.innerHTML = renderCountdownMarkup(parts, el.dataset.cdFormat === 'short' ? 'short' : 'compact');
+      return;
+    }
+    const nums = inline.querySelectorAll('.countdown-number');
+    [parts.d, parts.h, parts.m, parts.s].forEach((value, i) => {
+      const numEl = nums[i];
+      if (!numEl) return;
+      const next = pad2(value);
+      if (numEl.textContent !== next) numEl.textContent = next;
+    });
   }
 
   function applyCountdownEl(el, targetMs) {
@@ -157,6 +179,10 @@
     const fmt = el.dataset.cdFormat || 'compact';
     if (fmt === 'blocks-premium') {
       applyPremiumBlocks(el, parts);
+      return;
+    }
+    if (fmt === 'compact' || fmt === 'short') {
+      applyCompactInline(el, parts);
       return;
     }
     el.innerHTML = renderCountdownMarkup(parts, fmt);
@@ -1828,7 +1854,11 @@
       }
 
       if (homeMobile) {
-        scheduleIdle(startCountdownLoop);
+        window.addEventListener(
+          'load',
+          () => scheduleIdle(startCountdownLoop),
+          { once: true }
+        );
       } else {
         startCountdownLoop();
       }
