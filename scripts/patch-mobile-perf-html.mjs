@@ -86,7 +86,6 @@ function patchHeroLcp(html) {
   );
 
   const preloads = `  <link rel="preload" as="image" href="/images/home-hero-mobile-480w.avif?v=${HERO_V}" type="image/avif" media="(max-width: 768px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="/images/home-hero-mobile-480w.webp?v=${HERO_V}" type="image/webp" media="(max-width: 768px)" />
   <link rel="preload" as="image" href="/images/home-hero-desktop.avif?v=${HERO_V}" type="image/avif" media="(min-width: 769px)" fetchpriority="high" />
   <link rel="preload" as="image" href="/images/home-hero-desktop.webp?v=${HERO_V}" type="image/webp" media="(min-width: 769px)" />`;
 
