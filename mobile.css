@@ -717,11 +717,11 @@ body.nav-open .nav-menu-icon::after {
   .countdown-blocks--premium .countdown-unit {
     font-size: 8px;
     letter-spacing: 0.12em;
-    color: color-mix(in oklab, var(--gold-dark) 75%, var(--ink));
+    color: var(--ink);
   }
 
   .hero-home--video .countdown-blocks--premium .countdown-unit {
-    color: color-mix(in oklab, var(--gold) 90%, var(--paper));
+    color: var(--ink);
   }
 
   .countdown-sep-colon {

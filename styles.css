@@ -1736,12 +1736,12 @@ a.brand.corp-brand {
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: color-mix(in oklab, var(--gold-dark) 72%, var(--ink));
+  color: var(--ink);
 }
 
-/* Hero countdown — units readable on navy / photo overlay (not blue-gray ink-3) */
+/* Hero countdown — dark unit labels on light hero overlay */
 .hero-home--video .countdown-blocks--premium .countdown-unit {
-  color: color-mix(in oklab, var(--gold) 88%, var(--paper));
+  color: var(--ink);
 }
 
 .hero-home--video .countdown-blocks--premium .countdown-number {

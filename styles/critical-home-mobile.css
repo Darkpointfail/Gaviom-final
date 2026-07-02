@@ -235,7 +235,7 @@ img { max-width: 100%; height: auto; display: block; }
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--gold-dark);
+  color: var(--ink);
 }
 .countdown-sep-colon {
   display: flex;
