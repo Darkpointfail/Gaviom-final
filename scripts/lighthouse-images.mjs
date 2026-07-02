@@ -4,7 +4,7 @@
  * --source writes to images/ (for git + Vercel build copy)
  */
 import sharp from 'sharp';
-import { existsSync, readdirSync, statSync, writeFileSync, renameSync, unlinkSync } from 'fs';
+import { copyFileSync, existsSync, readdirSync, statSync, writeFileSync, unlinkSync } from 'fs';
 import { join, extname, basename } from 'path';
 import { tmpdir } from 'os';
 
@@ -53,8 +53,9 @@ async function writeWebp(input, outPath, width, quality) {
       console.log(`lighthouse-images: ${basename(outPath)} kept at ${before} B (recompress would grow to ${newSize} B)`);
       return before;
     }
-    unlinkSync(outPath);
-    renameSync(target, outPath);
+    if (existsSync(outPath)) unlinkSync(outPath);
+    copyFileSync(target, outPath);
+    unlinkSync(target);
   }
   const after = bytes(outPath);
   logSave(basename(outPath), before || after, after, outPath);
