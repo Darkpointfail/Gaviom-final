@@ -51,7 +51,7 @@ export const HR_BUSINESS_SEO_POSTS = [
       <section class="rules-section blog-cta-band">
         <h2>Build a more engaged workforce</h2>
         <p><a href="/business/">Gaviom for Business</a> helps HR leaders launch culture-building programs without adding platform overhead.</p>
-        <p><a href="/business/" class="btn btn-primary">Request a proposal</a></p>
+        <p><a href="/business/" class="btn btn-primary">Request a Demo</a></p>
       </section>
     `,
   },

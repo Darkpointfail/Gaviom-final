@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://gaviom.com/sitemap.xml
+Sitemap: /sitemap.xml

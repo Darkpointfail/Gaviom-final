@@ -8,6 +8,14 @@ import { googleAnalyticsDeferred } from './analytics-head.mjs';
 import { preconnectHeadLinks } from './preconnect-head.mjs';
 import { GOOGLE_FONTS_STANDARD, googleFontsStylesheetLink } from './google-fonts-head.mjs';
 import { BLOG_CATEGORIES, CATEGORY_FILTER_KEY, CATEGORY_FILTERS } from '../content/blog/categories.mjs';
+import {
+  asideBlock,
+  injectStrategyBlocks,
+  normalizeBodyHtml,
+  seoDescription,
+  seoTitle,
+  STRATEGY,
+} from '../content/blog/strategy.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const blogDir = join(root, 'blog');
@@ -207,7 +215,7 @@ function buildIndex() {
         <h2 class="font-display">Ready to enter?</h2>
         <p class="lede">Browse founding sweepstakes, read transparency guides, or explore how employers build culture through engagement.</p>
         <div class="blog-cta-actions">
-          <a href="/prizes.html" class="btn btn-primary btn-lg">Browse sweepstakes</a>
+          <a href="/prizes.html" class="btn btn-primary btn-lg">${STRATEGY.consumerCtaLabel}</a>
           <a href="/how.html" class="btn btn-ghost btn-lg">How it works</a>
         </div>
       </div>
@@ -245,25 +253,24 @@ function buildPost(post) {
   // This is safe only while content comes from trusted build-time
   // generators. If a CMS or external content source is added,
   // sanitize with DOMPurify or a server-side sanitizer before this point.
-  let bodyHtml = post.body.trim();
+  let bodyHtml = normalizeBodyHtml(post.body.trim(), post);
+  bodyHtml = injectStrategyBlocks(bodyHtml, post);
   if (post.category === BLOG_CATEGORIES.TRAVEL) {
     bodyHtml = injectTravelCrossLink(bodyHtml);
   }
+  const pageTitle = seoTitle(post);
+  const pageDescription = seoDescription(post);
   const main = `    <article class="wrap blog-article rules-doc">
       <header class="blog-article-header rules-doc-header">
         <p class="blog-card-cat font-mono">${post.category}</p>
         <h1 class="blog-article-title font-display">${escapeHtml(post.title)}</h1>
         <p class="blog-article-meta font-mono">${formatDate(post.date)} · ${post.readMin} min read · By Gaviom Inc.</p>
-        <p class="lede">${escapeHtml(post.description)}</p>
+        <p class="lede">${escapeHtml(pageDescription)}</p>
       </header>
       <div class="blog-article-body">
         ${bodyHtml}
       </div>
-      <aside class="blog-article-aside">
-        <p class="eyebrow"><span class="bar"></span> Enter on Gaviom</p>
-        <p style="font-size:15px;line-height:1.55;color:var(--ink-2);margin-bottom:16px;">Published odds, free mail-in entry, and live Sunday draws. Not legal advice; see <a href="/rules.html">Official Rules</a> for each promotion.</p>
-        <a href="/prizes.html" class="btn btn-primary">Browse sweepstakes</a>
-      </aside>
+${asideBlock(post)}
       <nav class="blog-related" aria-label="Related articles">
         <h2 class="font-display" style="font-size:22px;margin-bottom:16px;">Related guides</h2>
         <div class="blog-related-grid">${relatedPosts(post.related)}</div>
@@ -271,8 +278,8 @@ function buildPost(post) {
     </article>`;
 
   return layout({
-    title: `${post.title} · Gaviom Blog`,
-    description: post.description,
+    title: pageTitle,
+    description: pageDescription,
     path: `/blog/${post.slug}.html`,
     type: 'article',
     article: post,

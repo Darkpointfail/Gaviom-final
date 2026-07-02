@@ -232,7 +232,7 @@ export const POSTS = [
     description:
       'Private workplace sweepstakes vs public promotions, HR policy tips, and how Gaviom Perks helps US companies run capped employee draws.',
     date: '2026-05-16',
-    category: 'Giveaway Guides',
+    category: 'For Business',
     readMin: 7,
     related: ['how-online-sweepstakes-work-us', 'prize-escrow-trust-sweepstakes', 'entry-bundles-odds-explained'],
     body: `
@@ -262,7 +262,7 @@ export const POSTS = [
     description:
       'Balcony cabins, itineraries, airfare coordination, and cash alternatives explained for MSC-style cruise prizes like Gaviom Grand Sweepstakes #1.',
     date: '2026-05-18',
-    category: 'Giveaway Guides',
+    category: 'For Business',
     readMin: 6,
     related: ['what-happens-when-you-win-sweepstakes', 'prize-escrow-trust-sweepstakes', 'how-online-sweepstakes-work-us'],
     body: `
@@ -531,7 +531,7 @@ export const POSTS = [
 ];
 
 export const BLOG_META = {
-  siteUrl: 'https://gaviom.com',
+  siteUrl: '',
   blogTitle: 'Gaviom Blog',
   blogDescription:
     'Sweepstakes guides for the US and Canada, travel and tech giveaways, HR engagement insights, and transparency tips from Gaviom.',

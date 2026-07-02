@@ -267,7 +267,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section blog-cta-band">
 <h2>Enter lawful US sweepstakes today</h2>
 <p>Gaviom publishes rules, AMOE, and capped odds on every founding prize, compliant sweepstakes you can verify before entering.</p>
-<p><a href="/prizes.html" class="btn btn-primary">Browse sweepstakes</a> · <a href="/how.html" class="btn btn-ghost">How it works</a></p>
+<p><a href="/prizes.html" class="btn btn-primary">Enter in Draw</a> · <a href="/how.html" class="btn btn-ghost">How it works</a></p>
 </section>
     `,
   },
@@ -357,7 +357,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section blog-cta-band">
 <h2>Put strategy into practice</h2>
 <p>Enter capped founding draws on Gaviom, calculate your odds, use AMOE, and watch live Sunday selection.</p>
-<p><a href="/prizes.html" class="btn btn-primary">Browse sweepstakes</a> · <a href="/how.html" class="btn btn-ghost">How it works</a></p>
+<p><a href="/prizes.html" class="btn btn-primary">Enter in Draw</a> · <a href="/how.html" class="btn btn-ghost">How it works</a></p>
 </section>
     `,
   },
@@ -800,7 +800,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section blog-cta-band">
 <h2>Join the tradition, enter lawfully</h2>
 <p>Gaviom brings classic American sweepstakes energy with modern transparency, cruise, Vegas, diving, iPhone.</p>
-<p><a href="/prizes.html" class="btn btn-primary">Browse sweepstakes</a> · <a href="/how.html" class="btn btn-ghost">How it works</a></p>
+<p><a href="/prizes.html" class="btn btn-primary">Enter in Draw</a> · <a href="/how.html" class="btn btn-ghost">How it works</a></p>
 </section>
     `,
   },
@@ -976,7 +976,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section blog-cta-band">
 <h2>Enter giveaways you can actually win</h2>
 <p>Transparent Gaviom founding draws, real prizes, public selection, documented fulfillment.</p>
-<p><a href="/prizes.html" class="btn btn-primary">Browse sweepstakes</a> · <a href="/how.html" class="btn btn-ghost">How it works</a></p>
+<p><a href="/prizes.html" class="btn btn-primary">Enter in Draw</a> · <a href="/how.html" class="btn btn-ghost">How it works</a></p>
 </section>
     `,
   },
@@ -1167,7 +1167,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section blog-cta-band">
 <h2>Watch the next draw live</h2>
 <p>Gaviom streams random winner selection, enter now, watch Sunday, see transparency in action.</p>
-<p><a href="/prizes.html" class="btn btn-primary">Browse sweepstakes</a> · <a href="/how.html" class="btn btn-ghost">How it works</a></p>
+<p><a href="/prizes.html" class="btn btn-primary">Enter in Draw</a> · <a href="/how.html" class="btn btn-ghost">How it works</a></p>
 </section>
     `,
   },
@@ -1258,7 +1258,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section blog-cta-band">
 <h2>Enter scam-free sweepstakes</h2>
 <p>Gaviom, published rules, no winner fees, live TikTok selection, free mail-in entry.</p>
-<p><a href="/prizes.html" class="btn btn-primary">Browse sweepstakes</a> · <a href="/how.html" class="btn btn-ghost">How it works</a></p>
+<p><a href="/prizes.html" class="btn btn-primary">Enter in Draw</a> · <a href="/how.html" class="btn btn-ghost">How it works</a></p>
 </section>
     `,
   },
@@ -1353,7 +1353,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section blog-cta-band">
 <h2>See a good sweepstakes site in action</h2>
 <p>Gaviom checks the boxes, rules, AMOE, caps, live draws, photographed prizes.</p>
-<p><a href="/prizes.html" class="btn btn-primary">Browse sweepstakes</a> · <a href="/how.html" class="btn btn-ghost">How it works</a></p>
+<p><a href="/prizes.html" class="btn btn-primary">Enter in Draw</a> · <a href="/how.html" class="btn btn-ghost">How it works</a></p>
 </section>
     `,
   },
@@ -1441,7 +1441,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section blog-cta-band">
 <h2>Pick your category on Gaviom</h2>
 <p>Travel, tech, and more, founding prizes with published caps and live Sunday draws.</p>
-<p><a href="/prizes.html" class="btn btn-primary">Browse sweepstakes</a> · <a href="/how.html" class="btn btn-ghost">How it works</a></p>
+<p><a href="/prizes.html" class="btn btn-primary">Enter in Draw</a> · <a href="/how.html" class="btn btn-ghost">How it works</a></p>
 </section>
     `,
   },
@@ -1532,7 +1532,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section blog-cta-band">
 <h2>Start with a sustainable shortlist</h2>
 <p>Four founding Gaviom sweepstakes, enter the ones you want, skip the rest, keep it fun.</p>
-<p><a href="/prizes.html" class="btn btn-primary">Browse sweepstakes</a> · <a href="/how.html" class="btn btn-ghost">How it works</a></p>
+<p><a href="/prizes.html" class="btn btn-primary">Enter in Draw</a> · <a href="/how.html" class="btn btn-ghost">How it works</a></p>
 </section>
     `,
   },
@@ -1627,7 +1627,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section blog-cta-band">
 <h2>Enter with eyes open</h2>
 <p>Gaviom, transparent draws that earn trust, not exploitation.</p>
-<p><a href="/prizes.html" class="btn btn-primary">Browse sweepstakes</a> · <a href="/how.html" class="btn btn-ghost">How it works</a></p>
+<p><a href="/prizes.html" class="btn btn-primary">Enter in Draw</a> · <a href="/how.html" class="btn btn-ghost">How it works</a></p>
 </section>
     `,
   },
@@ -1723,7 +1723,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section blog-cta-band">
 <h2>Start your sweepstakes journey</h2>
 <p>Gaviom founding draws, beginner-friendly rules, AMOE, and live transparency.</p>
-<p><a href="/prizes.html" class="btn btn-primary">Browse sweepstakes</a> · <a href="/how.html" class="btn btn-ghost">How it works</a></p>
+<p><a href="/prizes.html" class="btn btn-primary">Enter in Draw</a> · <a href="/how.html" class="btn btn-ghost">How it works</a></p>
 </section>
     `,
   },
@@ -1818,7 +1818,7 @@ export const SWEEPSTAKES_USA_POSTS = [
 <section class="rules-section blog-cta-band">
 <h2>Choose transparent sweepstakes</h2>
 <p>Gaviom, published odds, live draws, free entry, real prizes. Transparency is the product.</p>
-<p><a href="/prizes.html" class="btn btn-primary">Browse sweepstakes</a> · <a href="/how.html" class="btn btn-ghost">How it works</a></p>
+<p><a href="/prizes.html" class="btn btn-primary">Enter in Draw</a> · <a href="/how.html" class="btn btn-ghost">How it works</a></p>
 </section>
     `,
   }

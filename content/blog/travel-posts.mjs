@@ -4,7 +4,8 @@ export const TRAVEL_POSTS = [
   {
     slug: "how-to-enter-travel-sweepstakes-and-win",
     title: "How to Enter Travel Sweepstakes and Actually Win",
-    description: "Learn how to enter travel sweepstakes legally in the US. Odds, AMOE, and verified operators, start with Gaviom today. Browse capped travel prizes on Gaviom, p",
+    description:
+      "Learn how to enter travel sweepstakes legally in the US. Odds, AMOE, and verified operators, start with Gaviom today. Browse capped travel prizes on.",
     date: "2026-05-22",
     category: "Travel Giveaways",
     readMin: 8,
@@ -16,7 +17,7 @@ export const TRAVEL_POSTS = [
       <section class="rules-section">
         <h2>What counts as a legitimate travel sweepstakes</h2>
         <p>A lawful US travel sweepstakes combines a real prize, random chance, and a free alternate method of entry (AMOE). If a site asks you to pay a "processing fee" after you win, walk away. The <a href="https://www.ftc.gov/business-guidance/resources/advertising-faqs-guide-small-business" rel="noopener noreferrer" target="_blank">Federal Trade Commission</a> expects clear Official Rules, eligibility limits, and honest prize descriptions.</p>
-        <p>Platforms like <a href="https://gaviom.com/prizes.html">Gaviom's active travel sweepstakes</a> publish odds, cap entries, and stream draws live, signals that a travel giveaway is structured for compliance, not confusion.</p>
+        <p>Platforms like <a href="/prizes.html">Gaviom's active travel sweepstakes</a> publish odds, cap entries, and stream draws live, signals that a travel giveaway is structured for compliance, not confusion.</p>
         <p>When evaluating any how to enter travel sweepstakes and win, treat the Official Rules as the contract of record, social captions are not binding. If companion travel, cabin category, or blackout dates matter, confirm them in the rules PDF first.</p>
         <p>Keep a dedicated email folder for how to enter travel sweepstakes and win confirmations. Winners are contacted from sponsor domains, not random Gmail accounts. Phishing spikes after big travel draws, verify senders before clicking.</p>
         <p>Legitimate operators photograph the actual ship, resort, or skyline in how to enter travel sweepstakes and win marketing. Unnamed stock beaches are a yellow flag when comparing sites.</p>
@@ -38,7 +39,7 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section">
         <h2>Use both paid and free entry paths</h2>
-        <p>US law requires that paid entries cannot be the only way in. Request the AMOE instructions and mail a postcard if you prefer zero spend. On Gaviom, <a href="https://gaviom.com/free-entry.html">free mail-in entry</a> goes into the same pool as purchased tickets.</p>
+        <p>US law requires that paid entries cannot be the only way in. Request the AMOE instructions and mail a postcard if you prefer zero spend. On Gaviom, <a href="/free-entry.html">free mail-in entry</a> goes into the same pool as purchased tickets.</p>
         <p>If you do pay, bundle pricing on capped sweepstakes improves your odds transparently, five entries in a 6,000-cap draw is five chances, not a hidden multiplier.</p>
         <p>Keep a dedicated email folder for how to enter travel sweepstakes and win confirmations. Winners are contacted from sponsor domains, not random Gmail accounts. Phishing spikes after big travel draws, verify senders before clicking.</p>
         <p>Legitimate operators photograph the actual ship, resort, or skyline in how to enter travel sweepstakes and win marketing. Unnamed stock beaches are a yellow flag when comparing sites.</p>
@@ -69,14 +70,15 @@ export const TRAVEL_POSTS = [
       
       <section class="rules-section blog-cta-band">
         <h2>Ready to win your next trip?</h2>
-        <p>Check out <a href="https://gaviom.com/prizes.html">Gaviom's active travel sweepstakes</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
-        <p><a href="https://gaviom.com/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
+        <p>Check out <a href="/prizes.html">Gaviom's active travel sweepstakes</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
+        <p><a href="/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
       </section>`,
   },
   {
     slug: "best-legitimate-travel-giveaways-2026",
     title: "Best Legitimate Travel Giveaways in 2026",
-    description: "Discover the best legitimate travel giveaways in 2026, cruise, Vegas, and adventure prizes with published odds. Enter on Gaviom now. Browse capped travel prize",
+    description:
+      "Discover the best legitimate travel giveaways in 2026, cruise, Vegas, and adventure prizes with published odds. Enter on Gaviom now. Browse capped travel.",
     date: "2026-05-23",
     category: "Travel Giveaways",
     readMin: 7,
@@ -88,7 +90,7 @@ export const TRAVEL_POSTS = [
       <section class="rules-section">
         <h2>Why 2026 is a strong year for vacation sweepstakes</h2>
         <p>Travel brands still use sweepstakes to fill cabins, resorts, and off-peak inventory. After years of social-media skepticism, operators that livestream draws and escrow prize value are winning trust, and search visibility.</p>
-        <p><a href="https://gaviom.com/">The Gaviom sweepstakes platform</a> launches four verified travel and experience prizes in July 2026, from a seven-night MSC cruise to Las Vegas and Cozumel packages.</p>
+        <p><a href="/">The Gaviom sweepstakes platform</a> launches four verified travel and experience prizes in July 2026, from a seven-night MSC cruise to Las Vegas and Cozumel packages.</p>
         <p>When evaluating any best legitimate travel giveaways 2026, treat the Official Rules as the contract of record, social captions are not binding. If companion travel, cabin category, or blackout dates matter, confirm them in the rules PDF first.</p>
         <p>Keep a dedicated email folder for best legitimate travel giveaways 2026 confirmations. Winners are contacted from sponsor domains, not random Gmail accounts. Phishing spikes after big travel draws, verify senders before clicking.</p>
         <p>Legitimate operators photograph the actual ship, resort, or skyline in best legitimate travel giveaways 2026 marketing. Unnamed stock beaches are a yellow flag when comparing sites.</p>
@@ -130,7 +132,7 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section">
         <h2>Where to enter this month</h2>
-        <p>Gaviom pre-sale is open ahead of a September 1 launch, with first live draws September 6. If you want one dashboard for multiple travel prizes, start at <a href="https://gaviom.com/prizes.html">verified vacation sweepstakes at Gaviom</a> rather than scattered Instagram forms.</p>
+        <p>Gaviom pre-sale is open ahead of a September 1 launch, with first live draws September 6. If you want one dashboard for multiple travel prizes, start at <a href="/prizes.html">verified vacation sweepstakes at Gaviom</a> rather than scattered Instagram forms.</p>
         <p>Legitimate operators photograph the actual ship, resort, or skyline in best legitimate travel giveaways 2026 marketing. Unnamed stock beaches are a yellow flag when comparing sites.</p>
         <p>Fulfillment involves taxes, guest names, passports, and deadlines, not just flights. Respond to winner notices within 24 hours whenever possible.</p>
         <p>When evaluating any best legitimate travel giveaways 2026, treat the Official Rules as the contract of record, social captions are not binding. If companion travel, cabin category, or blackout dates matter, confirm them in the rules PDF first.</p>
@@ -140,14 +142,15 @@ export const TRAVEL_POSTS = [
       
       <section class="rules-section blog-cta-band">
         <h2>Ready to win your next trip?</h2>
-        <p>Check out <a href="https://gaviom.com/">the Gaviom sweepstakes platform</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
-        <p><a href="https://gaviom.com/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
+        <p>Check out <a href="/">the Gaviom sweepstakes platform</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
+        <p><a href="/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
       </section>`,
   },
   {
     slug: "win-a-free-trip-sites-you-can-trust",
     title: "Win a Free Trip: 10 Trust Signals Every Site Must Show",
-    description: "Want to win a free trip? Learn ten trust signals real travel giveaway sites display, then browse capped sweepstakes on Gaviom. Browse capped travel prizes on G",
+    description:
+      "Want to win a free trip? Learn ten trust signals real travel giveaway sites display, then browse capped sweepstakes on Gaviom. Browse capped travel.",
     date: "2026-05-24",
     category: "Travel Giveaways",
     readMin: 7,
@@ -159,7 +162,7 @@ export const TRAVEL_POSTS = [
       <section class="rules-section">
         <h2>1–3: Legal transparency</h2>
         <p><strong>Official Rules</strong> with sponsor name and address. <strong>AMOE instructions</strong> you can complete without a purchase. <strong>Void-where-prohibited</strong> language that matches your state, not copy-pasted filler.</p>
-        <p><a href="https://gaviom.com/prize.html">Gaviom's MSC cruise grand prize</a> lists specs, odds, and mail-in entry on linked pages before checkout.</p>
+        <p><a href="/prize.html">Gaviom's MSC cruise grand prize</a> lists specs, odds, and mail-in entry on linked pages before checkout.</p>
         <p>When evaluating any win a free trip sites you can trust, treat the Official Rules as the contract of record, social captions are not binding. If companion travel, cabin category, or blackout dates matter, confirm them in the rules PDF first.</p>
         <p>Keep a dedicated email folder for win a free trip sites you can trust confirmations. Winners are contacted from sponsor domains, not random Gmail accounts. Phishing spikes after big travel draws, verify senders before clicking.</p>
         <p>Legitimate operators photograph the actual ship, resort, or skyline in win a free trip sites you can trust marketing. Unnamed stock beaches are a yellow flag when comparing sites.</p>
@@ -196,7 +199,7 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section">
         <h2>Start with verified operators</h2>
-        <p>Tourism boards and cruise lines sometimes run their own contests, but specialized sweepstakes platforms aggregate multiple trips with consistent compliance. <a href="https://gaviom.com/how.html">How Gaviom runs live draws</a> is a useful benchmark when comparing sites.</p>
+        <p>Tourism boards and cruise lines sometimes run their own contests, but specialized sweepstakes platforms aggregate multiple trips with consistent compliance. <a href="/how.html">How Gaviom runs live draws</a> is a useful benchmark when comparing sites.</p>
         <p>Legitimate operators photograph the actual ship, resort, or skyline in win a free trip sites you can trust marketing. Unnamed stock beaches are a yellow flag when comparing sites.</p>
         <p>Fulfillment involves taxes, guest names, passports, and deadlines, not just flights. Respond to winner notices within 24 hours whenever possible.</p>
         <p>When evaluating any win a free trip sites you can trust, treat the Official Rules as the contract of record, social captions are not binding. If companion travel, cabin category, or blackout dates matter, confirm them in the rules PDF first.</p>
@@ -215,14 +218,15 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section blog-cta-band">
         <h2>Ready to win your next trip?</h2>
-        <p>Check out <a href="https://gaviom.com/prize.html">Gaviom's MSC cruise grand prize</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
-        <p><a href="https://gaviom.com/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
+        <p>Check out <a href="/prize.html">Gaviom's MSC cruise grand prize</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
+        <p><a href="/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
       </section>`,
   },
   {
     slug: "are-travel-contests-real",
     title: "Are Travel Contests Real? What You Need to Know",
-    description: "Are travel contests real or scams? Learn how lawful travel contests differ from fake posts, then enter verified vacation sweepstakes on Gaviom. Browse capped t",
+    description:
+      "Are travel contests real or scams? Learn how lawful travel contests differ from fake posts, then enter verified vacation sweepstakes on Gaviom. Browse.",
     date: "2026-05-25",
     category: "Travel Giveaways",
     readMin: 6,
@@ -244,7 +248,7 @@ export const TRAVEL_POSTS = [
       <section class="rules-section">
         <h2>Evidence that a travel contest is real</h2>
         <p>Real promotions name a sponsor, list odds or judging rubric, and show past winners or live draw recordings. Fake ones hide rules, use new accounts, and disable comments.</p>
-        <p><a href="https://gaviom.com/prize-vegas.html">Gaviom's Las Vegas vacation sweepstakes</a> publishes entry caps, package specs, and draw time before you pay.</p>
+        <p><a href="/prize-vegas.html">Gaviom's Las Vegas vacation sweepstakes</a> publishes entry caps, package specs, and draw time before you pay.</p>
         <p>US players often ask whether are travel contests real promotions are worth the spend. Expected value is usually negative, like concerts or sporting events. Enter for transparent odds on a prize you genuinely want, not guaranteed profit.</p>
         <p>Registration in New York, Florida, and Rhode Island applies to high-value are travel contests real promotions. Sponsors that skip eligibility language for those states may be cutting compliance corners.</p>
         <p>Normalize odds by dividing your entries by the published cap. A modest are travel contests real with 1,000 entries can beat a viral post with an unknown denominator.</p>
@@ -291,14 +295,15 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section blog-cta-band">
         <h2>Ready to win your next trip?</h2>
-        <p>Check out <a href="https://gaviom.com/how.html">how Gaviom runs live draws</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
-        <p><a href="https://gaviom.com/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
+        <p>Check out <a href="/how.html">how Gaviom runs live draws</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
+        <p><a href="/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
       </section>`,
   },
   {
     slug: "how-we-give-away-free-vacations",
     title: "How We Give Away Free Vacations (And How You Can Win)",
-    description: "How do free vacation giveaways work? Escrow, live draws, and fulfillment explained, win your next trip on Gaviom today. Browse capped travel prizes on Gaviom ,",
+    description:
+      "How do free vacation giveaways work? Escrow, live draws, and fulfillment explained, win your next trip on Gaviom today. Browse capped travel prizes on.",
     date: "2026-05-26",
     category: "Travel Giveaways",
     readMin: 7,
@@ -310,7 +315,7 @@ export const TRAVEL_POSTS = [
       <section class="rules-section">
         <h2>Escrow first, marketing second</h2>
         <p>Before Gaviom sells a single ticket, we reserve the full advertised prize value, cruise, Vegas strip package, or cash equivalent. Players should never fund a winner's payout from future revenue.</p>
-        <p>That model is central to <a href="https://gaviom.com/">published-odds travel giveaways on Gaviom</a> and separates us from pop-up Instagram raffles.</p>
+        <p>That model is central to <a href="/">published-odds travel giveaways on Gaviom</a> and separates us from pop-up Instagram raffles.</p>
         <p>When evaluating any how we give away free vacations, treat the Official Rules as the contract of record, social captions are not binding. If companion travel, cabin category, or blackout dates matter, confirm them in the rules PDF first.</p>
         <p>Keep a dedicated email folder for how we give away free vacations confirmations. Winners are contacted from sponsor domains, not random Gmail accounts. Phishing spikes after big travel draws, verify senders before clicking.</p>
         <p>Legitimate operators photograph the actual ship, resort, or skyline in how we give away free vacations marketing. Unnamed stock beaches are a yellow flag when comparing sites.</p>
@@ -337,7 +342,7 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section">
         <h2>Free entry stays in the same pool</h2>
-        <p><a href="https://gaviom.com/free-entry.html">Free mail-in entry on Gaviom</a> carries the same odds as paid tickets. That is non-negotiable for US compliance when purchases exist.</p>
+        <p><a href="/free-entry.html">Free mail-in entry on Gaviom</a> carries the same odds as paid tickets. That is non-negotiable for US compliance when purchases exist.</p>
         <p>Registration in New York, Florida, and Rhode Island applies to high-value how we give away free vacations promotions. Sponsors that skip eligibility language for those states may be cutting compliance corners.</p>
         <p>Normalize odds by dividing your entries by the published cap. A modest how we give away free vacations with 1,000 entries can beat a viral post with an unknown denominator.</p>
         <p>Free mail-in entry keeps how we give away free vacations lawful when paid tickets exist. Postcards cost stamps but preserve equal random-draw odds without checkout spend.</p>
@@ -365,14 +370,15 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section blog-cta-band">
         <h2>Ready to win your next trip?</h2>
-        <p>Check out <a href="https://gaviom.com/prize-vegas.html">Gaviom's Las Vegas vacation sweepstakes</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
-        <p><a href="https://gaviom.com/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
+        <p>Check out <a href="/prize-vegas.html">Gaviom's Las Vegas vacation sweepstakes</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
+        <p><a href="/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
       </section>`,
   },
   {
     slug: "vacation-sweepstakes-beginners-guide",
     title: "Vacation Sweepstakes 101: A Beginner's Guide",
-    description: "New to vacation sweepstakes? This beginner guide covers rules, AMOE, odds, and trusted sites, start entering on Gaviom today. Browse capped travel prizes on Ga",
+    description:
+      "New to vacation sweepstakes? This beginner guide covers rules, AMOE, odds, and trusted sites, start entering on Gaviom today. Browse capped travel prizes.",
     date: "2026-05-27",
     category: "Travel Giveaways",
     readMin: 8,
@@ -393,7 +399,7 @@ export const TRAVEL_POSTS = [
       <section class="rules-section">
         <h2>Is it legal in the United States?</h2>
         <p>Yes, when no purchase is required (or free entry equals paid odds) and rules are published. State registration may apply for high-value trips in NY, FL, and RI.</p>
-        <p>See <a href="/blog/online-sweepstakes-legal-by-state.html">state legality</a> and <a href="https://gaviom.com/prize-diving.html">Gaviom's Cozumel travel prize</a> for a worked example with specs.</p>
+        <p>See <a href="/blog/online-sweepstakes-legal-by-state.html">state legality</a> and <a href="/prize-diving.html">Gaviom's Cozumel travel prize</a> for a worked example with specs.</p>
         <p>US players often ask whether vacation sweepstakes beginners guide promotions are worth the spend. Expected value is usually negative, like concerts or sporting events. Enter for transparent odds on a prize you genuinely want, not guaranteed profit.</p>
         <p>Registration in New York, Florida, and Rhode Island applies to high-value vacation sweepstakes beginners guide promotions. Sponsors that skip eligibility language for those states may be cutting compliance corners.</p>
         <p>Normalize odds by dividing your entries by the published cap. A modest vacation sweepstakes beginners guide with 1,000 entries can beat a viral post with an unknown denominator.</p>
@@ -420,7 +426,7 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section">
         <h2>Where beginners should start in 2026</h2>
-        <p>Choose one operator with multiple trips so you learn one checkout flow. <a href="https://gaviom.com/prizes.html">Browse Gaviom travel prizes</a>, four launches, one rules framework, live draws.</p>
+        <p>Choose one operator with multiple trips so you learn one checkout flow. <a href="/prizes.html">Browse Gaviom travel prizes</a>, four launches, one rules framework, live draws.</p>
         <p>Legitimate operators photograph the actual ship, resort, or skyline in vacation sweepstakes beginners guide marketing. Unnamed stock beaches are a yellow flag when comparing sites.</p>
         <p>Fulfillment involves taxes, guest names, passports, and deadlines, not just flights. Respond to winner notices within 24 hours whenever possible.</p>
         <p>When evaluating any vacation sweepstakes beginners guide, treat the Official Rules as the contract of record, social captions are not binding. If companion travel, cabin category, or blackout dates matter, confirm them in the rules PDF first.</p>
@@ -439,14 +445,15 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section blog-cta-band">
         <h2>Ready to win your next trip?</h2>
-        <p>Check out <a href="https://gaviom.com/prize-diving.html">Gaviom's Cozumel travel prize</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
-        <p><a href="https://gaviom.com/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
+        <p>Check out <a href="/prize-diving.html">Gaviom's Cozumel travel prize</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
+        <p><a href="/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
       </section>`,
   },
   {
     slug: "win-a-trip-to-las-vegas-everything-included",
     title: "Win a Trip to Las Vegas: Everything Included",
-    description: "Win a trip to Las Vegas with flights, suite nights, and show credits explained. Enter the Vegas vacation sweepstakes on Gaviom. Browse capped travel prizes on G",
+    description:
+      "Win a trip to Las Vegas with flights, suite nights, and show credits explained. Enter the Vegas vacation sweepstakes on Gaviom. Browse capped travel.",
     date: "2026-05-28",
     category: "Travel Giveaways",
     readMin: 7,
@@ -458,7 +465,7 @@ export const TRAVEL_POSTS = [
       <section class="rules-section">
         <h2>Typical Las Vegas prize components</h2>
         <p>Strong packages include round-trip airfare from a US origin, multiple nights in a Strip-view room, resort fee coverage where stated, and dining or entertainment credits, not just a bare room-only voucher.</p>
-        <p><a href="https://gaviom.com/prize-vegas.html">Win a Vegas trip on Gaviom</a> targets a four-night, five-star Strip suite experience with credits toward shows and dining.</p>
+        <p><a href="/prize-vegas.html">Win a Vegas trip on Gaviom</a> targets a four-night, five-star Strip suite experience with credits toward shows and dining.</p>
         <p>When evaluating any win a trip to las vegas everything included, treat the Official Rules as the contract of record, social captions are not binding. If companion travel, cabin category, or blackout dates matter, confirm them in the rules PDF first.</p>
         <p>Keep a dedicated email folder for win a trip to las vegas everything included confirmations. Winners are contacted from sponsor domains, not random Gmail accounts. Phishing spikes after big travel draws, verify senders before clicking.</p>
         <p>Legitimate operators photograph the actual ship, resort, or skyline in win a trip to las vegas everything included marketing. Unnamed stock beaches are a yellow flag when comparing sites.</p>
@@ -513,14 +520,15 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section blog-cta-band">
         <h2>Ready to win your next trip?</h2>
-        <p>Check out <a href="https://gaviom.com/free-entry.html">free mail-in entry on Gaviom</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
-        <p><a href="https://gaviom.com/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
+        <p>Check out <a href="/free-entry.html">free mail-in entry on Gaviom</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
+        <p><a href="/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
       </section>`,
   },
   {
     slug: "free-flight-and-hotel-giveaway-legit",
     title: "Free Flight and Hotel Giveaway: Too Good to Be True?",
-    description: "Is a free flight and hotel giveaway legit? Learn what sponsors must disclose, then enter verified packages on Gaviom today. Browse capped travel prizes on Gavi",
+    description:
+      "Is a free flight and hotel giveaway legit? Learn what sponsors must disclose, then enter verified packages on Gaviom today. Browse capped travel prizes.",
     date: "2026-05-29",
     category: "Travel Giveaways",
     readMin: 7,
@@ -541,7 +549,7 @@ export const TRAVEL_POSTS = [
       <section class="rules-section">
         <h2>When it is too good to be true</h2>
         <p>DM-only winners, cryptocurrency "fees," or requests for bank login are scams, not sweepstakes. The <a href="https://www.consumer.ftc.gov/articles/0329-sweepstakes-scams" rel="noopener noreferrer" target="_blank">FTC</a> warns that you never pay to collect a real prize.</p>
-        <p>Compare suspicious offers to <a href="https://gaviom.com/">gaviom.com</a>, where checkout goes through standard payment processors and winners never prepay fulfillment.</p>
+        <p>Compare suspicious offers to <a href="/">gaviom.com</a>, where checkout goes through standard payment processors and winners never prepay fulfillment.</p>
         <p>US players often ask whether free flight and hotel giveaway legit promotions are worth the spend. Expected value is usually negative, like concerts or sporting events. Enter for transparent odds on a prize you genuinely want, not guaranteed profit.</p>
         <p>Registration in New York, Florida, and Rhode Island applies to high-value free flight and hotel giveaway legit promotions. Sponsors that skip eligibility language for those states may be cutting compliance corners.</p>
         <p>Normalize odds by dividing your entries by the published cap. A modest free flight and hotel giveaway legit with 1,000 entries can beat a viral post with an unknown denominator.</p>
@@ -587,14 +595,15 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section blog-cta-band">
         <h2>Ready to win your next trip?</h2>
-        <p>Check out <a href="https://gaviom.com/">gaviom.com</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
-        <p><a href="https://gaviom.com/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
+        <p>Check out <a href="/">gaviom.com</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
+        <p><a href="/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
       </section>`,
   },
   {
     slug: "travel-giveaway-tips-maximize-chances",
     title: "Travel Giveaway Tips: Maximize Your Chances Legally",
-    description: "Expert travel giveaway tips for capped US sweepstakes, bundles, AMOE, timing, and budget discipline. Enter smart on Gaviom today. Browse capped travel prizes o",
+    description:
+      "Expert travel giveaway tips for capped US sweepstakes, bundles, AMOE, timing, and budget discipline. Enter smart on Gaviom today. Browse capped travel.",
     date: "2026-05-30",
     category: "Travel Giveaways",
     readMin: 7,
@@ -606,7 +615,7 @@ export const TRAVEL_POSTS = [
       <section class="rules-section">
         <h2>Tip 1: Prioritize capped pools</h2>
         <p>When maximum entries are published, you can calculate odds. Open-ended "unlimited" sweeps often hide worse expected value. A 1-in-1,000 scuba trip beats opaque mega-draws.</p>
-        <p><a href="https://gaviom.com/prizes.html">Verified vacation sweepstakes at Gaviom</a> disclose caps on every prize page.</p>
+        <p><a href="/prizes.html">Verified vacation sweepstakes at Gaviom</a> disclose caps on every prize page.</p>
         <p>When evaluating any travel giveaway tips maximize chances, treat the Official Rules as the contract of record, social captions are not binding. If companion travel, cabin category, or blackout dates matter, confirm them in the rules PDF first.</p>
         <p>Keep a dedicated email folder for travel giveaway tips maximize chances confirmations. Winners are contacted from sponsor domains, not random Gmail accounts. Phishing spikes after big travel draws, verify senders before clicking.</p>
         <p>Legitimate operators photograph the actual ship, resort, or skyline in travel giveaway tips maximize chances marketing. Unnamed stock beaches are a yellow flag when comparing sites.</p>
@@ -642,7 +651,7 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section">
         <h2>Tip 5: Track draw nights</h2>
-        <p>Calendar Sunday 8pm ET for Gaviom founding draws. Watching live is optional; checking <a href="https://gaviom.com/winners.html">Gaviom's winner announcements</a> is not if you entered.</p>
+        <p>Calendar Sunday 8pm ET for Gaviom founding draws. Watching live is optional; checking <a href="/winners.html">Gaviom's winner announcements</a> is not if you entered.</p>
         <p>Legitimate operators photograph the actual ship, resort, or skyline in travel giveaway tips maximize chances marketing. Unnamed stock beaches are a yellow flag when comparing sites.</p>
         <p>Fulfillment involves taxes, guest names, passports, and deadlines, not just flights. Respond to winner notices within 24 hours whenever possible.</p>
         <p>When evaluating any travel giveaway tips maximize chances, treat the Official Rules as the contract of record, social captions are not binding. If companion travel, cabin category, or blackout dates matter, confirm them in the rules PDF first.</p>
@@ -661,14 +670,15 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section blog-cta-band">
         <h2>Ready to win your next trip?</h2>
-        <p>Check out <a href="https://gaviom.com/prizes.html">verified vacation sweepstakes at Gaviom</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
-        <p><a href="https://gaviom.com/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
+        <p>Check out <a href="/prizes.html">verified vacation sweepstakes at Gaviom</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
+        <p><a href="/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
       </section>`,
   },
   {
     slug: "psychology-winning-vacation-contest",
     title: "Psychology of Winning a Vacation Contest",
-    description: "Why vacation contests hook us, loss aversion, odds bias, and responsible play. Enter transparent travel sweepstakes on Gaviom today. Browse capped travel prize",
+    description:
+      "Why vacation contests hook us, loss aversion, odds bias, and responsible play. Enter transparent travel sweepstakes on Gaviom today. Browse capped travel.",
     date: "2026-05-31",
     category: "Travel Giveaways",
     readMin: 6,
@@ -697,7 +707,7 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section">
         <h2>Social proof and live draws</h2>
-        <p>Watching a random draw on video reduces cynicism, part of why <a href="https://gaviom.com/how.html">Gaviom's transparent sweepstakes model</a> uses TikTok instead of closed RNG emails.</p>
+        <p>Watching a random draw on video reduces cynicism, part of why <a href="/how.html">Gaviom's transparent sweepstakes model</a> uses TikTok instead of closed RNG emails.</p>
         <p>Keep a dedicated email folder for psychology winning vacation contest confirmations. Winners are contacted from sponsor domains, not random Gmail accounts. Phishing spikes after big travel draws, verify senders before clicking.</p>
         <p>Legitimate operators photograph the actual ship, resort, or skyline in psychology winning vacation contest marketing. Unnamed stock beaches are a yellow flag when comparing sites.</p>
         <p>Fulfillment involves taxes, guest names, passports, and deadlines, not just flights. Respond to winner notices within 24 hours whenever possible.</p>
@@ -734,14 +744,15 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section blog-cta-band">
         <h2>Ready to win your next trip?</h2>
-        <p>Check out <a href="https://gaviom.com/winners.html">Gaviom's winner announcements</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
-        <p><a href="https://gaviom.com/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
+        <p>Check out <a href="/winners.html">Gaviom's winner announcements</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
+        <p><a href="/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
       </section>`,
   },
   {
     slug: "how-travel-brands-run-legitimate-giveaways",
     title: "How Travel Brands Run Legitimate Giveaways",
-    description: "Legitimate travel giveaways require legal review, AMOE, registration, and escrow. See how operators like Gaviom comply, enter today. Browse capped travel prize",
+    description:
+      "Legitimate travel giveaways require legal review, AMOE, registration, and escrow. See how operators like Gaviom comply, enter today. Browse capped travel.",
     date: "2026-06-01",
     category: "Travel Giveaways",
     readMin: 7,
@@ -762,7 +773,7 @@ export const TRAVEL_POSTS = [
       <section class="rules-section">
         <h2>Partnership with suppliers</h2>
         <p>Cruise lines, hotels, and DMCs contract inventory or cash equivalents before marketing spend. That is how winners actually sail, not via last-minute GoFundMe.</p>
-        <p><a href="https://gaviom.com/membership.html">Gaviom+ monthly travel entries</a> sit atop the same compliance stack as à la carte prizes.</p>
+        <p><a href="/membership.html">Gaviom+ monthly travel entries</a> sit atop the same compliance stack as à la carte prizes.</p>
         <p>US players often ask whether how travel brands run legitimate giveaways promotions are worth the spend. Expected value is usually negative, like concerts or sporting events. Enter for transparent odds on a prize you genuinely want, not guaranteed profit.</p>
         <p>Registration in New York, Florida, and Rhode Island applies to high-value how travel brands run legitimate giveaways promotions. Sponsors that skip eligibility language for those states may be cutting compliance corners.</p>
         <p>Normalize odds by dividing your entries by the published cap. A modest how travel brands run legitimate giveaways with 1,000 entries can beat a viral post with an unknown denominator.</p>
@@ -808,14 +819,15 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section blog-cta-band">
         <h2>Ready to win your next trip?</h2>
-        <p>Check out <a href="https://gaviom.com/membership.html">Gaviom+ monthly travel entries</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
-        <p><a href="https://gaviom.com/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
+        <p>Check out <a href="/membership.html">Gaviom+ monthly travel entries</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
+        <p><a href="/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
       </section>`,
   },
   {
     slug: "whats-included-travel-prize-package",
     title: "What's Included in a Travel Prize Package?",
-    description: "Flights, hotels, taxes, and fine print, what's included in a travel prize package? Compare Gaviom specs before you enter to win. Browse capped travel prizes on",
+    description:
+      "Flights, hotels, taxes, and fine print, what's included in a travel prize package? Compare Gaviom specs before you enter to win. Browse capped travel.",
     date: "2026-06-02",
     category: "Travel Giveaways",
     readMin: 7,
@@ -836,7 +848,7 @@ export const TRAVEL_POSTS = [
       <section class="rules-section">
         <h2>Accommodation layer</h2>
         <p>Nights, room category, resort fees, and occupant count. Suite upgrades may be fixed or subject to availability.</p>
-        <p><a href="https://gaviom.com/prize.html">Enter the founding cruise draw on Gaviom</a> for a documented seven-night balcony example.</p>
+        <p><a href="/prize.html">Enter the founding cruise draw on Gaviom</a> for a documented seven-night balcony example.</p>
         <p>US players often ask whether whats included travel prize package promotions are worth the spend. Expected value is usually negative, like concerts or sporting events. Enter for transparent odds on a prize you genuinely want, not guaranteed profit.</p>
         <p>Registration in New York, Florida, and Rhode Island applies to high-value whats included travel prize package promotions. Sponsors that skip eligibility language for those states may be cutting compliance corners.</p>
         <p>Normalize odds by dividing your entries by the published cap. A modest whats included travel prize package with 1,000 entries can beat a viral post with an unknown denominator.</p>
@@ -882,14 +894,15 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section blog-cta-band">
         <h2>Ready to win your next trip?</h2>
-        <p>Check out <a href="https://gaviom.com/">published-odds travel giveaways on Gaviom</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
-        <p><a href="https://gaviom.com/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
+        <p>Check out <a href="/">published-odds travel giveaways on Gaviom</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
+        <p><a href="/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
       </section>`,
   },
   {
     slug: "win-a-free-vacation-this-year",
     title: "Win a Free Vacation This Year: Here's How",
-    description: "Want to win a free vacation this year? Follow this US action plan, rules, AMOE, capped odds, and enter travel sweepstakes on Gaviom. Browse capped travel priz",
+    description:
+      "Want to win a free vacation this year? Follow this US action plan, rules, AMOE, capped odds, and enter travel sweepstakes on Gaviom. Browse capped travel.",
     date: "2026-06-03",
     category: "Travel Giveaways",
     readMin: 8,
@@ -910,7 +923,7 @@ export const TRAVEL_POSTS = [
       <section class="rules-section">
         <h2>How to win a free vacation without scams</h2>
         <p>Use operators with escrow, live draws, and photographed prizes. Avoid unlimited-entry voids. Pair one high-value target (cruise) with a better-odds experience (scuba, city break).</p>
-        <p>Start at <a href="https://gaviom.com/">Gaviom, Real prizes. Live draws.</a> for four concurrent options.</p>
+        <p>Start at <a href="/">Gaviom, Real prizes. Live draws.</a> for four concurrent options.</p>
         <p>US players often ask whether win a free vacation this year promotions are worth the spend. Expected value is usually negative, like concerts or sporting events. Enter for transparent odds on a prize you genuinely want, not guaranteed profit.</p>
         <p>Registration in New York, Florida, and Rhode Island applies to high-value win a free vacation this year promotions. Sponsors that skip eligibility language for those states may be cutting compliance corners.</p>
         <p>Normalize odds by dividing your entries by the published cap. A modest win a free vacation this year with 1,000 entries can beat a viral post with an unknown denominator.</p>
@@ -956,14 +969,15 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section blog-cta-band">
         <h2>Ready to win your next trip?</h2>
-        <p>Check out <a href="https://gaviom.com/prize.html">enter the founding cruise draw on Gaviom</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
-        <p><a href="https://gaviom.com/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
+        <p>Check out <a href="/prize.html">enter the founding cruise draw on Gaviom</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
+        <p><a href="/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
       </section>`,
   },
   {
     slug: "real-people-won-free-trips",
     title: "Real People Who Won Free Trips: What They Did Right",
-    description: "Real travel giveaways that are legit produce verifiable winners. Learn common habits before Gaviom's September 2026 founding draws, enter today. Browse capped trave",
+    description:
+      "Real travel giveaways that are legit produce verifiable winners. Learn common habits before Gaviom's September 2026 founding draws, enter today. Browse.",
     date: "2026-06-04",
     category: "Travel Giveaways",
     readMin: 6,
@@ -1010,7 +1024,7 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section">
         <h2>Watch Gaviom's first verified stories</h2>
-        <p><a href="https://gaviom.com/winners.html">Gaviom's winner announcements</a> will archive founding draw results after July 2026, the benchmark for real people who won free trips on-platform.</p>
+        <p><a href="/winners.html">Gaviom's winner announcements</a> will archive founding draw results after July 2026, the benchmark for real people who won free trips on-platform.</p>
         <p>Legitimate operators photograph the actual ship, resort, or skyline in real people won free trips marketing. Unnamed stock beaches are a yellow flag when comparing sites.</p>
         <p>Fulfillment involves taxes, guest names, passports, and deadlines, not just flights. Respond to winner notices within 24 hours whenever possible.</p>
         <p>When evaluating any real people won free trips, treat the Official Rules as the contract of record, social captions are not binding. If companion travel, cabin category, or blackout dates matter, confirm them in the rules PDF first.</p>
@@ -1029,14 +1043,15 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section blog-cta-band">
         <h2>Ready to win your next trip?</h2>
-        <p>Check out <a href="https://gaviom.com/rules.html">Gaviom Official Rules</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
-        <p><a href="https://gaviom.com/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
+        <p>Check out <a href="/rules.html">Gaviom Official Rules</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
+        <p><a href="/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
       </section>`,
   },
   {
     slug: "spot-fake-travel-giveaway-vs-real",
     title: "Fake Travel Giveaway vs Real: How to Spot the Difference",
-    description: "Spot fake travel giveaways with this checklist, rules, AMOE, fees, and live draws. Enter only verified vacation sweepstakes on Gaviom. Browse capped travel pri",
+    description:
+      "Spot fake travel giveaways with this checklist, rules, AMOE, fees, and live draws. Enter only verified vacation sweepstakes on Gaviom. Browse capped.",
     date: "2026-06-05",
     category: "Travel Giveaways",
     readMin: 7,
@@ -1060,7 +1075,7 @@ export const TRAVEL_POSTS = [
       <section class="rules-section">
         <h2>Real travel giveaway green flags</h2>
         <p>Official Rules PDF, AMOE mailing address, operator name matching payment processor, published draw schedule, and spec pages with real photography.</p>
-        <p>Cross-check with <a href="https://gaviom.com/rules.html">Gaviom Official Rules</a> as a reference format.</p>
+        <p>Cross-check with <a href="/rules.html">Gaviom Official Rules</a> as a reference format.</p>
         <p>US players often ask whether spot fake travel giveaway vs real promotions are worth the spend. Expected value is usually negative, like concerts or sporting events. Enter for transparent odds on a prize you genuinely want, not guaranteed profit.</p>
         <p>Registration in New York, Florida, and Rhode Island applies to high-value spot fake travel giveaway vs real promotions. Sponsors that skip eligibility language for those states may be cutting compliance corners.</p>
         <p>Normalize odds by dividing your entries by the published cap. A modest spot fake travel giveaway vs real with 1,000 entries can beat a viral post with an unknown denominator.</p>
@@ -1087,7 +1102,7 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section">
         <h2>When in doubt, enter nowhere</h2>
-        <p>One verified entry beats ten risky forms. <a href="https://gaviom.com/">The Gaviom US sweepstakes site</a> is built for players who want audit-friendly transparency.</p>
+        <p>One verified entry beats ten risky forms. <a href="/">The Gaviom US sweepstakes site</a> is built for players who want audit-friendly transparency.</p>
         <p>Legitimate operators photograph the actual ship, resort, or skyline in spot fake travel giveaway vs real marketing. Unnamed stock beaches are a yellow flag when comparing sites.</p>
         <p>Fulfillment involves taxes, guest names, passports, and deadlines, not just flights. Respond to winner notices within 24 hours whenever possible.</p>
         <p>When evaluating any spot fake travel giveaway vs real, treat the Official Rules as the contract of record, social captions are not binding. If companion travel, cabin category, or blackout dates matter, confirm them in the rules PDF first.</p>
@@ -1106,14 +1121,15 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section blog-cta-band">
         <h2>Ready to win your next trip?</h2>
-        <p>Check out <a href="https://gaviom.com/">Gaviom, Real prizes. Live draws.</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
-        <p><a href="https://gaviom.com/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
+        <p>Check out <a href="/">Gaviom, Real prizes. Live draws.</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
+        <p><a href="/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
       </section>`,
   },
   {
     slug: "budget-travel-vs-winning-a-trip",
     title: "Budget Travel vs Winning a Trip: Which Saves More?",
-    description: "Budget travel vs winning a trip, expected value, odds, and hidden costs compared. Play smart with capped vacation sweepstakes on Gaviom. Browse capped travel p",
+    description:
+      "Budget travel vs winning a trip, expected value, odds, and hidden costs compared. Play smart with capped vacation sweepstakes on Gaviom. Browse capped.",
     date: "2026-06-06",
     category: "Travel Giveaways",
     readMin: 7,
@@ -1152,7 +1168,7 @@ export const TRAVEL_POSTS = [
       <section class="rules-section">
         <h2>When sweepstakes beat budgeting</h2>
         <p>When you would never afford the prize category anyway, and spend stays within fun money. A \$80 bundle for a real cruise shot differs from financing a lifestyle on hope.</p>
-        <p><a href="https://gaviom.com/prizes.html">Browse Gaviom travel prizes</a> with ARV and caps visible before purchase.</p>
+        <p><a href="/prizes.html">Browse Gaviom travel prizes</a> with ARV and caps visible before purchase.</p>
         <p>Registration in New York, Florida, and Rhode Island applies to high-value budget travel vs winning a trip promotions. Sponsors that skip eligibility language for those states may be cutting compliance corners.</p>
         <p>Normalize odds by dividing your entries by the published cap. A modest budget travel vs winning a trip with 1,000 entries can beat a viral post with an unknown denominator.</p>
         <p>Free mail-in entry keeps budget travel vs winning a trip lawful when paid tickets exist. Postcards cost stamps but preserve equal random-draw odds without checkout spend.</p>
@@ -1180,14 +1196,15 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section blog-cta-band">
         <h2>Ready to win your next trip?</h2>
-        <p>Check out <a href="https://gaviom.com/prizes.html">browse Gaviom travel prizes</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
-        <p><a href="https://gaviom.com/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
+        <p>Check out <a href="/prizes.html">browse Gaviom travel prizes</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
+        <p><a href="/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
       </section>`,
   },
   {
     slug: "step-by-step-enter-win-travel-contest",
     title: "Step-by-Step: Enter and Win a Travel Contest",
-    description: "Step-by-step guide to enter and win a travel contest in the US, eligibility, AMOE, draws, and claims. Start on Gaviom today. Browse capped travel prizes on Gav",
+    description:
+      "Step-by-step guide to enter and win a travel contest in the US, eligibility, AMOE, draws, and claims. Start on Gaviom today. Browse capped travel prizes.",
     date: "2026-06-07",
     category: "Travel Giveaways",
     readMin: 8,
@@ -1208,7 +1225,7 @@ export const TRAVEL_POSTS = [
       <section class="rules-section">
         <h2>Step 2: Choose entry method</h2>
         <p>Online checkout, membership tickets, or mail-in AMOE. Never pay outside the official flow.</p>
-        <p><a href="https://gaviom.com/how.html">Gaviom's transparent sweepstakes model</a> documents both paid and free paths.</p>
+        <p><a href="/how.html">Gaviom's transparent sweepstakes model</a> documents both paid and free paths.</p>
         <p>US players often ask whether step by step enter win travel contest promotions are worth the spend. Expected value is usually negative, like concerts or sporting events. Enter for transparent odds on a prize you genuinely want, not guaranteed profit.</p>
         <p>Registration in New York, Florida, and Rhode Island applies to high-value step by step enter win travel contest promotions. Sponsors that skip eligibility language for those states may be cutting compliance corners.</p>
         <p>Normalize odds by dividing your entries by the published cap. A modest step by step enter win travel contest with 1,000 entries can beat a viral post with an unknown denominator.</p>
@@ -1254,14 +1271,15 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section blog-cta-band">
         <h2>Ready to win your next trip?</h2>
-        <p>Check out <a href="https://gaviom.com/how.html">Gaviom's transparent sweepstakes model</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
-        <p><a href="https://gaviom.com/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
+        <p>Check out <a href="/how.html">Gaviom's transparent sweepstakes model</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
+        <p><a href="/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
       </section>`,
   },
   {
     slug: "why-travel-giveaways-best-marketing",
     title: "Why Travel Giveaways Are Smart Marketing for Everyone",
-    description: "Why travel giveaways work for brands and players, escrow, ARV, and trust. Explore verified vacation sweepstakes on Gaviom today. Browse capped travel prizes on",
+    description:
+      "Why travel giveaways work for brands and players, escrow, ARV, and trust. Explore verified vacation sweepstakes on Gaviom today. Browse capped travel.",
     date: "2026-06-08",
     category: "Travel Giveaways",
     readMin: 6,
@@ -1291,7 +1309,7 @@ export const TRAVEL_POSTS = [
       <section class="rules-section">
         <h2>Player upside</h2>
         <p>Transparent odds beat opaque timeshares. AMOE keeps the promotion legal and inclusive.</p>
-        <p>Explore <a href="https://gaviom.com/">Gaviom travel sweepstakes hub</a> for a player-first take on the model.</p>
+        <p>Explore <a href="/">Gaviom travel sweepstakes hub</a> for a player-first take on the model.</p>
         <p>Keep a dedicated email folder for why travel giveaways best marketing confirmations. Winners are contacted from sponsor domains, not random Gmail accounts. Phishing spikes after big travel draws, verify senders before clicking.</p>
         <p>Legitimate operators photograph the actual ship, resort, or skyline in why travel giveaways best marketing marketing. Unnamed stock beaches are a yellow flag when comparing sites.</p>
         <p>Fulfillment involves taxes, guest names, passports, and deadlines, not just flights. Respond to winner notices within 24 hours whenever possible.</p>
@@ -1328,14 +1346,15 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section blog-cta-band">
         <h2>Ready to win your next trip?</h2>
-        <p>Check out <a href="https://gaviom.com/">the Gaviom US sweepstakes site</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
-        <p><a href="https://gaviom.com/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
+        <p>Check out <a href="/">the Gaviom US sweepstakes site</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
+        <p><a href="/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
       </section>`,
   },
   {
     slug: "ultimate-guide-vacation-sweepstakes-us",
     title: "Ultimate Guide to Vacation Sweepstakes in the US",
-    description: "The ultimate US vacation sweepstakes guide, law, AMOE, odds, taxes, and trusted sites. Start with live-draw travel prizes on Gaviom. Browse capped travel prize",
+    description:
+      "The ultimate US vacation sweepstakes guide, law, AMOE, odds, taxes, and trusted sites. Start with live-draw travel prizes on Gaviom. Browse capped travel.",
     date: "2026-06-09",
     category: "Travel Giveaways",
     readMin: 9,
@@ -1383,7 +1402,7 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section">
         <h2>Recommended starting point</h2>
-        <p><a href="https://gaviom.com/prizes.html">Gaviom travel sweepstakes hub</a>, four photographed prizes, live TikTok draws, AMOE, and escrow messaging in one place.</p>
+        <p><a href="/prizes.html">Gaviom travel sweepstakes hub</a>, four photographed prizes, live TikTok draws, AMOE, and escrow messaging in one place.</p>
         <p>Legitimate operators photograph the actual ship, resort, or skyline in ultimate guide vacation sweepstakes us marketing. Unnamed stock beaches are a yellow flag when comparing sites.</p>
         <p>Fulfillment involves taxes, guest names, passports, and deadlines, not just flights. Respond to winner notices within 24 hours whenever possible.</p>
         <p>When evaluating any ultimate guide vacation sweepstakes us, treat the Official Rules as the contract of record, social captions are not binding. If companion travel, cabin category, or blackout dates matter, confirm them in the rules PDF first.</p>
@@ -1402,14 +1421,15 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section blog-cta-band">
         <h2>Ready to win your next trip?</h2>
-        <p>Check out <a href="https://gaviom.com/prize-vegas.html">win a Vegas trip on Gaviom</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
-        <p><a href="https://gaviom.com/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
+        <p>Check out <a href="/prize-vegas.html">win a Vegas trip on Gaviom</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
+        <p><a href="/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
       </section>`,
   },
   {
     slug: "how-to-win-a-free-vacation-guide",
     title: "How to Win a Trip Abroad Without Spending a Dime",
-    description: "How to win a free vacation with AMOE mail-in entry, legal caps, and scam avoidance, no purchase required. Start on Gaviom today. Browse capped travel prizes on",
+    description:
+      "How to win a free vacation with AMOE mail-in entry, legal caps, and scam avoidance, no purchase required. Start on Gaviom today. Browse capped travel.",
     date: "2026-06-10",
     category: "Travel Giveaways",
     readMin: 8,
@@ -1421,7 +1441,7 @@ export const TRAVEL_POSTS = [
       <section class="rules-section">
         <h2>Mail-in entry step by step</h2>
         <p>3×5 postcard, handwritten name, address, email, phone, sweepstakes ID, mailed to the AMOE address in Official Rules. Allow processing time, Gaviom requires receipt five business days before draw for eligibility.</p>
-        <p>Full instructions: <a href="https://gaviom.com/free-entry.html">free mail-in entry on Gaviom</a>.</p>
+        <p>Full instructions: <a href="/free-entry.html">free mail-in entry on Gaviom</a>.</p>
         <p>When evaluating any how to win a free vacation guide, treat the Official Rules as the contract of record, social captions are not binding. If companion travel, cabin category, or blackout dates matter, confirm them in the rules PDF first.</p>
         <p>Keep a dedicated email folder for how to win a free vacation guide confirmations. Winners are contacted from sponsor domains, not random Gmail accounts. Phishing spikes after big travel draws, verify senders before clicking.</p>
         <p>Legitimate operators photograph the actual ship, resort, or skyline in how to win a free vacation guide marketing. Unnamed stock beaches are a yellow flag when comparing sites.</p>
@@ -1458,7 +1478,7 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section">
         <h2>Combine free and paid if budget allows</h2>
-        <p>AMOE does not forbid optional purchases elsewhere. Many players mail free entries, then buy one bundle on the promotion they want most, like <a href="https://gaviom.com/prize-diving.html">Gaviom's Cozumel travel prize</a>.</p>
+        <p>AMOE does not forbid optional purchases elsewhere. Many players mail free entries, then buy one bundle on the promotion they want most, like <a href="/prize-diving.html">Gaviom's Cozumel travel prize</a>.</p>
         <p>Legitimate operators photograph the actual ship, resort, or skyline in how to win a free vacation guide marketing. Unnamed stock beaches are a yellow flag when comparing sites.</p>
         <p>Fulfillment involves taxes, guest names, passports, and deadlines, not just flights. Respond to winner notices within 24 hours whenever possible.</p>
         <p>When evaluating any how to win a free vacation guide, treat the Official Rules as the contract of record, social captions are not binding. If companion travel, cabin category, or blackout dates matter, confirm them in the rules PDF first.</p>
@@ -1477,8 +1497,8 @@ export const TRAVEL_POSTS = [
       </section>
       <section class="rules-section blog-cta-band">
         <h2>Ready to win your next trip?</h2>
-        <p>Check out <a href="https://gaviom.com/">Gaviom travel sweepstakes hub</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
-        <p><a href="https://gaviom.com/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
+        <p>Check out <a href="/">Gaviom travel sweepstakes hub</a>, published odds, free alternate entry, and live Sunday draws on TikTok. Browse four verified travel prizes launching September 2026.</p>
+        <p><a href="/prizes.html" class="btn btn-primary">Browse travel sweepstakes</a></p>
       </section>`,
   },
 ];

@@ -111,7 +111,7 @@ export const US_CANADA_SEO_POSTS = [
       <section class="rules-section blog-cta-band">
         <h2>Enter lawfully with a platform built for transparency</h2>
         <p>Read the rules, use free entry if you prefer, and watch the draw live. Start at the <a href="/">Gaviom homepage</a> or browse <a href="/prizes.html">founding sweepstakes</a>.</p>
-        <p><a href="/prizes.html" class="btn btn-primary">Browse sweepstakes</a></p>
+        <p><a href="/prizes.html" class="btn btn-primary">Enter in Draw</a></p>
       </section>
     `,
   },
