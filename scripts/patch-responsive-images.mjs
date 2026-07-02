@@ -70,7 +70,7 @@ const REPLACEMENTS = [
   ],
   [
     /src="\/images\/vegas-quote-hero-800w\.webp" srcset="\/images\/vegas-strip-mobile-480w\.webp 480w, \/images\/vegas-quote-hero-800w\.webp 800w, \/images\/vegas-quote-hero\.webp 1024w" sizes="\(max-width: 768px\) 100vw, 900px" width="1024" height="686"/g,
-    'src="/images/vegas-strip-mobile-480w.webp" srcset="/images/vegas-strip-mobile-480w.webp 480w, /images/vegas-strip-mobile.webp 686w" sizes="(max-width: 768px) 100vw, 425px" width="480" height="717"',
+    'src="/images/vegas-strip-mobile.webp" srcset="/images/vegas-strip-mobile-480w.webp 480w, /images/vegas-strip-mobile.webp 686w" sizes="(max-width: 768px) 100vw, 425px" width="686" height="1024"',
   ],
   [
     /<img class="prize-photo" src="\/images\/diving-turtle\.webp"([^>]*?)loading="lazy"\s*\/>/g,

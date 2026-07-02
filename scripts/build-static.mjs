@@ -46,6 +46,7 @@ const requiredImages = [
   'vegas-strip-mobile-480w.webp',
   'vegas-strip-mobile.webp',
   'diving-turtle-480w.webp',
+  'diving-cozumel-480w.webp',
   'cruise-hero-480w.webp',
 ];
 const imagesOut = join(out, 'images');
