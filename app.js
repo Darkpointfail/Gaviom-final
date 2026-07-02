@@ -358,80 +358,98 @@
   function initMobileNav() {
     const mq = window.matchMedia('(max-width: 980px)');
 
-    document.querySelectorAll('.nav-inner').forEach((inner) => {
-      const links = inner.querySelector('.nav-links');
-      if (!links || inner.querySelector('.nav-menu-btn')) return;
+    function teardownMobileNav() {
+      document.body.classList.remove('nav-open');
+      document.querySelectorAll('.nav-menu-btn').forEach((el) => el.remove());
+      document.querySelectorAll('.nav-mobile-backdrop').forEach((el) => el.remove());
+      document.querySelectorAll('.nav-mobile-panel').forEach((el) => el.remove());
+    }
 
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'nav-menu-btn';
-      btn.setAttribute('aria-label', 'Open menu');
-      btn.setAttribute('aria-expanded', 'false');
-      btn.innerHTML = '<span class="nav-menu-icon" aria-hidden="true"></span>';
+    function setupMobileNav() {
+      document.querySelectorAll('.nav-inner').forEach((inner) => {
+        const links = inner.querySelector('.nav-links');
+        if (!links || inner.querySelector('.nav-menu-btn')) return;
 
-      const backdrop = document.createElement('div');
-      backdrop.className = 'nav-mobile-backdrop';
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'nav-menu-btn';
+        btn.setAttribute('aria-label', 'Open menu');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.innerHTML = '<span class="nav-menu-icon" aria-hidden="true"></span>';
 
-      const panel = document.createElement('div');
-      panel.className = 'nav-mobile-panel';
-      panel.setAttribute('role', 'dialog');
-      panel.setAttribute('aria-modal', 'true');
-      panel.setAttribute('aria-label', 'Site menu');
+        const backdrop = document.createElement('div');
+        backdrop.className = 'nav-mobile-backdrop';
+        backdrop.hidden = true;
 
-      const closeBtn = document.createElement('button');
-      closeBtn.type = 'button';
-      closeBtn.className = 'nav-mobile-close';
-      closeBtn.setAttribute('aria-label', 'Close menu');
-      closeBtn.textContent = '×';
+        const panel = document.createElement('div');
+        panel.className = 'nav-mobile-panel';
+        panel.hidden = true;
+        panel.setAttribute('role', 'dialog');
+        panel.setAttribute('aria-modal', 'true');
+        panel.setAttribute('aria-label', 'Site menu');
 
-      const panelInner = document.createElement('div');
-      panelInner.className = 'nav-mobile-panel__inner';
+        const closeBtn = document.createElement('button');
+        closeBtn.type = 'button';
+        closeBtn.className = 'nav-mobile-close';
+        closeBtn.setAttribute('aria-label', 'Close menu');
+        closeBtn.textContent = '×';
 
-      const mobileLinks = links.cloneNode(true);
-      mobileLinks.classList.remove('nav-links');
-      mobileLinks.classList.add('nav-mobile-links');
-      panelInner.appendChild(mobileLinks);
+        const panelInner = document.createElement('div');
+        panelInner.className = 'nav-mobile-panel__inner';
 
-      const navRight = inner.querySelector('.nav-right');
-      if (navRight) {
-        const actions = document.createElement('div');
-        actions.className = 'nav-mobile-actions';
-        navRight.querySelectorAll('a.nav-signin, a.btn').forEach((a) => {
-          actions.appendChild(a.cloneNode(true));
-        });
-        if (actions.childElementCount) {
-          panelInner.appendChild(actions);
-          actions.querySelectorAll('a.btn-primary').forEach((a) => applyButtonShine(a, 0));
+        const mobileLinks = links.cloneNode(true);
+        mobileLinks.classList.remove('nav-links');
+        mobileLinks.classList.add('nav-mobile-links');
+        panelInner.appendChild(mobileLinks);
+
+        const navRight = inner.querySelector('.nav-right');
+        if (navRight) {
+          const actions = document.createElement('div');
+          actions.className = 'nav-mobile-actions';
+          navRight.querySelectorAll('a.nav-signin, a.btn').forEach((a) => {
+            actions.appendChild(a.cloneNode(true));
+          });
+          if (actions.childElementCount) {
+            panelInner.appendChild(actions);
+            actions.querySelectorAll('a.btn-primary').forEach((a) => applyButtonShine(a, 0));
+          }
         }
-      }
 
-      panel.append(closeBtn, panelInner);
-      document.body.append(backdrop, panel);
+        panel.append(closeBtn, panelInner);
+        document.body.append(backdrop, panel);
 
-      const navRightEl = inner.querySelector('.nav-right');
-      if (navRightEl) inner.insertBefore(btn, navRightEl);
+        const navRightEl = inner.querySelector('.nav-right');
+        if (navRightEl) inner.insertBefore(btn, navRightEl);
 
-      function setOpen(open) {
-        document.body.classList.toggle('nav-open', open);
-        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-        btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-        backdrop.classList.toggle('is-visible', open);
-        panel.classList.toggle('is-visible', open);
-      }
+        function setOpen(open) {
+          document.body.classList.toggle('nav-open', open);
+          btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+          btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+          backdrop.classList.toggle('is-visible', open);
+          panel.classList.toggle('is-visible', open);
+          backdrop.hidden = !open;
+          panel.hidden = !open;
+        }
 
-      btn.addEventListener('click', () => setOpen(!document.body.classList.contains('nav-open')));
-      backdrop.addEventListener('click', () => setOpen(false));
-      closeBtn.addEventListener('click', () => setOpen(false));
-      panel.querySelectorAll('a').forEach((a) => {
-        a.addEventListener('click', () => setOpen(false));
+        btn.addEventListener('click', () => setOpen(!document.body.classList.contains('nav-open')));
+        backdrop.addEventListener('click', () => setOpen(false));
+        closeBtn.addEventListener('click', () => setOpen(false));
+        panel.querySelectorAll('a').forEach((a) => {
+          a.addEventListener('click', () => setOpen(false));
+        });
+        window.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && document.body.classList.contains('nav-open')) setOpen(false);
+        });
       });
-      window.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && document.body.classList.contains('nav-open')) setOpen(false);
-      });
-      mq.addEventListener('change', () => {
-        if (!mq.matches) setOpen(false);
-      });
-    });
+    }
+
+    function syncMobileNav() {
+      if (mq.matches) setupMobileNav();
+      else teardownMobileNav();
+    }
+
+    syncMobileNav();
+    mq.addEventListener('change', syncMobileNav);
   }
 
   function cartScriptSrc() {
@@ -1085,14 +1103,25 @@
       notice.classList.toggle('is-error', Boolean(isError));
     }
 
+    function loadCartItemsFallback() {
+      if (window.GaviomCart) return window.GaviomCart.load();
+      try {
+        const raw = localStorage.getItem('gaviom-cart-v1');
+        if (!raw) return [];
+        const data = JSON.parse(raw);
+        return Array.isArray(data.items) ? data.items : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
     function getCheckoutPayload(email) {
       const params = new URLSearchParams(window.location.search);
       const plan = params.get('plan');
       if (plan === 'monthly' || plan === 'annual') {
         return { type: 'membership', plan: 'monthly', email };
       }
-      const cart = window.GaviomCart;
-      const items = cart ? cart.load() : [];
+      const items = loadCartItemsFallback();
       if (items.length > 0) {
         return {
           type: 'cart',
@@ -1100,12 +1129,43 @@
           items: items.map((item) => ({ prizeId: item.prizeId, qty: item.qty })),
         };
       }
-      const prize = params.get('prize');
+      let prize = params.get('prize');
+      if (!prize) {
+        const single = document.querySelector('[data-checkout-single]');
+        if (single && !single.hidden) prize = 'msc';
+      }
       if (prize) {
         const qty = parseInt(params.get('bundle') || '5', 10) || 5;
-        return { type: 'single', email, prize, qty };
+        return { email, prize, qty };
       }
       return null;
+    }
+
+    let embeddedCheckoutInstance = null;
+
+    async function mountEmbeddedCheckout(clientSecret, publishableKey) {
+      if (!window.Stripe) {
+        throw new Error('Stripe could not load. Disable ad blockers and refresh.');
+      }
+      const panel = document.querySelector('[data-stripe-checkout-panel]');
+      const mountEl = document.getElementById('stripe-embedded-checkout');
+      if (!panel || !mountEl) {
+        throw new Error('Payment form could not open. Refresh and try again.');
+      }
+      if (embeddedCheckoutInstance) {
+        try {
+          embeddedCheckoutInstance.destroy();
+        } catch (e) {
+          /* ignore */
+        }
+        embeddedCheckoutInstance = null;
+        mountEl.innerHTML = '';
+      }
+      const stripe = window.Stripe(publishableKey);
+      embeddedCheckoutInstance = await stripe.initEmbeddedCheckout({ clientSecret });
+      panel.hidden = false;
+      embeddedCheckoutInstance.mount('#stripe-embedded-checkout');
+      panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
     function initCheckoutPayMethods() {
@@ -1151,14 +1211,14 @@
         const defaultLabel = submit ? submit.textContent : '';
         if (submit) {
           submit.disabled = true;
-          submit.textContent = 'Redirecting to Stripe…';
+          submit.textContent = 'Loading payment form…';
         }
         showCheckoutNotice('', false);
 
         try {
           const configRes = await fetch('/api/stripe-config', { credentials: 'same-origin' });
           const config = await configRes.json();
-          if (!config.configured) {
+          if (!config.configured || !config.publishableKey) {
             throw new Error('Payments are not live yet. Stripe keys must be added in Vercel.');
           }
 
@@ -1172,15 +1232,27 @@
           if (!res.ok) {
             throw new Error(data.error || 'Checkout could not start.');
           }
+          if (data.clientSecret) {
+            await mountEmbeddedCheckout(data.clientSecret, config.publishableKey);
+            if (submit) {
+              submit.hidden = true;
+            }
+            const fine = document.querySelector('[data-checkout-fine]');
+            if (fine) {
+              fine.textContent = 'Powered by Stripe · Tickets confirmed after payment · Win the prize only if drawn';
+            }
+            return;
+          }
           if (data.url) {
             window.location.href = data.url;
             return;
           }
-          throw new Error('No checkout URL returned.');
+          throw new Error('No payment form returned.');
         } catch (err) {
           showCheckoutNotice(err.message || 'Something went wrong. Please try again.', true);
           if (submit) {
             submit.disabled = false;
+            submit.hidden = false;
             submit.textContent = defaultLabel;
           }
         }
@@ -1899,13 +1971,21 @@
       scheduleIdle(initThumbs);
       scheduleIdle(initPlaceholders);
       scheduleIdle(initGallery);
-      scheduleIdle(() => {
+      if (/checkout\.html/i.test(location.pathname)) {
         ensureCartScript()
           .then(() => initCheckoutPrize())
           .catch(() => initCheckoutPrize());
-      });
-      scheduleIdle(initCheckoutPayMethods);
-      scheduleIdle(initCheckoutForm);
+        run(initCheckoutPayMethods);
+        run(initCheckoutForm);
+      } else {
+        scheduleIdle(() => {
+          ensureCartScript()
+            .then(() => initCheckoutPrize())
+            .catch(() => initCheckoutPrize());
+        });
+        scheduleIdle(initCheckoutPayMethods);
+        scheduleIdle(initCheckoutForm);
+      }
     }
 
   if (document.readyState === 'loading') {

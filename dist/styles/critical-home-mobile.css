@@ -282,6 +282,10 @@ img { max-width: 100%; height: auto; display: block; }
   .topbar .extra { display: none; }
   .topbar-left > span:first-child { display: none; }
   .nav-links, .nav-right .nav-signin { display: none; }
+  .nav-mobile-backdrop,
+  .nav-mobile-panel {
+    display: none !important;
+  }
   .countdown-blocks--premium {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -330,13 +334,4 @@ img { max-width: 100%; height: auto; display: block; }
     transform-origin: left center;
   }
   .prize-card-img { position: relative; aspect-ratio: 4 / 3; }
-  .section-sm,
-  .section,
-  .full-bleed-quote,
-  .final-cta,
-  .footer,
-  .sticky-cta {
-    content-visibility: auto;
-    contain-intrinsic-size: auto 480px;
-  }
 }

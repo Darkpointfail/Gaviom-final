@@ -3116,6 +3116,13 @@ body.checkout-page::after {
 .co-card-panel[hidden] {
   display: none !important;
 }
+.co-stripe-embedded {
+  min-height: 420px;
+  margin-top: 8px;
+}
+.co-stripe-embedded iframe {
+  width: 100% !important;
+}
 .co-field-row {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -4557,6 +4564,22 @@ html:has(body.how-page)::before {
 .mt-24 { margin-top: 24px; }
 .mb-36 { margin-bottom: 36px; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+
+/* Mobile drawer shell — layout lives in mobile.css; keep closed panels out of flow */
+.nav-mobile-backdrop,
+.nav-mobile-panel {
+  display: none;
+}
+
+@media (max-width: 980px) {
+  .nav-mobile-backdrop.is-visible {
+    display: block;
+  }
+
+  .nav-mobile-panel.is-visible {
+    display: flex;
+  }
+}
 
 @media (max-width: 980px) {
   .nav-links { display: none; }

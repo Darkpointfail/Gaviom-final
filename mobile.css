@@ -113,7 +113,12 @@ body.nav-open .nav-menu-icon::after {
   transition: opacity 0.28s ease, visibility 0.28s;
 }
 
+.nav-mobile-backdrop:not(.is-visible) {
+  display: none !important;
+}
+
 .nav-mobile-backdrop.is-visible {
+  display: block !important;
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
@@ -131,7 +136,6 @@ body.nav-open .nav-menu-icon::after {
   background-image: var(--bg-night);
   border-left: 1px solid color-mix(in oklab, var(--gold) 18%, var(--navy));
   box-shadow: var(--sh-3);
-  display: flex;
   flex-direction: column;
   padding: calc(12px + var(--safe-top)) 0 calc(16px + var(--safe-bottom));
   transform: translateX(100%);
@@ -141,7 +145,12 @@ body.nav-open .nav-menu-icon::after {
   pointer-events: none;
 }
 
+.nav-mobile-panel:not(.is-visible) {
+  display: none !important;
+}
+
 .nav-mobile-panel.is-visible {
+  display: flex !important;
   transform: translateX(0);
   visibility: visible;
   pointer-events: auto;

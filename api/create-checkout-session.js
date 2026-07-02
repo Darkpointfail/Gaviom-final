@@ -72,19 +72,23 @@ module.exports = async function handler(req, res) {
   try {
     const session = await stripe.checkout.sessions.create({
       mode,
+      ui_mode: 'embedded',
       customer_email: email,
       line_items: built.lineItems,
-      success_url: `${origin}/checkout-success.html?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/checkout.html?canceled=1`,
+      return_url: `${origin}/checkout-success.html?session_id={CHECKOUT_SESSION_ID}`,
       metadata: {
         ...built.metadata,
         customer_email: email,
       },
+      payment_method_types: mode === 'subscription' ? undefined : ['card'],
       allow_promotion_codes: false,
       billing_address_collection: 'auto',
     });
 
-    return res.status(200).json({ url: session.url, sessionId: session.id });
+    return res.status(200).json({
+      clientSecret: session.client_secret,
+      sessionId: session.id,
+    });
   } catch (err) {
     console.error('create-checkout-session:', err.message);
     return res.status(500).json({ error: 'Could not start checkout. Please try again.' });
