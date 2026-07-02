@@ -1,46 +1,46 @@
 {
-  "generatedAt": "2026-07-01T16:51:45.442Z",
+  "generatedAt": "2026-07-02T10:58:20.159Z",
   "items": [
     {
       "label": "home-hero-desktop.webp",
-      "before": 88928,
-      "after": 88420,
-      "saved": 508,
+      "before": 87774,
+      "after": 87270,
+      "saved": 504,
       "file": "images/home-hero-desktop.webp"
     },
     {
       "label": "home-hero-desktop.avif",
-      "before": 64473,
-      "after": 64464,
-      "saved": 9,
+      "before": 64259,
+      "after": 64103,
+      "saved": 156,
       "file": "images/home-hero-desktop.avif"
     },
     {
       "label": "home-hero-mobile.webp",
-      "before": 58826,
-      "after": 58762,
-      "saved": 64,
+      "before": 58468,
+      "after": 58282,
+      "saved": 186,
       "file": "images/home-hero-mobile.webp"
     },
     {
       "label": "home-hero-mobile.avif",
-      "before": 47894,
-      "after": 48264,
-      "saved": -370,
+      "before": 47809,
+      "after": 47670,
+      "saved": 139,
       "file": "images/home-hero-mobile.avif"
     },
     {
       "label": "home-hero-mobile-480w.webp",
-      "before": 31356,
-      "after": 31032,
-      "saved": 324,
+      "before": 31224,
+      "after": 31166,
+      "saved": 58,
       "file": "images/home-hero-mobile-480w.webp"
     },
     {
       "label": "home-hero-mobile-480w.avif",
-      "before": 23235,
-      "after": 23119,
-      "saved": 116,
+      "before": 23176,
+      "after": 23154,
+      "saved": 22,
       "file": "images/home-hero-mobile-480w.avif"
     },
     {
@@ -115,16 +115,16 @@
     },
     {
       "label": "vegas-quote-hero.webp",
-      "before": 120812,
-      "after": 120812,
+      "before": 155192,
+      "after": 155192,
       "saved": 0,
       "file": "images/vegas-quote-hero.webp"
     },
     {
       "label": "cruise-hero.webp",
-      "before": 495374,
-      "after": 490478,
-      "saved": 4896,
+      "before": 484924,
+      "after": 481652,
+      "saved": 3272,
       "file": "images/cruise-hero.webp"
     },
     {

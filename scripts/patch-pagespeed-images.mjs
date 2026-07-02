@@ -23,19 +23,40 @@ const CRUISE_CARD =
   'src="/images/cruise-hero-480w.webp" srcset="/images/cruise-hero-480w.webp 480w, /images/cruise-hero-800w.webp 800w" sizes="(max-width: 768px) 100vw, 300px" width="480" height="268" decoding="async"';
 
 const VEGAS_CARD =
-  'src="/images/vegas-quote-hero-480w.webp" srcset="/images/vegas-quote-hero-480w.webp 480w, /images/vegas-quote-hero-800w.webp 800w" sizes="(max-width: 768px) 100vw, 300px" width="480" height="322" decoding="async"';
+  'src="/images/vegas-strip-mobile-480w.webp" srcset="/images/vegas-strip-mobile-480w.webp 480w, /images/vegas-strip-mobile.webp 686w" sizes="(max-width: 768px) 100vw, 300px" width="480" height="717" decoding="async"';
+
+const VEGAS_PRIZE_CARD =
+  'src="/images/vegas-strip-mobile-480w.webp" srcset="/images/vegas-strip-mobile-480w.webp 480w, /images/vegas-strip-mobile.webp 686w"';
 
 const VEGAS_GALLERY =
-  'data-gallery-main src="/images/vegas-quote-hero-800w.webp" srcset="/images/vegas-quote-hero-480w.webp 480w, /images/vegas-quote-hero-800w.webp 800w, /images/vegas-quote-hero.webp 1024w" sizes="(max-width: 768px) 100vw, 720px" width="800" height="536"';
+  'data-gallery-main src="/images/vegas-quote-hero-800w.webp" srcset="/images/vegas-strip-mobile-480w.webp 480w, /images/vegas-quote-hero-800w.webp 800w, /images/vegas-quote-hero.webp 1024w" sizes="(max-width: 768px) 100vw, 720px" width="800" height="536"';
 
 const REPLACEMENTS = [
-  /* prize-vegas gallery — 1280w/1920w were 404 on Vercel */
+  /* prize cards + homepage — portrait Strip (4:3 crop); landscape hero stays on gallery */
+  [
+    /src="\/images\/vegas-quote-hero-480w\.webp" srcset="\/images\/vegas-quote-hero-480w\.webp 480w, \/images\/vegas-quote-hero-800w\.webp 800w" sizes="\(max-width: 768px\) 100vw, 425px" width="480" height="322"/g,
+    `${VEGAS_PRIZE_CARD} sizes="(max-width: 768px) 100vw, 425px" width="480" height="717"`,
+  ],
+  [
+    /src="\/images\/vegas-quote-hero-480w\.webp" srcset="\/images\/vegas-quote-hero-480w\.webp 480w, \/images\/vegas-quote-hero-800w\.webp 800w" sizes="\(max-width: 768px\) 100vw, 300px" width="480" height="322"/g,
+    `${VEGAS_PRIZE_CARD} sizes="(max-width: 768px) 100vw, 300px" width="480" height="717"`,
+  ],
+  /* prize-vegas full-bleed — portrait on mobile */
+  [
+    /<source media="\(max-width: 800px\)" srcset="\/images\/vegas-quote-hero-480w\.webp" type="image\/webp" \/>/g,
+    '<source media="(max-width: 800px)" srcset="/images/vegas-strip-mobile-480w.webp" type="image/webp" />',
+  ],
+  /* prizes sweep panel — 800w fallback on desktop */
+  [
+    /<img src="\/images\/vegas-quote-hero-480w\.webp" srcset="\/images\/vegas-quote-hero-480w\.webp 480w, \/images\/vegas-quote-hero-800w\.webp 800w, \/images\/vegas-quote-hero\.webp 1024w" sizes="100vw" width="480" height="322"/g,
+    '<img src="/images/vegas-quote-hero-800w.webp" srcset="/images/vegas-strip-mobile-480w.webp 480w, /images/vegas-quote-hero-800w.webp 800w, /images/vegas-quote-hero.webp 1024w" sizes="100vw" width="800" height="536"',
+  ],
   [
     /data-gallery-main src="\/images\/vegas-quote-hero-1280w\.webp" srcset="[^"]*" sizes="[^"]*" width="1024" height="686"/g,
     VEGAS_GALLERY,
   ],
   [
-    /data-gallery-main src="\/images\/vegas-quote-hero-450w\.webp" srcset="\/images\/vegas-quote-hero-450w\.webp 450w, \/images\/vegas-quote-hero-800w\.webp 800w, \/images\/vegas-quote-hero\.webp 1024w" sizes="\(max-width: 768px\) 100vw, 720px" width="450" height="300"/g,
+    /data-gallery-main src="\/images\/vegas-quote-hero-800w\.webp" srcset="\/images\/vegas-quote-hero-480w\.webp 480w, \/images\/vegas-quote-hero-800w\.webp 800w, \/images\/vegas-quote-hero\.webp 1024w" sizes="\(max-width: 768px\) 100vw, 720px" width="800" height="536"/g,
     VEGAS_GALLERY,
   ],
   /* prizes.html sweep panels */
@@ -114,9 +135,7 @@ const REPLACEMENTS = [
     /<figure class="blog-figure"><img src="\/images\/vegas-quote-hero\.webp"/g,
     '<figure class="blog-figure"><img src="/images/vegas-quote-hero-480w.webp" srcset="/images/vegas-quote-hero-480w.webp 480w, /images/vegas-quote-hero-800w.webp 800w" sizes="(max-width: 768px) 100vw, 720px" width="480" height="322"',
   ],
-  /* revert prior patch sizes that 404 on Vercel */
-  [/vegas-quote-hero-450w\.webp 450w/g, 'vegas-quote-hero-480w.webp 480w'],
-  [/src="\/images\/vegas-quote-hero-450w\.webp"/g, 'src="/images/vegas-quote-hero-480w.webp"'],
+  /* revert prior patch sizes */
   [/diving-turtle-450w\.webp 450w/g, 'diving-turtle-480w.webp 480w'],
   [/src="\/images\/diving-turtle-450w\.webp"/g, 'src="/images/diving-turtle-480w.webp"'],
   [/cruise-hero-400w\.webp 400w/g, 'cruise-hero-480w.webp 480w'],

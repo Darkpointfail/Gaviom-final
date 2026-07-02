@@ -132,11 +132,16 @@ async function recompress800wVariants() {
 }
 
 async function recompressCardMasters() {
-  for (const base of ['diving-turtle', 'vegas-quote-hero']) {
+  for (const base of ['diving-turtle']) {
     const input = resolveInput(`${base}.png`) || resolveInput(`${base}.webp`);
     if (!input) continue;
     const meta = await sharp(input).metadata();
     await writeWebp(input, join(imagesDir, `${base}.webp`), meta.width, CARD_WEBP_Q);
+  }
+  const vegasPng = resolveInput('vegas-quote-hero.png');
+  if (vegasPng) {
+    const meta = await sharp(vegasPng).metadata();
+    await writeWebp(vegasPng, join(imagesDir, 'vegas-quote-hero.webp'), meta.width, 82);
   }
   const cruiseWebp = resolveInput('cruise-hero.webp');
   if (cruiseWebp) {

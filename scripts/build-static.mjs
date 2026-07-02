@@ -43,6 +43,8 @@ for (const name of readdirSync(root)) {
 const requiredImages = [
   'vegas-quote-hero-480w.webp',
   'vegas-quote-hero-800w.webp',
+  'vegas-strip-mobile-480w.webp',
+  'vegas-strip-mobile.webp',
   'diving-turtle-480w.webp',
   'cruise-hero-480w.webp',
 ];

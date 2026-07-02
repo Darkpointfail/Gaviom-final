@@ -862,6 +862,9 @@ ul { list-style: none; }
   border-color: color-mix(in oklab, var(--gold) 32%, var(--line));
 }
 .prize-card-img { position: relative; aspect-ratio: 4/3; }
+.prize-card-img .prize-photo[src*="vegas-strip-mobile"] {
+  object-position: center 38%;
+}
 .prize-photo-wrap {
   position: absolute;
   inset: 0;
