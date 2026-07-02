@@ -88,6 +88,13 @@
     if (fmt === 'short') {
       return `<span class="countdown-inline">${num(parts.d)}<span class="countdown-unit">d</span><span class="countdown-inline__gap" aria-hidden="true"></span>${num(parts.h)}<span class="countdown-unit">h</span><span class="countdown-inline__gap" aria-hidden="true"></span>${num(parts.m)}<span class="countdown-unit">m</span><span class="countdown-inline__gap" aria-hidden="true"></span>${num(parts.s)}<span class="countdown-unit">s</span></span>`;
     }
+    if (fmt === 'stat') {
+      const time = `${num(parts.h)}<span class="countdown-sep">:</span>${num(parts.m)}<span class="countdown-sep">:</span>${num(parts.s)}`;
+      if (parts.d > 0) {
+        return `<span class="countdown-stat"><span class="countdown-stat__days">${parts.d}<span class="countdown-unit">d</span></span><span class="countdown-stat__time">${time}</span></span>`;
+      }
+      return `<span class="countdown-stat countdown-stat--soon"><span class="countdown-stat__time countdown-stat__time--solo">${time}</span></span>`;
+    }
     return `<span class="countdown-inline countdown-inline--compact">${num(parts.d)}<span class="countdown-unit">d</span><span class="countdown-inline__gap" aria-hidden="true"></span>${num(parts.h)}<span class="countdown-unit">h</span><span class="countdown-inline__gap" aria-hidden="true"></span>${num(parts.m)}<span class="countdown-unit">m</span><span class="countdown-inline__gap" aria-hidden="true"></span>${num(parts.s)}<span class="countdown-unit">s</span></span>`;
   }
 

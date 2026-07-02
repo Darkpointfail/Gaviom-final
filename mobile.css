@@ -1019,7 +1019,11 @@ body.nav-open .nav-menu-icon::after {
   }
 
   .pd-stat .v {
-    font-size: 22px;
+    font-size: clamp(18px, 5vw, 22px);
+  }
+
+  .pd-stat .v .countdown-stat__time {
+    font-size: 0.65em;
   }
 
   .pd-stat {

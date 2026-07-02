@@ -1,18 +1,18 @@
 {
-  "generatedAt": "2026-07-02T15:19:48.384Z",
+  "generatedAt": "2026-07-02T15:29:53.617Z",
   "items": [
     {
       "label": "home-hero-desktop.webp",
-      "before": 81226,
-      "after": 80918,
-      "saved": 308,
+      "before": 80918,
+      "after": 80900,
+      "saved": 18,
       "file": "images/home-hero-desktop.webp"
     },
     {
       "label": "home-hero-desktop.avif",
-      "before": 60857,
-      "after": 60592,
-      "saved": 265,
+      "before": 60592,
+      "after": 60393,
+      "saved": 199,
       "file": "images/home-hero-desktop.avif"
     },
     {
@@ -115,9 +115,9 @@
     },
     {
       "label": "cruise-hero.webp",
-      "before": 460346,
-      "after": 458116,
-      "saved": 2230,
+      "before": 458116,
+      "after": 457016,
+      "saved": 1100,
       "file": "images/cruise-hero.webp"
     },
     {
