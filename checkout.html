@@ -71,10 +71,27 @@
           <input id="email" name="email" type="email" placeholder="you@email.com" autocomplete="email" required />
         </div>
 
-        <section class="co-card-panel" data-stripe-payment-panel aria-label="Card payment">
+        <section class="co-card-panel is-loading" data-stripe-payment-panel aria-label="Card payment">
           <p class="co-pay-stripe__eyebrow font-mono"><span class="bar"></span> Card details</p>
-          <p class="co-pay-stripe__text">Card number, expiry date, and CVC appear below. Visa, Mastercard, and Amex accepted.</p>
-          <div id="card-element" class="co-payment-element" aria-label="Card number, expiry, and security code"></div>
+          <p class="co-pay-stripe__text co-payment-loading font-mono" data-stripe-loading>Loading secure card fields…</p>
+
+          <div class="co-stripe-fields" data-stripe-fields hidden>
+            <div class="co-field">
+              <label for="card-number">Card number</label>
+              <div id="card-number" class="co-stripe-field"></div>
+            </div>
+            <div class="co-stripe-field-row">
+              <div class="co-field">
+                <label for="card-expiry">Expiry date</label>
+                <div id="card-expiry" class="co-stripe-field"></div>
+              </div>
+              <div class="co-field">
+                <label for="card-cvc">CVC</label>
+                <div id="card-cvc" class="co-stripe-field"></div>
+              </div>
+            </div>
+          </div>
+
           <p id="card-errors" class="co-card-errors font-mono" role="alert" hidden></p>
         </section>
 
@@ -93,6 +110,7 @@
       </form>
     </div>
   </main>
+<script src="checkout-stripe.js?v=20260706-perf"></script>
 <script defer src="app.js?v=20260706-perf"></script>
   <script>
 (function () {

@@ -1327,7 +1327,7 @@
 
     function initCheckoutForm() {
       const form = document.getElementById('gaviom-checkout');
-      if (!form) return;
+      if (!form || form.dataset.stripeBound === '1') return;
 
       initCheckoutCanceledNotice();
 
@@ -2096,19 +2096,15 @@
       scheduleIdle(initPlaceholders);
       scheduleIdle(initGallery);
       if (/checkout\.html/i.test(location.pathname)) {
-        initCheckoutForm();
-        (async () => {
-          await initStripeCardElement();
-          ensureCartScript()
-            .then(async () => {
-              initCheckoutPrize();
-              await initStripeCardElement();
-            })
-            .catch(async () => {
-              initCheckoutPrize();
-              await initStripeCardElement();
-            });
-        })();
+        ensureCartScript()
+          .then(() => {
+            initCheckoutPrize();
+            if (window.GaviomCheckoutStripe) window.GaviomCheckoutStripe.refresh();
+          })
+          .catch(() => {
+            initCheckoutPrize();
+            if (window.GaviomCheckoutStripe) window.GaviomCheckoutStripe.refresh();
+          });
       } else {
         scheduleIdle(() => {
           ensureCartScript()

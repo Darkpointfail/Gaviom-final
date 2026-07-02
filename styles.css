@@ -3147,6 +3147,33 @@ body.checkout-page::after {
 .co-card-errors[hidden] {
   display: none !important;
 }
+.co-stripe-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 4px;
+}
+.co-stripe-field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.co-stripe-field {
+  min-height: 44px;
+  padding: 12px 14px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  background: var(--paper);
+}
+.co-card-panel.is-loading [data-stripe-fields] {
+  display: none !important;
+}
+.co-card-panel:not(.is-loading) [data-stripe-loading] {
+  display: none;
+}
+.co-card-panel[hidden] {
+  display: none !important;
+}
 .co-field-row {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;

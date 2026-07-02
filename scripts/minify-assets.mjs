@@ -27,5 +27,6 @@ async function minifyFile(rel, loader) {
 
 await minifyFile('app.js', 'js');
 await minifyFile('cart.js', 'js');
+await minifyFile('checkout-stripe.js', 'js');
 await minifyFile('styles.css', 'css');
 await minifyFile('mobile.css', 'css');
