@@ -1,6 +1,17 @@
 const INQUIRY_TO = (process.env.BUSINESS_INQUIRY_TO || 'info@getgaviom.com').trim();
 const INQUIRY_FROM =
-  (process.env.BUSINESS_INQUIRY_FROM || 'Gaviom Business <notifications@getgaviom.com>').trim();
+  (process.env.BUSINESS_INQUIRY_FROM || 'Gaviom Business <business@gaviom.com>').trim();
+
+function resendErrorMessage(data) {
+  const message = typeof data?.message === 'string' ? data.message : '';
+  if (message.includes('domain is not verified')) {
+    return 'Email sender domain is not verified in Resend. Verify getgaviom.com or set BUSINESS_INQUIRY_FROM on Vercel.';
+  }
+  if (message.includes('API key is invalid')) {
+    return 'Email delivery is misconfigured (invalid Resend API key).';
+  }
+  return 'Could not send inquiry email. Try again shortly.';
+}
 
 function parseBody(req) {
   let body = req.body;
@@ -87,7 +98,7 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
+  const apiKey = (process.env.RESEND_API_KEY || '').trim();
   if (!apiKey || apiKey.includes('REPLACE')) {
     return res.status(503).json({
       error: 'Email delivery is not configured. Add RESEND_API_KEY in Vercel.',
@@ -116,7 +127,7 @@ module.exports = async function handler(req, res) {
       body: JSON.stringify({
         from: INQUIRY_FROM,
         to: [INQUIRY_TO],
-        reply_to: mail.replyTo,
+        reply_to: [mail.replyTo],
         subject: mail.subject,
         text: mail.text,
         html: mail.html,
@@ -126,7 +137,7 @@ module.exports = async function handler(req, res) {
     const data = await response.json().catch(() => ({}));
     if (!response.ok) {
       console.error('business-inquiry resend:', response.status, data);
-      return res.status(502).json({ error: 'Could not send inquiry email. Try again shortly.' });
+      return res.status(502).json({ error: resendErrorMessage(data) });
     }
 
     return res.status(200).json({ ok: true, id: data.id || null });
