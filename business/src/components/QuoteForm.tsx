@@ -17,7 +17,7 @@ type FormState = {
   message: string;
 };
 
-const WEBHOOK_URL = process.env.NEXT_PUBLIC_QUOTE_WEBHOOK_URL;
+const INQUIRY_API = '/api/business-inquiry';
 
 export function QuoteForm({ presetPackage, onSuccess }: QuoteFormProps) {
   const [form, setForm] = useState<FormState>({
@@ -47,37 +47,19 @@ export function QuoteForm({ presetPackage, onSuccess }: QuoteFormProps) {
     };
 
     try {
-      if (WEBHOOK_URL) {
-        const res = await fetch(WEBHOOK_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-        if (!res.ok) throw new Error('Webhook failed');
-      } else {
-        const subject = encodeURIComponent(
-          `Gaviom Business Quote, ${form.company}`,
-        );
-        const body = encodeURIComponent(
-          [
-            `Name: ${form.name}`,
-            `Company: ${form.company}`,
-            `Email: ${form.email}`,
-            `Employees: ${form.employees}`,
-            `Package: ${form.packageInterest}`,
-            form.message ? `Message: ${form.message}` : '',
-          ]
-            .filter(Boolean)
-            .join('\n'),
-        );
-        window.location.href = `mailto:info@getgaviom.com?subject=${subject}&body=${body}`;
+      const res = await fetch(INQUIRY_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.error || 'Could not send inquiry.');
       }
 
       setStatus('success');
-      if (WEBHOOK_URL) {
-        setTimeout(() => onSuccess?.(), 2500);
-      }
-    } catch {
+      setTimeout(() => onSuccess?.(), 2500);
+    } catch (err) {
       setStatus('error');
     }
   };
@@ -196,8 +178,8 @@ export function QuoteForm({ presetPackage, onSuccess }: QuoteFormProps) {
           Something went wrong. Email us at{' '}
           <a href="mailto:info@getgaviom.com" className="underline">
             info@getgaviom.com
-          </a>
-          .
+          </a>{' '}
+          or try again in a moment.
         </p>
       )}
 

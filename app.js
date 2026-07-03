@@ -2008,17 +2008,49 @@
 
       const form = document.querySelector('[data-corp-demo]');
       if (!form) return;
-      form.addEventListener('submit', (e) => {
+      form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const email = form.querySelector('#corp-email');
-        if (email && !email.value.trim()) {
-          email.focus();
+        const emailEl = form.querySelector('#corp-email');
+        const email = emailEl ? emailEl.value.trim() : '';
+        if (!email) {
+          if (emailEl) emailEl.focus();
           return;
         }
         const btn = form.querySelector('[type="submit"]');
+        const defaultLabel = btn ? btn.textContent : '';
+        const teamSize = form.querySelector('[data-corp-pill-input="size"]');
+        const interest = form.querySelector('[data-corp-pill-input="interest"]');
         if (btn) {
-          btn.textContent = 'Request received';
           btn.disabled = true;
+          btn.textContent = 'Sending…';
+        }
+        try {
+          const res = await fetch('/api/business-inquiry', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({
+              email,
+              team_size: teamSize ? teamSize.value : '',
+              interest: interest ? interest.value : '',
+              packageInterest: interest ? interest.value : '',
+              source: 'corporate-landing',
+              submittedAt: new Date().toISOString(),
+            }),
+          });
+          const data = await res.json();
+          if (!res.ok) {
+            throw new Error(data.error || 'Could not send inquiry.');
+          }
+          if (btn) {
+            btn.textContent = 'Request received';
+          }
+        } catch (err) {
+          if (btn) {
+            btn.disabled = false;
+            btn.textContent = defaultLabel;
+          }
+          if (emailEl) emailEl.focus();
         }
       });
     }
