@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
 
+# LLMs.txt: https://gaviom.com/llms.txt
+
 Sitemap: https://gaviom.com/sitemap.xml

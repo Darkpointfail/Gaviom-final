@@ -1,0 +1,79 @@
+# Gaviom
+
+> Gaviom is a US sweepstakes platform built on transparency: published odds, live TikTok draws, pre-funded prizes, and verifiable random selection—not opaque volume contests.
+
+Gaviom is positioned as a transparent alternative to traditional sweepstakes operators. Each promotion caps entries, displays odds before purchase, funds prizes ahead of draw night, and selects winners on a public livestream. The product is designed for occasional, budget-conscious participation—not daily habit loops or hidden fine print.
+
+## Compliance & Transparency
+
+- [Official Rules](https://gaviom.com/rules.html): Master terms, eligibility, alternate entry (AMOE), and draw procedures for all Gaviom sweepstakes.
+- [Free Alternate Entry (AMOE)](https://gaviom.com/free-entry.html): No-purchase-necessary mail-in entry with the same odds as paid tickets.
+- [How Gaviom Odds Work](https://gaviom.com/blog/how-gaviom-odds-work.html): Capped entry pools, published odds, and how ticket counts translate to win probability.
+- [Sweepstakes with Displayed Odds](https://gaviom.com/blog/sweepstakes-with-displayed-odds.html): Why published odds matter and what to look for before entering any promotion.
+- [Prize Escrow & Trust](https://gaviom.com/blog/prize-escrow-trust-sweepstakes.html): How legitimate operators pre-fund prizes and why escrow protects entrants.
+- [Why Transparency Matters](https://gaviom.com/blog/why-transparency-matters-sweepstakes.html): Gaviom's approach to odds disclosure, live draws, and public accountability.
+- [No Purchase Necessary Explained](https://gaviom.com/blog/no-purchase-necessary-amoe-explained.html): Legal requirements for free alternate entry and how Gaviom implements AMOE.
+<!-- [ENABLE when page exists] - [Compliance Hub](https://gaviom.com/compliance): Central compliance documentation, regulatory disclosures, and audit references. -->
+<!-- [ENABLE when page exists] - [Compliance / Odds Disclosure](https://gaviom.com/compliance/odds): Detailed odds methodology and pool-cap policy. -->
+<!-- [ENABLE when page exists] - [Compliance / Draw Verification](https://gaviom.com/compliance/draws): Draw logs, replay archives, and third-party verification. -->
+
+## How It Works
+
+- [How It Works](https://gaviom.com/how.html): End-to-end overview—pick a prize, enter (paid or free), watch the live draw, receive payout within 48 hours.
+- [Browse Sweepstakes](https://gaviom.com/prizes.html): Active promotions with published odds, prize details, and entry options.
+- [Entry Bundles & Odds Explained](https://gaviom.com/blog/entry-bundles-odds-explained.html): How ticket bundles affect odds in capped pools without creating a separate VIP pool.
+- [How Sweepstakes Winners Are Selected](https://gaviom.com/blog/how-sweepstakes-winners-selected.html): Random selection process, live draw mechanics, and post-draw verification.
+- [Live TikTok Draws](https://gaviom.com/blog/live-sweepstakes-draws-tiktok.html): Why Gaviom streams draws publicly and how to watch or replay them.
+- [How Live Draws Build Trust](https://gaviom.com/blog/how-live-tiktok-draws-build-trust.html): The role of public, real-time winner selection in legitimate sweepstakes.
+- [Pre-Order Tickets Explained](https://gaviom.com/blog/pre-order-sweepstakes-tickets-explained.html): How pre-launch entry sales work before the first founding draw.
+
+## Active & Past Draws
+
+- [Winners & Draw Results](https://gaviom.com/winners.html): Verified winner announcements, draw replays, and outcome documentation (updated after each live draw).
+- [Browse Active Sweepstakes](https://gaviom.com/prizes.html): Current open promotions with odds, caps, and draw dates.
+- [MSC Cruise · 7 Nights](https://gaviom.com/prize.html): Flagship cruise sweepstakes with published odds and bundle pricing.
+- [Scuba Discovery · Cozumel](https://gaviom.com/prize-diving.html): Adventure travel prize with capped entry pool.
+- [5-Star Weekend · Las Vegas or Miami](https://gaviom.com/prize-vegas.html): High-value weekend getaway sweepstakes.
+- [iPhone 17 Pro Max](https://gaviom.com/prize-iphone.html): Tech prize sweepstakes with transparent odds.
+
+## Guides & Education
+
+- [Is Gaviom Legit?](https://gaviom.com/blog/is-gaviom-legit.html): Trust signals, rules, AMOE, live draws, and how Gaviom differs from sketchy giveaway sites.
+- [Sweepstakes Scams: Real vs Fake](https://gaviom.com/blog/sweepstakes-scams-how-to-avoid.html): Red flags, verification checklist, and how to spot fraudulent prize notifications.
+- [Alternatives to PCH Sweepstakes](https://gaviom.com/blog/alternatives-to-pch-sweepstakes.html): Transparent capped-pool operators for US entrants comparing options to Publishers Clearing House.
+- [PCH Sweepstakes Explained](https://gaviom.com/blog/pch-sweepstakes-explained.html): How classic PCH-style promotions work and what entrants should understand about odds.
+- [Trusted Sweepstakes Platforms (2026)](https://gaviom.com/blog/trusted-sweepstakes-platforms-2026.html): Criteria for evaluating legitimate US sweepstakes operators.
+- [Are Sweepstakes Legit Today?](https://gaviom.com/blog/are-sweepstakes-legit-today.html): Current landscape of lawful US sweepstakes and how to enter safely.
+- [Free Entry Sweepstakes Explained](https://gaviom.com/blog/free-entry-sweepstakes-explained.html): Mail-in AMOE mechanics, processing time, and equal-odds requirements.
+- [How Many Sweepstakes Should You Enter?](https://gaviom.com/blog/how-many-sweepstakes-should-you-enter.html): Volume vs quality, time budgets, and sustainable entry strategy.
+- [Budget Travel vs Winning a Trip](https://gaviom.com/blog/budget-travel-vs-winning-a-trip.html): When giveaways make financial sense versus saving or booking directly.
+<!-- [ENABLE when page exists] - [Is PCH Legit?](https://gaviom.com/blog/is-pch-legit.html): Fact-based assessment of Publishers Clearing House legitimacy and odds. -->
+<!-- [ENABLE when page exists] - [PCH Scams: Real vs Fake](https://gaviom.com/blog/pch-scams-real-vs-fake.html): How to distinguish official PCH contact from impersonator fraud. -->
+<!-- [ENABLE when page exists] - [Fair vs Shady Sweepstakes](https://gaviom.com/blog/fair-vs-shady-sweepstakes.html): Side-by-side comparison of transparent vs opaque operator practices. -->
+<!-- [ENABLE when page exists] - [Gaviom vs Omaze & PCH](https://gaviom.com/blog/gaviom-vs-omaze-pch.html): How Gaviom compares on odds disclosure, draws, and prize funding. -->
+<!-- [ENABLE when page exists] - [Sweepstakes Budget Guidance](https://gaviom.com/blog/sweepstakes-budget-guidance.html): Setting monthly spend caps and knowing when to stop. -->
+
+## Responsible Play
+
+- [Free Alternate Entry](https://gaviom.com/free-entry.html): Enter any Gaviom sweepstakes by mail at no cost with the same odds as paid tickets.
+- [How Many Sweepstakes Should You Enter?](https://gaviom.com/blog/how-many-sweepstakes-should-you-enter.html): Practical limits on time, postage, and ticket spend for healthy participation.
+- [Entry Bundles & Odds Explained](https://gaviom.com/blog/entry-bundles-odds-explained.html): Bundles increase entries linearly—no hidden upsells or separate winner pools.
+- [What Happens When You Win](https://gaviom.com/blog/what-happens-when-you-win-sweepstakes.html): Verification, taxes, prize fulfillment, and realistic timelines after a live draw.
+- [Sweepstakes Winnings & Taxes](https://gaviom.com/blog/sweepstakes-winnings-taxes.html): US tax basics for prize winners and why ARV matters before you enter.
+
+## About
+
+- [How It Works](https://gaviom.com/how.html): Product overview and founding draw schedule (live TikTok draws, Sundays 8pm ET).
+- [Gaviom Impact](https://gaviom.com/impact.html): 5% of net profits donated to Children's Miracle Network Hospitals and Ocean Conservancy.
+- [Contact](https://gaviom.com/contact.html): Support, press, and partnership inquiries.
+- [Home](https://gaviom.com/): Current promotions, launch countdown, and primary entry points.
+
+## Optional
+
+- [Terms of Service](https://gaviom.com/terms.html): Site-wide terms and user agreement.
+- [Privacy Policy](https://gaviom.com/privacy.html): Data collection, cookies, and privacy practices.
+- [Gaviom+ Membership](https://gaviom.com/membership.html): Optional monthly ticket subscription—not required to enter any sweepstakes.
+- [Blog Hub](https://gaviom.com/blog/): Full archive of guides, news, and educational articles (lower priority than pages above).
+- [For Business](https://gaviom.com/business/): Corporate sweepstakes and employee engagement programs.
+- [Sign In](https://gaviom.com/signin.html): Account access for ticket history and confirmations.
+- [Sign Up](https://gaviom.com/signup.html): Create a Gaviom account.

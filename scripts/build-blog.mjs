@@ -184,6 +184,8 @@ function buildRobots() {
     `User-agent: *
 Allow: /
 
+# LLMs.txt: https://gaviom.com/llms.txt
+
 Sitemap: ${SITE_URL}/sitemap.xml
 `
   );
