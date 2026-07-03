@@ -1,6 +1,6 @@
 const INQUIRY_TO = (process.env.BUSINESS_INQUIRY_TO || 'info@getgaviom.com').trim();
 const INQUIRY_FROM =
-  (process.env.BUSINESS_INQUIRY_FROM || 'Gaviom Business <business@gaviom.com>').trim();
+  (process.env.BUSINESS_INQUIRY_FROM || 'Gaviom Business <inquiries@getgaviom.com>').trim();
 
 function resendErrorMessage(data) {
   const message = typeof data?.message === 'string' ? data.message : '';
