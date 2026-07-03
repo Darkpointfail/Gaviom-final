@@ -184,7 +184,30 @@ function buildRobots() {
     `User-agent: *
 Allow: /
 
-# LLMs.txt: https://gaviom.com/llms.txt
+# Explicit AI / LLM crawlers (inherits Allow: / above; documented for clarity)
+User-agent: GPTBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: anthropic-ai
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: CCBot
+Allow: /
+
+# Block non-public paths (optional hardening — currently open but low-value for crawlers)
+User-agent: *
+Disallow: /api/
+Disallow: /checkout-success.html
+
+# LLMs.txt: ${SITE_URL}/llms.txt
 
 Sitemap: ${SITE_URL}/sitemap.xml
 `
