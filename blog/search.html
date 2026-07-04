@@ -59,67 +59,7 @@
         <div class="blog-grid" id="blog-search-results"></div>
       </div>
     </section>
-    <script>
-    (function () {
-      var params = new URLSearchParams(window.location.search);
-      var input = document.getElementById('blog-search-input');
-      var section = document.getElementById('blog-search-section');
-      var tag = document.getElementById('blog-search-tag');
-      var status = document.getElementById('blog-search-status');
-      var results = document.getElementById('blog-search-results');
-      if (input && params.get('q')) input.value = params.get('q');
-      if (section && params.get('section')) section.value = params.get('section');
-      if (tag && params.get('tag')) tag.value = params.get('tag');
 
-      function card(item) {
-        return '<article class="blog-card"><a class="blog-card-link" href="' + item.url + '">' +
-          '<img class="blog-card-thumb" src="' + item.image + '" alt="" loading="lazy" decoding="async" />' +
-          '<span class="blog-card-cat font-mono">' + item.sectionLabel + '</span>' +
-          '<h2 class="blog-card-title font-display">' + item.title.replace(/</g, '&lt;') + '</h2>' +
-          '<p class="blog-card-excerpt">' + item.description.replace(/</g, '&lt;') + '</p>' +
-          '<span class="blog-card-meta font-mono">' + item.date + ' · ' + item.readMin + ' min read</span></a></article>';
-      }
-
-      function runSearch() {
-        fetch('/blog/search-index.json')
-          .then(function (r) { return r.json(); })
-          .then(function (data) {
-            var q = (input.value || '').trim().toLowerCase();
-            var sec = section.value;
-            var tg = (tag.value || '').trim().toLowerCase();
-            var list = data.filter(function (item) {
-              if (sec && item.section !== sec) return false;
-              if (tg && !item.tags.some(function (t) { return t.indexOf(tg) !== -1; })) return false;
-              if (!q) return true;
-              var hay = (item.title + ' ' + item.description + ' ' + item.tags.join(' ')).toLowerCase();
-              return hay.indexOf(q) !== -1;
-            });
-            status.textContent = list.length + ' article' + (list.length === 1 ? '' : 's') + ' found';
-            results.innerHTML = list.slice(0, 48).map(card).join('');
-          })
-          .catch(function () {
-            status.textContent = 'Search index unavailable.';
-          });
-      }
-
-      document.getElementById('blog-search-form').addEventListener('submit', function (e) {
-        e.preventDefault();
-        runSearch();
-      });
-      runSearch();
-    })();
-    </script>
-  </main>
-  <footer class="footer">
-    <div class="wrap footer-grid">
-      <div class="footer-brand"><a href="/" class="brand"><span class="brand-mark">G</span> Gaviom</a><p class="footer-tagline">US sweepstakes with published odds, live draws, and reserved prize value. Operated by Gaviom Inc., Delaware.</p></div>
-      <div class="footer-col"><h4>Play</h4><ul><li><a href="/prizes.html">All sweepstakes</a></li><li><a href="/prize.html">Grand prize</a></li></ul></div>
-      <div class="footer-col"><h4>Learn</h4><ul><li><a href="/blog">Blog</a></li><li><a href="/blog/search">Search</a></li><li><a href="/how.html">How it works</a></li><li><a href="/business/">For business</a></li></ul></div>
-      <div class="footer-col"><h4>Legal</h4><ul><li><a href="/rules.html">Official Rules</a></li><li><a href="/free-entry.html">Free entry by mail</a></li><li><a href="/terms.html">Terms</a></li><li><a href="/privacy.html">Privacy</a></li></ul></div>
-    </div>
-    <div class="wrap footer-legal"><span>© 2026 Gaviom Inc.</span><span>18+ · Void where prohibited</span></div>
-  </footer>
-<script defer src="/app.js?v=20260706-perf"></script>
   <script>
 (function () {
   function loadGA() {
@@ -127,13 +67,13 @@
     window.__gaviomGaLoaded = true;
     var s = document.createElement('script');
     s.async = true;
-    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-SSJ8R41VP4';
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-6Z150MVYT0';
     document.head.appendChild(s);
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     window.gtag = gtag;
     gtag('js', new Date());
-    gtag('config', 'G-SSJ8R41VP4');
+    gtag('config', 'G-6Z150MVYT0');
   }
   if ('requestIdleCallback' in window) {
     requestIdleCallback(loadGA, { timeout: 4000 });

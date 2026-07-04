@@ -1,5 +1,5 @@
 /** Google Analytics 4, gaviom.com web stream */
-export const GA_MEASUREMENT_ID = 'G-SSJ8R41VP4';
+export const GA_MEASUREMENT_ID = 'G-6Z150MVYT0';
 
 /**
  * Deferred GA4 — loads after idle / post-load so it does not compete with LCP.

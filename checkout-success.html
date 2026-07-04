@@ -49,84 +49,18 @@
 
   <script>
 (function () {
-  var params = new URLSearchParams(window.location.search);
-  var sessionId = params.get('session_id');
-  var paymentIntentId = params.get('payment_intent');
-  var title = document.querySelector('[data-success-title]');
-  var lede = document.querySelector('[data-success-lede]');
-  var emailEl = document.querySelector('[data-success-email]');
-  var amountEl = document.querySelector('[data-success-amount]');
-  var errEl = document.querySelector('[data-success-error]');
-  var actions = document.querySelector('[data-success-actions]');
-
-  function fmt(cents, currency) {
-    if (cents == null) return '';
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: (currency || 'usd').toUpperCase() }).format(cents / 100);
-  }
-
-  function clearCart() {
-    try {
-      localStorage.removeItem('gaviom-cart-v1');
-    } catch (e) {}
-  }
-
-  if (!sessionId && !paymentIntentId) {
-    if (lede) lede.textContent = 'Missing payment reference. If you completed checkout, check your email for a Stripe receipt.';
-    if (actions) actions.hidden = false;
-    return;
-  }
-
-  var verifyUrl = sessionId
-    ? '/api/checkout-session?session_id=' + encodeURIComponent(sessionId)
-    : '/api/payment-intent?id=' + encodeURIComponent(paymentIntentId);
-
-  fetch(verifyUrl, { credentials: 'same-origin' })
-    .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
-    .then(function (result) {
-      if (!result.ok) {
-        throw new Error(result.data.error || 'Could not verify payment');
-      }
-      clearCart();
-      if (title) title.textContent = 'Payment confirmed';
-      if (lede) {
-        lede.textContent = result.data.mode === 'subscription'
-          ? 'Your Gaviom+ membership is active. Tickets will appear in your account each month.'
-          : 'Your sweepstakes tickets are confirmed. Good luck in the draw!';
-      }
-      if (emailEl && result.data.email) {
-        emailEl.hidden = false;
-        emailEl.textContent = 'Confirmation sent to ' + result.data.email;
-      }
-      if (amountEl && result.data.amountTotal != null) {
-        amountEl.hidden = false;
-        amountEl.textContent = fmt(result.data.amountTotal, result.data.currency);
-      }
-      if (actions) actions.hidden = false;
-    })
-    .catch(function (err) {
-      if (errEl) {
-        errEl.hidden = false;
-        errEl.textContent = err.message || 'Verification failed. If you were charged, contact us with your Stripe receipt.';
-      }
-      if (lede) lede.textContent = 'We could not verify this session automatically.';
-      if (actions) actions.hidden = false;
-    });
-})();
-  </script>
-  <script>
-(function () {
   function loadGA() {
     if (window.__gaviomGaLoaded) return;
     window.__gaviomGaLoaded = true;
     var s = document.createElement('script');
     s.async = true;
-    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-SSJ8R41VP4';
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-6Z150MVYT0';
     document.head.appendChild(s);
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     window.gtag = gtag;
     gtag('js', new Date());
-    gtag('config', 'G-SSJ8R41VP4');
+    gtag('config', 'G-6Z150MVYT0');
   }
   if ('requestIdleCallback' in window) {
     requestIdleCallback(loadGA, { timeout: 4000 });

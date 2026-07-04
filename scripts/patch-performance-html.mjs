@@ -20,7 +20,8 @@ const GA_BLOCK =
 const GA_INLINE =
   /\s*<script>\s*window\.dataLayer[\s\S]*?gtag\('config', '[^']+'\);\s*<\/script>/gi;
 
-const GA_DEFERRED_MARKER = '__gaviomGaLoaded';
+const GA_DEFERRED_BLOCK =
+  /\s*<script>\s*\(function \(\) \{[\s\S]*?__gaviomGaLoaded[\s\S]*?\}\)\(\);\s*<\/script>/gi;
 
 function walk(dir, out = []) {
   for (const name of readdirSync(dir)) {
@@ -46,7 +47,7 @@ function stripGa(html) {
 }
 
 function ensureDeferredGa(html) {
-  if (html.includes(GA_DEFERRED_MARKER)) return html;
+  html = html.replace(GA_DEFERRED_BLOCK, '\n');
   const snippet = googleAnalyticsDeferred();
   if (html.includes('</body>')) {
     return html.replace('</body>', `${snippet}\n</body>`);
