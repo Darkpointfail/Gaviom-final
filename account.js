@@ -87,9 +87,10 @@
 
   function statusBadge(status) {
     var s = (status || 'confirmed').toLowerCase();
-    var cls = s === 'confirmed' || s === 'paid' || s === 'complete' ? 'account-status--confirmed' : 'account-status--pending';
-    if (s === 'paid') cls = 'account-status--paid';
-    return '<span class="account-status ' + cls + '">' + s + '</span>';
+    var cls = 'acct-pill--confirmed';
+    if (s === 'pending') cls = 'acct-pill--pending';
+    if (s === 'paid') cls = 'acct-pill--paid';
+    return '<span class="acct-pill ' + cls + '">' + s + '</span>';
   }
 
   function parseHashSection() {
@@ -370,10 +371,10 @@
     state.entries.forEach(function (entry) {
       var tr = document.createElement('tr');
       tr.innerHTML =
-        '<td><span class="account-table__title">' + prizeLabel(entry.prize_id) + '</span></td>' +
+        '<td><span class="acct-table__title">' + prizeLabel(entry.prize_id) + '</span></td>' +
         '<td><strong>' + entry.quantity + '</strong></td>' +
-        '<td class="account-table__meta">' + drawLabel(entry.draw_id) + '</td>' +
-        '<td class="account-table__meta">' + formatDateShort(entry.created_at) + '</td>' +
+        '<td class="acct-table__meta">' + drawLabel(entry.draw_id) + '</td>' +
+        '<td class="acct-table__meta">' + formatDateShort(entry.created_at) + '</td>' +
         '<td>' + statusBadge(entry.status) + '</td>';
       tbody.appendChild(tr);
     });
@@ -401,12 +402,12 @@
 
     pastEntries.forEach(function (entry) {
       var li = document.createElement('li');
-      li.className = 'account-timeline__item';
+      li.className = 'acct-timeline__item';
       li.innerHTML =
-        '<span class="account-timeline__dot" aria-hidden="true"></span>' +
-        '<article class="account-timeline__card">' +
-        '<p class="account-timeline__prize">' + prizeLabel(entry.prize_id) + '</p>' +
-        '<div class="account-timeline__meta">' +
+        '<span class="acct-timeline__dot" aria-hidden="true"></span>' +
+        '<article class="acct-timeline__card">' +
+        '<p class="acct-timeline__prize">' + prizeLabel(entry.prize_id) + '</p>' +
+        '<div class="acct-timeline__meta">' +
         '<span>' + drawLabel(entry.draw_id) + '</span>' +
         '<span>' + entry.quantity + ' ticket' + (entry.quantity === 1 ? '' : 's') + '</span>' +
         '<span>' + formatDateShort(entry.created_at) + '</span>' +
@@ -427,7 +428,7 @@
     var active = m && (m.status === 'active' || m.status === 'trialing');
     if (badge) {
       badge.textContent = active ? 'Active' : 'Not subscribed';
-      badge.classList.toggle('badge-ochre', active);
+      badge.classList.toggle('acct-pill--active', active);
     }
     if (renewal) {
       if (active && m.current_period_end) {
@@ -467,9 +468,9 @@
       var info = describeOrder(order);
       var tr = document.createElement('tr');
       tr.innerHTML =
-        '<td><span class="account-table__title">' + info.title + '</span></td>' +
-        '<td class="account-table__amount">' + formatMoney(order.amount_total, order.currency) + '</td>' +
-        '<td class="account-table__meta">' + formatDateShort(order.created_at) + '</td>' +
+        '<td><span class="acct-table__title">' + info.title + '</span></td>' +
+        '<td class="acct-table__amount">' + formatMoney(order.amount_total, order.currency) + '</td>' +
+        '<td class="acct-table__meta">' + formatDateShort(order.created_at) + '</td>' +
         '<td>' + statusBadge(order.status || 'paid') + '</td>';
       tbody.appendChild(tr);
     });
@@ -490,7 +491,7 @@
     container.hidden = false;
     state.promos.forEach(function (entry) {
       var chip = document.createElement('span');
-      chip.className = 'account-chip';
+      chip.className = 'acct-chip';
       chip.textContent = entry.code + ' · ' + entry.status;
       container.appendChild(chip);
     });

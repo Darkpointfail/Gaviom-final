@@ -1798,12 +1798,3 @@ body.nav-open .nav-menu-icon::after {
     transform: scale(0.97);
   }
 }
-
-/* Account hub — mobile */
-@media (max-width: 1024px) {
-  body.account-page .account-dashboard { display: block; }
-  body.account-page .account-main { margin-top: 8px; }
-  body.account-page .account-table { min-width: 520px; }
-  body.account-page .account-table-wrap { -webkit-overflow-scrolling: touch; }
-  body.account-page .account-panel { scroll-margin-top: 72px; }
-}
