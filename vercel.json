@@ -193,6 +193,38 @@
   ],
   "rewrites": [
     {
+      "source": "/api/stripe-config",
+      "destination": "/api/stripe?action=config"
+    },
+    {
+      "source": "/api/create-payment-intent",
+      "destination": "/api/stripe?action=create-intent"
+    },
+    {
+      "source": "/api/update-payment-intent",
+      "destination": "/api/stripe?action=update-intent"
+    },
+    {
+      "source": "/api/create-checkout-session",
+      "destination": "/api/stripe?action=create-checkout"
+    },
+    {
+      "source": "/api/payment-intent",
+      "destination": "/api/stripe?action=verify-intent"
+    },
+    {
+      "source": "/api/checkout-session",
+      "destination": "/api/stripe?action=verify-session"
+    },
+    {
+      "source": "/api/account/orders",
+      "destination": "/api/account?action=orders"
+    },
+    {
+      "source": "/api/account/billing-portal",
+      "destination": "/api/account?action=billing-portal"
+    },
+    {
       "source": "/contact",
       "destination": "/contact.html"
     },
