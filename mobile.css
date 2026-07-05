@@ -1799,75 +1799,15 @@ body.nav-open .nav-menu-icon::after {
   }
 }
 
-/* Account hub — Safari / mobile layout fixes */
+/* Account hub — mobile layout */
 @media (max-width: 1024px) {
-  body.account-page .account-hero {
-    padding: 20px 0 24px;
-  }
-  body.account-page .account-hero__inner {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-  }
-  body.account-page .account-hero__profile {
-    flex-direction: row;
-    align-items: center;
-  }
-  body.account-page .account-hero__stats {
-    max-width: none;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  body.account-page .account-kpi--cta {
-    grid-column: 1 / -1;
-  }
-  body.account-page .account-layout {
-    grid-template-columns: 1fr;
-  }
-  body.account-page .account-sidebar {
-    position: static;
-    max-height: none;
-    overflow: visible;
-  }
-  body.account-page .account-nav {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 4px;
-  }
-  body.account-page .account-content {
-    padding: 16px;
-    border-radius: var(--r-md);
-    overflow: visible;
-  }
-  body.account-page .account-table-wrap {
-    -webkit-overflow-scrolling: touch;
+  body.account-page .account-summary {
+    gap: 20px;
   }
   body.account-page .account-table {
     min-width: 480px;
   }
-  body.account-page .account-table th,
-  body.account-page .account-table td {
-    padding: 10px 12px;
-    font-size: 12px;
-  }
-  body.account-page .account-kpi__value {
-    font-size: 20px;
-  }
-  body.account-page .account-profile-grid {
-    grid-template-columns: 1fr;
-  }
-  body.account-page .account-dash-grid,
-  body.account-page .account-payment-grid,
-  body.account-page .account-security-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 560px) {
-  body.account-page .account-nav {
-    grid-template-columns: 1fr;
-  }
-  body.account-page .account-hero__profile {
-    flex-direction: column;
-    align-items: flex-start;
+  body.account-page .account-table-wrap {
+    -webkit-overflow-scrolling: touch;
   }
 }

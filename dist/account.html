@@ -59,163 +59,104 @@
   </header>
 
   <main class="account-hub">
-    <section class="account-hero" aria-label="Account summary">
-      <div class="wrap account-hero__inner">
-        <div class="account-hero__profile">
+    <div class="wrap account-page-wrap">
+      <header class="account-page-head">
+        <h1 class="account-page-head__title font-display">My account</h1>
+        <p class="account-page-head__sub">Manage your profile, entries, billing, and preferences.</p>
+      </header>
+
+      <p class="auth-alert account-alert" data-account-alert hidden role="alert" aria-live="polite"></p>
+
+      <!-- Single account summary -->
+      <article class="account-summary" aria-label="Account summary">
+        <div class="account-summary__profile">
           <div class="account-avatar-wrap account-avatar-wrap--lg">
-            <img class="account-avatar" data-account-avatar hidden alt="" width="88" height="88" />
+            <img class="account-avatar" data-account-avatar hidden alt="" width="72" height="72" />
             <span class="account-avatar-fallback font-display" data-account-avatar-fallback aria-hidden="true">G</span>
             <label class="account-avatar-edit font-mono" title="Change photo">
               <input type="file" accept="image/jpeg,image/png,image/webp" data-account-avatar-input hidden />
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-              Photo
+              Edit
             </label>
           </div>
-          <div class="account-hero__identity">
-            <p class="account-hero__eyebrow font-mono"><span class="bar"></span> Member account</p>
-            <h1 class="account-hero__name font-display" data-account-name>Your account</h1>
-            <p class="account-hero__email font-mono" data-account-email>…</p>
-            <div class="account-hero__badges">
-              <span class="account-badge account-badge--verified font-mono">Verified member</span>
-              <span class="account-badge account-badge--muted font-mono">Member since <span data-account-member-since>—</span></span>
+          <div class="account-summary__identity">
+            <h2 class="account-summary__name font-display" data-account-name>Your account</h2>
+            <div class="account-summary__badges">
+              <span class="account-badge account-badge--verified font-mono">Verified</span>
+              <span class="account-badge account-badge--muted font-mono">Since <span data-account-member-since>—</span></span>
             </div>
           </div>
         </div>
-        <div class="account-hero__stats">
-          <article class="account-kpi">
-            <p class="account-kpi__label font-mono">Active tickets</p>
-            <p class="account-kpi__value font-display" data-account-stat-tickets>0</p>
-          </article>
-          <article class="account-kpi">
-            <p class="account-kpi__label font-mono">Past orders</p>
-            <p class="account-kpi__value font-display" data-account-stat-orders>0</p>
-          </article>
-          <article class="account-kpi">
-            <p class="account-kpi__label font-mono">Gaviom+</p>
-            <p class="account-kpi__value account-kpi__value--sm font-display" data-account-stat-membership>Not active</p>
-          </article>
-          <article class="account-kpi account-kpi--cta">
-            <a href="/prizes.html" class="btn btn-primary btn-sm">Enter sweepstakes</a>
-          </article>
+        <div class="account-summary__stats">
+          <div class="account-summary__stat">
+            <span class="account-summary__stat-label font-mono">Active tickets</span>
+            <span class="account-summary__stat-value font-display" data-account-stat-tickets>0</span>
+          </div>
+          <div class="account-summary__stat">
+            <span class="account-summary__stat-label font-mono">Past orders</span>
+            <span class="account-summary__stat-value font-display" data-account-stat-orders>0</span>
+          </div>
+          <div class="account-summary__stat">
+            <span class="account-summary__stat-label font-mono">Gaviom+</span>
+            <span class="account-summary__stat-value account-summary__stat-value--sm font-display" data-account-stat-membership>Not active</span>
+          </div>
         </div>
-      </div>
-    </section>
+        <div class="account-summary__cta">
+          <a href="/prizes.html" class="btn btn-primary">Enter sweepstakes</a>
+        </div>
+      </article>
 
-    <div class="wrap account-layout">
-      <aside class="account-sidebar" aria-label="Account navigation">
-        <nav class="account-nav">
-          <a href="#overview" class="account-nav__link is-active" data-account-nav="overview">
-            <svg class="account-nav__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-            Overview
-          </a>
-          <a href="#profile" class="account-nav__link" data-account-nav="profile">
-            <svg class="account-nav__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            Personal info
-          </a>
-          <a href="#tickets" class="account-nav__link" data-account-nav="tickets">
-            <svg class="account-nav__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 9a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V9z"/><path d="M9 9h6M9 15h6"/></svg>
-            My tickets
-          </a>
-          <a href="#draws" class="account-nav__link" data-account-nav="draws">
-            <svg class="account-nav__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            Past draws
-          </a>
-          <a href="#membership" class="account-nav__link" data-account-nav="membership">
-            <svg class="account-nav__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            Gaviom+
-          </a>
-          <a href="#payments" class="account-nav__link" data-account-nav="payments">
-            <svg class="account-nav__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
-            Payment info
-          </a>
-          <a href="#promos" class="account-nav__link" data-account-nav="promos">
-            <svg class="account-nav__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-            Promo codes
-          </a>
-          <a href="#help" class="account-nav__link" data-account-nav="help">
-            <svg class="account-nav__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            Help center
-          </a>
-          <a href="#security" class="account-nav__link" data-account-nav="security">
-            <svg class="account-nav__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            Security
-          </a>
-        </nav>
-        <button type="button" class="btn btn-ghost account-signout" data-account-signout>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-          Sign out
-        </button>
-      </aside>
+      <div class="account-shell">
+        <aside class="account-sidebar" aria-label="Settings navigation">
+          <nav class="account-nav">
+            <a href="#profile" class="account-nav__link" data-account-nav="profile">
+              <svg class="account-nav__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Personal info
+            </a>
+            <a href="#tickets" class="account-nav__link" data-account-nav="tickets">
+              <svg class="account-nav__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 9a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V9z"/><path d="M9 9h6M9 15h6"/></svg>
+              My tickets
+            </a>
+            <a href="#draws" class="account-nav__link" data-account-nav="draws">
+              <svg class="account-nav__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              Past draws
+            </a>
+            <a href="#membership" class="account-nav__link" data-account-nav="membership">
+              <svg class="account-nav__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              Gaviom+
+            </a>
+            <a href="#payments" class="account-nav__link" data-account-nav="payments">
+              <svg class="account-nav__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
+              Payment info
+            </a>
+            <a href="#promos" class="account-nav__link" data-account-nav="promos">
+              <svg class="account-nav__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+              Promo codes
+            </a>
+            <a href="#help" class="account-nav__link" data-account-nav="help">
+              <svg class="account-nav__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Help center
+            </a>
+            <a href="#security" class="account-nav__link" data-account-nav="security">
+              <svg class="account-nav__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Security
+            </a>
+          </nav>
+          <button type="button" class="btn btn-ghost account-signout" data-account-signout>Sign out</button>
+        </aside>
 
-      <div class="account-content">
-        <p class="auth-alert account-alert" data-account-alert hidden role="alert" aria-live="polite"></p>
-
-        <section class="account-panel is-active" data-account-panel="overview" id="overview">
-          <header class="account-panel__head">
-            <h2 class="account-panel__title font-display">Dashboard</h2>
-            <p class="account-panel__sub">Your sweepstakes hub — entries, membership, and account settings.</p>
-          </header>
-
-          <div class="account-dash-grid">
-            <article class="account-dash-card account-dash-card--highlight">
-              <p class="account-dash-card__label font-mono">Next draw</p>
-              <p class="account-dash-card__title font-display">Founding draw · Sep 6, 2026</p>
-              <p class="account-dash-card__copy">First live TikTok draw at 8:00 PM ET. Your pre-ordered tickets count automatically.</p>
-              <a href="/prizes.html" class="account-dash-card__link font-mono">Browse sweepstakes →</a>
-            </article>
-            <article class="account-dash-card">
-              <p class="account-dash-card__label font-mono">Quick actions</p>
-              <div class="account-quick-actions account-quick-actions--stack">
-                <a href="/prizes.html" class="btn btn-primary">Pre-order tickets</a>
-                <a href="/membership.html" class="btn btn-ghost">Explore Gaviom+</a>
-                <a href="/free-entry.html" class="btn btn-ghost">Free mail-in entry</a>
+        <div class="account-cards">
+          <!-- Personal Info -->
+          <section class="account-card" id="profile" data-account-section="profile">
+            <header class="account-card__head">
+              <span class="account-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </span>
+              <div>
+                <h2 class="account-card__title font-display">Personal info</h2>
+                <p class="account-card__desc">Name, email, and location.</p>
               </div>
-            </article>
-          </div>
-
-          <div class="account-section">
-            <div class="account-section__head">
-              <h3 class="account-section__title font-display">Recent activity</h3>
-              <a href="#tickets" class="account-section__link font-mono" data-account-goto="tickets">View all →</a>
-            </div>
-            <div class="account-table-wrap">
-              <table class="account-table" data-account-recent-table>
-                <thead>
-                  <tr>
-                    <th scope="col">Type</th>
-                    <th scope="col">Details</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Status</th>
-                  </tr>
-                </thead>
-                <tbody data-account-recent-body>
-                  <tr class="account-table__empty"><td colspan="4">No activity yet — pre-order your first ticket.</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        <section class="account-panel" data-account-panel="profile" id="profile" hidden>
-          <header class="account-panel__head">
-            <h2 class="account-panel__title font-display">Personal info</h2>
-            <p class="account-panel__sub">Update your profile. Email changes require support.</p>
-          </header>
-
-          <div class="account-profile-grid">
-            <div class="account-profile-photo">
-              <div class="account-avatar-wrap account-avatar-wrap--xl">
-                <img class="account-avatar" data-account-avatar-profile hidden alt="" width="120" height="120" />
-                <span class="account-avatar-fallback font-display" data-account-avatar-fallback-profile aria-hidden="true">G</span>
-              </div>
-              <label class="btn btn-ghost btn-sm account-photo-btn">
-                <input type="file" accept="image/jpeg,image/png,image/webp" data-account-avatar-input-profile hidden />
-                Upload photo
-              </label>
-              <p class="auth-field-hint">JPG, PNG or WebP · Max 2 MB</p>
-            </div>
-
-            <form class="co-form auth-form account-form account-form--wide" data-account-profile-form>
+            </header>
+            <form class="co-form auth-form account-form" data-account-profile-form>
               <div class="auth-field-row">
                 <div class="co-field">
                   <label for="profile-first">First name</label>
@@ -229,7 +170,7 @@
               <div class="co-field">
                 <label for="profile-email">Email</label>
                 <input id="profile-email" name="email" type="email" disabled />
-                <p class="auth-field-hint">Contact <a href="mailto:info@getgaviom.com">info@getgaviom.com</a> to change your sign-in email.</p>
+                <p class="auth-field-hint">Contact <a href="mailto:info@getgaviom.com">support</a> to change email.</p>
               </div>
               <div class="auth-field-row">
                 <div class="co-field">
@@ -243,193 +184,184 @@
               </div>
               <label class="auth-check">
                 <input type="checkbox" name="marketing_opt_in" data-profile-marketing />
-                <span>Send me sweepstakes news and winner announcements</span>
+                <span>Sweepstakes news and winner announcements</span>
               </label>
-              <button type="submit" class="btn btn-primary auth-submit">Save changes</button>
+              <button type="submit" class="btn btn-primary">Save changes</button>
             </form>
-          </div>
-        </section>
+          </section>
 
-        <section class="account-panel" data-account-panel="tickets" id="tickets" hidden>
-          <header class="account-panel__head">
-            <h2 class="account-panel__title font-display">My tickets</h2>
-            <p class="account-panel__sub">Active entries and purchase history linked to your account.</p>
-          </header>
-
-          <div class="account-tabs" role="tablist" aria-label="Ticket views">
-            <button type="button" class="account-tabs__btn is-active" data-account-tickets-tab="entries" role="tab" aria-selected="true">Active entries</button>
-            <button type="button" class="account-tabs__btn" data-account-tickets-tab="orders" role="tab" aria-selected="false">Order history</button>
-          </div>
-
-          <div class="account-tab-panel is-active" data-account-tickets-panel="entries">
-            <div class="account-empty" data-account-entries-empty hidden>
-              <p>No entries yet — pre-order tickets or use free mail-in entry.</p>
-              <a href="/prizes.html" class="btn btn-primary">Browse sweepstakes</a>
-            </div>
-            <div class="account-table-wrap" data-account-entries-table-wrap hidden>
-              <table class="account-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Sweepstakes</th>
-                    <th scope="col">Tickets</th>
-                    <th scope="col">Draw</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Status</th>
-                  </tr>
-                </thead>
-                <tbody data-account-entries-list></tbody>
-              </table>
-            </div>
-          </div>
-
-          <div class="account-tab-panel" data-account-tickets-panel="orders" hidden>
-            <div class="account-empty" data-account-tickets-empty hidden>
-              <p>No orders yet.</p>
-            </div>
-            <div class="account-table-wrap" data-account-orders-table-wrap hidden>
-              <table class="account-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Order</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Status</th>
-                  </tr>
-                </thead>
-                <tbody data-account-tickets-list></tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        <section class="account-panel" data-account-panel="draws" id="draws" hidden>
-          <header class="account-panel__head">
-            <h2 class="account-panel__title font-display">Past draws</h2>
-            <p class="account-panel__sub">Draw history and results for sweepstakes you entered.</p>
-          </header>
-
-          <div class="account-empty" data-account-draws-empty>
-            <p>No completed draws yet. The first founding draw is September 6, 2026 at 8:00 PM ET.</p>
-            <a href="/winners.html" class="btn btn-ghost">View winners page</a>
-          </div>
-          <div class="account-table-wrap" data-account-draws-table-wrap hidden>
-            <table class="account-table">
-              <thead>
-                <tr>
-                  <th scope="col">Draw</th>
-                  <th scope="col">Sweepstakes</th>
-                  <th scope="col">Your tickets</th>
-                  <th scope="col">Result</th>
-                  <th scope="col">Date</th>
-                </tr>
-              </thead>
-              <tbody data-account-draws-list></tbody>
-            </table>
-          </div>
-        </section>
-
-        <section class="account-panel" data-account-panel="membership" id="membership" hidden>
-          <header class="account-panel__head">
-            <h2 class="account-panel__title font-display">Gaviom+ membership</h2>
-            <p class="account-panel__sub">Monthly ticket packs across Gaviom's eligible contest pool.</p>
-          </header>
-          <article class="account-membership-card">
-            <div class="account-membership-card__head">
+          <!-- Gaviom+ -->
+          <section class="account-card" id="membership" data-account-section="membership">
+            <header class="account-card__head">
+              <span class="account-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </span>
               <div>
-                <span class="account-membership-card__tier font-mono">Gaviom+ · Monthly</span>
-                <p class="account-membership-card__copy">$17/month · 5–8 tickets · Cancel anytime</p>
+                <h2 class="account-card__title font-display">Gaviom+</h2>
+                <p class="account-card__desc">$17/mo · 5–8 tickets · Cancel anytime</p>
               </div>
-              <span class="badge" data-account-membership-badge>Not subscribed</span>
-            </div>
-            <ul class="account-membership-perks font-mono">
-              <li>5–8 tickets every month</li>
-              <li>Eligible across all founding sweepstakes</li>
-              <li>Cancel anytime via billing portal</li>
-            </ul>
-            <div class="account-quick-actions">
+              <span class="badge account-card__badge" data-account-membership-badge>Not subscribed</span>
+            </header>
+            <div class="account-card__actions">
               <a href="/checkout.html?plan=monthly" class="btn btn-primary" data-account-membership-cta>Join Gaviom+</a>
-              <a href="/membership.html" class="btn btn-ghost">Membership details</a>
             </div>
-          </article>
-        </section>
+          </section>
 
-        <section class="account-panel" data-account-panel="payments" id="payments" hidden>
-          <header class="account-panel__head">
-            <h2 class="account-panel__title font-display">Payment info</h2>
-            <p class="account-panel__sub">Cards and billing are handled securely by Stripe. Gaviom never stores full card numbers.</p>
-          </header>
-          <div class="account-payment-grid">
-            <article class="account-info-card account-info-card--stripe">
-              <div class="account-info-card__icon" aria-hidden="true">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
+          <!-- My Tickets (full width) -->
+          <section class="account-card account-card--wide" id="tickets" data-account-section="tickets">
+            <header class="account-card__head">
+              <span class="account-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M2 9a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V9z"/><path d="M9 9h6M9 15h6"/></svg>
+              </span>
+              <div>
+                <h2 class="account-card__title font-display">My tickets</h2>
+                <p class="account-card__desc">Active entries and order history.</p>
               </div>
-              <h3 class="account-info-card__title font-display">Saved payment methods</h3>
-              <p>Update cards, view invoices, or manage Gaviom+ billing through the secure Stripe portal.</p>
-              <button type="button" class="btn btn-primary" data-account-billing-portal>Open billing portal</button>
-            </article>
-            <article class="account-info-card">
-              <h3 class="account-info-card__title font-display">Transaction history</h3>
-              <p>All ticket purchases and subscription charges appear in your order history and Stripe invoices.</p>
-              <a href="#tickets" class="btn btn-ghost" data-account-goto="tickets">View order history</a>
-            </article>
-          </div>
-          <p class="auth-field-hint account-payment-note">If you have not checked out yet, add a card when you pre-order tickets or join Gaviom+.</p>
-        </section>
-
-        <section class="account-panel" data-account-panel="promos" id="promos" hidden>
-          <header class="account-panel__head">
-            <h2 class="account-panel__title font-display">Promo codes</h2>
-            <p class="account-panel__sub">Your personal referral code and redeemed offers.</p>
-          </header>
-          <div class="account-promo-card">
-            <p class="font-mono account-promo-card__label">Your Gaviom code</p>
-            <p class="account-promo-card__code font-display" data-account-promo-code>GAVIOM-XXXX</p>
-            <button type="button" class="btn btn-ghost btn-sm" data-account-copy-promo>Copy code</button>
-            <p class="auth-field-hint">Share with friends — founding-member perks may apply at checkout.</p>
-          </div>
-          <form class="co-form account-form account-promo-redeem" data-account-redeem-form>
-            <div class="co-field">
-              <label for="redeem-code">Redeem a code</label>
-              <input id="redeem-code" name="code" type="text" placeholder="Enter promo code" autocomplete="off" />
+            </header>
+            <div class="account-tabs" role="tablist" aria-label="Ticket views">
+              <button type="button" class="account-tabs__btn is-active" data-account-tickets-tab="entries" role="tab" aria-selected="true">Entries</button>
+              <button type="button" class="account-tabs__btn" data-account-tickets-tab="orders" role="tab" aria-selected="false">Orders</button>
             </div>
-            <button type="submit" class="btn btn-primary">Apply code</button>
-          </form>
-          <ul class="account-promo-list font-mono" data-account-redeemed-list></ul>
-        </section>
+            <div class="account-tab-panel is-active" data-account-tickets-panel="entries">
+              <div class="account-zero" data-account-entries-empty hidden>
+                <span class="account-zero__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 9a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V9z"/></svg>
+                </span>
+                <p class="account-zero__text">No entries yet.</p>
+                <a href="/prizes.html" class="btn btn-ghost btn-sm">Enter sweepstakes</a>
+              </div>
+              <div class="account-table-wrap" data-account-entries-table-wrap hidden>
+                <table class="account-table">
+                  <thead><tr><th scope="col">Sweepstakes</th><th scope="col">Tickets</th><th scope="col">Draw</th><th scope="col">Date</th><th scope="col">Status</th></tr></thead>
+                  <tbody data-account-entries-list></tbody>
+                </table>
+              </div>
+            </div>
+            <div class="account-tab-panel" data-account-tickets-panel="orders" hidden>
+              <div class="account-zero" data-account-tickets-empty hidden>
+                <span class="account-zero__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
+                </span>
+                <p class="account-zero__text">No orders yet.</p>
+              </div>
+              <div class="account-table-wrap" data-account-orders-table-wrap hidden>
+                <table class="account-table">
+                  <thead><tr><th scope="col">Order</th><th scope="col">Amount</th><th scope="col">Date</th><th scope="col">Status</th></tr></thead>
+                  <tbody data-account-tickets-list></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
 
-        <section class="account-panel" data-account-panel="help" id="help" hidden>
-          <header class="account-panel__head">
-            <h2 class="account-panel__title font-display">Help center</h2>
-            <p class="account-panel__sub">Answers, rules, and how to reach our team.</p>
-          </header>
-          <div class="account-help-grid">
-            <a class="account-help-card" href="/how.html"><strong>How Gaviom works</strong><span>Draws, odds, and fulfillment</span></a>
-            <a class="account-help-card" href="/free-entry.html"><strong>Free mail-in entry</strong><span>No purchase necessary (AMOE)</span></a>
-            <a class="account-help-card" href="/rules.html"><strong>Official Rules</strong><span>Eligibility and legal terms</span></a>
-            <a class="account-help-card" href="/contact.html"><strong>Contact support</strong><span>info@getgaviom.com</span></a>
-            <a class="account-help-card" href="/blog/is-gaviom-legit"><strong>Is Gaviom legit?</strong><span>Trust and transparency</span></a>
-            <a class="account-help-card" href="/blog/sweepstakes-scams-how-to-avoid"><strong>Avoid scams</strong><span>Red flags to watch for</span></a>
-          </div>
-        </section>
+          <!-- Past Draws (full width) -->
+          <section class="account-card account-card--wide" id="draws" data-account-section="draws">
+            <header class="account-card__head">
+              <span class="account-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              </span>
+              <div>
+                <h2 class="account-card__title font-display">Past draws</h2>
+                <p class="account-card__desc">Draw history and results.</p>
+              </div>
+            </header>
+            <div class="account-zero" data-account-draws-empty>
+              <span class="account-zero__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              </span>
+              <p class="account-zero__text">No completed draws yet.</p>
+              <a href="/winners.html" class="btn btn-ghost btn-sm">View winners</a>
+            </div>
+            <div class="account-table-wrap" data-account-draws-table-wrap hidden>
+              <table class="account-table">
+                <thead><tr><th scope="col">Draw</th><th scope="col">Sweepstakes</th><th scope="col">Tickets</th><th scope="col">Result</th><th scope="col">Date</th></tr></thead>
+                <tbody data-account-draws-list></tbody>
+              </table>
+            </div>
+          </section>
 
-        <section class="account-panel" data-account-panel="security" id="security" hidden>
-          <header class="account-panel__head">
-            <h2 class="account-panel__title font-display">Security</h2>
-            <p class="account-panel__sub">Password and session settings.</p>
-          </header>
-          <div class="account-security-grid">
-            <article class="account-info-card">
-              <h3 class="account-info-card__title font-display">Password</h3>
-              <p>Reset your password via email. You will receive a link to choose a new password.</p>
-              <button type="button" class="btn btn-primary" data-account-reset-password>Send password reset email</button>
-            </article>
-            <article class="account-info-card">
-              <h3 class="account-info-card__title font-display">Session</h3>
-              <p>Signed in on this device. Sign out if you suspect unauthorized access.</p>
-              <button type="button" class="btn btn-ghost account-signout" data-account-signout">Sign out</button>
-            </article>
-          </div>
-        </section>
+          <!-- Payment Info (full width) -->
+          <section class="account-card account-card--wide" id="payments" data-account-section="payments">
+            <header class="account-card__head">
+              <span class="account-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
+              </span>
+              <div>
+                <h2 class="account-card__title font-display">Payment info</h2>
+                <p class="account-card__desc">Billing handled securely by Stripe.</p>
+              </div>
+            </header>
+            <div class="account-card__row">
+              <p class="account-card__row-text">Manage cards, invoices, and Gaviom+ billing.</p>
+              <button type="button" class="btn btn-primary btn-sm" data-account-billing-portal>Open billing portal</button>
+            </div>
+          </section>
+
+          <!-- Promo Codes -->
+          <section class="account-card" id="promos" data-account-section="promos">
+            <header class="account-card__head">
+              <span class="account-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+              </span>
+              <div>
+                <h2 class="account-card__title font-display">Promo codes</h2>
+                <p class="account-card__desc">Your referral code and saved offers.</p>
+              </div>
+            </header>
+            <div class="account-promo-inline">
+              <code class="account-promo-inline__code font-display" data-account-promo-code>GAVIOM-XXXX</code>
+              <button type="button" class="btn btn-ghost btn-sm" data-account-copy-promo>Copy</button>
+            </div>
+            <form class="account-promo-redeem" data-account-redeem-form>
+              <input id="redeem-code" name="code" type="text" placeholder="Enter code" autocomplete="off" />
+              <button type="submit" class="btn btn-primary btn-sm">Apply</button>
+            </form>
+            <ul class="account-promo-list font-mono" data-account-redeemed-list></ul>
+          </section>
+
+          <!-- Security -->
+          <section class="account-card" id="security" data-account-section="security">
+            <header class="account-card__head">
+              <span class="account-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </span>
+              <div>
+                <h2 class="account-card__title font-display">Security</h2>
+                <p class="account-card__desc">Password and session.</p>
+              </div>
+            </header>
+            <div class="account-card__stack">
+              <div class="account-card__row">
+                <span class="account-card__row-text">Reset password via email</span>
+                <button type="button" class="btn btn-ghost btn-sm" data-account-reset-password>Send reset link</button>
+              </div>
+              <div class="account-card__row">
+                <span class="account-card__row-text">Sign out of this device</span>
+                <button type="button" class="btn btn-ghost btn-sm account-signout" data-account-signout>Sign out</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Help Center (full width) -->
+          <section class="account-card account-card--wide" id="help" data-account-section="help">
+            <header class="account-card__head">
+              <span class="account-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              </span>
+              <div>
+                <h2 class="account-card__title font-display">Help center</h2>
+                <p class="account-card__desc">Rules, support, and resources.</p>
+              </div>
+            </header>
+            <div class="account-help-links">
+              <a href="/how.html">How Gaviom works</a>
+              <a href="/free-entry.html">Free mail-in entry</a>
+              <a href="/rules.html">Official Rules</a>
+              <a href="/contact.html">Contact support</a>
+              <a href="/blog/is-gaviom-legit">Is Gaviom legit?</a>
+              <a href="/blog/sweepstakes-scams-how-to-avoid">Avoid scams</a>
+            </div>
+          </section>
+        </div>
       </div>
     </div>
   </main>

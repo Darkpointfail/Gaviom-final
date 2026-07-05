@@ -92,18 +92,16 @@
     return '<span class="account-status ' + cls + '">' + s + '</span>';
   }
 
-  function parseHashPanel() {
-    var hash = (window.location.hash || '#overview').replace('#', '');
-    var allowed = ['overview', 'profile', 'tickets', 'draws', 'membership', 'payments', 'promos', 'help', 'security'];
-    return allowed.indexOf(hash) >= 0 ? hash : 'overview';
+  function parseHashSection() {
+    var hash = (window.location.hash || '').replace('#', '');
+    var allowed = ['profile', 'tickets', 'draws', 'membership', 'payments', 'promos', 'help', 'security'];
+    return allowed.indexOf(hash) >= 0 ? hash : '';
   }
 
-  function showPanel(id) {
-    $$('[data-account-panel]').forEach(function (panel) {
-      var active = panel.getAttribute('data-account-panel') === id;
-      panel.hidden = !active;
-      panel.classList.toggle('is-active', active);
-    });
+  function scrollToSection(id) {
+    if (!id) return;
+    var el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     $$('[data-account-nav]').forEach(function (link) {
       link.classList.toggle('is-active', link.getAttribute('data-account-nav') === id);
     });
@@ -115,23 +113,16 @@
         ev.preventDefault();
         var id = link.getAttribute('data-account-nav');
         history.replaceState(null, '', '#' + id);
-        showPanel(id);
-      });
-    });
-
-    $$('[data-account-goto]').forEach(function (link) {
-      link.addEventListener('click', function (ev) {
-        ev.preventDefault();
-        var id = link.getAttribute('data-account-goto');
-        history.replaceState(null, '', '#' + id);
-        showPanel(id);
+        scrollToSection(id);
       });
     });
 
     window.addEventListener('hashchange', function () {
-      showPanel(parseHashPanel());
+      scrollToSection(parseHashSection());
     });
-    showPanel(parseHashPanel());
+
+    var initial = parseHashSection();
+    if (initial) scrollToSection(initial);
   }
 
   function bindTicketTabs() {
@@ -153,7 +144,7 @@
   }
 
   function syncAvatars(avatarUrl, letter) {
-    $$('[data-account-avatar], [data-account-avatar-profile]').forEach(function (img) {
+    $$('[data-account-avatar]').forEach(function (img) {
       if (avatarUrl) {
         img.src = avatarUrl;
         img.hidden = false;
@@ -162,7 +153,7 @@
         img.hidden = true;
       }
     });
-    $$('[data-account-avatar-fallback], [data-account-avatar-fallback-profile]').forEach(function (fb) {
+    $$('[data-account-avatar-fallback]').forEach(function (fb) {
       fb.textContent = letter;
       fb.hidden = !!avatarUrl;
     });
@@ -177,13 +168,11 @@
     var letter = initials(first, last, email);
 
     var nameEl = $('[data-account-name]');
-    var emailEl = $('[data-account-email]');
     var memberSince = $('[data-account-member-since]');
 
     if (nameEl) {
       nameEl.textContent = [first, last].filter(Boolean).join(' ') || 'Gaviom member';
     }
-    if (emailEl) emailEl.textContent = email;
 
     var since = (state.profile && state.profile.created_at) || user.created_at;
     if (memberSince && since) {
@@ -249,7 +238,6 @@
     }
     renderEntries();
     renderDraws();
-    renderRecentActivity();
     renderStats();
   }
 
@@ -298,7 +286,6 @@
       state.orders = [];
     }
     renderOrders();
-    renderRecentActivity();
     renderStats();
   }
 
@@ -392,8 +379,17 @@
       badge.classList.toggle('badge-ochre', active);
     }
     if (cta) {
-      cta.textContent = active ? 'Manage membership' : 'Join Gaviom+';
+      cta.textContent = active ? 'Manage billing' : 'Join Gaviom+';
       cta.href = active ? '#payments' : '/checkout.html?plan=monthly';
+      if (active) {
+        cta.onclick = function (ev) {
+          ev.preventDefault();
+          history.replaceState(null, '', '#payments');
+          scrollToSection('payments');
+        };
+      } else {
+        cta.onclick = null;
+      }
     }
   }
 
@@ -420,52 +416,6 @@
         '<td class="account-table__amount">' + formatMoney(order.amount_total, order.currency) + '</td>' +
         '<td class="account-table__meta">' + formatDateShort(order.created_at) + '</td>' +
         '<td>' + statusBadge(order.status || 'paid') + '</td>';
-      tbody.appendChild(tr);
-    });
-  }
-
-  function renderRecentActivity() {
-    var tbody = $('[data-account-recent-body]');
-    if (!tbody) return;
-
-    var items = [];
-
-    state.entries.slice(0, 5).forEach(function (entry) {
-      items.push({
-        type: 'Entry',
-        detail: entry.quantity + ' ticket' + (entry.quantity === 1 ? '' : 's') + ' · ' + prizeLabel(entry.prize_id),
-        date: entry.created_at,
-        status: entry.status,
-      });
-    });
-
-    state.orders.slice(0, 5).forEach(function (order) {
-      var info = describeOrder(order);
-      items.push({
-        type: 'Order',
-        detail: info.title,
-        date: order.created_at,
-        status: order.status || 'paid',
-      });
-    });
-
-    items.sort(function (a, b) {
-      return new Date(b.date).getTime() - new Date(a.date).getTime();
-    });
-
-    tbody.innerHTML = '';
-    if (!items.length) {
-      tbody.innerHTML = '<tr class="account-table__empty"><td colspan="4">No activity yet — pre-order your first ticket.</td></tr>';
-      return;
-    }
-
-    items.slice(0, 6).forEach(function (item) {
-      var tr = document.createElement('tr');
-      tr.innerHTML =
-        '<td class="account-table__meta">' + item.type + '</td>' +
-        '<td><span class="account-table__title">' + item.detail + '</span></td>' +
-        '<td class="account-table__meta">' + formatDateShort(item.date) + '</td>' +
-        '<td>' + statusBadge(item.status) + '</td>';
       tbody.appendChild(tr);
     });
   }
@@ -599,11 +549,12 @@
   }
 
   function bindAvatarInputs() {
-    $$('[data-account-avatar-input], [data-account-avatar-input-profile]').forEach(function (input) {
+    var input = $('[data-account-avatar-input]');
+    if (input) {
       input.addEventListener('change', function () {
         if (input.files && input.files[0]) uploadAvatar(input.files[0]);
       });
-    });
+    }
   }
 
   function bindForms() {
