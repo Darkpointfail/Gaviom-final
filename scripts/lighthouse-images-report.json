@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-02T19:51:26.798Z",
+  "generatedAt": "2026-07-05T02:40:18.541Z",
   "items": [
     {
       "label": "home-hero-desktop.avif",
@@ -108,9 +108,9 @@
     },
     {
       "label": "cruise-hero.webp",
-      "before": 450874,
-      "after": 450248,
-      "saved": 626,
+      "before": 442418,
+      "after": 442230,
+      "saved": 188,
       "file": "images/cruise-hero.webp"
     },
     {
