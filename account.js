@@ -102,7 +102,6 @@
     $$('[data-account-panel]').forEach(function (panel) {
       var active = panel.getAttribute('data-account-panel') === id;
       panel.hidden = !active;
-      panel.classList.toggle('is-hidden', !active);
       panel.classList.toggle('is-active', active);
     });
     $$('[data-account-nav]').forEach(function (link) {
@@ -154,11 +153,12 @@
   }
 
   function syncAvatars(avatarUrl, letter) {
-    $$('[data-account-avatar]').forEach(function (img) {
+    $$('[data-account-avatar], [data-account-avatar-profile]').forEach(function (img) {
       if (avatarUrl) {
         img.src = avatarUrl;
         img.hidden = false;
       } else {
+        img.removeAttribute('src');
         img.hidden = true;
       }
     });
