@@ -87,13 +87,16 @@
     }
   }
 
-  function saveCart(items) {
+  function saveCart(items, options) {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ items: items, updated: Date.now() }));
     } catch (e) {}
     updateBadge();
     renderDrawer();
     document.dispatchEvent(new CustomEvent('gaviom:cart-updated', { detail: { items: items } }));
+    if ((!options || !options.skipSync) && window.GaviomCartSync) {
+      window.GaviomCartSync.push(items);
+    }
   }
 
   function getTotals(items) {

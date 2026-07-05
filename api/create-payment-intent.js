@@ -31,6 +31,8 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ error: parsed.error });
   }
 
+  const userId = String(parsed.body?.userId || parsed.body?.supabase_user_id || '').trim() || null;
+
   const resolved = resolveOrder(parsed.body);
   if (resolved.error) {
     return res.status(400).json({ error: resolved.error });
@@ -54,6 +56,7 @@ module.exports = async function handler(req, res) {
       metadata: {
         ...built.metadata,
         customer_email: '',
+        ...(userId ? { supabase_user_id: userId } : {}),
       },
     });
 

@@ -82,6 +82,22 @@ function addStylesheetPreload(html) {
   );
 }
 
+function injectAuthNav(html) {
+  if (!html.includes('nav-signin') || html.includes('auth-nav.js')) return html;
+  return html.replace(
+    /<script defer src="(\/?app\.js[^"]*)"><\/script>/i,
+    '<script defer src="/auth-nav.js"></script>\n<script defer src="$1"></script>'
+  );
+}
+
+function injectCartSync(html) {
+  if (!html.includes('cart.js') || html.includes('cart-sync.js')) return html;
+  return html.replace(
+    /<script defer src="(\/?cart\.js[^"]*)"><\/script>/i,
+    '<script defer src="/cart-sync.js"></script>\n<script defer src="$1"></script>'
+  );
+}
+
 function patchIndexHero(html) {
   if (!html.includes('class="hero-home__lcp"')) return html;
 
@@ -115,6 +131,8 @@ for (const file of walk(root)) {
   html = bumpAssetVersions(html);
   html = addStylesheetPreload(html);
   html = ensureDeferredGa(html);
+  html = injectAuthNav(html);
+  html = injectCartSync(html);
 
   if (file === join(root, 'index.html')) {
     html = patchIndexHero(html);

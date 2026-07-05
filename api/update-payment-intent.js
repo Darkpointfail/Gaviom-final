@@ -26,6 +26,7 @@ module.exports = async function handler(req, res) {
 
   const paymentIntentId = String(body?.paymentIntentId || '').trim();
   const email = (body?.email || '').trim().toLowerCase();
+  const userId = String(body?.userId || body?.supabase_user_id || '').trim() || null;
 
   if (!paymentIntentId.startsWith('pi_')) {
     return res.status(400).json({ error: 'Invalid payment reference' });
@@ -39,6 +40,7 @@ module.exports = async function handler(req, res) {
   try {
     const existing = await stripe.paymentIntents.retrieve(paymentIntentId);
     const metadata = { ...(existing.metadata || {}), customer_email: email };
+    if (userId) metadata.supabase_user_id = userId;
 
     await stripe.paymentIntents.update(paymentIntentId, {
       receipt_email: email,

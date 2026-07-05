@@ -8,7 +8,52 @@
     paymentIntentId: null,
     ready: false,
     isSubscription: false,
+    authUserId: null,
+    authEmail: null,
   };
+
+  async function loadAuthContext() {
+    try {
+      if (!window.GaviomAuth) {
+        await new Promise(function (resolve, reject) {
+          var cfg = document.createElement('script');
+          cfg.src = '/auth-config.js';
+          cfg.onload = function () {
+            var sdk = document.createElement('script');
+            sdk.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
+            sdk.onload = function () {
+              var auth = document.createElement('script');
+              auth.src = '/auth.js';
+              auth.onload = resolve;
+              auth.onerror = reject;
+              document.head.appendChild(auth);
+            };
+            sdk.onerror = reject;
+            document.head.appendChild(sdk);
+          };
+          cfg.onerror = reject;
+          document.head.appendChild(cfg);
+        });
+      }
+      if (!window.GaviomAuth || !window.GaviomAuth.configReady()) return;
+      var session = await window.GaviomAuth.getSession();
+      if (!session) return;
+      state.authUserId = session.user.id;
+      state.authEmail = session.user.email || null;
+      var emailEl = document.querySelector('#email');
+      if (emailEl && state.authEmail && !emailEl.value) {
+        emailEl.value = state.authEmail;
+      }
+    } catch (e) {
+      /* guest checkout ok */
+    }
+  }
+
+  function authPayload(extra) {
+    var payload = extra || {};
+    if (state.authUserId) payload.userId = state.authUserId;
+    return payload;
+  }
 
   function qs(sel) {
     return document.querySelector(sel);
@@ -188,7 +233,7 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'same-origin',
-        body: JSON.stringify(order),
+        body: JSON.stringify(authPayload(order)),
       });
       var piData = await piRes.json();
       if (!piRes.ok) {
@@ -214,7 +259,7 @@
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'same-origin',
-      body: JSON.stringify({ type: 'membership', plan: 'monthly', email: email }),
+      body: JSON.stringify(authPayload({ type: 'membership', plan: 'monthly', email: email })),
     });
     var data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Checkout could not start.');
@@ -230,10 +275,10 @@
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'same-origin',
-      body: JSON.stringify({
+      body: JSON.stringify(authPayload({
         paymentIntentId: state.paymentIntentId,
         email: email,
-      }),
+      })),
     });
     var updateData = await updateRes.json();
     if (!updateRes.ok) {
@@ -319,7 +364,9 @@
   function start() {
     showCanceledNotice();
     bindForm();
-    initCheckoutStripe();
+    loadAuthContext().then(function () {
+      initCheckoutStripe();
+    });
     if (window.GaviomCart) return;
     var s = document.createElement('script');
     s.src = 'cart.js?v=20260706-perf';

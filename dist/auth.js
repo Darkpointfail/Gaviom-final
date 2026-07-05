@@ -104,7 +104,7 @@
       window.location.href = next;
       return;
     }
-    window.location.href = '/prizes.html';
+    window.location.href = '/account.html';
   }
 
   function ageFromDob(isoDate) {
@@ -240,7 +240,8 @@
     block.innerHTML =
       '<p class="auth-already__msg">You are signed in as <strong>' + email + '</strong>.</p>' +
       '<div class="auth-already__actions">' +
-      '<button type="button" class="btn btn-primary btn-lg auth-submit" data-auth-continue>Continue to Sweepstakes</button>' +
+      '<button type="button" class="btn btn-primary btn-lg auth-submit" data-auth-continue>Go to my account</button>' +
+      '<button type="button" class="btn btn-ghost auth-already__prizes" data-auth-prizes>Browse sweepstakes</button>' +
       '<button type="button" class="btn btn-ghost auth-already__signout" data-auth-signout>Sign out</button>' +
       '</div>';
 
@@ -248,7 +249,12 @@
     if (insertBefore) card.insertBefore(block, insertBefore);
     else card.appendChild(block);
 
-    block.querySelector('[data-auth-continue]').addEventListener('click', redirectAfterAuth);
+    block.querySelector('[data-auth-continue]').addEventListener('click', function () {
+      window.location.href = '/account.html';
+    });
+    block.querySelector('[data-auth-prizes]').addEventListener('click', function () {
+      window.location.href = '/prizes.html';
+    });
     block.querySelector('[data-auth-signout]').addEventListener('click', async function () {
       var btn = block.querySelector('[data-auth-signout]');
       if (btn) btn.disabled = true;
@@ -297,6 +303,7 @@
         var client = getClient();
         var result = await client.auth.signInWithPassword({ email: email.trim(), password: password });
         if (result.error) throw result.error;
+        document.dispatchEvent(new CustomEvent('gaviom:auth-changed'));
         showAlert(alertEl, 'Signed in. Redirecting…', 'success');
         redirectAfterAuth();
       } catch (err) {
@@ -413,4 +420,33 @@
   } else {
     init();
   }
+
+  window.GaviomAuth = {
+    configReady: configReady,
+    getClient: getClient,
+    friendlyAuthError: friendlyAuthError,
+    showAlert: showAlert,
+    fillStateSelect: fillStateSelect,
+    US_STATES: US_STATES,
+    getSession: async function () {
+      var client = getClient();
+      var result = await client.auth.getSession();
+      return result.data.session || null;
+    },
+    requireSession: async function (nextPath) {
+      try {
+        var session = await window.GaviomAuth.getSession();
+        if (session) return session;
+      } catch (e) {
+        /* not configured */
+      }
+      var dest = '/signin.html?next=' + encodeURIComponent(nextPath || '/account.html');
+      window.location.href = dest;
+      return null;
+    },
+    signOut: async function () {
+      var client = getClient();
+      await client.auth.signOut();
+    },
+  };
 })();

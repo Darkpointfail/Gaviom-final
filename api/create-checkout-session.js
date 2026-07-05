@@ -34,6 +34,7 @@ module.exports = async function handler(req, res) {
   }
 
   const email = (body?.email || '').trim().toLowerCase();
+  const userId = String(body?.userId || body?.supabase_user_id || '').trim() || null;
   if (!isValidEmail(email)) {
     return res.status(400).json({ error: 'Enter a valid email address' });
   }
@@ -57,6 +58,7 @@ module.exports = async function handler(req, res) {
       metadata: {
         ...built.metadata,
         customer_email: email,
+        ...(userId ? { supabase_user_id: userId } : {}),
       },
       payment_method_types: mode === 'subscription' ? undefined : ['card'],
       allow_promotion_codes: false,
