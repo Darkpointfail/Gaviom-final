@@ -1,0 +1,158 @@
+/**
+ * Safari & cross-browser compatibility layer.
+ * Loaded after styles.css on all pages.
+ */
+
+/* Ensure hidden attribute always wins (Safari + legacy) */
+[hidden] {
+  display: none !important;
+}
+
+/* Panel visibility helper (account dashboard) */
+.account-panel.is-hidden {
+  display: none !important;
+}
+
+/* iOS viewport height */
+@supports (-webkit-touch-callout: none) {
+  body {
+    min-height: -webkit-fill-available;
+  }
+}
+
+/* oklch / color-mix fallbacks when unsupported (Safari < 16.2) */
+@supports not (color: oklch(0.5 0.1 250)) {
+  :root {
+    --ink: #0a1628;
+    --ink-2: #1a2840;
+    --ink-3: #3d4f66;
+    --muted: #6b7a8f;
+    --muted-2: #9aa8b8;
+    --action: #1a6b52;
+    --action-2: #145a45;
+    --action-soft: #e8f5f0;
+    --action-line: #b8ddd0;
+    --ochre: #c4a055;
+    --live: #c44a32;
+    --live-soft: #fceeea;
+  }
+}
+
+/* Sticky sidebar — WebKit prefix for older iOS */
+.account-sidebar {
+  position: -webkit-sticky;
+  position: sticky;
+}
+
+.nav {
+  position: -webkit-sticky;
+  position: sticky;
+}
+
+/* Account layout: prevent grid blowout on iOS Safari */
+.account-layout,
+.account-hero__inner,
+.account-hero__stats,
+.account-dash-grid,
+.account-profile-grid,
+.account-payment-grid,
+.account-security-grid {
+  min-width: 0;
+}
+
+.account-content,
+.account-sidebar,
+.account-hero__profile {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Flex/grid children shrink correctly */
+.account-nav__link,
+.account-kpi,
+.account-table-wrap {
+  min-width: 0;
+}
+
+/* Tables: horizontal scroll without breaking page width */
+.account-table-wrap {
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+}
+
+.account-table {
+  min-width: 480px;
+}
+
+/* Avatar circles — force round clipping on Safari */
+.account-avatar,
+.account-avatar-fallback {
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+  overflow: hidden;
+}
+
+/* KPI grid: 2 cols on narrow phones when 4-col breaks */
+@media (max-width: 480px) {
+  .account-hero__stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Safe area for notched iPhones */
+.account-hub {
+  padding-bottom: calc(48px + env(safe-area-inset-bottom, 0px));
+}
+
+.wrap {
+  padding-left: max(clamp(20px, 4vw, 40px), env(safe-area-inset-left, 0px));
+  padding-right: max(clamp(20px, 4vw, 40px), env(safe-area-inset-right, 0px));
+}
+
+/* Buttons / inputs — remove iOS default styling glitches */
+button,
+input,
+select,
+textarea {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+input[type="checkbox"] {
+  -webkit-appearance: checkbox;
+  appearance: auto;
+}
+
+/* Prevent 300ms tap delay artifacts on nav */
+.account-nav__link,
+.nav-links a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* color-mix fallbacks for account hero (critical visible area) */
+@supports not (background: color-mix(in oklab, red 50%, blue)) {
+  .account-hero {
+    background-color: #051525;
+    background-image: linear-gradient(165deg, #0d2b45 0%, #051525 52%, #1a0a2e 100%);
+  }
+  .account-kpi {
+    background: rgba(13, 43, 69, 0.85);
+    border-color: rgba(201, 168, 76, 0.25);
+  }
+  .account-kpi__label {
+    color: rgba(250, 247, 242, 0.55);
+  }
+  .account-nav__link.is-active {
+    background: #f3ebd9;
+    border-color: #dcc99a;
+  }
+  .account-badge--verified {
+    background: rgba(26, 107, 82, 0.2);
+    color: #1a6b52;
+    border-color: rgba(26, 107, 82, 0.35);
+  }
+  .account-badge--muted {
+    background: rgba(13, 43, 69, 0.5);
+    color: rgba(250, 247, 242, 0.65);
+    border-color: rgba(201, 168, 76, 0.2);
+  }
+}

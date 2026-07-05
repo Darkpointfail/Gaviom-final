@@ -102,6 +102,7 @@
     $$('[data-account-panel]').forEach(function (panel) {
       var active = panel.getAttribute('data-account-panel') === id;
       panel.hidden = !active;
+      panel.classList.toggle('is-hidden', !active);
       panel.classList.toggle('is-active', active);
     });
     $$('[data-account-nav]').forEach(function (link) {

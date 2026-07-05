@@ -69,6 +69,7 @@ function bumpAssetVersions(html) {
   let next = html;
   next = next.replace(/href="(\/styles\.css)(\?[^"]*)?"/g, `href="$1?v=${ASSET_V}"`);
   next = next.replace(/href="(\/mobile\.css)(\?[^"]*)?"/g, `href="$1?v=${ASSET_V}"`);
+  next = next.replace(/href="(\/safari-compat\.css)(\?[^"]*)?"/g, `href="$1?v=${ASSET_V}"`);
   next = next.replace(/src="(\/?(?:cart|app)\.js)(\?[^"]*)?"/g, `src="$1?v=${ASSET_V}"`);
   return next;
 }

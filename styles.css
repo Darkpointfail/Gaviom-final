@@ -8,22 +8,23 @@
   --paper-2:      #F4EFE6;
   --paper-3:      #EBE4D8;
   --canvas:       #FDFBF8;
-  --ink:          oklch(0.16 0.018 250);
-  --ink-2:        oklch(0.28 0.025 250);
-  --ink-3:        oklch(0.42 0.025 250);
-  --muted:        oklch(0.55 0.020 250);
-  --muted-2:      oklch(0.68 0.015 250);
-  --action:       oklch(0.42 0.115 158);
-  --action-2:     oklch(0.36 0.115 158);
-  --action-soft:  oklch(0.94 0.035 158);
-  --action-line:  oklch(0.86 0.06 158);
-  --ochre:        oklch(0.70 0.085 75);
+  /* Hex fallbacks first — Safari & older browsers; oklch when supported */
+  --ink:          #0a1628;
+  --ink-2:        #1a2840;
+  --ink-3:        #3d4f66;
+  --muted:        #6b7a8f;
+  --muted-2:      #9aa8b8;
+  --action:       #1a6b52;
+  --action-2:     #145a45;
+  --action-soft:  #e8f5f0;
+  --action-line:  #b8ddd0;
+  --ochre:        #c4a055;
   --ochre-soft:   #F3EBD9;
   --line:         #E5DDD2;
   --line-2:       #D9D0C3;
   --line-3:       #C9BFB0;
-  --live:         oklch(0.55 0.17 28);
-  --live-soft:    oklch(0.96 0.025 28);
+  --live:         #c44a32;
+  --live-soft:    #fceeea;
   --r-xs: 6px; --r-sm: 10px; --r: 14px; --r-lg: 18px; --r-xl: 24px;
   --sh-1: 0 1px 0 rgba(20,30,60,.04), 0 6px 16px -8px rgba(20,30,60,.10);
   --sh-2: 0 1px 0 rgba(20,30,60,.05), 0 18px 40px -16px rgba(20,30,60,.18);
@@ -66,6 +67,23 @@
     var(--gold) 60%,
     var(--gold-dark) 100%
   );
+}
+
+@supports (color: oklch(0.5 0.1 250)) {
+  :root {
+    --ink:          oklch(0.16 0.018 250);
+    --ink-2:        oklch(0.28 0.025 250);
+    --ink-3:        oklch(0.42 0.025 250);
+    --muted:        oklch(0.55 0.020 250);
+    --muted-2:      oklch(0.68 0.015 250);
+    --action:       oklch(0.42 0.115 158);
+    --action-2:     oklch(0.36 0.115 158);
+    --action-soft:  oklch(0.94 0.035 158);
+    --action-line:  oklch(0.86 0.06 158);
+    --ochre:        oklch(0.70 0.085 75);
+    --live:         oklch(0.55 0.17 28);
+    --live-soft:    oklch(0.96 0.025 28);
+  }
 }
 
 html { scroll-behavior: smooth; overflow-x: hidden; }

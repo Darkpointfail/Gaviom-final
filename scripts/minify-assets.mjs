@@ -30,3 +30,4 @@ await minifyFile('cart.js', 'js');
 await minifyFile('checkout-stripe.js', 'js');
 await minifyFile('styles.css', 'css');
 await minifyFile('mobile.css', 'css');
+await minifyFile('safari-compat.css', 'css');
