@@ -423,12 +423,8 @@
     var manage = $('[data-account-membership-manage]');
     var cancel = $('[data-account-membership-cancel]');
     var renewal = $('[data-account-membership-renewal]');
-    var statMembership = $('[data-account-stat-membership]');
 
     var active = m && (m.status === 'active' || m.status === 'trialing');
-    if (statMembership) {
-      statMembership.textContent = active ? 'Active' : 'Not active';
-    }
     if (badge) {
       badge.textContent = active ? 'Active' : 'Not subscribed';
       badge.classList.toggle('badge-ochre', active);
@@ -480,15 +476,6 @@
   }
 
   function renderStats() {
-    var ticketTotal = state.entries.reduce(function (sum, entry) {
-      return sum + (parseInt(entry.quantity, 10) || 0);
-    }, 0);
-
-    var statTickets = $('[data-account-stat-tickets]');
-    var statOrders = $('[data-account-stat-orders]');
-
-    if (statTickets) statTickets.textContent = String(ticketTotal);
-    if (statOrders) statOrders.textContent = String(state.orders.length);
     renderMembership();
   }
 
