@@ -1799,15 +1799,7 @@ body.nav-open .nav-menu-icon::after {
   }
 }
 
-/* Account hub — mobile layout */
+/* Account hub — mobile */
 @media (max-width: 1024px) {
-  body.account-page .account-summary {
-    gap: 20px;
-  }
-  body.account-page .account-table {
-    min-width: 480px;
-  }
-  body.account-page .account-table-wrap {
-    -webkit-overflow-scrolling: touch;
-  }
+  body.account-page .account-table { min-width: 520px; }
 }

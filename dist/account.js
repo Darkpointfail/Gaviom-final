@@ -98,12 +98,41 @@
     return allowed.indexOf(hash) >= 0 ? hash : '';
   }
 
+  function setActiveNav(id) {
+    $$('[data-account-nav]').forEach(function (link) {
+      link.classList.toggle('is-active', link.getAttribute('data-account-nav') === id);
+    });
+  }
+
   function scrollToSection(id) {
     if (!id) return;
     var el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    $$('[data-account-nav]').forEach(function (link) {
-      link.classList.toggle('is-active', link.getAttribute('data-account-nav') === id);
+    setActiveNav(id);
+  }
+
+  function bindScrollSpy() {
+    if (!('IntersectionObserver' in window)) return;
+    var sections = $$('[data-account-section]');
+    if (!sections.length) return;
+
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            var id = entry.target.id;
+            setActiveNav(id);
+            if (history.replaceState) {
+              history.replaceState(null, '', '#' + id);
+            }
+          }
+        });
+      },
+      { rootMargin: '-40% 0px -50% 0px', threshold: 0 }
+    );
+
+    sections.forEach(function (section) {
+      observer.observe(section);
     });
   }
 
@@ -123,6 +152,25 @@
 
     var initial = parseHashSection();
     if (initial) scrollToSection(initial);
+    bindScrollSpy();
+  }
+
+  function bindGotoOrders() {
+    var btn = $('[data-account-goto-orders]');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      scrollToSection('tickets');
+      $$('[data-account-tickets-tab]').forEach(function (b) {
+        var active = b.getAttribute('data-account-tickets-tab') === 'orders';
+        b.classList.toggle('is-active', active);
+        b.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+      $$('[data-account-tickets-panel]').forEach(function (panel) {
+        var active = panel.getAttribute('data-account-tickets-panel') === 'orders';
+        panel.hidden = !active;
+        panel.classList.toggle('is-active', active);
+      });
+    });
   }
 
   function bindTicketTabs() {
@@ -332,10 +380,9 @@
   }
 
   function renderDraws() {
-    var tbody = $('[data-account-draws-list]');
+    var list = $('[data-account-draws-list]');
     var empty = $('[data-account-draws-empty]');
-    var wrap = $('[data-account-draws-table-wrap]');
-    if (!tbody) return;
+    if (!list) return;
 
     var now = Date.now();
     var pastEntries = state.entries.filter(function (entry) {
@@ -343,24 +390,29 @@
       return now > FOUNDING_DRAW_DATE.getTime();
     });
 
-    tbody.innerHTML = '';
+    list.innerHTML = '';
     if (!pastEntries.length) {
       if (empty) empty.hidden = false;
-      if (wrap) wrap.hidden = true;
+      list.hidden = true;
       return;
     }
     if (empty) empty.hidden = true;
-    if (wrap) wrap.hidden = false;
+    list.hidden = false;
 
     pastEntries.forEach(function (entry) {
-      var tr = document.createElement('tr');
-      tr.innerHTML =
-        '<td class="account-table__meta">' + drawLabel(entry.draw_id) + '</td>' +
-        '<td><span class="account-table__title">' + prizeLabel(entry.prize_id) + '</span></td>' +
-        '<td><strong>' + entry.quantity + '</strong></td>' +
-        '<td class="account-table__meta">Pending draw</td>' +
-        '<td class="account-table__meta">' + formatDateShort(entry.created_at) + '</td>';
-      tbody.appendChild(tr);
+      var li = document.createElement('li');
+      li.className = 'account-timeline__item';
+      li.innerHTML =
+        '<span class="account-timeline__dot" aria-hidden="true"></span>' +
+        '<article class="account-timeline__card">' +
+        '<p class="account-timeline__prize">' + prizeLabel(entry.prize_id) + '</p>' +
+        '<div class="account-timeline__meta">' +
+        '<span>' + drawLabel(entry.draw_id) + '</span>' +
+        '<span>' + entry.quantity + ' ticket' + (entry.quantity === 1 ? '' : 's') + '</span>' +
+        '<span>' + formatDateShort(entry.created_at) + '</span>' +
+        statusBadge(entry.status) +
+        '</div></article>';
+      list.appendChild(li);
     });
   }
 
@@ -368,6 +420,9 @@
     var m = state.membership;
     var badge = $('[data-account-membership-badge]');
     var cta = $('[data-account-membership-cta]');
+    var manage = $('[data-account-membership-manage]');
+    var cancel = $('[data-account-membership-cancel]');
+    var renewal = $('[data-account-membership-renewal]');
     var statMembership = $('[data-account-stat-membership]');
 
     var active = m && (m.status === 'active' || m.status === 'trialing');
@@ -375,22 +430,26 @@
       statMembership.textContent = active ? 'Active' : 'Not active';
     }
     if (badge) {
-      badge.textContent = active ? 'Subscribed' : 'Not subscribed';
+      badge.textContent = active ? 'Active' : 'Not subscribed';
       badge.classList.toggle('badge-ochre', active);
     }
-    if (cta) {
-      cta.textContent = active ? 'Manage billing' : 'Join Gaviom+';
-      cta.href = active ? '#payments' : '/checkout.html?plan=monthly';
-      if (active) {
-        cta.onclick = function (ev) {
-          ev.preventDefault();
-          history.replaceState(null, '', '#payments');
-          scrollToSection('payments');
-        };
+    if (renewal) {
+      if (active && m.current_period_end) {
+        renewal.textContent = 'Renews ' + formatDateShort(m.current_period_end);
+        renewal.hidden = false;
       } else {
-        cta.onclick = null;
+        renewal.hidden = true;
+        renewal.textContent = '';
       }
     }
+    if (cta) {
+      cta.hidden = active;
+      cta.textContent = 'Join Gaviom+';
+      cta.href = '/checkout.html?plan=monthly';
+      cta.onclick = null;
+    }
+    if (manage) manage.hidden = !active;
+    if (cancel) cancel.hidden = !active;
   }
 
   function renderOrders() {
@@ -434,14 +493,19 @@
   }
 
   function renderRedeemed() {
-    var list = $('[data-account-redeemed-list]');
-    if (!list) return;
-    list.innerHTML = '';
-    if (!state.promos.length) return;
+    var container = $('[data-account-redeemed-list]');
+    if (!container) return;
+    container.innerHTML = '';
+    if (!state.promos.length) {
+      container.hidden = true;
+      return;
+    }
+    container.hidden = false;
     state.promos.forEach(function (entry) {
-      var li = document.createElement('li');
-      li.textContent = entry.code + ' · ' + entry.status + ' · ' + formatDate(entry.created_at);
-      list.appendChild(li);
+      var chip = document.createElement('span');
+      chip.className = 'account-chip';
+      chip.textContent = entry.code + ' · ' + entry.status;
+      container.appendChild(chip);
     });
   }
 
@@ -516,8 +580,7 @@
 
   async function openBillingPortal() {
     if (!state.accessToken) return;
-    var btn = $('[data-account-billing-portal]');
-    if (btn) btn.disabled = true;
+    $$('[data-account-billing-portal]').forEach(function (btn) { btn.disabled = true; });
     try {
       var res = await fetch('/api/account/billing-portal', {
         method: 'POST',
@@ -529,7 +592,7 @@
     } catch (err) {
       showAlert(err.message, 'error');
     } finally {
-      if (btn) btn.disabled = false;
+      $$('[data-account-billing-portal]').forEach(function (btn) { btn.disabled = false; });
     }
   }
 
@@ -610,8 +673,12 @@
       });
     }
 
-    var billingBtn = $('[data-account-billing-portal]');
-    if (billingBtn) billingBtn.addEventListener('click', openBillingPortal);
+    $$('[data-account-billing-portal]').forEach(function (btn) {
+      btn.addEventListener('click', openBillingPortal);
+    });
+
+    var manageBtn = $('[data-account-membership-manage]');
+    if (manageBtn) manageBtn.addEventListener('click', openBillingPortal);
 
     var resetBtn = $('[data-account-reset-password]');
     if (resetBtn) resetBtn.addEventListener('click', sendPasswordReset);
@@ -641,6 +708,7 @@
 
     bindNav();
     bindTicketTabs();
+    bindGotoOrders();
     bindForms();
 
     try {
