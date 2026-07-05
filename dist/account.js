@@ -9,6 +9,12 @@
     'membership-pool': 'Gaviom+ monthly pool',
   };
 
+  var DRAW_LABELS = {
+    'founding-2026-09': 'Founding draw · Sep 6, 2026',
+  };
+
+  var FOUNDING_DRAW_DATE = new Date('2026-09-06T20:00:00-04:00');
+
   var state = {
     session: null,
     profile: null,
@@ -57,14 +63,38 @@
     }
   }
 
+  function formatDateShort(iso) {
+    if (!iso) return '—';
+    try {
+      return new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(iso));
+    } catch (e) {
+      return iso;
+    }
+  }
+
   function promoFromUserId(id) {
     var raw = (id || '').replace(/-/g, '').slice(0, 8).toUpperCase();
     return 'GAVIOM-' + raw;
   }
 
+  function prizeLabel(id) {
+    return PRIZE_LABELS[id] || id || 'Sweepstakes';
+  }
+
+  function drawLabel(id) {
+    return DRAW_LABELS[id] || id || 'Draw';
+  }
+
+  function statusBadge(status) {
+    var s = (status || 'confirmed').toLowerCase();
+    var cls = s === 'confirmed' || s === 'paid' || s === 'complete' ? 'account-status--confirmed' : 'account-status--pending';
+    if (s === 'paid') cls = 'account-status--paid';
+    return '<span class="account-status ' + cls + '">' + s + '</span>';
+  }
+
   function parseHashPanel() {
     var hash = (window.location.hash || '#overview').replace('#', '');
-    var allowed = ['overview', 'profile', 'tickets', 'membership', 'payments', 'promos', 'help', 'security'];
+    var allowed = ['overview', 'profile', 'tickets', 'draws', 'membership', 'payments', 'promos', 'help', 'security'];
     return allowed.indexOf(hash) >= 0 ? hash : 'overview';
   }
 
@@ -88,10 +118,53 @@
         showPanel(id);
       });
     });
+
+    $$('[data-account-goto]').forEach(function (link) {
+      link.addEventListener('click', function (ev) {
+        ev.preventDefault();
+        var id = link.getAttribute('data-account-goto');
+        history.replaceState(null, '', '#' + id);
+        showPanel(id);
+      });
+    });
+
     window.addEventListener('hashchange', function () {
       showPanel(parseHashPanel());
     });
     showPanel(parseHashPanel());
+  }
+
+  function bindTicketTabs() {
+    $$('[data-account-tickets-tab]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var tab = btn.getAttribute('data-account-tickets-tab');
+        $$('[data-account-tickets-tab]').forEach(function (b) {
+          var active = b.getAttribute('data-account-tickets-tab') === tab;
+          b.classList.toggle('is-active', active);
+          b.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+        $$('[data-account-tickets-panel]').forEach(function (panel) {
+          var active = panel.getAttribute('data-account-tickets-panel') === tab;
+          panel.hidden = !active;
+          panel.classList.toggle('is-active', active);
+        });
+      });
+    });
+  }
+
+  function syncAvatars(avatarUrl, letter) {
+    $$('[data-account-avatar]').forEach(function (img) {
+      if (avatarUrl) {
+        img.src = avatarUrl;
+        img.hidden = false;
+      } else {
+        img.hidden = true;
+      }
+    });
+    $$('[data-account-avatar-fallback], [data-account-avatar-fallback-profile]').forEach(function (fb) {
+      fb.textContent = letter;
+      fb.hidden = !!avatarUrl;
+    });
   }
 
   function renderUserHeader() {
@@ -100,27 +173,24 @@
     var first = state.profile && state.profile.first_name ? state.profile.first_name : meta.first_name;
     var last = state.profile && state.profile.last_name ? state.profile.last_name : meta.last_name;
     var email = user.email || '';
+    var letter = initials(first, last, email);
 
     var nameEl = $('[data-account-name]');
     var emailEl = $('[data-account-email]');
-    var fallback = $('[data-account-avatar-fallback]');
-    var img = $('[data-account-avatar]');
+    var memberSince = $('[data-account-member-since]');
 
     if (nameEl) {
       nameEl.textContent = [first, last].filter(Boolean).join(' ') || 'Gaviom member';
     }
     if (emailEl) emailEl.textContent = email;
-    if (fallback) fallback.textContent = initials(first, last, email);
+
+    var since = (state.profile && state.profile.created_at) || user.created_at;
+    if (memberSince && since) {
+      memberSince.textContent = formatDateShort(since);
+    }
 
     var avatarUrl = state.profile && state.profile.avatar_url;
-    if (img && avatarUrl) {
-      img.src = avatarUrl;
-      img.hidden = false;
-      if (fallback) fallback.hidden = true;
-    } else if (img) {
-      img.hidden = true;
-      if (fallback) fallback.hidden = false;
-    }
+    syncAvatars(avatarUrl, letter);
 
     var promoEl = $('[data-account-promo-code]');
     if (promoEl) {
@@ -177,6 +247,8 @@
       state.entries = result.data || [];
     }
     renderEntries();
+    renderDraws();
+    renderRecentActivity();
     renderStats();
   }
 
@@ -225,6 +297,7 @@
       state.orders = [];
     }
     renderOrders();
+    renderRecentActivity();
     renderStats();
   }
 
@@ -235,8 +308,7 @@
     }
     if (meta.type === 'tickets' && Array.isArray(meta.items)) {
       var lines = meta.items.map(function (item) {
-        var label = PRIZE_LABELS[item.prizeId] || item.prizeId || 'Sweepstakes';
-        return item.qty + ' ticket' + (item.qty === 1 ? '' : 's') + ' · ' + label;
+        return item.qty + ' ticket' + (item.qty === 1 ? '' : 's') + ' · ' + prizeLabel(item.prizeId);
       });
       var totalTickets = meta.items.reduce(function (sum, item) { return sum + (parseInt(item.qty, 10) || 0); }, 0);
       return { title: lines.join(' · '), detail: 'Pre-order', tickets: totalTickets };
@@ -245,28 +317,62 @@
   }
 
   function renderEntries() {
-    var list = $('[data-account-entries-list]');
+    var tbody = $('[data-account-entries-list]');
     var empty = $('[data-account-entries-empty]');
-    if (!list) return;
+    var wrap = $('[data-account-entries-table-wrap]');
+    if (!tbody) return;
 
-    list.innerHTML = '';
+    tbody.innerHTML = '';
     if (!state.entries.length) {
       if (empty) empty.hidden = false;
+      if (wrap) wrap.hidden = true;
       return;
     }
     if (empty) empty.hidden = true;
+    if (wrap) wrap.hidden = false;
 
     state.entries.forEach(function (entry) {
-      var label = PRIZE_LABELS[entry.prize_id] || entry.prize_id;
-      var li = document.createElement('li');
-      li.className = 'account-order-item';
-      li.innerHTML =
-        '<div class="account-order-item__main">' +
-        '<p class="account-order-item__title">' + entry.quantity + ' ticket' + (entry.quantity === 1 ? '' : 's') + ' · ' + label + '</p>' +
-        '<p class="account-order-item__meta font-mono">' + formatDate(entry.created_at) + ' · ' + entry.source + ' · ' + entry.status + '</p>' +
-        '</div>' +
-        '<span class="badge badge-ochre">' + (entry.draw_id || 'Draw') + '</span>';
-      list.appendChild(li);
+      var tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td><span class="account-table__title">' + prizeLabel(entry.prize_id) + '</span></td>' +
+        '<td><strong>' + entry.quantity + '</strong></td>' +
+        '<td class="account-table__meta">' + drawLabel(entry.draw_id) + '</td>' +
+        '<td class="account-table__meta">' + formatDateShort(entry.created_at) + '</td>' +
+        '<td>' + statusBadge(entry.status) + '</td>';
+      tbody.appendChild(tr);
+    });
+  }
+
+  function renderDraws() {
+    var tbody = $('[data-account-draws-list]');
+    var empty = $('[data-account-draws-empty]');
+    var wrap = $('[data-account-draws-table-wrap]');
+    if (!tbody) return;
+
+    var now = Date.now();
+    var pastEntries = state.entries.filter(function (entry) {
+      if (entry.status === 'void') return true;
+      return now > FOUNDING_DRAW_DATE.getTime();
+    });
+
+    tbody.innerHTML = '';
+    if (!pastEntries.length) {
+      if (empty) empty.hidden = false;
+      if (wrap) wrap.hidden = true;
+      return;
+    }
+    if (empty) empty.hidden = true;
+    if (wrap) wrap.hidden = false;
+
+    pastEntries.forEach(function (entry) {
+      var tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td class="account-table__meta">' + drawLabel(entry.draw_id) + '</td>' +
+        '<td><span class="account-table__title">' + prizeLabel(entry.prize_id) + '</span></td>' +
+        '<td><strong>' + entry.quantity + '</strong></td>' +
+        '<td class="account-table__meta">Pending draw</td>' +
+        '<td class="account-table__meta">' + formatDateShort(entry.created_at) + '</td>';
+      tbody.appendChild(tr);
     });
   }
 
@@ -278,7 +384,7 @@
 
     var active = m && (m.status === 'active' || m.status === 'trialing');
     if (statMembership) {
-      statMembership.textContent = active ? 'Gaviom+ active' : 'Not active';
+      statMembership.textContent = active ? 'Active' : 'Not active';
     }
     if (badge) {
       badge.textContent = active ? 'Subscribed' : 'Not subscribed';
@@ -291,28 +397,75 @@
   }
 
   function renderOrders() {
-    var list = $('[data-account-tickets-list]');
+    var tbody = $('[data-account-tickets-list]');
     var empty = $('[data-account-tickets-empty]');
-    if (!list) return;
+    var wrap = $('[data-account-orders-table-wrap]');
+    if (!tbody) return;
 
-    list.innerHTML = '';
+    tbody.innerHTML = '';
     if (!state.orders.length) {
       if (empty) empty.hidden = false;
+      if (wrap) wrap.hidden = true;
       return;
     }
     if (empty) empty.hidden = true;
+    if (wrap) wrap.hidden = false;
 
     state.orders.forEach(function (order) {
       var info = describeOrder(order);
-      var li = document.createElement('li');
-      li.className = 'account-order-item';
-      li.innerHTML =
-        '<div class="account-order-item__main">' +
-        '<p class="account-order-item__title">' + info.title + '</p>' +
-        '<p class="account-order-item__meta font-mono">' + formatDate(order.created_at) + ' · ' + (order.status || 'paid') + '</p>' +
-        '</div>' +
-        '<p class="account-order-item__amount font-display">' + formatMoney(order.amount_total, order.currency) + '</p>';
-      list.appendChild(li);
+      var tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td><span class="account-table__title">' + info.title + '</span></td>' +
+        '<td class="account-table__amount">' + formatMoney(order.amount_total, order.currency) + '</td>' +
+        '<td class="account-table__meta">' + formatDateShort(order.created_at) + '</td>' +
+        '<td>' + statusBadge(order.status || 'paid') + '</td>';
+      tbody.appendChild(tr);
+    });
+  }
+
+  function renderRecentActivity() {
+    var tbody = $('[data-account-recent-body]');
+    if (!tbody) return;
+
+    var items = [];
+
+    state.entries.slice(0, 5).forEach(function (entry) {
+      items.push({
+        type: 'Entry',
+        detail: entry.quantity + ' ticket' + (entry.quantity === 1 ? '' : 's') + ' · ' + prizeLabel(entry.prize_id),
+        date: entry.created_at,
+        status: entry.status,
+      });
+    });
+
+    state.orders.slice(0, 5).forEach(function (order) {
+      var info = describeOrder(order);
+      items.push({
+        type: 'Order',
+        detail: info.title,
+        date: order.created_at,
+        status: order.status || 'paid',
+      });
+    });
+
+    items.sort(function (a, b) {
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
+
+    tbody.innerHTML = '';
+    if (!items.length) {
+      tbody.innerHTML = '<tr class="account-table__empty"><td colspan="4">No activity yet — pre-order your first ticket.</td></tr>';
+      return;
+    }
+
+    items.slice(0, 6).forEach(function (item) {
+      var tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td class="account-table__meta">' + item.type + '</td>' +
+        '<td><span class="account-table__title">' + item.detail + '</span></td>' +
+        '<td class="account-table__meta">' + formatDateShort(item.date) + '</td>' +
+        '<td>' + statusBadge(item.status) + '</td>';
+      tbody.appendChild(tr);
     });
   }
 
@@ -343,7 +496,6 @@
 
   async function saveProfile(ev) {
     ev.preventDefault();
-    var form = ev.target;
     var client = window.GaviomAuth.getClient();
     var userId = state.session.user.id;
 
@@ -354,7 +506,7 @@
       marketing_opt_in: $('[data-profile-marketing]').checked,
     };
 
-    var btn = form.querySelector('[type="submit"]');
+    var btn = ev.target.querySelector('[type="submit"]');
     if (btn) btn.disabled = true;
 
     try {
@@ -407,7 +559,7 @@
       renderUserHeader();
       showAlert('Profile photo updated.', 'success');
     } catch (err) {
-      showAlert(err.message || 'Could not upload photo. Run supabase-account-setup.sql for storage.', 'error');
+      showAlert(err.message || 'Could not upload photo. Run supabase-full-setup.sql for storage.', 'error');
     }
   }
 
@@ -445,16 +597,19 @@
     }
   }
 
+  function bindAvatarInputs() {
+    $$('[data-account-avatar-input], [data-account-avatar-input-profile]').forEach(function (input) {
+      input.addEventListener('change', function () {
+        if (input.files && input.files[0]) uploadAvatar(input.files[0]);
+      });
+    });
+  }
+
   function bindForms() {
     var profileForm = $('[data-account-profile-form]');
     if (profileForm) profileForm.addEventListener('submit', saveProfile);
 
-    var avatarInput = $('[data-account-avatar-input]');
-    if (avatarInput) {
-      avatarInput.addEventListener('change', function () {
-        if (avatarInput.files && avatarInput.files[0]) uploadAvatar(avatarInput.files[0]);
-      });
-    }
+    bindAvatarInputs();
 
     var redeemForm = $('[data-account-redeem-form]');
     if (redeemForm) {
@@ -533,6 +688,7 @@
     state.accessToken = session.access_token;
 
     bindNav();
+    bindTicketTabs();
     bindForms();
 
     try {
