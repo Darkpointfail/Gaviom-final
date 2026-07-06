@@ -1,6 +1,6 @@
 const Stripe = require('stripe');
-const { verifyBearerUser } = require('./lib/supabase-user');
-const { sendAuthConfirmationEmail } = require('./lib/send-auth-confirmation');
+const { verifyBearerUser } = require('../lib/supabase-user');
+const { sendAuthConfirmationEmail } = require('../lib/send-auth-confirmation');
 
 function resolveAction(req) {
   const q = req.query?.action;

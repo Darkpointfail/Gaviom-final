@@ -1,7 +1,7 @@
 const Stripe = require('stripe');
-const { resolveOrder } = require('./lib/resolve-order');
-const { verifyVerifiedUser } = require('./lib/supabase-user');
-const { validateAccountEmail } = require('./lib/email-validation');
+const { resolveOrder } = require('../lib/resolve-order');
+const { verifyVerifiedUser } = require('../lib/supabase-user');
+const { validateAccountEmail } = require('../lib/email-validation');
 
 function parseBody(req) {
   let body = req.body;

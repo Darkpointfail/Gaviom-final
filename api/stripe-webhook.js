@@ -3,7 +3,7 @@ const {
   fulfillCheckoutSession,
   fulfillPaymentIntent,
   fulfillSubscription,
-} = require('./lib/fulfill-order');
+} = require('../lib/fulfill-order');
 
 async function readRawBody(req) {
   const chunks = [];
