@@ -642,7 +642,7 @@
     if (!capEl) return;
 
     const group = capEl.dataset.liveGroup || 'msc';
-    const cap = parseInt(capEl.dataset.liveMax, 10) || 6000;
+    const cap = parseInt(capEl.dataset.liveMax, 10) || 3000;
     let val = parseInt(capEl.dataset.liveCounter, 10) || 0;
     const dripEl = document.querySelector(`[data-live-group="${group}"]:not([data-live-pair])`);
     const dripMax = dripEl ? parseInt(dripEl.dataset.liveMax, 10) || cap - 1 : cap - 1;
@@ -886,7 +886,7 @@
         cat: 'Travel · #1',
         value: '$10,000 value',
         draw: 'Draw September 6, 2026',
-        maxEntries: 6000,
+        maxEntries: 3000,
         hook: 'Seven nights at sea. Balcony cabin. Mediterranean sunsets on repeat.',
         images: [
           '/images/cruise-hero.webp',
@@ -931,7 +931,7 @@
             ],
           },
         ],
-        odds: 6000,
+        odds: 3000,
         bundles: { 1: { entries: 1, price: 12 }, 5: { entries: 5, price: 45, strike: 60, save: 15 }, 20: { entries: 20, price: 80, strike: 240, save: 160 } },
       },
       diving: {
@@ -940,7 +940,7 @@
         cat: 'Experiences · #2',
         value: '$4,000',
         draw: 'Draw September 6, 2026',
-        maxEntries: 1000,
+        maxEntries: 3000,
         hook: 'No certification needed. Two guided dives in water so clear it looks edited.',
         images: [
           '/images/diving-turtle.webp',
@@ -985,8 +985,8 @@
             ],
           },
         ],
-        odds: 1000,
-        bundles: { 1: { entries: 1, price: 12 }, 5: { entries: 5, price: 45, strike: 60, save: 15 }, 20: { entries: 20, price: 80, strike: 240, save: 160 } },
+        odds: 3000,
+        bundles: { 1: { entries: 1, price: 5 }, 5: { entries: 5, price: 20, strike: 25, save: 5 }, 20: { entries: 20, price: 70, strike: 100, save: 30 } },
       },
       vegas: {
         back: '/prize-vegas.html',
@@ -994,7 +994,7 @@
         cat: 'Travel · #3',
         value: '$4,200 value',
         draw: 'Draw September 6, 2026',
-        maxEntries: 4800,
+        maxEntries: 3000,
         hook: 'Four nights on the Strip. Suite views. Flights covered. No itinerary spreadsheet required.',
         images: [
           '/images/vegas-quote-hero.webp',
@@ -1035,8 +1035,8 @@
             ],
           },
         ],
-        odds: 4800,
-        bundles: { 1: { entries: 1, price: 10 }, 5: { entries: 5, price: 40, strike: 50, save: 10 }, 20: { entries: 20, price: 70, strike: 200, save: 130 } },
+        odds: 3000,
+        bundles: { 1: { entries: 1, price: 5 }, 5: { entries: 5, price: 20, strike: 25, save: 5 }, 20: { entries: 20, price: 70, strike: 100, save: 30 } },
       },
       iphone: {
         back: '/prize-iphone.html',
@@ -1090,7 +1090,7 @@
           },
         ],
         odds: 3000,
-        bundles: { 1: { entries: 1, price: 7 }, 5: { entries: 5, price: 28, strike: 35, save: 7 }, 20: { entries: 20, price: 50, strike: 140, save: 90 } },
+        bundles: { 1: { entries: 1, price: 2 }, 5: { entries: 5, price: 8, strike: 10, save: 2 }, 20: { entries: 20, price: 28, strike: 40, save: 12 } },
       },
     };
 

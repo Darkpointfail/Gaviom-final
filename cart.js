@@ -14,7 +14,7 @@
       url: '/prize.html',
       image: '/images/msc-cruise-hero.webp',
       draw: 'Draw September 6, 2026',
-      odds: 6000,
+      odds: 3000,
       bundles: [
         { tickets: 1, price: 12 },
         { tickets: 5, price: 45 },
@@ -27,11 +27,11 @@
       url: '/prize-diving.html',
       image: '/images/diving-turtle.webp',
       draw: 'Draw September 6, 2026',
-      odds: 1000,
+      odds: 3000,
       bundles: [
-        { tickets: 1, price: 12 },
-        { tickets: 5, price: 45 },
-        { tickets: 20, price: 80 },
+        { tickets: 1, price: 5 },
+        { tickets: 5, price: 20 },
+        { tickets: 20, price: 70 },
       ],
     },
     iphone: {
@@ -42,9 +42,9 @@
       draw: 'Draw September 6, 2026',
       odds: 3000,
       bundles: [
-        { tickets: 1, price: 7 },
-        { tickets: 5, price: 28 },
-        { tickets: 20, price: 50 },
+        { tickets: 1, price: 2 },
+        { tickets: 5, price: 8 },
+        { tickets: 20, price: 28 },
       ],
     },
     vegas: {
@@ -53,10 +53,10 @@
       url: '/prize-vegas.html',
       image: '/images/vegas-strip-mobile.webp',
       draw: 'Draw September 6, 2026',
-      odds: 4800,
+      odds: 3000,
       bundles: [
-        { tickets: 1, price: 10 },
-        { tickets: 5, price: 40 },
+        { tickets: 1, price: 5 },
+        { tickets: 5, price: 20 },
         { tickets: 20, price: 70 },
       ],
     },
