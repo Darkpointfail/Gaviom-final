@@ -2,12 +2,14 @@ const Stripe = require('stripe');
 const { verifyBearerUser } = require('../lib/supabase-user');
 const { sendAuthConfirmationEmail } = require('../lib/send-auth-confirmation');
 const { handleAuthSignup } = require('../lib/auth-signup');
+const { handleAuthConfirm } = require('../lib/auth-confirm-email');
 
 function resolveAction(req) {
   const q = req.query?.action;
   if (q) return String(q);
   const path = (req.url || '').split('?')[0] || '';
   if (path.includes('auth-signup')) return 'signup';
+  if (path.includes('auth-confirm')) return 'confirm-email';
   if (path.includes('auth-confirmation-email') || path.includes('confirmation-email')) {
     return 'confirmation-email';
   }
@@ -153,6 +155,10 @@ module.exports = async function handler(req, res) {
       return res.status(405).json({ error: 'Method not allowed' });
     }
     return handleAuthSignup(req, res);
+  }
+
+  if (action === 'confirm-email') {
+    return handleAuthConfirm(req, res);
   }
 
   return res.status(400).json({ error: 'Unknown account action' });

@@ -233,6 +233,10 @@
       "destination": "/api/account?action=confirmation-email"
     },
     {
+      "source": "/api/auth-confirm",
+      "destination": "/api/account?action=confirm-email"
+    },
+    {
       "source": "/contact",
       "destination": "/contact.html"
     },

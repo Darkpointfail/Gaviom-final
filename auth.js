@@ -139,37 +139,127 @@
     return (
       params.get('verified') === '1' ||
       params.has('code') ||
+      params.has('token_hash') ||
       hash.indexOf('access_token=') !== -1 ||
       hash.indexOf('refresh_token=') !== -1
     );
+  }
+
+  function hasUrlAuthTokens() {
+    var params = new URLSearchParams(window.location.search || '');
+    var hash = window.location.hash || '';
+    return (
+      params.has('code') ||
+      params.has('token_hash') ||
+      hash.indexOf('access_token=') !== -1
+    );
+  }
+
+  function parseHashAuthParams() {
+    var hash = window.location.hash || '';
+    if (!hash || hash.indexOf('access_token=') === -1) return null;
+    var params = new URLSearchParams(hash.replace(/^#/, ''));
+    var accessToken = params.get('access_token');
+    var refreshToken = params.get('refresh_token');
+    if (!accessToken || !refreshToken) return null;
+    return { access_token: accessToken, refresh_token: refreshToken };
+  }
+
+  function scrubAuthUrl() {
+    try {
+      var params = new URLSearchParams(window.location.search || '');
+      params.delete('code');
+      params.delete('token_hash');
+      var search = params.toString();
+      var clean = window.location.pathname + (search ? '?' + search : '');
+      history.replaceState(null, '', clean);
+    } catch (e) {
+      /* ignore */
+    }
+  }
+
+  async function establishSessionFromUrl(client) {
+    var params = new URLSearchParams(window.location.search || '');
+
+    if (params.has('code')) {
+      var exchanged = await client.auth.exchangeCodeForSession(params.get('code'));
+      if (!exchanged.error && exchanged.data && exchanged.data.session) {
+        return exchanged.data.session;
+      }
+      if (exchanged.error) logAuth('confirm:exchange-error', exchanged.error.message);
+    }
+
+    if (params.has('token_hash')) {
+      var otpType = params.get('type') || 'signup';
+      var verified = await client.auth.verifyOtp({
+        token_hash: params.get('token_hash'),
+        type: otpType,
+      });
+      if (!verified.error && verified.data && verified.data.session) {
+        return verified.data.session;
+      }
+      if (verified.error) logAuth('confirm:otp-error', verified.error.message);
+    }
+
+    var hashTokens = parseHashAuthParams();
+    if (hashTokens) {
+      var setResult = await client.auth.setSession(hashTokens);
+      if (!setResult.error && setResult.data && setResult.data.session) {
+        return setResult.data.session;
+      }
+      if (setResult.error) logAuth('confirm:set-session-error', setResult.error.message);
+    }
+
+    var result = await client.auth.getSession();
+    return result.data && result.data.session ? result.data.session : null;
+  }
+
+  async function waitForConfirmedSession(maxWaitMs) {
+    var client = getClient();
+    var deadline = Date.now() + (maxWaitMs || 12000);
+
+    while (Date.now() < deadline) {
+      var session = await establishSessionFromUrl(client);
+      if (session && session.user && isEmailConfirmed(session.user)) {
+        return session;
+      }
+      await new Promise(function (resolve) {
+        setTimeout(resolve, 200);
+      });
+    }
+
+    return null;
+  }
+
+  function showConfirmationSigningIn() {
+    var card = document.querySelector('.auth-card');
+    if (!card || card.querySelector('[data-auth-signing-in]')) return;
+    var form = card.querySelector('form');
+    if (form) form.hidden = true;
+    var block = document.createElement('div');
+    block.className = 'auth-verify-pending';
+    block.setAttribute('data-auth-signing-in', '');
+    block.innerHTML =
+      '<p class="auth-verify-pending__msg">Email confirmed. Signing you in…</p>' +
+      '<p class="auth-verify-pending__hint font-mono">You will be redirected to your account automatically.</p>';
+    var insertBefore = form || card.querySelector('.auth-legal');
+    if (insertBefore) card.insertBefore(block, insertBefore);
+    else card.appendChild(block);
   }
 
   async function completeEmailConfirmationLanding() {
     if (!isEmailConfirmationLanding() || !configReady()) return false;
 
     try {
-      var client = getClient();
-      var params = new URLSearchParams(window.location.search || '');
-
-      if (params.has('code')) {
-        var exchanged = await client.auth.exchangeCodeForSession(params.get('code'));
-        if (exchanged.error) {
-          logAuth('confirm:exchange-error', exchanged.error.message);
-        }
-      }
-
-      await new Promise(function (resolve) {
-        setTimeout(resolve, 200);
-      });
-
-      var result = await client.auth.getSession();
-      var session = result.data && result.data.session;
+      showConfirmationSigningIn();
+      var session = await waitForConfirmedSession(12000);
       if (!session || !session.user || !isEmailConfirmed(session.user)) {
         return false;
       }
 
       applySession(session, 'SIGNED_IN');
       emitAuthChanged('SIGNED_IN');
+      scrubAuthUrl();
 
       var dest = readPostVerifyNext('/account.html');
       clearPostVerifyNext();
@@ -859,6 +949,7 @@
     if (page !== 'signin' && page !== 'signup') return;
 
     if (isEmailConfirmationLanding()) {
+      showConfirmationSigningIn();
       var landed = await completeEmailConfirmationLanding();
       if (landed) return;
     }
@@ -888,13 +979,20 @@
 
     var params = new URLSearchParams(window.location.search);
     if (params.get('verified') === '1') {
-      window.GaviomAuth.waitForSession().then(function (session) {
+      showConfirmationSigningIn();
+      waitForConfirmedSession(12000).then(function (session) {
         if (session && session.user && isEmailConfirmed(session.user)) {
+          applySession(session, 'SIGNED_IN');
+          emitAuthChanged('SIGNED_IN');
           redirectIfSignedInConfirmed(session);
           return;
         }
-        showAlert(alertEl, 'Email confirmed — signing you in…', 'success');
+        if (params.get('confirm') !== 'error') {
+          showAlert(alertEl, 'Email confirmed — finishing sign-in…', 'success');
+        }
       });
+    } else if (params.get('confirm') === 'error') {
+      showAlert(alertEl, 'This confirmation link expired or was already used. Sign in below or request a new confirmation email.', 'error');
     } else if (params.get('confirm') === 'required') {
       showAlert(alertEl, 'Confirm your email before purchasing. Check your inbox for the confirmation link.', 'error');
     }
@@ -1120,7 +1218,7 @@
       await bootstrapAuth();
       if (authState.session && authState.session.user) return authState.session;
 
-      if (!hasStoredAuthToken()) {
+      if (!hasStoredAuthToken() && !isEmailConfirmationLanding() && !hasUrlAuthTokens()) {
         return authState.session;
       }
 
