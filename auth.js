@@ -113,7 +113,8 @@
       /* ignore */
     }
     if (!res.ok) {
-      throw new Error(data.error || 'Could not send confirmation email.');
+      var apiMessage = normalizeAlertMessage(data.error || data.message || data.msg);
+      throw new Error(apiMessage || 'Could not send confirmation email.');
     }
     return data;
   }
@@ -330,9 +331,52 @@
     return (root || document).querySelector(sel);
   }
 
+  function normalizeAlertMessage(message) {
+    if (message == null || message === '') return '';
+    if (typeof message === 'string') {
+      var trimmed = message.trim();
+      if (!trimmed || trimmed === '{}' || trimmed === '[object Object]') {
+        return 'Something went wrong. Please try again.';
+      }
+      if (trimmed.charAt(0) === '{') {
+        try {
+          var parsed = JSON.parse(trimmed);
+          return normalizeAlertMessage(parsed);
+        } catch (e) {
+          /* keep string */
+        }
+      }
+      return trimmed;
+    }
+    if (message instanceof Error) {
+      return normalizeAlertMessage(message.message || message);
+    }
+    if (typeof message === 'object') {
+      var nested =
+        message.message ||
+        message.msg ||
+        message.error_description ||
+        message.description ||
+        message.error;
+      if (nested) return normalizeAlertMessage(nested);
+      try {
+        var json = JSON.stringify(message);
+        if (json && json !== '{}') return json;
+      } catch (e2) {
+        /* ignore */
+      }
+      return 'Something went wrong. Please try again.';
+    }
+    var text = String(message).trim();
+    if (!text || text === '[object Object]' || text === '{}') {
+      return 'Something went wrong. Please try again.';
+    }
+    return text;
+  }
+
   function showAlert(el, message, type) {
     if (!el) return;
-    var text = message ? String(message).trim() : '';
+    var text = normalizeAlertMessage(message);
     el.hidden = !text;
     el.textContent = text;
     el.classList.remove('auth-alert--error', 'auth-alert--success');
@@ -351,8 +395,13 @@
   }
 
   function friendlyAuthError(err) {
+    if (!err) return 'Something went wrong. Please try again.';
+    if (typeof err === 'string') return normalizeAlertMessage(err);
+
     var code = (err && (err.code || err.error_code)) || '';
-    var msg = (err && err.message) ? String(err.message) : '';
+    var msg = normalizeAlertMessage(
+      err.message || err.msg || err.error_description || err.error || err
+    );
 
     var known = {
       email_address_not_authorized:
@@ -861,6 +910,9 @@
         if (result.error) throw result.error;
 
         var user = result.data && result.data.user ? result.data.user : null;
+        if (user && user.identities && user.identities.length === 0) {
+          throw { code: 'email_exists', message: 'This email is already registered.' };
+        }
         if (result.data && result.data.session) {
           await clearLocalSession(client);
         }
@@ -886,6 +938,7 @@
         }
 
         showSignupVerifyScreen(signupEmail, confirmEmailError);
+        showAlert(alertEl, '', '');
         form.reset();
       } catch (err) {
         showAlert(alertEl, friendlyAuthError(err), 'error');
