@@ -1,6 +1,6 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { EMPLOYEE_OPTIONS, PACKAGE_OPTIONS } from '@/lib/content';
 
 type QuoteFormProps = {
@@ -32,6 +32,12 @@ export function QuoteForm({ presetPackage, onSuccess }: QuoteFormProps) {
     'idle',
   );
   const [errorMessage, setErrorMessage] = useState('');
+
+  useEffect(() => {
+    if (presetPackage) {
+      setForm((prev) => ({ ...prev, packageInterest: presetPackage }));
+    }
+  }, [presetPackage]);
 
   const update = (key: keyof FormState, value: string) => {
     setForm((prev) => ({ ...prev, [key]: value }));

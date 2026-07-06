@@ -1,6 +1,5 @@
 'use client';
 
-import { CALENDLY_URL } from '@/lib/content';
 import { FadeIn } from '../FadeIn';
 import { useQuoteModal } from '../QuoteModalProvider';
 
@@ -34,20 +33,19 @@ export function FinalCTA() {
           someone who runs corporate programs every day.
         </p>
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <a
-            href={CALENDLY_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            type="button"
+            onClick={() => openQuote('Discovery call')}
             className="btn-primary px-10 py-4 text-base"
           >
-            Schedule discovery call
-          </a>
+            Book a discovery call
+          </button>
           <button
             type="button"
             onClick={() => openQuote()}
             className="btn-secondary px-10 py-4 text-base"
           >
-            Or send a message
+            Send a message
           </button>
         </div>
         <p className="mt-4 text-xs text-muted">

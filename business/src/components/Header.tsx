@@ -1,9 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { CALENDLY_URL } from '@/lib/content';
+import { useQuoteModal } from './QuoteModalProvider';
 
 export function Header() {
+  const { openQuote } = useQuoteModal();
+
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-paper/88 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -28,14 +30,13 @@ export function Header() {
             FAQ
           </a>
         </nav>
-        <a
-          href={CALENDLY_URL}
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          type="button"
+          onClick={() => openQuote('Discovery call')}
           className="btn-primary !py-2.5 !text-xs sm:!text-sm"
         >
           Book discovery call
-        </a>
+        </button>
       </div>
     </header>
   );

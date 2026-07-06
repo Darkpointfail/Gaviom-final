@@ -132,6 +132,7 @@ export const EMPLOYEE_OPTIONS = [
 ] as const;
 
 export const PACKAGE_OPTIONS = [
+  { value: 'Discovery call', label: 'Discovery call' },
   { value: 'Ticket Packs (Standard)', label: 'Ticket Packs (Standard)' },
   { value: 'Custom Draw', label: 'Custom Draw' },
   { value: 'Partner / Broker', label: 'Partner / Broker' },
