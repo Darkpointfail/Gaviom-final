@@ -16,8 +16,8 @@
   <meta name="description" content="Secure Gaviom checkout to pre-order sweepstakes tickets with published odds and entry confirmation." />
   <title>Checkout · Gaviom</title>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Geist+Mono:wght@400;500&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20260713-tickets" />
-  <link rel="stylesheet" href="mobile.css?v=20260713-tickets" media="screen and (max-width:1024px)" />
+  <link rel="stylesheet" href="styles.css?v=20260713-checkout-lines" />
+  <link rel="stylesheet" href="mobile.css?v=20260713-checkout-lines" media="screen and (max-width:1024px)" />
 </head>
 <body class="gplus-checkout-page checkout-page" data-ticket-checkout="1">
   <header class="co-head auth-head gplus-head">
@@ -39,34 +39,25 @@
           <a href="prizes.html" class="btn btn-primary btn-lg">Browse sweepstakes</a>
         </div>
 
-        <div data-checkout-single>
-          <p class="gplus-kicker font-mono" data-checkout-kicker><span class="bar"></span> Sweepstakes tickets</p>
-          <h1 class="gplus-title font-display" data-checkout-title>MSC Cruise · 7 Nights</h1>
-          <p class="gplus-lede" data-checkout-clarify>
-            You are purchasing <strong data-checkout-ticket-count>5 tickets</strong> to enter the
-            <strong data-checkout-event-name>MSC Cruise · 7 Nights</strong> sweepstakes.
-            You are <em>not</em> buying the cruise, prize, or trip itself.
-          </p>
-          <p class="gplus-legal-note font-mono" data-checkout-detail-line>Draw September 6, 2026 · Odds 1 in 3,000</p>
-        </div>
-
-        <div data-checkout-cart hidden>
-          <p class="gplus-kicker font-mono"><span class="bar"></span> Your cart</p>
-          <h1 class="gplus-title font-display" data-checkout-title>Multiple sweepstakes</h1>
+        <div data-checkout-order hidden>
+          <p class="gplus-kicker font-mono" data-checkout-order-kicker><span class="bar"></span> Your order</p>
+          <h1 class="gplus-title font-display" data-checkout-order-title>Order summary</h1>
           <p class="gplus-lede" data-checkout-clarify>
             You are purchasing sweepstakes tickets only, not the prizes, trips, or products themselves.
           </p>
-          <div class="co-cart-lines checkout-cart-lines" data-cart-checkout-lines></div>
-          <p class="co-cart-upsell" data-cart-checkout-upsell hidden></p>
-        </div>
 
-        <div class="gplus-price-card" data-checkout-total-wrap>
-          <p class="gplus-price font-display" data-co-total>$45.00</p>
-          <p class="gplus-price-sub font-mono" data-checkout-total-label>Total for tickets</p>
-          <p class="gplus-legal-note font-mono" data-checkout-ticket-summary hidden></p>
-        </div>
+          <div class="checkout-order-lines" data-checkout-order-lines role="list" aria-label="Cart items"></div>
 
-        <p class="gplus-legal-note font-mono" data-checkout-amoe>No purchase necessary. <a href="free-entry.html">Free alternate entry</a> available with the same odds.</p>
+          <p class="co-cart-upsell checkout-order-upsell" data-cart-checkout-upsell hidden></p>
+
+          <div class="gplus-price-card" data-checkout-total-wrap>
+            <p class="gplus-price font-display" data-co-total>$0.00</p>
+            <p class="gplus-price-sub font-mono" data-checkout-total-label>Total for tickets</p>
+            <p class="gplus-legal-note font-mono checkout-order-summary-note" data-checkout-ticket-summary hidden></p>
+          </div>
+
+          <p class="gplus-legal-note font-mono" data-checkout-amoe>No purchase necessary. <a href="free-entry.html">Free alternate entry</a> available with the same odds.</p>
+        </div>
       </section>
 
       <section class="gplus-pay" aria-label="Payment" data-checkout-pay-section>
@@ -115,7 +106,7 @@
   <script defer src="/auth-config.js"></script>
   <script defer src="/auth.js?v=20260713-perf"></script>
   <script defer src="/cart-sync.js"></script>
-<script defer src="checkout-stripe.js?v=20260713-tickets"></script>
+<script defer src="checkout-stripe.js?v=20260713-checkout-lines"></script>
   <script defer src="app.js?v=20260706-perf"></script>
   <script defer src="/auth-nav.js"></script>
 

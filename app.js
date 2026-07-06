@@ -484,7 +484,7 @@
       ensureCartScript();
       return;
     }
-    if (!document.querySelector('[data-cart-add],[data-cart-open],[data-cart-checkout-lines]')) return;
+    if (!document.querySelector('[data-cart-add],[data-cart-open],[data-checkout-order-lines]')) return;
 
     function warm() {
       ensureCartScript();
@@ -840,9 +840,8 @@
 
       document.title = 'Checkout Gaviom+, Gaviom';
 
-      const kicker = document.querySelector('[data-checkout-kicker]');
-      const titleEl = document.querySelector('[data-checkout-title]');
-      const detailLine = document.querySelector('[data-checkout-detail-line]');
+      const kicker = document.querySelector('[data-checkout-order-kicker]');
+      const titleEl = document.querySelector('[data-checkout-order-title]');
       const coTotal = document.querySelector('[data-co-total]');
       const back = document.querySelector('[data-checkout-back]');
       const submit = document.querySelector('[data-checkout-submit], [data-bundle-cta]');
@@ -850,19 +849,21 @@
       const amoe = document.querySelector('[data-checkout-amoe]');
 
       const clarify = document.querySelector('[data-checkout-clarify]');
-      const ticketCount = document.querySelector('[data-checkout-ticket-count]');
-      const eventName = document.querySelector('[data-checkout-event-name]');
-      const totalLabel = document.querySelector('.co-order-total-label');
+      const totalLabel = document.querySelector('[data-checkout-total-label]');
+      const order = document.querySelector('[data-checkout-order]');
+      const linesEl = document.querySelector('[data-checkout-order-lines]');
 
-      if (kicker) kicker.textContent = 'Membership tickets';
+      if (order) order.hidden = false;
+      if (linesEl) linesEl.innerHTML = '';
+
+      if (kicker) kicker.innerHTML = '<span class="bar"></span> Membership tickets';
       if (titleEl) titleEl.textContent = m.title;
-      if (detailLine) detailLine.textContent = m.detail;
       if (clarify) {
         clarify.innerHTML =
-          'You are subscribing to <strong>Gaviom+</strong> — a monthly ticket bundle for eligible sweepstakes. You are <em>not</em> buying any specific prize or trip.';
+          'You are subscribing to <strong>Gaviom+</strong> — a monthly ticket bundle for eligible sweepstakes. You are <em>not</em> buying any specific prize or trip.<br><span class="font-mono">' +
+          m.detail +
+          '</span>';
       }
-      if (ticketCount) ticketCount.hidden = true;
-      if (eventName) eventName.hidden = true;
       if (totalLabel) totalLabel.textContent = 'Monthly total';
       if (coTotal) coTotal.textContent = fmt(m.price);
       if (back) {
@@ -1136,8 +1137,8 @@
       }
       let prize = params.get('prize');
       if (!prize) {
-        const single = document.querySelector('[data-checkout-single]');
-        if (single && !single.hidden) prize = 'msc';
+        const order = document.querySelector('[data-checkout-order]');
+        if (order && !order.hidden) prize = 'msc';
       }
       if (prize) {
         const qty = parseInt(params.get('bundle') || '5', 10) || 5;
@@ -1389,64 +1390,173 @@
       });
     }
 
-    function initCheckoutFromCart(items, cart) {
-      const totals = cart.getTotals(items);
-      const ticketWord = totals.tickets === 1 ? 'ticket' : 'tickets';
-      const fmt = cart.fmt;
-      const presale = document.body.classList.contains('gv-prelaunch');
+    function buildCheckoutLineHtml(item, fmt) {
+      const unit = item.qty ? item.lineTotal / item.qty : 0;
+      const ticketWord = item.qty === 1 ? 'ticket' : 'tickets';
+      const drawOdds =
+        item.draw && item.odds
+          ? '<p class="co-order-line__detail font-mono">' +
+            escapeHtml(item.draw) +
+            ' · Odds 1 in ' +
+            Number(item.odds).toLocaleString('en-US') +
+            '</p>'
+          : '';
+      return (
+        '<article class="co-order-line" role="listitem">' +
+        '<a href="' +
+        escapeHtml(item.url) +
+        '" class="co-order-line__thumb"><img src="' +
+        escapeHtml(item.image) +
+        '" alt="" loading="lazy" width="72" height="72" decoding="async" /></a>' +
+        '<div class="co-order-line__body">' +
+        '<a href="' +
+        escapeHtml(item.url) +
+        '" class="co-order-line__title">' +
+        escapeHtml(item.title) +
+        '</a>' +
+        '<p class="co-order-line__meta font-mono">' +
+        item.qty +
+        ' ' +
+        ticketWord +
+        ' × ' +
+        fmt(unit) +
+        ' each</p>' +
+        drawOdds +
+        '<p class="co-order-line__note">Sweepstakes entries only — not the prize itself.</p>' +
+        '</div>' +
+        '<div class="co-order-line__price-col"><strong class="co-order-line__price">' +
+        fmt(item.lineTotal) +
+        '</strong></div>' +
+        '</article>'
+      );
+    }
 
+    function enrichCheckoutItems(items, cart) {
+      const prizes = cart && cart.PRIZES ? cart.PRIZES : {};
+      return items.map(function (item) {
+        const prize = prizes[item.prizeId] || {};
+        return {
+          prizeId: item.prizeId,
+          title: item.title || prize.title || 'Sweepstakes tickets',
+          url: item.url || prize.url || '/prizes.html',
+          image: item.image || prize.image || '/images/gaviom-mark.webp',
+          qty: item.qty,
+          lineTotal: item.lineTotal,
+          draw: item.draw || prize.draw || '',
+          odds: item.odds || prize.odds || 0,
+        };
+      });
+    }
+
+    function renderCheckoutOrder(options) {
+      const items = options.items || [];
+      const cart = options.cart;
+      const fmt =
+        options.fmt ||
+        (cart && cart.fmt
+          ? cart.fmt.bind(cart)
+          : function (n) {
+              return '$' + parseFloat(n).toFixed(2);
+            });
+      const totals =
+        options.totals ||
+        (cart
+          ? cart.getTotals(items)
+          : items.reduce(
+              function (acc, item) {
+                acc.tickets += item.qty;
+                acc.subtotal += item.lineTotal;
+                return acc;
+              },
+              { tickets: 0, subtotal: 0 }
+            ));
+
+      const ticketWord = totals.tickets === 1 ? 'ticket' : 'tickets';
       const empty = document.querySelector('[data-checkout-empty]');
-      const single = document.querySelector('[data-checkout-single]');
-      const cartSection = document.querySelector('[data-checkout-cart]');
+      const order = document.querySelector('[data-checkout-order]');
       const totalWrap = document.querySelector('[data-checkout-total-wrap]');
       const totalLabel = document.querySelector('[data-checkout-total-label]');
       const coTotal = document.querySelector('[data-co-total]');
       const back = document.querySelector('[data-checkout-back]');
       const summary = document.querySelector('[data-checkout-ticket-summary]');
+      const kicker = document.querySelector('[data-checkout-order-kicker]');
+      const titleEl = document.querySelector('[data-checkout-order-title]');
+      const clarify = document.querySelector('[data-checkout-clarify]');
+      const linesEl = document.querySelector('[data-checkout-order-lines]');
+      const upsell = document.querySelector('[data-cart-checkout-upsell]');
+      const paySection = document.querySelector('[data-checkout-pay-section]');
 
       if (empty) empty.hidden = true;
-      if (single) single.hidden = true;
-      if (cartSection) cartSection.hidden = false;
+      if (order) order.hidden = false;
       if (totalWrap) totalWrap.hidden = false;
+      if (paySection) paySection.hidden = false;
 
-      const titleEl = cartSection?.querySelector('[data-checkout-title]');
-      if (titleEl) {
-        titleEl.textContent = items.length === 1 ? items[0].title : `${items.length} sweepstakes`;
+      if (kicker) {
+        kicker.innerHTML =
+          '<span class="bar"></span> ' + escapeHtml(options.kicker || 'Your order');
+      }
+      if (titleEl) titleEl.textContent = options.title || 'Order summary';
+      if (clarify) {
+        clarify.innerHTML =
+          options.clarifyHtml ||
+          'You are purchasing sweepstakes tickets only, not the prizes, trips, or products themselves.';
       }
 
-      const linesEl = document.querySelector('[data-cart-checkout-lines]');
       if (linesEl) {
-        linesEl.innerHTML = items.map((item) => {
-          const unit = (item.lineTotal / item.qty).toFixed(2);
-          return (
-            '<article class="co-cart-line">' +
-            `<a href="${item.url}" class="co-cart-line__thumb"><img src="${item.image}" alt="" loading="lazy" /></a>` +
-            '<div>' +
-            `<a href="${item.url}" class="co-cart-line__title">${item.title}</a>` +
-            `<p class="co-cart-line__meta">${item.qty} ticket${item.qty === 1 ? '' : 's'} × $${unit}</p>` +
-            '</div>' +
-            `<strong class="co-cart-line__price">${fmt(item.lineTotal)}</strong>` +
-            '</article>'
-          );
+        linesEl.innerHTML = items.map(function (item) {
+          return buildCheckoutLineHtml(item, fmt);
         }).join('');
       }
 
-      const upsell = document.querySelector('[data-cart-checkout-upsell]');
       if (upsell) {
-        upsell.innerHTML = cart.upsellMessage(items);
-        upsell.hidden = false;
+        if (options.showUpsell && cart) {
+          upsell.innerHTML = cart.upsellMessage(items);
+          upsell.hidden = false;
+        } else {
+          upsell.hidden = true;
+          upsell.textContent = '';
+        }
       }
 
-      if (totalLabel) totalLabel.hidden = false;
+      if (totalLabel) {
+        totalLabel.textContent = options.totalLabel || 'Total for tickets';
+        totalLabel.hidden = false;
+      }
       if (coTotal) coTotal.textContent = fmt(totals.subtotal);
       if (summary) {
-        summary.textContent = `${totals.tickets} ${ticketWord} across ${items.length} sweepstakes`;
+        if (items.length === 1) {
+          summary.textContent =
+            items[0].qty +
+            ' ' +
+            (items[0].qty === 1 ? 'ticket' : 'tickets') +
+            ' · ' +
+            items[0].title;
+        } else {
+          summary.textContent =
+            totals.tickets + ' ' + ticketWord + ' across ' + items.length + ' sweepstakes';
+        }
         summary.hidden = false;
       }
       if (back) {
-        back.href = '/prizes.html';
-        back.textContent = '← Back to sweepstakes';
+        back.href = options.backHref || '/prizes.html';
+        back.textContent = options.backText || '← Back to sweepstakes';
       }
+    }
+
+    function initCheckoutFromCart(items, cart) {
+      const enriched = enrichCheckoutItems(items, cart);
+      const title =
+        enriched.length === 1 ? enriched[0].title : enriched.length + ' sweepstakes in your cart';
+
+      renderCheckoutOrder({
+        items: enriched,
+        cart: cart,
+        title: title,
+        kicker: enriched.length === 1 ? 'Sweepstakes tickets' : 'Your cart',
+        showUpsell: true,
+        backHref: '/prizes.html',
+        backText: '← Back to sweepstakes',
+      });
       dispatchCheckoutOrderReady();
     }
 
@@ -1478,14 +1588,10 @@
 
       if (!params.get('prize')) {
         const empty = document.querySelector('[data-checkout-empty]');
-        const single = document.querySelector('[data-checkout-single]');
-        const cartSection = document.querySelector('[data-checkout-cart]');
-        const totalWrap = document.querySelector('[data-checkout-total-wrap]');
+        const order = document.querySelector('[data-checkout-order]');
         const paySection = document.querySelector('[data-checkout-pay-section]');
         if (empty) empty.hidden = false;
-        if (single) single.hidden = true;
-        if (cartSection) cartSection.hidden = true;
-        if (totalWrap) totalWrap.hidden = true;
+        if (order) order.hidden = true;
         if (paySection) paySection.hidden = true;
         dispatchCheckoutOrderReady();
         return;
@@ -1499,39 +1605,34 @@
 
       const price = b.price;
       const entries = b.entries;
-      const fmt = (n) => '$' + parseFloat(n).toFixed(2);
-
       const ticketWord = entries === 1 ? 'ticket' : 'tickets';
-      const empty = document.querySelector('[data-checkout-empty]');
-      const single = document.querySelector('[data-checkout-single]');
-      const cartSection = document.querySelector('[data-checkout-cart]');
-      const totalWrap = document.querySelector('[data-checkout-total-wrap]');
-      const back = document.querySelector('[data-checkout-back]');
-      const kicker = document.querySelector('[data-checkout-kicker]');
-      const titleEl = document.querySelector('[data-checkout-title]');
-      const detailLine = document.querySelector('[data-checkout-detail-line]');
-      const ticketCount = document.querySelector('[data-checkout-ticket-count]');
-      const eventName = document.querySelector('[data-checkout-event-name]');
-      const coTotal = document.querySelector('[data-co-total]');
-      const totalLabel = document.querySelector('[data-checkout-total-label]');
+      const lineItem = {
+        prizeId: key,
+        title: p.title,
+        url: p.back,
+        image: p.images && p.images[0] ? p.images[0] : '/images/gaviom-mark.webp',
+        qty: entries,
+        lineTotal: price,
+        draw: p.draw,
+        odds: p.odds,
+      };
 
-      if (empty) empty.hidden = true;
-      if (single) single.hidden = false;
-      if (cartSection) cartSection.hidden = true;
-      if (totalWrap) totalWrap.hidden = false;
-      if (back) {
-        back.href = p.back;
-        back.textContent = '← Back';
-      }
-      if (kicker) kicker.textContent = 'Sweepstakes tickets';
-      if (titleEl) titleEl.textContent = p.title;
-      if (ticketCount) ticketCount.textContent = `${entries} ${ticketWord}`;
-      if (eventName) eventName.textContent = p.title;
-      if (detailLine) {
-        detailLine.textContent = `${p.draw} · Odds 1 in ${p.odds.toLocaleString('en-US')}`;
-      }
-      if (totalLabel) totalLabel.textContent = 'Total for tickets';
-      if (coTotal) coTotal.textContent = fmt(price);
+      renderCheckoutOrder({
+        items: [lineItem],
+        title: p.title,
+        kicker: 'Sweepstakes tickets',
+        clarifyHtml:
+          'You are purchasing <strong>' +
+          entries +
+          ' ' +
+          ticketWord +
+          '</strong> to enter the <strong>' +
+          escapeHtml(p.title) +
+          '</strong> sweepstakes. You are <em>not</em> buying the cruise, prize, or trip itself.',
+        backHref: p.back,
+        backText: '← Back',
+        totals: { tickets: entries, subtotal: price },
+      });
       dispatchCheckoutOrderReady();
     }
 

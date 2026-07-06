@@ -1827,6 +1827,33 @@ body.nav-open .nav-menu-icon::after {
     max-width: none;
   }
 
+  .co-order-line {
+    grid-template-columns: 60px minmax(0, 1fr) auto;
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .co-order-line__thumb {
+    width: 60px;
+    height: 60px;
+  }
+
+  .co-order-line__title {
+    font-size: 15px;
+  }
+
+  .co-order-line__price {
+    font-size: 16px;
+  }
+
+  .checkout-order-lines {
+    max-width: none;
+  }
+
+  .checkout-order-upsell {
+    max-width: none;
+  }
+
   .gplus-stripe-embedded {
     min-height: 360px;
   }
