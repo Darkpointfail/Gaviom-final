@@ -225,6 +225,10 @@
       "destination": "/api/account?action=billing-portal"
     },
     {
+      "source": "/api/auth-signup",
+      "destination": "/api/account?action=signup"
+    },
+    {
       "source": "/api/auth-confirmation-email",
       "destination": "/api/account?action=confirmation-email"
     },

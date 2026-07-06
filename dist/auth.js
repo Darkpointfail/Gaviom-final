@@ -119,6 +119,26 @@
     return data;
   }
 
+  async function signupViaApi(payload) {
+    var res = await fetch('/api/auth-signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify(payload),
+    });
+    var data = {};
+    try {
+      data = await res.json();
+    } catch (e) {
+      /* ignore */
+    }
+    if (!res.ok) {
+      var apiMessage = normalizeAlertMessage(data.error || data.message || data.msg);
+      throw new Error(apiMessage || 'Could not create account.');
+    }
+    return data;
+  }
+
   async function clearLocalSession(client) {
     try {
       if (client) await client.auth.signOut({ scope: 'local' });
@@ -398,9 +418,14 @@
     if (!err) return 'Something went wrong. Please try again.';
     if (typeof err === 'string') return normalizeAlertMessage(err);
 
-    var code = (err && (err.code || err.error_code)) || '';
+    var code = '';
+    if (err) {
+      if (err.error_code) code = String(err.error_code);
+      else if (typeof err.code === 'string') code = err.code;
+      else if (err.code != null) code = String(err.code);
+    }
     var msg = normalizeAlertMessage(
-      err.message || err.msg || err.error_description || err.error || err
+      err.message || err.msg || err.error_description || err.error
     );
 
     var known = {
@@ -440,6 +465,9 @@
     }
     if (/invalid/i.test(msg) && /email/i.test(msg)) {
       return known.email_address_invalid;
+    }
+    if (/confirmation email/i.test(msg)) {
+      return 'We could not send the confirmation email from Supabase. Your account may still be created — check your inbox or use Resend confirmation on sign in.';
     }
     return msg || 'Something went wrong. Please try again.';
   }
@@ -898,46 +926,17 @@
       };
 
       try {
-        var client = getClient();
-        var result = await client.auth.signUp({
+        await signupViaApi({
           email: signupEmail,
           password: password,
-          options: {
-            emailRedirectTo: emailConfirmRedirectUrl(),
-            data: signupData,
-          },
+          first_name: signupData.first_name,
+          last_name: signupData.last_name,
+          date_of_birth: signupData.date_of_birth,
+          state: signupData.state,
+          marketing_opt_in: signupData.marketing_opt_in,
         });
-        if (result.error) throw result.error;
-
-        var user = result.data && result.data.user ? result.data.user : null;
-        if (user && user.identities && user.identities.length === 0) {
-          throw { code: 'email_exists', message: 'This email is already registered.' };
-        }
-        if (result.data && result.data.session) {
-          await clearLocalSession(client);
-        }
-
-        if (user && isEmailConfirmed(user)) {
-          logAuth('signup:autoconfirm-enabled', {
-            email: signupEmail,
-            note: 'Supabase auto-confirmed email — enable Confirm email in Auth settings for real verification emails.',
-          });
-        } else {
-          logAuth('signup:pending-confirmation', { email: signupEmail });
-        }
-
-        var confirmEmailError = '';
-        try {
-          await sendConfirmationViaApi(signupEmail);
-          logAuth('signup:confirm-email-sent', { email: signupEmail, via: 'resend-api' });
-        } catch (emailErr) {
-          logAuth('signup:confirm-email-failed', emailErr.message);
-          confirmEmailError =
-            friendlyAuthError(emailErr) ||
-            'Account created, but we could not send the confirmation email yet. Use Resend confirmation below.';
-        }
-
-        showSignupVerifyScreen(signupEmail, confirmEmailError);
+        logAuth('signup:created-via-api', { email: signupEmail });
+        showSignupVerifyScreen(signupEmail);
         showAlert(alertEl, '', '');
         form.reset();
       } catch (err) {
