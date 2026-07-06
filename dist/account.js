@@ -260,13 +260,18 @@
 
   function profileFromState() {
     var p = state.profile || {};
+    var meta =
+      (state.session && state.session.user && state.session.user.user_metadata) || {};
     return {
-      first_name: p.first_name || '',
-      last_name: p.last_name || '',
-      email: p.email || '',
-      date_of_birth: p.date_of_birth || '',
-      state: p.state || '',
-      marketing_opt_in: !!p.marketing_opt_in,
+      first_name: p.first_name || meta.first_name || '',
+      last_name: p.last_name || meta.last_name || '',
+      email: p.email || (state.session && state.session.user && state.session.user.email) || '',
+      date_of_birth: p.date_of_birth || meta.date_of_birth || '',
+      state: p.state || meta.state || '',
+      marketing_opt_in:
+        typeof p.marketing_opt_in === 'boolean'
+          ? p.marketing_opt_in
+          : !!meta.marketing_opt_in,
     };
   }
 

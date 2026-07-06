@@ -132,6 +132,43 @@ function mapCreateUserError(data) {
   return { type: 'unknown', message: message || 'Could not create account.' };
 }
 
+async function upsertProfile(cfg, userId, email, metadata) {
+  const row = {
+    id: userId,
+    email,
+    first_name: metadata.first_name,
+    last_name: metadata.last_name,
+    date_of_birth: metadata.date_of_birth,
+    state: metadata.state,
+    marketing_opt_in: !!metadata.marketing_opt_in,
+    updated_at: new Date().toISOString(),
+  };
+
+  const res = await fetch(`${cfg.url}/rest/v1/profiles?on_conflict=id`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${cfg.key}`,
+      apikey: cfg.key,
+      'Content-Type': 'application/json',
+      Prefer: 'resolution=merge-duplicates,return=minimal',
+    },
+    body: JSON.stringify(row),
+  });
+
+  if (!res.ok) {
+    const err = await res.text().catch(() => '');
+    console.error('auth-signup profile upsert:', res.status, err);
+  }
+  return res.ok;
+}
+
+async function adminUpdateUserMetadata(cfg, userId, metadata) {
+  return adminFetch(cfg, `/auth/v1/admin/users/${userId}`, {
+    method: 'PUT',
+    body: JSON.stringify({ user_metadata: metadata }),
+  });
+}
+
 async function handleAuthSignup(req, res) {
   const cfg = adminAuthConfig();
   if (!cfg) {
@@ -164,6 +201,11 @@ async function handleAuthSignup(req, res) {
         });
       }
 
+      if (existing && existing.id) {
+        await adminUpdateUserMetadata(cfg, existing.id, validated.metadata);
+        await upsertProfile(cfg, existing.id, validated.email, validated.metadata);
+      }
+
       const sendResult = await deliverAuthConfirmationEmail(validated.email);
       if (sendResult.ok) {
         return res.status(200).json({ ok: true, resent: true });
@@ -178,6 +220,12 @@ async function handleAuthSignup(req, res) {
     return res.status(createResult.status >= 400 ? createResult.status : 502).json({
       error: mapped.message,
     });
+  }
+
+  const createdUser = createResult.data || {};
+  const userId = createdUser.id;
+  if (userId) {
+    await upsertProfile(cfg, userId, validated.email, validated.metadata);
   }
 
   const sendResult = await deliverAuthConfirmationEmail(validated.email);

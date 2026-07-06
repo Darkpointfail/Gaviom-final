@@ -21,6 +21,7 @@
   };
 
   var AUTH_PERSIST_KEY = 'gaviom-auth-persist';
+  var POST_VERIFY_NEXT_KEY = 'gaviom-post-verify-next';
   var DISPOSABLE_EMAIL_DOMAINS = {
     '10minutemail.com': 1,
     '10minutemail.net': 1,
@@ -97,6 +98,96 @@
 
   function emailConfirmRedirectUrl() {
     return window.location.origin + '/signin.html?verified=1';
+  }
+
+  function storePostVerifyNext() {
+    try {
+      var params = new URLSearchParams(window.location.search);
+      var next = params.get('next');
+      if (next && next.startsWith('/') && !next.startsWith('//')) {
+        sessionStorage.setItem(POST_VERIFY_NEXT_KEY, next);
+      }
+    } catch (e) {
+      /* ignore */
+    }
+  }
+
+  function readPostVerifyNext(fallback) {
+    var params = new URLSearchParams(window.location.search);
+    var next = params.get('next');
+    if (next && next.startsWith('/') && !next.startsWith('//')) return next;
+    try {
+      next = sessionStorage.getItem(POST_VERIFY_NEXT_KEY);
+      if (next && next.startsWith('/') && !next.startsWith('//')) return next;
+    } catch (e) {
+      /* ignore */
+    }
+    return fallback || '/account.html';
+  }
+
+  function clearPostVerifyNext() {
+    try {
+      sessionStorage.removeItem(POST_VERIFY_NEXT_KEY);
+    } catch (e) {
+      /* ignore */
+    }
+  }
+
+  function isEmailConfirmationLanding() {
+    var params = new URLSearchParams(window.location.search || '');
+    var hash = window.location.hash || '';
+    return (
+      params.get('verified') === '1' ||
+      params.has('code') ||
+      hash.indexOf('access_token=') !== -1 ||
+      hash.indexOf('refresh_token=') !== -1
+    );
+  }
+
+  async function completeEmailConfirmationLanding() {
+    if (!isEmailConfirmationLanding() || !configReady()) return false;
+
+    try {
+      var client = getClient();
+      var params = new URLSearchParams(window.location.search || '');
+
+      if (params.has('code')) {
+        var exchanged = await client.auth.exchangeCodeForSession(params.get('code'));
+        if (exchanged.error) {
+          logAuth('confirm:exchange-error', exchanged.error.message);
+        }
+      }
+
+      await new Promise(function (resolve) {
+        setTimeout(resolve, 200);
+      });
+
+      var result = await client.auth.getSession();
+      var session = result.data && result.data.session;
+      if (!session || !session.user || !isEmailConfirmed(session.user)) {
+        return false;
+      }
+
+      applySession(session, 'SIGNED_IN');
+      emitAuthChanged('SIGNED_IN');
+
+      var dest = readPostVerifyNext('/account.html');
+      clearPostVerifyNext();
+      logAuth('confirm:auto-login', { email: session.user.email, dest: dest });
+      window.location.replace(dest);
+      return true;
+    } catch (err) {
+      logAuth('confirm:landing-error', err.message);
+      return false;
+    }
+  }
+
+  function redirectIfSignedInConfirmed(session) {
+    if (!session || !session.user || !isEmailConfirmed(session.user)) return false;
+    var dest = readPostVerifyNext('/account.html');
+    clearPostVerifyNext();
+    window.location.replace(dest);
+    return true;
   }
 
   async function sendConfirmationViaApi(email) {
@@ -333,6 +424,10 @@
         var client = getClient();
         var result = await client.auth.getSession();
         applySession(result.data.session || null, 'INITIAL_SESSION');
+
+        var redirected = await completeEmailConfirmationLanding();
+        if (redirected) return null;
+
         setTimeout(function () {
           emitAuthChanged('INITIAL_SESSION');
         }, 0);
@@ -671,7 +766,7 @@
     block.className = 'auth-verify-pending';
     block.setAttribute('data-auth-verify-pending', '');
     block.innerHTML =
-      '<p class="auth-verify-pending__msg">We sent a confirmation link to <strong>' + safeEmail + '</strong>. Open it to activate your account, then sign in.</p>' +
+      '<p class="auth-verify-pending__msg">We sent a confirmation link to <strong>' + safeEmail + '</strong>. Open it to activate your account — you will be signed in automatically.</p>' +
       '<p class="auth-verify-pending__hint font-mono">Check your spam or promotions folder. If nothing arrives within 5 minutes, use Resend confirmation below or try another email provider (Gmail, Outlook).</p>' +
       '<p class="auth-alert" data-auth-verify-alert role="alert" aria-live="polite"' + (initialError ? '' : ' hidden') + '></p>' +
       '<div class="auth-verify-pending__actions">' +
@@ -762,6 +857,12 @@
   async function guardSignedIn() {
     var page = document.body.dataset.authPage;
     if (page !== 'signin' && page !== 'signup') return;
+
+    if (isEmailConfirmationLanding()) {
+      var landed = await completeEmailConfirmationLanding();
+      if (landed) return;
+    }
+
     try {
       var session = await window.GaviomAuth.waitForSession();
       if (!session || !session.user) return;
@@ -772,14 +873,7 @@
         return;
       }
 
-      var params = new URLSearchParams(window.location.search);
-      var next = params.get('next');
-      if (next && next.startsWith('/') && !next.startsWith('//')) {
-        window.location.replace(next);
-        return;
-      }
-
-      showAlreadySignedIn(session, getClient());
+      if (redirectIfSignedInConfirmed(session)) return;
     } catch (e) {
       logAuth('guardSignedIn:error', e.message);
     }
@@ -794,7 +888,13 @@
 
     var params = new URLSearchParams(window.location.search);
     if (params.get('verified') === '1') {
-      showAlert(alertEl, 'Email confirmed — you can sign in now.', 'success');
+      window.GaviomAuth.waitForSession().then(function (session) {
+        if (session && session.user && isEmailConfirmed(session.user)) {
+          redirectIfSignedInConfirmed(session);
+          return;
+        }
+        showAlert(alertEl, 'Email confirmed — signing you in…', 'success');
+      });
     } else if (params.get('confirm') === 'required') {
       showAlert(alertEl, 'Confirm your email before purchasing. Check your inbox for the confirmation link.', 'error');
     }
@@ -915,6 +1015,7 @@
 
       setRememberMe(true);
       setLoading(form, true);
+      storePostVerifyNext();
 
       var signupEmail = email.trim();
       var signupData = {
