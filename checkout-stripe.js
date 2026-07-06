@@ -49,6 +49,41 @@
     }
   }
 
+  function isMembershipCheckout() {
+    var params = new URLSearchParams(window.location.search);
+    var plan = params.get('plan');
+    return plan === 'monthly' || plan === 'annual';
+  }
+
+  function showMembershipPanel(show) {
+    var memPanel = qs('[data-checkout-membership-panel]');
+    var cardPanel = qs('[data-stripe-payment-panel]');
+    if (memPanel) memPanel.hidden = !show;
+    if (cardPanel && show) cardPanel.hidden = true;
+  }
+
+  async function showTestModeNote() {
+    try {
+      var res = await fetch('/api/stripe-config', { credentials: 'same-origin' });
+      var config = await res.json();
+      var note = qs('[data-stripe-test-note]');
+      if (note && config.publishableKey && config.publishableKey.indexOf('pk_test_') === 0) {
+        note.hidden = false;
+      }
+    } catch (e) {
+      /* optional */
+    }
+  }
+
+  async function ensureMembershipAuth() {
+    if (!isMembershipCheckout()) return true;
+    await loadAuthContext();
+    if (state.authUserId) return true;
+    window.location.href =
+      '/signin.html?next=' + encodeURIComponent('/checkout.html?plan=monthly');
+    return false;
+  }
+
   function authPayload(extra) {
     var payload = extra || {};
     if (state.authUserId) payload.userId = state.authUserId;
@@ -216,8 +251,12 @@
       state.isSubscription = true;
       panel.hidden = true;
       destroyCardFields();
+      showMembershipPanel(true);
+      showTestModeNote();
       return;
     }
+
+    showMembershipPanel(false);
 
     panel.hidden = false;
     setPanelLoading(true);
@@ -364,8 +403,11 @@
   function start() {
     showCanceledNotice();
     bindForm();
-    loadAuthContext().then(function () {
-      initCheckoutStripe();
+    ensureMembershipAuth().then(function (ok) {
+      if (!ok) return;
+      loadAuthContext().then(function () {
+        initCheckoutStripe();
+      });
     });
     if (window.GaviomCart) return;
     var s = document.createElement('script');

@@ -138,7 +138,10 @@ async function handleCreateCheckout(req, res, sk) {
       customer_email: email,
       line_items: built.lineItems,
       success_url: `${origin}/checkout-success.html?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/checkout.html?canceled=1`,
+      cancel_url:
+        mode === 'subscription'
+          ? `${origin}/checkout.html?plan=monthly&canceled=1`
+          : `${origin}/checkout.html?canceled=1`,
       metadata: {
         ...built.metadata,
         customer_email: email,

@@ -872,6 +872,11 @@
       if (submit) submit.textContent = m.cta;
       if (help) help.textContent = m.help;
       if (amoe) amoe.hidden = true;
+
+      var memPanel = document.querySelector('[data-checkout-membership-panel]');
+      var cardPanel = document.querySelector('[data-stripe-payment-panel]');
+      if (memPanel) memPanel.hidden = false;
+      if (cardPanel) cardPanel.hidden = true;
     }
 
     const CHECKOUT_PRIZES = {

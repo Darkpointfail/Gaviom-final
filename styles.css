@@ -3107,7 +3107,19 @@ body.checkout-page::after {
   border-radius: var(--r-sm);
   background: var(--paper);
 }
-.co-card-panel {
+.co-membership-pay {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.co-membership-pay .co-pay-stripe__text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
   padding: 16px;
   border: 1px solid var(--line);
   border-radius: var(--r);
