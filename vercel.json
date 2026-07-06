@@ -226,7 +226,7 @@
     },
     {
       "source": "/api/auth-confirmation-email",
-      "destination": "/api/auth-confirmation-email"
+      "destination": "/api/account?action=confirmation-email"
     },
     {
       "source": "/contact",

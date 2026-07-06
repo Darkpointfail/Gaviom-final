@@ -1,24 +1,9 @@
-const publicCfg = require('./lib/gaviom-supabase-public');
-const { validateAccountEmail } = require('./lib/email-validation');
-const { sendResendEmail, resendErrorMessage } = require('./lib/resend-mail');
+const publicCfg = require('./gaviom-supabase-public');
+const { validateAccountEmail } = require('./email-validation');
+const { sendResendEmail, resendErrorMessage } = require('./resend-mail');
 
 const FROM = (process.env.AUTH_CONFIRM_FROM || 'Gaviom <noreply@getgaviom.com>').trim();
 const REDIRECT = (process.env.AUTH_CONFIRM_REDIRECT || 'https://gaviom.com/signin.html?verified=1').trim();
-
-function parseBody(req) {
-  let body = req.body;
-  if (typeof body === 'string') {
-    try {
-      body = JSON.parse(body);
-    } catch {
-      return { error: 'Invalid JSON body' };
-    }
-  }
-  if (!body || typeof body !== 'object') {
-    return { error: 'Missing request body' };
-  }
-  return { body };
-}
 
 function adminAuthConfig() {
   const url = (process.env.SUPABASE_URL || publicCfg.supabaseUrl || '').trim();
@@ -108,12 +93,22 @@ function buildConfirmationEmail(email, confirmUrl) {
   return { subject, text, html };
 }
 
-module.exports = async function handler(req, res) {
-  if (req.method !== 'POST') {
-    res.setHeader('Allow', 'POST');
-    return res.status(405).json({ error: 'Method not allowed' });
+function parseEmailBody(req) {
+  let body = req.body;
+  if (typeof body === 'string') {
+    try {
+      body = JSON.parse(body);
+    } catch {
+      return { error: 'Invalid JSON body' };
+    }
   }
+  if (!body || typeof body !== 'object') {
+    return { error: 'Missing request body' };
+  }
+  return { body };
+}
 
+async function sendAuthConfirmationEmail(req, res) {
   const apiKey = (process.env.RESEND_API_KEY || '').trim();
   if (!apiKey || apiKey.includes('REPLACE')) {
     return res.status(503).json({
@@ -121,7 +116,7 @@ module.exports = async function handler(req, res) {
     });
   }
 
-  const parsed = parseBody(req);
+  const parsed = parseEmailBody(req);
   if (parsed.error) return res.status(400).json({ error: parsed.error });
 
   const emailCheck = validateAccountEmail(parsed.body?.email || '');
@@ -153,4 +148,6 @@ module.exports = async function handler(req, res) {
     ok: true,
     id: sendResult.data.id || null,
   });
-};
+}
+
+module.exports = { sendAuthConfirmationEmail };
