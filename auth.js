@@ -992,7 +992,7 @@
         }
       });
     } else if (params.get('confirm') === 'error') {
-      showAlert(alertEl, 'This confirmation link expired or was already used. Sign in below or request a new confirmation email.', 'error');
+      showAlert(alertEl, 'This confirmation link expired or was already used. Try signing in below — if your email is confirmed it will work. Otherwise use Resend confirmation.', 'error');
     } else if (params.get('confirm') === 'required') {
       showAlert(alertEl, 'Confirm your email before purchasing. Check your inbox for the confirmation link.', 'error');
     }
@@ -1023,11 +1023,20 @@
         if (!result.data || !result.data.session) {
           throw { code: 'invalid_credentials', message: 'Invalid login credentials' };
         }
-        if (!isEmailConfirmed(result.data.session.user)) {
+        var userResult = await client.auth.getUser();
+        var freshUser = userResult.data && userResult.data.user ? userResult.data.user : result.data.session.user;
+        if (userResult.error && !isEmailConfirmed(result.data.session.user)) {
+          throw userResult.error;
+        }
+        if (!isEmailConfirmed(freshUser)) {
           await clearLocalSession(client);
           throw { code: 'email_not_confirmed', message: 'Email not confirmed' };
         }
-        logAuth('signin:ok', { userId: result.data.session.user.id, email: result.data.session.user.email });
+        if (freshUser && result.data.session) {
+          result.data.session = Object.assign({}, result.data.session, { user: freshUser });
+          applySession(result.data.session, 'SIGNED_IN');
+        }
+        logAuth('signin:ok', { userId: freshUser.id, email: freshUser.email });
         showAlert(alertEl, 'Signed in. Redirecting…', 'success');
         redirectAfterAuth();
       } catch (err) {
