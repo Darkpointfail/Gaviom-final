@@ -12,7 +12,7 @@ import { googleAnalyticsDeferred, GA_MEASUREMENT_ID } from './analytics-head.mjs
 import { criticalHomeStyleTag } from './critical-home-css.mjs';
 
 const root = process.cwd();
-const ASSET_V = '20260706-perf';
+const ASSET_V = '20260713-cart-auth';
 
 const GA_BLOCK =
   /\s*(?:<!-- Google tag \(gtag\.js\)[^\n]*\n)?\s*<script async src="https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=[^"]+"><\/script>\s*<script>[\s\S]*?gtag\('config', '[^']+'\);\s*<\/script>/gi;

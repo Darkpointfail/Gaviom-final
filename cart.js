@@ -66,6 +66,95 @@
     return '$' + parseFloat(n).toFixed(2);
   }
 
+  function authReturnPath() {
+    return window.location.pathname + window.location.search;
+  }
+
+  function redirectToSignup() {
+    window.location.href = '/signup.html?next=' + encodeURIComponent(authReturnPath());
+  }
+
+  function loadAuthScripts() {
+    return new Promise(function (resolve, reject) {
+      if (window.GaviomAuth && window.GaviomAuth.getSession) {
+        resolve();
+        return;
+      }
+
+      function waitForAuth(attemptsLeft) {
+        if (window.GaviomAuth && window.GaviomAuth.getSession) {
+          resolve();
+          return;
+        }
+        if (attemptsLeft <= 0) {
+          reject(new Error('Auth unavailable'));
+          return;
+        }
+        setTimeout(function () {
+          waitForAuth(attemptsLeft - 1);
+        }, 100);
+      }
+
+      if (document.querySelector('script[src*="auth.js"]')) {
+        waitForAuth(40);
+        return;
+      }
+
+      var cfg = document.createElement('script');
+      cfg.src = '/auth-config.js';
+      cfg.onload = function () {
+        if (!window.GAVIOM_AUTH_CONFIG || window.GAVIOM_AUTH_CONFIG.supabaseUrl.includes('REPLACE')) {
+          reject(new Error('Auth not configured'));
+          return;
+        }
+        var sdk = document.createElement('script');
+        sdk.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
+        sdk.onload = function () {
+          var auth = document.createElement('script');
+          auth.src = '/auth.js';
+          auth.onload = function () {
+            waitForAuth(20);
+          };
+          auth.onerror = reject;
+          document.head.appendChild(auth);
+        };
+        sdk.onerror = reject;
+        document.head.appendChild(sdk);
+      };
+      cfg.onerror = reject;
+      document.head.appendChild(cfg);
+    });
+  }
+
+  async function ensureSignedInForCart() {
+    try {
+      await loadAuthScripts();
+    } catch (e) {
+      redirectToSignup();
+      return false;
+    }
+
+    if (!window.GaviomAuth || !window.GaviomAuth.configReady()) {
+      redirectToSignup();
+      return false;
+    }
+
+    var session = null;
+    if (window.GaviomAuth.waitForSession) {
+      session = await window.GaviomAuth.waitForSession(2000);
+    }
+    if (!session && window.GaviomAuth.getSession) {
+      session = await window.GaviomAuth.getSession();
+    }
+
+    if (!session || !session.user) {
+      redirectToSignup();
+      return false;
+    }
+
+    return true;
+  }
+
   function unitPrice(prize) {
     return prize.bundles[0].price / prize.bundles[0].tickets;
   }
@@ -442,11 +531,14 @@
 
   function confirmModalAdd() {
     if (!modalPrizeId) return;
-    var input = document.querySelector('[data-cart-qty-input]');
-    var qty = input ? parseInt(input.value, 10) : modalQty;
-    addOrUpdate(modalPrizeId, qty);
-    closeModal();
-    showToast();
+    ensureSignedInForCart().then(function (ok) {
+      if (!ok) return;
+      var input = document.querySelector('[data-cart-qty-input]');
+      var qty = input ? parseInt(input.value, 10) : modalQty;
+      addOrUpdate(modalPrizeId, qty);
+      closeModal();
+      showToast();
+    });
   }
 
   function showToast() {
@@ -480,8 +572,11 @@
       return;
     }
 
-    addOrUpdate(id, getDefaultQtyFromPage(id));
-    showToast();
+    ensureSignedInForCart().then(function (ok) {
+      if (!ok) return;
+      addOrUpdate(id, getDefaultQtyFromPage(id));
+      showToast();
+    });
   }
 
   function bindAddButtons() {
