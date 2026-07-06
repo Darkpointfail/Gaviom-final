@@ -92,6 +92,55 @@ function buildEmail(payload) {
   return { subject, text, html, replyTo: email };
 }
 
+function buildConfirmationEmail(payload) {
+  const name = clean(payload.name) || 'there';
+  const company = clean(payload.company) || 'your company';
+  const packageInterest =
+    clean(payload.packageInterest) || clean(payload.interest) || 'your program';
+
+  const subject = 'We received your Gaviom Business inquiry';
+  const text = [
+    `Hi ${name},`,
+    '',
+    'Thanks for reaching out about Gaviom for Business.',
+    '',
+    `Company: ${company}`,
+    `Interest: ${packageInterest}`,
+    '',
+    'Our team will review your message and respond within one business day.',
+    'If you prefer to book time directly, use our discovery call link:',
+    'https://calendly.com/getgaviom/discovery',
+    '',
+    '— Gaviom Business',
+    'info@getgaviom.com',
+  ].join('\n');
+
+  const html = `<!DOCTYPE html>
+<html><body style="font-family:system-ui,sans-serif;line-height:1.6;color:#0a1628;max-width:560px">
+  <p>Hi ${escapeHtml(name)},</p>
+  <p>Thanks for reaching out about <strong>Gaviom for Business</strong>.</p>
+  <p>We received your inquiry for <strong>${escapeHtml(company)}</strong> (${escapeHtml(packageInterest)}).</p>
+  <p>Our team will review your message and respond within <strong>one business day</strong>.</p>
+  <p>Prefer to talk sooner? <a href="https://calendly.com/getgaviom/discovery">Book a 15-min discovery call</a>.</p>
+  <p style="margin-top:24px;color:#64748b;font-size:14px">— Gaviom Business · <a href="mailto:info@getgaviom.com">info@getgaviom.com</a></p>
+</body></html>`;
+
+  return { subject, text, html };
+}
+
+async function sendResendEmail(apiKey, message) {
+  const response = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(message),
+  });
+  const data = await response.json().catch(() => ({}));
+  return { ok: response.ok, status: response.status, data };
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
@@ -116,31 +165,42 @@ module.exports = async function handler(req, res) {
   }
 
   const mail = buildEmail(parsed.body);
+  const confirm = buildConfirmationEmail(parsed.body);
 
   try {
-    const response = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        from: INQUIRY_FROM,
-        to: [INQUIRY_TO],
-        reply_to: [mail.replyTo],
-        subject: mail.subject,
-        text: mail.text,
-        html: mail.html,
-      }),
+    const adminResult = await sendResendEmail(apiKey, {
+      from: INQUIRY_FROM,
+      to: [INQUIRY_TO],
+      reply_to: [mail.replyTo],
+      subject: mail.subject,
+      text: mail.text,
+      html: mail.html,
     });
 
-    const data = await response.json().catch(() => ({}));
-    if (!response.ok) {
-      console.error('business-inquiry resend:', response.status, data);
-      return res.status(502).json({ error: resendErrorMessage(data) });
+    if (!adminResult.ok) {
+      console.error('business-inquiry resend (admin):', adminResult.status, adminResult.data);
+      return res.status(502).json({ error: resendErrorMessage(adminResult.data) });
     }
 
-    return res.status(200).json({ ok: true, id: data.id || null });
+    const confirmResult = await sendResendEmail(apiKey, {
+      from: INQUIRY_FROM,
+      to: [email],
+      reply_to: [INQUIRY_TO],
+      subject: confirm.subject,
+      text: confirm.text,
+      html: confirm.html,
+    });
+
+    if (!confirmResult.ok) {
+      console.error('business-inquiry resend (confirm):', confirmResult.status, confirmResult.data);
+      // Admin notification succeeded — don't fail the whole request for confirmation only.
+    }
+
+    return res.status(200).json({
+      ok: true,
+      id: adminResult.data.id || null,
+      confirmationSent: confirmResult.ok,
+    });
   } catch (err) {
     console.error('business-inquiry:', err.message);
     return res.status(500).json({ error: 'Could not send inquiry email.' });

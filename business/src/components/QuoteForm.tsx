@@ -31,6 +31,7 @@ export function QuoteForm({ presetPackage, onSuccess }: QuoteFormProps) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>(
     'idle',
   );
+  const [errorMessage, setErrorMessage] = useState('');
 
   const update = (key: keyof FormState, value: string) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -39,6 +40,7 @@ export function QuoteForm({ presetPackage, onSuccess }: QuoteFormProps) {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setStatus('loading');
+    setErrorMessage('');
 
     const payload = {
       ...form,
@@ -61,6 +63,9 @@ export function QuoteForm({ presetPackage, onSuccess }: QuoteFormProps) {
       setTimeout(() => onSuccess?.(), 2500);
     } catch (err) {
       setStatus('error');
+      setErrorMessage(
+        err instanceof Error ? err.message : 'Could not send inquiry.',
+      );
     }
   };
 
@@ -71,7 +76,8 @@ export function QuoteForm({ presetPackage, onSuccess }: QuoteFormProps) {
           Request received
         </p>
         <p className="mt-2 text-sm text-ink-3">
-          Our team will respond within 24 hours with a custom proposal.
+          Check your inbox for a confirmation email. Our team will respond within one
+          business day.
         </p>
       </div>
     );
@@ -175,7 +181,7 @@ export function QuoteForm({ presetPackage, onSuccess }: QuoteFormProps) {
 
       {status === 'error' && (
         <p className="text-sm text-red-400">
-          Something went wrong. Email us at{' '}
+          {errorMessage || 'Something went wrong.'} Email us at{' '}
           <a href="mailto:info@getgaviom.com" className="underline">
             info@getgaviom.com
           </a>{' '}
