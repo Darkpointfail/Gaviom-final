@@ -8,14 +8,14 @@
 --   3) supabase-account-setup.sql
 --   4) supabase-data-setup.sql
 --
--- ⚠️  supabase-auth-setup.sql drops public.users — only run on a fresh project
---     or if you have not run it before. This combined file uses safe CREATE IF NOT EXISTS.
+-- ⚠️  Fresh projects: uses public.profiles (single source of truth).
+--     Existing projects with public.users: run supabase-profiles-migration.sql first.
 -- ═══════════════════════════════════════════════════════════════════════════
 
--- ── 1. USERS PROFILE (linked to auth.users) ──
-create table if not exists public.users (
+-- ── 1. PROFILES (linked to auth.users) ──
+create table if not exists public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
-  email text unique not null,
+  email text not null,
   first_name text,
   last_name text,
   date_of_birth date,
@@ -24,26 +24,33 @@ create table if not exists public.users (
   avatar_url text,
   promo_code text,
   stripe_customer_id text,
-  created_at timestamptz default now()
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
 );
 
-alter table public.users enable row level security;
+create unique index if not exists profiles_email_idx on public.profiles (lower(email));
 
-drop policy if exists "Users can read own profile" on public.users;
-create policy "Users can read own profile"
-  on public.users for select using (auth.uid() = id);
+alter table public.profiles enable row level security;
 
-drop policy if exists "Users can update own profile" on public.users;
-create policy "Users can update own profile"
-  on public.users for update using (auth.uid() = id);
+drop policy if exists "Profiles: owner read" on public.profiles;
+create policy "Profiles: owner read"
+  on public.profiles for select using (auth.uid() = id);
+
+drop policy if exists "Profiles: owner update" on public.profiles;
+create policy "Profiles: owner update"
+  on public.profiles for update using (auth.uid() = id);
+
+drop policy if exists "Profiles: owner insert" on public.profiles;
+create policy "Profiles: owner insert"
+  on public.profiles for insert with check (auth.uid() = id);
 
 create or replace function public.handle_new_user()
 returns trigger language plpgsql security definer set search_path = public as $$
 begin
-  insert into public.users (id, email, first_name, last_name, date_of_birth, state, marketing_opt_in)
+  insert into public.profiles (id, email, first_name, last_name, date_of_birth, state, marketing_opt_in)
   values (
     new.id,
-    new.email,
+    coalesce(new.email, ''),
     new.raw_user_meta_data->>'first_name',
     new.raw_user_meta_data->>'last_name',
     nullif(new.raw_user_meta_data->>'date_of_birth', '')::date,
@@ -52,8 +59,12 @@ begin
   )
   on conflict (id) do update set
     email = excluded.email,
-    first_name = coalesce(excluded.first_name, public.users.first_name),
-    last_name = coalesce(excluded.last_name, public.users.last_name);
+    first_name = coalesce(excluded.first_name, public.profiles.first_name),
+    last_name = coalesce(excluded.last_name, public.profiles.last_name),
+    date_of_birth = coalesce(excluded.date_of_birth, public.profiles.date_of_birth),
+    state = coalesce(excluded.state, public.profiles.state),
+    marketing_opt_in = coalesce(excluded.marketing_opt_in, public.profiles.marketing_opt_in),
+    updated_at = now();
   return new;
 end;
 $$;

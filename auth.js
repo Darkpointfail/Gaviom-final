@@ -8,11 +8,270 @@
     'WI', 'WY', 'DC',
   ];
 
+  var US_STATE_NAMES = {
+    AL: 'Alabama', AK: 'Alaska', AZ: 'Arizona', AR: 'Arkansas', CA: 'California', CO: 'Colorado',
+    CT: 'Connecticut', DE: 'Delaware', FL: 'Florida', GA: 'Georgia', HI: 'Hawaii', ID: 'Idaho',
+    IL: 'Illinois', IN: 'Indiana', IA: 'Iowa', KS: 'Kansas', KY: 'Kentucky', LA: 'Louisiana',
+    ME: 'Maine', MD: 'Maryland', MA: 'Massachusetts', MI: 'Michigan', MN: 'Minnesota', MS: 'Mississippi',
+    MO: 'Missouri', MT: 'Montana', NE: 'Nebraska', NV: 'Nevada', NH: 'New Hampshire', NJ: 'New Jersey',
+    NM: 'New Mexico', NY: 'New York', NC: 'North Carolina', ND: 'North Dakota', OH: 'Ohio', OK: 'Oklahoma',
+    OR: 'Oregon', PA: 'Pennsylvania', RI: 'Rhode Island', SC: 'South Carolina', SD: 'South Dakota',
+    TN: 'Tennessee', TX: 'Texas', UT: 'Utah', VT: 'Vermont', VA: 'Virginia', WA: 'Washington',
+    WV: 'West Virginia', WI: 'Wisconsin', WY: 'Wyoming', DC: 'District of Columbia',
+  };
+
+  var AUTH_PERSIST_KEY = 'gaviom-auth-persist';
+  var DISPOSABLE_EMAIL_DOMAINS = {
+    '10minutemail.com': 1,
+    '10minutemail.net': 1,
+    'dispostable.com': 1,
+    'dropmail.me': 1,
+    'fakeinbox.com': 1,
+    'getnada.com': 1,
+    'guerrillamail.com': 1,
+    'guerrillamail.net': 1,
+    'guerrillamail.org': 1,
+    'maildrop.cc': 1,
+    'mailinator.com': 1,
+    'mailnesia.com': 1,
+    'mintemail.com': 1,
+    'moakt.com': 1,
+    'sharklasers.com': 1,
+    'spam4.me': 1,
+    'temp-mail.org': 1,
+    'tempmail.com': 1,
+    'tempmail.net': 1,
+    'throwaway.email': 1,
+    'trashmail.com': 1,
+    'trashmail.net': 1,
+    'yopmail.com': 1,
+  };
+  var clientInstance = null;
+  var authReadyPromise = null;
+  var authSubscribers = [];
+  var authState = {
+    session: null,
+    user: null,
+    ready: false,
+  };
+
+  function authDebugEnabled() {
+    try {
+      if (window.location.search.indexOf('auth_debug=1') !== -1) return true;
+      return localStorage.getItem('gaviom-auth-debug') === '1';
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function logAuth(label, detail) {
+    if (!authDebugEnabled()) return;
+    if (detail !== undefined) {
+      console.log('[Gaviom Auth]', label, detail);
+    } else {
+      console.log('[Gaviom Auth]', label);
+    }
+  }
+
+  function isEmailConfirmed(user) {
+    if (!user) return false;
+    return !!(user.email_confirmed_at || user.confirmed_at);
+  }
+
+  function isDisposableEmail(email) {
+    var parts = String(email || '').trim().toLowerCase().split('@');
+    if (parts.length !== 2) return false;
+    return !!DISPOSABLE_EMAIL_DOMAINS[parts[1]];
+  }
+
+  function validateSignupEmail(email) {
+    var value = String(email || '').trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value)) {
+      return 'Enter a valid email address.';
+    }
+    if (isDisposableEmail(value)) {
+      return 'Use a permanent email address — temporary inbox providers are not allowed.';
+    }
+    return null;
+  }
+
+  function emailConfirmRedirectUrl() {
+    return window.location.origin + '/signin.html?verified=1';
+  }
+
+  async function sendConfirmationViaApi(email) {
+    var res = await fetch('/api/auth-confirmation-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify({ email: String(email || '').trim() }),
+    });
+    var data = {};
+    try {
+      data = await res.json();
+    } catch (e) {
+      /* ignore */
+    }
+    if (!res.ok) {
+      throw new Error(data.error || 'Could not send confirmation email.');
+    }
+    return data;
+  }
+
+  async function clearLocalSession(client) {
+    try {
+      if (client) await client.auth.signOut({ scope: 'local' });
+    } catch (e) {
+      logAuth('signOut:local-error', e.message);
+    }
+    applySession(null, 'SIGNED_OUT');
+    setTimeout(function () {
+      emitAuthChanged('SIGNED_OUT');
+    }, 0);
+  }
+
   function configReady() {
     var cfg = window.GAVIOM_AUTH_CONFIG;
     return cfg && cfg.supabaseUrl && cfg.supabaseAnonKey
       && !cfg.supabaseUrl.includes('REPLACE_WITH')
       && !cfg.supabaseAnonKey.includes('REPLACE_WITH');
+  }
+
+  function createAuthStorage() {
+    return {
+      getItem: function (key) {
+        try {
+          var fromLocal = localStorage.getItem(key);
+          var fromSession = sessionStorage.getItem(key);
+          var persist = localStorage.getItem(AUTH_PERSIST_KEY) !== '0';
+          var primary = persist ? fromLocal : fromSession;
+          var fallback = persist ? fromSession : fromLocal;
+          if (primary) return primary;
+          if (fallback) {
+            (persist ? localStorage : sessionStorage).setItem(key, fallback);
+            (persist ? sessionStorage : localStorage).removeItem(key);
+            logAuth('token-auto-migrate', persist ? 'localStorage' : 'sessionStorage');
+            return fallback;
+          }
+          return null;
+        } catch (e) {
+          return null;
+        }
+      },
+      setItem: function (key, value) {
+        try {
+          var persist = localStorage.getItem(AUTH_PERSIST_KEY) !== '0';
+          (persist ? localStorage : sessionStorage).setItem(key, value);
+        } catch (e) {
+          /* ignore */
+        }
+      },
+      removeItem: function (key) {
+        try {
+          localStorage.removeItem(key);
+          sessionStorage.removeItem(key);
+        } catch (e) {
+          /* ignore */
+        }
+      },
+    };
+  }
+
+  function getSupabaseStorageKey() {
+    var cfg = window.GAVIOM_AUTH_CONFIG;
+    if (!cfg || !cfg.supabaseUrl) return null;
+    var match = cfg.supabaseUrl.match(/https:\/\/([^.]+)\.supabase\.co/);
+    return match ? 'sb-' + match[1] + '-auth-token' : null;
+  }
+
+  function migrateAuthTokenStorage(remember) {
+    var key = getSupabaseStorageKey();
+    if (!key) return;
+    try {
+      var from = remember ? sessionStorage : localStorage;
+      var to = remember ? localStorage : sessionStorage;
+      var val = from.getItem(key);
+      if (val) {
+        to.setItem(key, val);
+        from.removeItem(key);
+        logAuth('token-migrated', remember ? 'localStorage' : 'sessionStorage');
+      }
+    } catch (e) {
+      logAuth('token-migrate:error', e.message);
+    }
+  }
+
+  function setRememberMe(remember) {
+    try {
+      var prev = localStorage.getItem(AUTH_PERSIST_KEY);
+      var next = remember ? '1' : '0';
+      if (prev !== null && prev !== next) {
+        migrateAuthTokenStorage(remember);
+      }
+      localStorage.setItem(AUTH_PERSIST_KEY, next);
+    } catch (e) {
+      /* ignore */
+    }
+    logAuth('remember-me', remember ? 'localStorage' : 'sessionStorage');
+  }
+
+  function shouldRememberMe() {
+    try {
+      return localStorage.getItem(AUTH_PERSIST_KEY) !== '0';
+    } catch (e) {
+      return true;
+    }
+  }
+
+  function notifyAuthChanged(event) {
+    authSubscribers.forEach(function (fn) {
+      try {
+        fn(authState.session, event);
+      } catch (err) {
+        logAuth('subscriber-error', err.message);
+      }
+    });
+    document.dispatchEvent(new CustomEvent('gaviom:auth-changed', {
+      detail: { event: event, session: authState.session, user: authState.user },
+    }));
+  }
+
+  function applySession(session, event) {
+    authState.session = session || null;
+    authState.user = session && session.user ? session.user : null;
+    logAuth('state:' + event, authState.user
+      ? { id: authState.user.id, email: authState.user.email }
+      : 'signed-out');
+  }
+
+  function emitAuthChanged(event) {
+    notifyAuthChanged(event);
+  }
+
+  function wireAuthListener(client) {
+    if (client._gaviomAuthListener) return;
+    client._gaviomAuthListener = true;
+    client.auth.onAuthStateChange(function (event, session) {
+      applySession(session, event);
+      if (event === 'SIGNED_IN') logAuth('login');
+      if (event === 'SIGNED_OUT') logAuth('logout');
+      if (event === 'TOKEN_REFRESHED') logAuth('token-refresh');
+      if (event === 'USER_UPDATED') logAuth('user-updated');
+      // Defer subscribers — async work inside this callback can deadlock signInWithPassword.
+      setTimeout(function () {
+        emitAuthChanged(event);
+      }, 0);
+    });
+  }
+
+  function hasStoredAuthToken() {
+    var key = getSupabaseStorageKey();
+    if (!key) return false;
+    try {
+      return !!(localStorage.getItem(key) || sessionStorage.getItem(key));
+    } catch (e) {
+      return false;
+    }
   }
 
   function getClient() {
@@ -22,8 +281,49 @@
     if (!configReady()) {
       throw new Error('Missing Supabase config. Edit auth-config.js with your project URL and anon key.');
     }
-    var cfg = window.GAVIOM_AUTH_CONFIG;
-    return window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey);
+    if (!clientInstance) {
+      var cfg = window.GAVIOM_AUTH_CONFIG;
+      if (localStorage.getItem(AUTH_PERSIST_KEY) == null) {
+        setRememberMe(true);
+      }
+      clientInstance = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey, {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true,
+          storage: createAuthStorage(),
+        },
+      });
+      wireAuthListener(clientInstance);
+      bootstrapAuth();
+    }
+    return clientInstance;
+  }
+
+  function bootstrapAuth() {
+    if (authReadyPromise) return authReadyPromise;
+    authReadyPromise = (async function () {
+      if (!configReady()) {
+        authState.ready = true;
+        logAuth('bootstrap:config-missing');
+        return null;
+      }
+      try {
+        var client = getClient();
+        var result = await client.auth.getSession();
+        applySession(result.data.session || null, 'INITIAL_SESSION');
+        setTimeout(function () {
+          emitAuthChanged('INITIAL_SESSION');
+        }, 0);
+        logAuth('bootstrap:session-loaded', authState.user ? authState.user.email : 'none');
+      } catch (err) {
+        logAuth('bootstrap:error', err.message);
+      } finally {
+        authState.ready = true;
+      }
+      return authState.session;
+    })();
+    return authReadyPromise;
   }
 
   function $(sel, root) {
@@ -32,11 +332,12 @@
 
   function showAlert(el, message, type) {
     if (!el) return;
-    el.hidden = !message;
-    el.textContent = message || '';
+    var text = message ? String(message).trim() : '';
+    el.hidden = !text;
+    el.textContent = text;
     el.classList.remove('auth-alert--error', 'auth-alert--success');
-    if (type) el.classList.add('auth-alert--' + type);
-    if (message) {
+    if (type && text) el.classList.add('auth-alert--' + type);
+    if (text) {
       el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
   }
@@ -70,11 +371,21 @@
         'New account creation is temporarily disabled.',
       weak_password:
         'Choose a stronger password (at least 8 characters).',
+      invalid_credentials:
+        'Incorrect email or password. Try again or use Forgot password.',
+      email_not_confirmed:
+        'Confirm your email before signing in. Check your inbox or resend the confirmation link below.',
       unexpected_failure:
         'Account service error, often caused by email confirmation not being configured. Check Supabase Auth settings.',
     };
 
     if (known[code]) return known[code];
+    if (/email not confirmed/i.test(msg)) {
+      return known.email_not_confirmed;
+    }
+    if (/invalid login credentials/i.test(msg)) {
+      return known.invalid_credentials;
+    }
     if (/load failed|failed to fetch|networkerror/i.test(msg)) {
       return 'Cannot reach Gaviom servers. Check your connection, or try again in a moment.';
     }
@@ -90,11 +401,24 @@
     form.querySelectorAll('button, input, select').forEach(function (node) {
       node.disabled = loading;
     });
+    var submit = form.querySelector('[type="submit"]');
+    if (submit) submit.setAttribute('aria-busy', loading ? 'true' : 'false');
     if (loading) {
       setSubmitLabel(form, form.id === 'auth-signup-form' ? 'Creating account…' : 'Signing in…');
     } else {
       setSubmitLabel(form, '');
     }
+  }
+
+  function withAuthTimeout(promise, ms, message) {
+    return Promise.race([
+      promise,
+      new Promise(function (_resolve, reject) {
+        setTimeout(function () {
+          reject(new Error(message || 'Request timed out. Please try again.'));
+        }, ms || 20000);
+      }),
+    ]);
   }
 
   function redirectAfterAuth() {
@@ -117,14 +441,29 @@
     return age;
   }
 
-  function fillStateSelect(select) {
-    if (!select || select.options.length > 1) return;
+  function fillStateSelect(select, selectedCode) {
+    if (!select) return;
+    var selected = selectedCode || select.value || '';
+    if (select.options.length > 1) {
+      select.dataset.statesFilled = '1';
+      if (selected) select.value = selected;
+      return;
+    }
+    select.innerHTML = '';
+    var placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.textContent = 'Select your state';
+    placeholder.disabled = true;
+    placeholder.selected = !selected;
+    select.appendChild(placeholder);
     US_STATES.forEach(function (code) {
       var opt = document.createElement('option');
       opt.value = code;
-      opt.textContent = code;
+      opt.textContent = (US_STATE_NAMES[code] || code) + ' (' + code + ')';
       select.appendChild(opt);
     });
+    select.dataset.statesFilled = '1';
+    if (selected) select.value = selected;
   }
 
   function clearFieldErrors(form) {
@@ -177,6 +516,12 @@
       markFieldInvalid(email);
       return false;
     }
+    var emailError = validateSignupEmail(email.value);
+    if (emailError) {
+      showAlert(alertEl, emailError, 'error');
+      markFieldInvalid(email);
+      return false;
+    }
     if (!password || !password.value) {
       showAlert(alertEl, 'Please choose a password (8+ characters).', 'error');
       markFieldInvalid(password);
@@ -221,6 +566,65 @@
     return true;
   }
 
+  function escapeHtml(text) {
+    return String(text || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function showSignupVerifyScreen(email, initialError) {
+    var card = document.querySelector('.auth-card');
+    if (!card || card.querySelector('[data-auth-verify-pending]')) return;
+
+    var form = $('#auth-signup-form');
+    var sub = card.querySelector('.auth-card__sub');
+    var title = card.querySelector('.auth-card__title');
+    var safeEmail = escapeHtml(email);
+
+    if (form) {
+      form.hidden = true;
+      form.style.display = 'none';
+    }
+    if (sub) sub.hidden = true;
+    if (title) title.textContent = 'Verify your email';
+
+    var block = document.createElement('div');
+    block.className = 'auth-verify-pending';
+    block.setAttribute('data-auth-verify-pending', '');
+    block.innerHTML =
+      '<p class="auth-verify-pending__msg">We sent a confirmation link to <strong>' + safeEmail + '</strong>. Open it to activate your account, then sign in.</p>' +
+      '<p class="auth-verify-pending__hint font-mono">Check your spam or promotions folder. If nothing arrives within 5 minutes, use Resend confirmation below or try another email provider (Gmail, Outlook).</p>' +
+      '<p class="auth-alert" data-auth-verify-alert role="alert" aria-live="polite"' + (initialError ? '' : ' hidden') + '></p>' +
+      '<div class="auth-verify-pending__actions">' +
+      '<button type="button" class="btn btn-primary btn-lg auth-submit" data-auth-signup-resend>Resend confirmation email</button>' +
+      '<a href="/signin.html" class="btn btn-ghost auth-verify-pending__signin">Go to sign in</a>' +
+      '</div>';
+
+    var insertBefore = card.querySelector('.auth-legal');
+    if (insertBefore) card.insertBefore(block, insertBefore);
+    else card.appendChild(block);
+
+    if (initialError) {
+      showAlert(block.querySelector('[data-auth-verify-alert]'), initialError, 'error');
+    }
+
+    block.querySelector('[data-auth-signup-resend]').addEventListener('click', async function () {
+      var btn = block.querySelector('[data-auth-signup-resend]');
+      var alertEl = block.querySelector('[data-auth-verify-alert]');
+      if (btn) btn.disabled = true;
+      try {
+        await window.GaviomAuth.resendConfirmationEmail(email);
+        showAlert(alertEl, 'Confirmation email sent. Check your inbox and spam folder.', 'success');
+      } catch (err) {
+        showAlert(alertEl, friendlyAuthError(err), 'error');
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    });
+  }
+
   function showAlreadySignedIn(session, client) {
     var card = document.querySelector('.auth-card');
     if (!card || card.querySelector('[data-auth-already]')) return;
@@ -230,9 +634,19 @@
     var title = card.querySelector('.auth-card__title');
     var email = (session.user && session.user.email) || 'your account';
 
-    if (form) form.hidden = true;
+    if (form) {
+      form.hidden = true;
+      form.style.display = 'none';
+    }
     if (sub) sub.hidden = true;
     if (title) title.textContent = 'Already signed in';
+
+    var params = new URLSearchParams(window.location.search);
+    var next = params.get('next');
+    var continueLabel = next && next.indexOf('checkout') !== -1
+      ? 'Continue to Gaviom+ checkout'
+      : 'Go to my account';
+    var continueHref = next && next.startsWith('/') && !next.startsWith('//') ? next : '/account.html';
 
     var block = document.createElement('div');
     block.className = 'auth-already';
@@ -240,7 +654,7 @@
     block.innerHTML =
       '<p class="auth-already__msg">You are signed in as <strong>' + email + '</strong>.</p>' +
       '<div class="auth-already__actions">' +
-      '<button type="button" class="btn btn-primary btn-lg auth-submit" data-auth-continue>Go to my account</button>' +
+      '<button type="button" class="btn btn-primary btn-lg auth-submit" data-auth-continue>' + continueLabel + '</button>' +
       '<button type="button" class="btn btn-ghost auth-already__prizes" data-auth-prizes>Browse sweepstakes</button>' +
       '<button type="button" class="btn btn-ghost auth-already__signout" data-auth-signout>Sign out</button>' +
       '</div>';
@@ -250,7 +664,7 @@
     else card.appendChild(block);
 
     block.querySelector('[data-auth-continue]').addEventListener('click', function () {
-      window.location.href = '/account.html';
+      window.location.href = continueHref;
     });
     block.querySelector('[data-auth-prizes]').addEventListener('click', function () {
       window.location.href = '/prizes.html';
@@ -259,7 +673,7 @@
       var btn = block.querySelector('[data-auth-signout]');
       if (btn) btn.disabled = true;
       try {
-        await client.auth.signOut();
+        await window.GaviomAuth.signOut();
         window.location.reload();
       } catch (err) {
         if (btn) btn.disabled = false;
@@ -272,11 +686,25 @@
     var page = document.body.dataset.authPage;
     if (page !== 'signin' && page !== 'signup') return;
     try {
-      var client = getClient();
-      var result = await client.auth.getSession();
-      if (result.data.session) showAlreadySignedIn(result.data.session, client);
+      var session = await window.GaviomAuth.waitForSession();
+      if (!session || !session.user) return;
+      if (!isEmailConfirmed(session.user)) {
+        if (page === 'signup') {
+          showSignupVerifyScreen(session.user.email || '');
+        }
+        return;
+      }
+
+      var params = new URLSearchParams(window.location.search);
+      var next = params.get('next');
+      if (next && next.startsWith('/') && !next.startsWith('//')) {
+        window.location.replace(next);
+        return;
+      }
+
+      showAlreadySignedIn(session, getClient());
     } catch (e) {
-      /* config not ready yet */
+      logAuth('guardSignedIn:error', e.message);
     }
   }
 
@@ -284,6 +712,15 @@
     var form = $('#auth-signin-form');
     if (!form) return;
     var alertEl = $('[data-auth-alert]');
+    var rememberEl = $('[data-auth-remember]');
+    if (rememberEl) rememberEl.checked = shouldRememberMe();
+
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('verified') === '1') {
+      showAlert(alertEl, 'Email confirmed — you can sign in now.', 'success');
+    } else if (params.get('confirm') === 'required') {
+      showAlert(alertEl, 'Confirm your email before purchasing. Check your inbox for the confirmation link.', 'error');
+    }
 
     form.addEventListener('submit', async function (ev) {
       ev.preventDefault();
@@ -298,12 +735,24 @@
         showAlert(alertEl, 'Enter your email and password.', 'error');
         return;
       }
+      setRememberMe(!rememberEl || rememberEl.checked);
       setLoading(form, true);
       try {
         var client = getClient();
-        var result = await client.auth.signInWithPassword({ email: email.trim(), password: password });
+        var result = await withAuthTimeout(
+          client.auth.signInWithPassword({ email: email.trim(), password: password }),
+          20000,
+          'Sign in timed out. Check your connection and try again.'
+        );
         if (result.error) throw result.error;
-        document.dispatchEvent(new CustomEvent('gaviom:auth-changed'));
+        if (!result.data || !result.data.session) {
+          throw { code: 'invalid_credentials', message: 'Invalid login credentials' };
+        }
+        if (!isEmailConfirmed(result.data.session.user)) {
+          await clearLocalSession(client);
+          throw { code: 'email_not_confirmed', message: 'Email not confirmed' };
+        }
+        logAuth('signin:ok', { userId: result.data.session.user.id, email: result.data.session.user.email });
         showAlert(alertEl, 'Signed in. Redirecting…', 'success');
         redirectAfterAuth();
       } catch (err) {
@@ -338,6 +787,28 @@
         }
       });
     }
+
+    var resend = $('[data-auth-resend]');
+    if (resend) {
+      resend.addEventListener('click', async function (ev) {
+        ev.preventDefault();
+        showAlert(alertEl, '', '');
+        var email = ($('#signin-email') || {}).value || '';
+        if (!email) {
+          showAlert(alertEl, 'Enter your email above, then click resend confirmation.', 'error');
+          return;
+        }
+        setLoading(form, true);
+        try {
+          await window.GaviomAuth.resendConfirmationEmail(email.trim());
+          showAlert(alertEl, 'Confirmation email sent. Check your inbox and spam folder.', 'success');
+        } catch (err) {
+          showAlert(alertEl, friendlyAuthError(err), 'error');
+        } finally {
+          setLoading(form, false);
+        }
+      });
+    }
   }
 
   async function initSignUp() {
@@ -365,31 +836,57 @@
       var state = $('#signup-state').value;
       var marketing = ($('#signup-marketing') || {}).checked;
 
+      setRememberMe(true);
       setLoading(form, true);
+
+      var signupEmail = email.trim();
+      var signupData = {
+        first_name: firstName.trim(),
+        last_name: lastName.trim(),
+        date_of_birth: dob,
+        state: state,
+        marketing_opt_in: marketing,
+      };
+
       try {
         var client = getClient();
         var result = await client.auth.signUp({
-          email: email.trim(),
+          email: signupEmail,
           password: password,
           options: {
-            emailRedirectTo: window.location.origin + '/signin.html',
-            data: {
-              first_name: firstName.trim(),
-              last_name: lastName.trim(),
-              date_of_birth: dob,
-              state: state,
-              marketing_opt_in: marketing,
-            },
+            emailRedirectTo: emailConfirmRedirectUrl(),
+            data: signupData,
           },
         });
         if (result.error) throw result.error;
-        if (result.data.session) {
-          showAlert(alertEl, 'Account created. Redirecting…', 'success');
-          redirectAfterAuth();
-        } else {
-          showAlert(alertEl, 'Check your email to confirm your account, then sign in.', 'success');
-          form.reset();
+
+        var user = result.data && result.data.user ? result.data.user : null;
+        if (result.data && result.data.session) {
+          await clearLocalSession(client);
         }
+
+        if (user && isEmailConfirmed(user)) {
+          logAuth('signup:autoconfirm-enabled', {
+            email: signupEmail,
+            note: 'Supabase auto-confirmed email — enable Confirm email in Auth settings for real verification emails.',
+          });
+        } else {
+          logAuth('signup:pending-confirmation', { email: signupEmail });
+        }
+
+        var confirmEmailError = '';
+        try {
+          await sendConfirmationViaApi(signupEmail);
+          logAuth('signup:confirm-email-sent', { email: signupEmail, via: 'resend-api' });
+        } catch (emailErr) {
+          logAuth('signup:confirm-email-failed', emailErr.message);
+          confirmEmailError =
+            friendlyAuthError(emailErr) ||
+            'Account created, but we could not send the confirmation email yet. Use Resend confirmation below.';
+        }
+
+        showSignupVerifyScreen(signupEmail, confirmEmailError);
+        form.reset();
       } catch (err) {
         showAlert(alertEl, friendlyAuthError(err), 'error');
       } finally {
@@ -408,7 +905,13 @@
   }
 
   function init() {
+    try {
+      localStorage.removeItem('gaviom-signup-draft');
+    } catch (e) {
+      /* legacy cleanup */
+    }
     showConfigBanner();
+    if (configReady()) bootstrapAuth();
     guardSignedIn();
     var page = document.body.dataset.authPage;
     if (page === 'signin') initSignIn();
@@ -428,25 +931,165 @@
     showAlert: showAlert,
     fillStateSelect: fillStateSelect,
     US_STATES: US_STATES,
+    US_STATE_NAMES: US_STATE_NAMES,
+    setRememberMe: setRememberMe,
+    shouldRememberMe: shouldRememberMe,
+    isReady: function () { return authState.ready; },
+    getUser: function () { return authState.user; },
+    refreshUser: async function () {
+      if (!configReady()) return null;
+      try {
+        var client = getClient();
+        if (!authState.ready) await bootstrapAuth();
+        var result = await client.auth.getUser();
+        if (result.error) throw result.error;
+        var user = result.data && result.data.user ? result.data.user : null;
+        if (user && authState.session) {
+          authState.session = Object.assign({}, authState.session, { user: user });
+          authState.user = user;
+        }
+        return user;
+      } catch (e) {
+        logAuth('refreshUser:error', e.message);
+        return authState.user;
+      }
+    },
+    subscribe: function (fn) {
+      authSubscribers.push(fn);
+      if (authState.ready) fn(authState.session, 'SUBSCRIBE');
+      return function () {
+        authSubscribers = authSubscribers.filter(function (item) { return item !== fn; });
+      };
+    },
+    waitForSession: async function (maxWaitMs) {
+      if (!configReady()) return null;
+      var deadline = Date.now() + (maxWaitMs || 8000);
+      await bootstrapAuth();
+      if (authState.session && authState.session.user) return authState.session;
+
+      if (!hasStoredAuthToken()) {
+        return authState.session;
+      }
+
+      while (Date.now() < deadline) {
+        try {
+          var client = getClient();
+          var result = await client.auth.getSession();
+          applySession(result.data.session || null, 'WAIT_SESSION');
+          if (authState.session && authState.session.user) return authState.session;
+        } catch (e) {
+          logAuth('waitForSession:error', e.message);
+        }
+        await new Promise(function (resolve) {
+          setTimeout(resolve, 150);
+        });
+      }
+
+      if (hasStoredAuthToken() && authState.session && authState.session.user) {
+        return authState.session;
+      }
+      return authState.session;
+    },
     getSession: async function () {
-      var client = getClient();
-      var result = await client.auth.getSession();
-      return result.data.session || null;
+      if (!configReady()) return null;
+      if (!authState.ready) await bootstrapAuth();
+      if (authState.session) return authState.session;
+      try {
+        var client = getClient();
+        var result = await client.auth.getSession();
+        applySession(result.data.session || null, 'GET_SESSION');
+      } catch (e) {
+        logAuth('getSession:error', e.message);
+      }
+      return authState.session;
+    },
+    getAccessToken: async function () {
+      var session = await window.GaviomAuth.getSession();
+      return session && session.access_token ? session.access_token : null;
     },
     requireSession: async function (nextPath) {
       try {
-        var session = await window.GaviomAuth.getSession();
-        if (session) return session;
+        var session = await window.GaviomAuth.waitForSession();
+        if (!session) session = await window.GaviomAuth.getSession();
+        if (session && session.user && isEmailConfirmed(session.user)) return session;
+        if (session && session.user && !isEmailConfirmed(session.user)) {
+          window.location.href =
+            '/signin.html?confirm=required&next=' + encodeURIComponent(nextPath || '/account.html');
+          return null;
+        }
       } catch (e) {
-        /* not configured */
+        logAuth('requireSession:error', e.message);
       }
       var dest = '/signin.html?next=' + encodeURIComponent(nextPath || '/account.html');
       window.location.href = dest;
       return null;
     },
-    signOut: async function () {
+    isEmailConfirmed: isEmailConfirmed,
+    validateSignupEmail: validateSignupEmail,
+    resendConfirmationEmail: async function (email) {
+      if (!configReady()) throw new Error('Account service is not configured.');
+      var value = String(email || '').trim();
+      if (!value) throw new Error('Enter your email address.');
+      try {
+        await sendConfirmationViaApi(value);
+        return true;
+      } catch (apiErr) {
+        logAuth('resend:api-failed', apiErr.message);
+      }
       var client = getClient();
-      await client.auth.signOut();
+      var result = await client.auth.resend({
+        type: 'signup',
+        email: value,
+        options: { emailRedirectTo: emailConfirmRedirectUrl() },
+      });
+      if (result.error) throw result.error;
+      return true;
     },
+    signOut: async function () {
+      try {
+        var client = getClient();
+        await client.auth.signOut({ scope: 'local' });
+      } catch (e) {
+        logAuth('signOut:local-error', e.message);
+      }
+      try {
+        var key = getSupabaseStorageKey();
+        if (key) {
+          localStorage.removeItem(key);
+          sessionStorage.removeItem(key);
+        }
+      } catch (e2) {
+        /* ignore */
+      }
+      applySession(null, 'SIGNED_OUT');
+      setTimeout(function () {
+        emitAuthChanged('SIGNED_OUT');
+      }, 0);
+    },
+    enableDebug: function () {
+      try { localStorage.setItem('gaviom-auth-debug', '1'); } catch (e) { /* ignore */ }
+      logAuth('debug-enabled');
+    },
+    getDebugContext: function () {
+      var persist = null;
+      try {
+        persist = localStorage.getItem(AUTH_PERSIST_KEY);
+      } catch (e) {
+        /* ignore */
+      }
+      return {
+        userId: authState.user ? authState.user.id : null,
+        email: authState.user ? authState.user.email : null,
+        hasSession: !!(authState.session && authState.session.user),
+        hasToken: hasStoredAuthToken(),
+        persist: persist,
+        storage: persist !== '0' ? 'localStorage' : 'sessionStorage',
+        isMobile: typeof window.matchMedia === 'function' && window.matchMedia('(max-width:768px)').matches,
+        width: typeof window.innerWidth === 'number' ? window.innerWidth : null,
+      };
+    },
+    log: logAuth,
+    getSupabaseStorageKey: getSupabaseStorageKey,
+    hasStoredAuthToken: hasStoredAuthToken,
   };
 })();

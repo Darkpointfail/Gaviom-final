@@ -1,10 +1,16 @@
+const publicCfg = require('./gaviom-supabase-public');
+
 function supabaseConfig() {
-  const url = (process.env.SUPABASE_URL || '').trim();
-  const anonKey = (process.env.SUPABASE_ANON_KEY || '').trim();
+  const url = (process.env.SUPABASE_URL || publicCfg.supabaseUrl || '').trim();
+  const anonKey = (process.env.SUPABASE_ANON_KEY || publicCfg.supabaseAnonKey || '').trim();
   const serviceKey = (process.env.SUPABASE_SERVICE_ROLE_KEY || '').trim();
   if (!url || url.includes('REPLACE')) return null;
   if (!anonKey || anonKey.includes('REPLACE')) return null;
   return { url, anonKey, serviceKey: serviceKey && !serviceKey.includes('REPLACE') ? serviceKey : null };
+}
+
+function isUserEmailConfirmed(user) {
+  return !!(user && user.email_confirmed_at);
 }
 
 async function verifyBearerUser(req) {
@@ -40,4 +46,26 @@ async function verifyBearerUser(req) {
   }
 }
 
-module.exports = { supabaseConfig, verifyBearerUser };
+async function verifyVerifiedUser(req) {
+  const auth = await verifyBearerUser(req);
+  if (auth.error) return auth;
+  if (!isUserEmailConfirmed(auth.user)) {
+    return { error: 'Confirm your email before continuing.', status: 403 };
+  }
+  return auth;
+}
+
+async function optionalBearerUser(req) {
+  const header = req.headers.authorization || req.headers.Authorization || '';
+  const token = header.startsWith('Bearer ') ? header.slice(7).trim() : '';
+  if (!token) return { user: null };
+  return verifyBearerUser(req);
+}
+
+module.exports = {
+  supabaseConfig,
+  isUserEmailConfirmed,
+  verifyBearerUser,
+  verifyVerifiedUser,
+  optionalBearerUser,
+};

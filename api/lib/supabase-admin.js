@@ -1,5 +1,6 @@
 function adminConfig() {
-  const url = (process.env.SUPABASE_URL || '').trim();
+  const publicCfg = require('./gaviom-supabase-public');
+  const url = (process.env.SUPABASE_URL || publicCfg.supabaseUrl || '').trim();
   const key = (process.env.SUPABASE_SERVICE_ROLE_KEY || '').trim();
   if (!url || url.includes('REPLACE') || !key || key.includes('REPLACE')) return null;
   return { url, key };

@@ -1,9 +1,10 @@
 -- Run after supabase-auth-setup.sql and supabase-orders-setup.sql
 
-alter table public.users
+alter table public.profiles
   add column if not exists avatar_url text,
   add column if not exists promo_code text,
-  add column if not exists stripe_customer_id text;
+  add column if not exists stripe_customer_id text,
+  add column if not exists updated_at timestamptz default now();
 
 -- Allow users to read their own orders by email
 alter table public.orders alter column stripe_session_id drop not null;

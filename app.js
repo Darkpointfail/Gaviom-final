@@ -822,17 +822,17 @@
       const plans = {
         monthly: {
           title: 'Gaviom+ · Monthly',
-          detail: '5–8 tickets/month · Renews monthly',
+          detail: '5–8 tickets/month · Eligible sweepstakes pool',
           price: 17,
-          cta: 'Pay $17.00 / month',
-          help: 'Billed monthly · Cancel anytime · See membership.html',
+          cta: 'Continue to payment · $17/mo',
+          help: 'Secure Stripe checkout · Billed monthly · Cancel anytime in My Account',
         },
         annual: {
           title: 'Gaviom+ · Monthly',
-          detail: '5–8 tickets/month · Renews monthly',
+          detail: '5–8 tickets/month · Eligible sweepstakes pool',
           price: 17,
-          cta: 'Pay $17.00 / month',
-          help: 'Billed monthly · Cancel anytime · See membership.html',
+          cta: 'Continue to payment · $17/mo',
+          help: 'Secure Stripe checkout · Billed monthly · Cancel anytime in My Account',
         },
       };
       const m = plans[plan] || plans.monthly;
@@ -859,7 +859,7 @@
       if (detailLine) detailLine.textContent = m.detail;
       if (clarify) {
         clarify.innerHTML =
-          'You are purchasing a <strong>monthly ticket bundle</strong> for Gaviom+ sweepstakes. You are <em>not</em> buying any specific prize or trip.';
+          'You are subscribing to <strong>Gaviom+</strong> — a monthly ticket bundle for eligible sweepstakes. You are <em>not</em> buying any specific prize or trip.';
       }
       if (ticketCount) ticketCount.hidden = true;
       if (eventName) eventName.hidden = true;
@@ -877,6 +877,7 @@
       var cardPanel = document.querySelector('[data-stripe-payment-panel]');
       if (memPanel) memPanel.hidden = false;
       if (cardPanel) cardPanel.hidden = true;
+      document.body.classList.add('checkout-membership');
     }
 
     const CHECKOUT_PRIZES = {
@@ -1397,15 +1398,16 @@
       const empty = document.querySelector('[data-checkout-empty]');
       const single = document.querySelector('[data-checkout-single]');
       const cartSection = document.querySelector('[data-checkout-cart]');
+      const totalWrap = document.querySelector('[data-checkout-total-wrap]');
       const totalLabel = document.querySelector('[data-checkout-total-label]');
       const coTotal = document.querySelector('[data-co-total]');
-      const submit = document.querySelector('[data-checkout-submit], [data-bundle-cta]');
       const back = document.querySelector('[data-checkout-back]');
       const summary = document.querySelector('[data-checkout-ticket-summary]');
 
       if (empty) empty.hidden = true;
       if (single) single.hidden = true;
       if (cartSection) cartSection.hidden = false;
+      if (totalWrap) totalWrap.hidden = false;
 
       const titleEl = cartSection?.querySelector('[data-checkout-title]');
       if (titleEl) {
@@ -1445,22 +1447,23 @@
         back.href = '/prizes.html';
         back.textContent = '← Back to sweepstakes';
       }
-      if (submit) {
-        submit.textContent = presale
-          ? `Confirm pre-order · ${fmt(totals.subtotal)}`
-          : `Confirm purchase · ${fmt(totals.subtotal)}`;
-      }
+      dispatchCheckoutOrderReady();
+    }
+
+    function dispatchCheckoutOrderReady() {
+      document.body.dataset.checkoutOrderReady = '1';
+      document.dispatchEvent(new CustomEvent('gaviom:checkout-order-ready'));
     }
 
     function initCheckoutPrize() {
-      const form = document.getElementById('gaviom-checkout');
-      if (!form) return;
+      if (!document.body || !('ticketCheckout' in document.body.dataset)) return;
 
       const params = new URLSearchParams(window.location.search);
       const plan = params.get('plan');
 
       if (plan === 'monthly' || plan === 'annual') {
         initCheckoutMembership(plan);
+        dispatchCheckoutOrderReady();
         return;
       }
 
@@ -1469,6 +1472,7 @@
 
       if (items.length > 0) {
         initCheckoutFromCart(items, cart);
+        dispatchCheckoutOrderReady();
         return;
       }
 
@@ -1476,15 +1480,14 @@
         const empty = document.querySelector('[data-checkout-empty]');
         const single = document.querySelector('[data-checkout-single]');
         const cartSection = document.querySelector('[data-checkout-cart]');
-        const totalLabel = document.querySelector('[data-checkout-total-label]');
-        const coTotal = document.querySelector('[data-co-total]');
-        const submit = document.querySelector('[data-checkout-submit]');
+        const totalWrap = document.querySelector('[data-checkout-total-wrap]');
+        const paySection = document.querySelector('[data-checkout-pay-section]');
         if (empty) empty.hidden = false;
         if (single) single.hidden = true;
         if (cartSection) cartSection.hidden = true;
-        if (totalLabel) totalLabel.hidden = true;
-        if (coTotal) coTotal.hidden = true;
-        if (submit) submit.hidden = true;
+        if (totalWrap) totalWrap.hidden = true;
+        if (paySection) paySection.hidden = true;
+        dispatchCheckoutOrderReady();
         return;
       }
 
@@ -1499,6 +1502,10 @@
       const fmt = (n) => '$' + parseFloat(n).toFixed(2);
 
       const ticketWord = entries === 1 ? 'ticket' : 'tickets';
+      const empty = document.querySelector('[data-checkout-empty]');
+      const single = document.querySelector('[data-checkout-single]');
+      const cartSection = document.querySelector('[data-checkout-cart]');
+      const totalWrap = document.querySelector('[data-checkout-total-wrap]');
       const back = document.querySelector('[data-checkout-back]');
       const kicker = document.querySelector('[data-checkout-kicker]');
       const titleEl = document.querySelector('[data-checkout-title]');
@@ -1506,9 +1513,12 @@
       const ticketCount = document.querySelector('[data-checkout-ticket-count]');
       const eventName = document.querySelector('[data-checkout-event-name]');
       const coTotal = document.querySelector('[data-co-total]');
-      const submit = document.querySelector('[data-checkout-submit], [data-bundle-cta]');
       const totalLabel = document.querySelector('[data-checkout-total-label]');
 
+      if (empty) empty.hidden = true;
+      if (single) single.hidden = false;
+      if (cartSection) cartSection.hidden = true;
+      if (totalWrap) totalWrap.hidden = false;
       if (back) {
         back.href = p.back;
         back.textContent = '← Back';
@@ -1522,11 +1532,7 @@
       }
       if (totalLabel) totalLabel.textContent = 'Total for tickets';
       if (coTotal) coTotal.textContent = fmt(price);
-      if (submit) {
-        submit.textContent = document.body.classList.contains('gv-prelaunch')
-          ? `Confirm pre-order · ${fmt(price)}`
-          : `Confirm purchase · ${fmt(price)}`;
-      }
+      dispatchCheckoutOrderReady();
     }
 
     function applyButtonShine(btn, delay) {

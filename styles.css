@@ -3120,6 +3120,37 @@ body.checkout-page::after {
   line-height: 1.5;
   color: var(--ink-2);
 }
+.co-membership-benefits {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.co-membership-benefits li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+.co-membership-benefits li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-weight: 700;
+  color: var(--gold);
+}
+.co-membership-pay__cta-note {
+  margin: 14px 0 0;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.co-card-panel {
   padding: 16px;
   border: 1px solid var(--line);
   border-radius: var(--r);
@@ -3127,6 +3158,10 @@ body.checkout-page::after {
 }
 .co-card-panel[hidden] {
   display: none !important;
+}
+#gaviom-checkout.is-auth-loading {
+  opacity: 0.72;
+  pointer-events: none;
 }
 .co-stripe-embedded {
   min-height: 420px;
@@ -6918,6 +6953,28 @@ body.auth-page::after { display: none; }
   width: 100%;
   min-height: 44px;
 }
+.auth-verify-pending {
+  margin-top: 8px;
+}
+.auth-verify-pending__msg {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  margin: 0 0 12px;
+}
+.auth-verify-pending__hint {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0 0 20px;
+}
+.auth-verify-pending__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.auth-verify-pending__signin {
+  text-align: center;
+}
 .auth-field-hint {
   margin: 6px 0 0;
   font-size: 11px;
@@ -7391,4 +7448,200 @@ body.cart-modal-open { overflow: hidden; }
 @media (max-width: 768px) {
   .cart-drawer { width: 100vw; }
   .nav-cart { width: 36px; height: 36px; }
+}
+
+/* ── Gaviom+ dedicated checkout ── */
+.gplus-checkout-page {
+  background: var(--canvas);
+  min-height: 100vh;
+}
+.gplus-head .co-head-back {
+  font-size: 13px;
+}
+.gplus-main {
+  padding: 32px 0 64px;
+}
+.gplus-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(320px, 420px);
+  gap: 40px;
+  align-items: start;
+}
+.gplus-kicker {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+.gplus-title {
+  font-size: clamp(36px, 4vw, 52px);
+  font-weight: 700;
+  line-height: 1.05;
+  margin: 0 0 16px;
+  color: var(--ink);
+}
+.gplus-lede {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  margin: 0 0 24px;
+  max-width: 520px;
+}
+.gplus-price-card {
+  background: linear-gradient(135deg, var(--paper) 0%, var(--paper-2) 100%);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 20px 22px;
+  margin-bottom: 24px;
+  max-width: 320px;
+}
+.gplus-price {
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1;
+  margin: 0;
+  color: var(--ink);
+}
+.gplus-price-period {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--ink-3);
+}
+.gplus-price-sub {
+  margin: 10px 0 0;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.gplus-benefits-list {
+  list-style: none;
+  margin: 0 0 24px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 540px;
+}
+.gplus-benefits-list li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.gplus-benefits-list__icon {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--ochre-soft);
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 12px;
+}
+.gplus-ladder {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.gplus-ladder__step {
+  padding: 8px 12px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--line);
+  background: var(--paper);
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  color: var(--ink-3);
+}
+.gplus-ladder__step--cap {
+  border-color: var(--gold);
+  background: var(--ochre-soft);
+  color: var(--ink);
+}
+.gplus-legal-note {
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 520px;
+}
+.gplus-legal-note a {
+  text-decoration: underline;
+}
+.gplus-pay-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 24px;
+  box-shadow: 0 12px 40px rgba(10, 22, 40, 0.06);
+  position: sticky;
+  top: 24px;
+}
+.gplus-pay-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+.gplus-pay-sub {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 20px;
+}
+.gplus-auth-gate {
+  text-align: center;
+  padding: 24px 12px;
+}
+.gplus-auth-gate__text {
+  margin: 0 0 16px;
+  color: var(--ink-2);
+}
+.gplus-auth-gate__sub {
+  margin: 14px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+.gplus-form.is-loading {
+  opacity: 0.85;
+  pointer-events: none;
+}
+.gplus-stripe-wrap {
+  margin-top: 16px;
+  min-height: 120px;
+}
+.gplus-stripe-loading {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0;
+  padding: 16px 0;
+}
+.gplus-stripe-embedded {
+  min-height: 420px;
+}
+.gplus-stripe-embedded iframe {
+  width: 100% !important;
+}
+.gplus-start-pay {
+  margin-top: 8px;
+}
+.checkout-order .gplus-lede em {
+  font-style: normal;
+  font-weight: 600;
+  color: color-mix(in oklab, var(--gold-dark) 90%, var(--ink));
+}
+.checkout-cart-lines {
+  margin: 16px 0 20px;
+}
+.checkout-order .gplus-price-card {
+  margin-top: 8px;
+}
+.co-form-status.is-error {
+  color: #b42318;
 }

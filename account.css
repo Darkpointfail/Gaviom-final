@@ -201,6 +201,16 @@ body.acct-page .nav-signin--active {
   white-space: nowrap;
 }
 
+.acct-profile__email {
+  margin: 0 0 6px;
+  font-size: 12px;
+  line-height: 1.35;
+  color: var(--acct-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .acct-profile__meta {
   display: flex;
   flex-wrap: wrap;
@@ -351,6 +361,22 @@ body.acct-page .nav-signin--active {
   background: var(--acct-bg);
   font-size: 14px;
   color: var(--acct-text);
+}
+
+.acct-page .co-field select {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  padding-right: 36px;
+  background-color: var(--acct-bg);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--acct-muted) 50%),
+    linear-gradient(135deg, var(--acct-muted) 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) calc(50% + 2px),
+    calc(100% - 12px) calc(50% + 2px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
 }
 
 .acct-page .co-field input:focus,
@@ -846,4 +872,26 @@ body.acct-page .nav-signin--active {
 
 @media (prefers-reduced-motion: reduce) {
   .acct-link-card:hover { box-shadow: var(--acct-shadow); }
+}
+
+.acct-signout-bar {
+  margin-top: var(--acct-space-4);
+  padding-top: var(--acct-space-3);
+  padding-bottom: var(--acct-space-2);
+  border-top: 1px solid var(--acct-border);
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.acct-signout-btn {
+  min-width: 220px;
+  color: var(--acct-muted);
+  border-color: var(--acct-border);
+}
+
+.acct-signout-btn:hover {
+  color: #b42318;
+  border-color: rgba(180, 35, 24, 0.35);
+  background: rgba(180, 35, 24, 0.06);
 }

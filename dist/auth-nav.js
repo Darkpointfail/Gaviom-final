@@ -8,6 +8,23 @@
       link.classList.add('nav-signin--active');
       if (email) link.setAttribute('title', email);
     });
+    updateMembershipLinks(true);
+  }
+
+  function resetNavLink() {
+    document.querySelectorAll('a.nav-signin').forEach(function (link) {
+      link.href = '/signin.html';
+      link.textContent = 'Sign in';
+      link.classList.remove('nav-signin--active');
+      link.removeAttribute('title');
+    });
+  }
+
+  function updateMembershipLinks() {
+    var checkout = '/gaviom-plus-checkout.html';
+    document.querySelectorAll('[data-gaviom-plus-cta]').forEach(function (link) {
+      link.href = checkout;
+    });
   }
 
   function loadScript(src) {
@@ -25,25 +42,32 @@
     });
   }
 
+  function syncNav(session) {
+    if (session && session.user) {
+      updateNavLink(session.user.email);
+    } else {
+      resetNavLink();
+      updateMembershipLinks();
+    }
+  }
+
   async function initAuthNav() {
-    if (!document.querySelector('a.nav-signin')) return;
+    var hasSignin = document.querySelector('a.nav-signin');
+    var hasMembership = document.querySelector('[data-gaviom-plus-cta]');
+    if (!hasSignin && !hasMembership) return;
 
     try {
       await loadScript('/auth-config.js');
-      var cfg = window.GAVIOM_AUTH_CONFIG;
-      if (!cfg || !cfg.supabaseUrl || cfg.supabaseUrl.includes('REPLACE_WITH')) return;
+      if (!window.GAVIOM_AUTH_CONFIG || window.GAVIOM_AUTH_CONFIG.supabaseUrl.includes('REPLACE_WITH')) return;
 
       await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js');
-      if (!window.supabase || !window.supabase.createClient) return;
+      await loadScript('/auth.js');
+      if (!window.GaviomAuth || !window.GaviomAuth.configReady()) return;
 
-      var client = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey);
-      var result = await client.auth.getSession();
-      if (result.data.session) {
-        updateNavLink(result.data.session.user && result.data.session.user.email);
-      }
-
-      client.auth.onAuthStateChange(function (_event, session) {
-        if (session) updateNavLink(session.user && session.user.email);
+      var session = await window.GaviomAuth.waitForSession();
+      syncNav(session);
+      window.GaviomAuth.subscribe(function (nextSession) {
+        syncNav(nextSession);
       });
     } catch (err) {
       /* optional enhancement */

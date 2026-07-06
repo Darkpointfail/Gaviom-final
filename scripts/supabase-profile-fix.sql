@@ -1,0 +1,3 @@
+-- DEPRECATED — use scripts/supabase-run-in-dashboard-now.sql instead.
+-- sync_my_profile_from_auth() is for one-time legacy recovery in SQL Editor only.
+-- The frontend never calls it on normal My Account loads.

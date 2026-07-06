@@ -20,7 +20,7 @@
   <noscript><link rel="stylesheet" href="/styles.css?v=20260706-perf" /></noscript>
   <link rel="stylesheet" href="/account.css?v=20260708-acct" />
 </head>
-<body class="acct-page" data-account-page>
+<body class="acct-page" data-account-page="1">
   <div class="topbar">
     <div class="wrap topbar-inner">
       <div class="topbar-left">
@@ -89,6 +89,7 @@
             </div>
             <div class="acct-profile__body">
               <p class="acct-profile__name" data-account-name>Your account</p>
+              <p class="acct-profile__email" data-account-email></p>
               <div class="acct-profile__meta">
                 <span class="acct-tag acct-tag--verified">Verified</span>
                 <span class="acct-tag acct-tag--muted">Since <span data-account-member-since>—</span></span>
@@ -112,15 +113,68 @@
           <section class="acct-card" id="profile" data-account-section="profile">
             <header class="acct-card__head">
               <h2 class="acct-card__title">Personal information</h2>
-              <p class="acct-card__desc">Update your name and location.</p>
+              <p class="acct-card__desc">Update your name, email, and location.</p>
             </header>
             <form class="co-form auth-form" data-account-profile-form>
               <div class="acct-form-grid">
                 <div class="co-field"><label for="profile-first">First name</label><input id="profile-first" name="first_name" type="text" autocomplete="given-name" required /></div>
                 <div class="co-field"><label for="profile-last">Last name</label><input id="profile-last" name="last_name" type="text" autocomplete="family-name" required /></div>
-                <div class="co-field"><label for="profile-email">Email</label><input id="profile-email" name="email" type="email" disabled /><p class="auth-field-hint">Contact <a href="mailto:info@getgaviom.com">support</a> to change email.</p></div>
-                <div class="co-field"><label for="profile-dob">Date of birth</label><input id="profile-dob" name="date_of_birth" type="date" disabled /></div>
-                <div class="co-field acct-form-grid--full"><label for="profile-state">State</label><select id="profile-state" name="state" required></select></div>
+                <div class="co-field"><label for="profile-email">Email</label><input id="profile-email" name="email" type="email" autocomplete="email" required /><p class="auth-field-hint">If you change email, we send a confirmation link to the new address.</p></div>
+                <div class="co-field"><label for="profile-dob">Date of birth</label><input id="profile-dob" name="date_of_birth" type="date" autocomplete="bday" disabled /></div>
+                <div class="co-field acct-form-grid--full"><label for="profile-state">State</label><select id="profile-state" name="state" required autocomplete="address-level1" aria-label="US state">
+                  <option value="" selected disabled>Select your state</option>
+                  <option value="AL">Alabama (AL)</option>
+                  <option value="AK">Alaska (AK)</option>
+                  <option value="AZ">Arizona (AZ)</option>
+                  <option value="AR">Arkansas (AR)</option>
+                  <option value="CA">California (CA)</option>
+                  <option value="CO">Colorado (CO)</option>
+                  <option value="CT">Connecticut (CT)</option>
+                  <option value="DE">Delaware (DE)</option>
+                  <option value="FL">Florida (FL)</option>
+                  <option value="GA">Georgia (GA)</option>
+                  <option value="HI">Hawaii (HI)</option>
+                  <option value="ID">Idaho (ID)</option>
+                  <option value="IL">Illinois (IL)</option>
+                  <option value="IN">Indiana (IN)</option>
+                  <option value="IA">Iowa (IA)</option>
+                  <option value="KS">Kansas (KS)</option>
+                  <option value="KY">Kentucky (KY)</option>
+                  <option value="LA">Louisiana (LA)</option>
+                  <option value="ME">Maine (ME)</option>
+                  <option value="MD">Maryland (MD)</option>
+                  <option value="MA">Massachusetts (MA)</option>
+                  <option value="MI">Michigan (MI)</option>
+                  <option value="MN">Minnesota (MN)</option>
+                  <option value="MS">Mississippi (MS)</option>
+                  <option value="MO">Missouri (MO)</option>
+                  <option value="MT">Montana (MT)</option>
+                  <option value="NE">Nebraska (NE)</option>
+                  <option value="NV">Nevada (NV)</option>
+                  <option value="NH">New Hampshire (NH)</option>
+                  <option value="NJ">New Jersey (NJ)</option>
+                  <option value="NM">New Mexico (NM)</option>
+                  <option value="NY">New York (NY)</option>
+                  <option value="NC">North Carolina (NC)</option>
+                  <option value="ND">North Dakota (ND)</option>
+                  <option value="OH">Ohio (OH)</option>
+                  <option value="OK">Oklahoma (OK)</option>
+                  <option value="OR">Oregon (OR)</option>
+                  <option value="PA">Pennsylvania (PA)</option>
+                  <option value="RI">Rhode Island (RI)</option>
+                  <option value="SC">South Carolina (SC)</option>
+                  <option value="SD">South Dakota (SD)</option>
+                  <option value="TN">Tennessee (TN)</option>
+                  <option value="TX">Texas (TX)</option>
+                  <option value="UT">Utah (UT)</option>
+                  <option value="VT">Vermont (VT)</option>
+                  <option value="VA">Virginia (VA)</option>
+                  <option value="WA">Washington (WA)</option>
+                  <option value="WV">West Virginia (WV)</option>
+                  <option value="WI">Wisconsin (WI)</option>
+                  <option value="WY">Wyoming (WY)</option>
+                  <option value="DC">Washington DC (DC)</option>
+                </select></div>
               </div>
               <label class="auth-check"><input type="checkbox" name="marketing_opt_in" data-profile-marketing /><span>Sweepstakes news and winner announcements</span></label>
               <button type="submit" class="btn btn-primary btn-lg">Save changes</button>
@@ -192,7 +246,7 @@
                 <li>Cancel anytime via billing portal</li>
               </ul>
               <div class="acct-membership__actions">
-                <a href="/checkout.html?plan=monthly" class="btn btn-primary btn-lg" data-account-membership-cta>Join Gaviom+</a>
+                <a href="/gaviom-plus-checkout.html" class="btn btn-primary btn-lg" data-account-membership-cta>Join Gaviom+</a>
                 <button type="button" class="btn btn-ghost" data-account-membership-manage hidden>Manage membership</button>
                 <button type="button" class="btn btn-ghost" data-account-billing-portal data-account-membership-cancel hidden>Cancel membership</button>
               </div>
@@ -270,6 +324,12 @@
               <a class="acct-link-card" href="/blog/sweepstakes-scams-how-to-avoid"><span class="acct-link-card__icon" aria-hidden="true">🛡</span><span class="acct-link-card__body"><strong>Avoid scams</strong><span>Red flags to watch for</span></span><span class="acct-link-card__arrow" aria-hidden="true">→</span></a>
             </div>
           </section>
+
+          <div class="acct-signout-bar">
+            <button type="button" class="btn btn-ghost btn-lg acct-signout-btn" data-account-signout>
+              Se déconnecter
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -290,8 +350,8 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="/auth-config.js"></script>
-  <script src="/auth.js"></script>
-  <script src="/account.js"></script>
+  <script src="/auth.js?v=20260713-verify"></script>
+  <script src="/account.js?v=20260713-fix3"></script>
   <script defer src="/auth-nav.js"></script>
   <script defer src="/app.js?v=20260706-perf"></script>
 

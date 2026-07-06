@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  if (!document.body || !('ticketCheckout' in document.body.dataset)) return;
+  if (!document.body || !('gaviomPlusCheckout' in document.body.dataset)) return;
 
   var SESSION_WAIT_MS = 2500;
   var AUTH_EVENT_WAIT_MS = 1500;
@@ -15,7 +15,6 @@
     mounting: false,
     stripeConfig: null,
     stripeConfigPromise: null,
-    orderKey: null,
   };
 
   function qs(sel) {
@@ -23,7 +22,7 @@
   }
 
   function showNotice(message, isError) {
-    var notice = qs('[data-co-notice]');
+    var notice = qs('[data-gplus-notice]');
     if (!notice) return;
     if (!message) {
       notice.hidden = true;
@@ -37,21 +36,21 @@
   }
 
   function setLoading(loading) {
-    var el = qs('[data-co-stripe-loading]');
-    var form = qs('[data-co-form]');
+    var el = qs('[data-gplus-stripe-loading]');
+    var form = qs('[data-gplus-form]');
     if (el) el.hidden = !loading;
     if (form) form.classList.toggle('is-loading', !!loading);
   }
 
   function setAuthChecking(checking) {
-    var gate = qs('[data-co-auth-gate]');
-    var checkingEl = qs('[data-co-auth-checking]');
+    var gate = qs('[data-gplus-auth-gate]');
+    var checkingEl = qs('[data-gplus-auth-checking]');
     if (gate) gate.hidden = !!checking;
     if (checkingEl) checkingEl.hidden = !checking;
   }
 
-  function checkoutReturnPath() {
-    return window.location.pathname + window.location.search;
+  function returnPath() {
+    return '/gaviom-plus-checkout.html' + (window.location.search || '');
   }
 
   function authHeaders() {
@@ -60,39 +59,10 @@
     return headers;
   }
 
-  function loadCartItems() {
-    if (window.GaviomCart) return window.GaviomCart.load();
-    try {
-      var raw = localStorage.getItem('gaviom-cart-v1');
-      if (!raw) return [];
-      var data = JSON.parse(raw);
-      return Array.isArray(data.items) ? data.items : [];
-    } catch (e) {
-      return [];
-    }
-  }
-
-  function getOrderPayload() {
-    var params = new URLSearchParams(window.location.search);
-    var plan = params.get('plan');
-    if (plan === 'monthly' || plan === 'annual') {
-      return { type: 'membership', plan: 'monthly', isSubscription: true };
-    }
-    var items = loadCartItems();
-    if (items.length > 0) {
-      return {
-        type: 'cart',
-        items: items.map(function (item) {
-          return { prizeId: item.prizeId, qty: item.qty };
-        }),
-      };
-    }
-    var prize = params.get('prize');
-    if (prize) {
-      var qty = parseInt(params.get('bundle') || '5', 10) || 5;
-      return { prize: prize, qty: qty };
-    }
-    return null;
+  function debugCheckout(label, detail) {
+    if (!window.GaviomAuth || !window.GaviomAuth.log) return;
+    var ctx = window.GaviomAuth.getDebugContext ? window.GaviomAuth.getDebugContext() : {};
+    window.GaviomAuth.log('[Gaviom+] ' + label, Object.assign({}, ctx, detail || {}));
   }
 
   function prefetchStripeConfig() {
@@ -111,7 +81,7 @@
   }
 
   function applyTestNoteFromConfig(config) {
-    var note = qs('[data-co-test-note]');
+    var note = qs('[data-gplus-test-note]');
     if (note && config && config.publishableKey && config.publishableKey.indexOf('pk_test_') === 0) {
       note.hidden = false;
     }
@@ -178,6 +148,11 @@
     state.authUserId = session.user.id;
     state.authEmail = session.user.email || null;
     state.accessToken = session.access_token || null;
+    debugCheckout('session:resolved', {
+      userId: state.authUserId,
+      email: state.authEmail,
+      hasToken: !!state.accessToken,
+    });
   }
 
   function isEmailConfirmed(user) {
@@ -188,34 +163,26 @@
   }
 
   function applyAuthUI(session) {
-    var gate = qs('[data-co-auth-gate]');
-    var unverified = qs('[data-co-unverified]');
-    var form = qs('[data-co-form]');
-    var signinLink = qs('[data-co-signin-link]');
-    var retry = qs('[data-co-retry]');
-    var checking = qs('[data-co-auth-checking]');
-    var paySection = qs('[data-checkout-pay-section]');
-    var order = getOrderPayload();
+    var gate = qs('[data-gplus-auth-gate]');
+    var unverified = qs('[data-gplus-unverified]');
+    var form = qs('[data-gplus-form]');
+    var signinLink = qs('[data-gplus-signin-link]');
+    var retry = qs('[data-gplus-retry]');
+    var checking = qs('[data-gplus-auth-checking]');
 
     if (retry) retry.hidden = true;
     if (checking) checking.hidden = true;
-
-    if (!order) {
-      if (paySection) paySection.hidden = true;
-      return false;
-    }
-    if (paySection) paySection.hidden = false;
-
-    var next = encodeURIComponent(checkoutReturnPath());
-    if (signinLink) signinLink.href = '/signin.html?next=' + next;
-    document.querySelectorAll('[data-co-signup-link]').forEach(function (link) {
-      link.href = '/signup.html?next=' + next;
-    });
 
     if (!session || !session.user) {
       if (gate) gate.hidden = false;
       if (unverified) unverified.hidden = true;
       if (form) form.hidden = true;
+      if (signinLink) {
+        signinLink.href = '/signin.html?next=' + encodeURIComponent(returnPath());
+      }
+      document.querySelectorAll('[data-gplus-signup-link]').forEach(function (link) {
+        link.href = '/signup.html?next=' + encodeURIComponent(returnPath());
+      });
       return false;
     }
 
@@ -235,7 +202,7 @@
   function loadStripeScript() {
     if (window.Stripe) return Promise.resolve(window.Stripe);
     return new Promise(function (resolve, reject) {
-      var existing = document.querySelector('script[data-co-stripe]');
+      var existing = document.querySelector('script[data-gplus-stripe]');
       if (existing) {
         existing.addEventListener('load', function () {
           if (window.Stripe) resolve(window.Stripe);
@@ -249,7 +216,7 @@
       var script = document.createElement('script');
       script.src = 'https://js.stripe.com/v3/';
       script.async = true;
-      script.setAttribute('data-co-stripe', '1');
+      script.setAttribute('data-gplus-stripe', '1');
       script.onload = function () {
         if (window.Stripe) resolve(window.Stripe);
         else reject(new Error('Stripe failed to load.'));
@@ -273,21 +240,16 @@
   }
 
   async function mountEmbeddedCheckout() {
-    var container = qs('[data-co-stripe-embedded]');
+    var container = qs('[data-gplus-stripe-embedded]');
     var email = state.authEmail;
-    var order = getOrderPayload();
-    if (!container || !email || !order || order.isSubscription) return false;
-    if (state.embeddedReady || state.mounting) return state.embeddedReady;
-
-    var orderKey = JSON.stringify(order);
-    if (state.embeddedReady && state.orderKey === orderKey) return true;
+    if (!container || !email || state.embeddedReady || state.mounting) return state.embeddedReady;
 
     state.mounting = true;
     destroyEmbedded();
     setLoading(true);
     showNotice('', false);
 
-    var retry = qs('[data-co-retry]');
+    var retry = qs('[data-gplus-retry]');
     if (retry) retry.hidden = true;
 
     try {
@@ -301,10 +263,12 @@
         method: 'POST',
         headers: authHeaders(),
         credentials: 'same-origin',
-        body: JSON.stringify(Object.assign({}, order, {
+        body: JSON.stringify({
+          type: 'membership',
+          plan: 'monthly',
           email: email,
           embedded: true,
-        })),
+        }),
       }).then(function (res) {
         return res.json().then(function (data) {
           if (!res.ok) throw new Error(data.error || 'Could not load payment form.');
@@ -332,7 +296,6 @@
       container.hidden = false;
       state.embeddedCheckout.mount(container);
       state.embeddedReady = true;
-      state.orderKey = orderKey;
       setLoading(false);
       return true;
     } catch (err) {
@@ -347,7 +310,7 @@
   }
 
   function bindUI() {
-    var resend = qs('[data-co-resend-confirm]');
+    var resend = qs('[data-gplus-resend-confirm]');
     if (resend) {
       resend.addEventListener('click', async function () {
         if (!state.authEmail) return;
@@ -365,7 +328,7 @@
       });
     }
 
-    var signout = qs('[data-co-signout]');
+    var signout = qs('[data-gplus-signout]');
     if (signout) {
       signout.addEventListener('click', async function (ev) {
         ev.preventDefault();
@@ -376,11 +339,10 @@
       });
     }
 
-    var retry = qs('[data-co-retry]');
+    var retry = qs('[data-gplus-retry]');
     if (retry) {
       retry.addEventListener('click', function () {
         state.embeddedReady = false;
-        state.orderKey = null;
         mountEmbeddedCheckout();
       });
     }
@@ -389,71 +351,37 @@
   function showCanceledNotice() {
     var params = new URLSearchParams(window.location.search);
     if (params.get('canceled') === '1') {
-      showNotice('Payment canceled. Your cart is still saved — try again when ready.', false);
+      showNotice('Payment canceled — try again when ready.', false);
     }
-  }
-
-  function onOrderReady() {
-    if (!window.GaviomAuth || !window.GaviomAuth.getSession) {
-      applyAuthUI(null);
-      setLoading(false);
-      return;
-    }
-    window.GaviomAuth.getSession().then(function (current) {
-      if (current && current.user) applySession(current);
-      var ready = applyAuthUI(current);
-      if (ready && state.authEmail) mountEmbeddedCheckout();
-      else setLoading(false);
-    });
   }
 
   async function init() {
-    var params = new URLSearchParams(window.location.search);
-    var plan = params.get('plan');
-    if (plan === 'monthly' || plan === 'annual') {
-      window.location.replace('/gaviom-plus-checkout.html' + window.location.search);
-      return;
-    }
-
     showCanceledNotice();
     bindUI();
     prefetchStripeConfig();
 
-    var session = await resolveSession();
-    if (session) applySession(session);
+    var sessionPromise = resolveSession();
+    var session = await sessionPromise;
+    var ready = applyAuthUI(session);
 
     if (window.GaviomAuth && window.GaviomAuth.subscribe) {
       window.GaviomAuth.subscribe(function (nextSession) {
         if (!nextSession || !nextSession.user) {
           destroyEmbedded();
-          state.authUserId = null;
-          state.authEmail = null;
-          state.accessToken = null;
           applyAuthUI(null);
           return;
         }
         applySession(nextSession);
-        if (getOrderPayload() && applyAuthUI(nextSession)) mountEmbeddedCheckout();
+        if (applyAuthUI(nextSession)) mountEmbeddedCheckout();
       });
     }
 
-    document.addEventListener('gaviom:checkout-order-ready', onOrderReady);
-
-    if (document.body.dataset.checkoutOrderReady === '1') {
-      onOrderReady();
+    if (ready && state.authEmail) {
+      await mountEmbeddedCheckout();
+    } else {
+      setLoading(false);
     }
   }
-
-  window.GaviomCheckoutStripe = {
-    refresh: function () {
-      state.embeddedReady = false;
-      state.orderKey = null;
-      onOrderReady();
-    },
-    isReady: function () {
-      return state.embeddedReady;
-    },
-  };
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);

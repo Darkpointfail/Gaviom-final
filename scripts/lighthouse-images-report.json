@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-06T17:52:38.098Z",
+  "generatedAt": "2026-07-06T21:21:44.020Z",
   "items": [
     {
       "label": "home-hero-desktop.avif",
@@ -105,13 +105,6 @@
       "after": 155192,
       "saved": 0,
       "file": "images/vegas-quote-hero.webp"
-    },
-    {
-      "label": "cruise-hero.webp",
-      "before": 441304,
-      "after": 441154,
-      "saved": 150,
-      "file": "images/cruise-hero.webp"
     },
     {
       "label": "home-eight-oclock-villa.webp",

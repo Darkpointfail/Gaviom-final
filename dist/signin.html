@@ -61,7 +61,8 @@
             <label for="signin-password">Password</label>
             <input id="signin-password" name="password" type="password" autocomplete="current-password" placeholder="Your password" required />
           </div>
-          <p class="auth-forgot-wrap"><a href="#" class="auth-forgot" data-auth-forgot>Forgot password?</a></p>
+          <p class="auth-forgot-wrap"><a href="#" class="auth-forgot" data-auth-forgot>Forgot password?</a> · <a href="#" data-auth-resend>Resend confirmation</a></p>
+          <label class="auth-check"><input type="checkbox" id="signin-remember" data-auth-remember checked /><span>Stay signed in on this device</span></label>
           <button type="submit" class="btn btn-primary btn-lg auth-submit">Sign in</button>
         </form>
 
@@ -79,7 +80,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="/auth-config.js"></script>
-  <script src="/auth.js"></script>
+  <script src="/auth.js?v=20260713-resend-confirm2"></script>
 
   <script>
 (function () {

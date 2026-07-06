@@ -931,6 +931,22 @@ body.nav-open .nav-menu-icon::after {
     gap: 24px;
   }
 
+  body.checkout-page .co-stripe-embedded {
+    min-height: 360px;
+    margin-top: 12px;
+  }
+
+  body.checkout-page.checkout-membership .co-pay-submit[data-checkout-submit]:not([hidden]) {
+    position: sticky;
+    bottom: calc(12px + var(--safe-bottom, 0px));
+    z-index: 20;
+    box-shadow: 0 -8px 24px rgba(10, 22, 40, 0.12);
+  }
+
+  body.checkout-page.checkout-membership {
+    padding-bottom: calc(24px + var(--safe-bottom, 0px));
+  }
+
   .field-grid-2,
   .field-grid-3 {
     gap: 12px;
@@ -1796,5 +1812,28 @@ body.nav-open .nav-menu-icon::after {
   body.prizes-page .sweep-panel__cta:active,
   body.prizes-page .sweep-panel__cta.is-pressed {
     transform: scale(0.97);
+  }
+
+  .gplus-shell {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .gplus-pay-card {
+    position: static;
+  }
+
+  .gplus-price-card {
+    max-width: none;
+  }
+
+  .gplus-stripe-embedded {
+    min-height: 360px;
+  }
+
+  .gplus-start-pay {
+    position: sticky;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    z-index: 10;
   }
 }

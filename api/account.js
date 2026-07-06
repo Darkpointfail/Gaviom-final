@@ -52,6 +52,26 @@ async function handleOrders(req, res) {
   }
 }
 
+async function fetchProfileName(cfg, userId) {
+  const serviceKey = cfg.serviceKey;
+  if (!serviceKey || !userId) return null;
+  try {
+    const params = new URLSearchParams({
+      select: 'first_name,last_name',
+      id: `eq.${userId}`,
+    });
+    const response = await fetch(`${cfg.url}/rest/v1/profiles?${params}`, {
+      headers: { apikey: serviceKey, Authorization: `Bearer ${serviceKey}` },
+    });
+    const rows = await response.json().catch(() => []);
+    if (!response.ok || !Array.isArray(rows) || !rows[0]) return null;
+    return rows[0];
+  } catch (err) {
+    console.warn('account profile lookup:', err.message);
+    return null;
+  }
+}
+
 async function handleBillingPortal(req, res) {
   const secretKey = process.env.STRIPE_SECRET_KEY;
   if (!secretKey || secretKey.includes('REPLACE')) {
@@ -68,16 +88,17 @@ async function handleBillingPortal(req, res) {
   const origin = req.headers.origin || 'https://gaviom.com';
 
   try {
+    const profile = await fetchProfileName(auth.cfg, auth.user.id);
     const customers = await stripe.customers.list({ email, limit: 1 });
     let customer = customers.data[0];
 
     if (!customer) {
+      const name = profile
+        ? [profile.first_name, profile.last_name].filter(Boolean).join(' ')
+        : '';
       customer = await stripe.customers.create({
         email,
-        name:
-          [auth.user.user_metadata?.first_name, auth.user.user_metadata?.last_name]
-            .filter(Boolean)
-            .join(' ') || undefined,
+        name: name || undefined,
         metadata: { supabase_user_id: auth.user.id },
       });
     }

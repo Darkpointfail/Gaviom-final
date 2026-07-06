@@ -25,6 +25,10 @@
     accessToken: null,
   };
 
+  function isAccountPage() {
+    return !!(document.body && 'accountPage' in document.body.dataset);
+  }
+
   function $(sel, root) {
     return (root || document).querySelector(sel);
   }
@@ -209,19 +213,19 @@
   }
 
   function renderUserHeader() {
+    var values = profileFromState();
     var user = state.session.user;
-    var meta = user.user_metadata || {};
-    var first = state.profile && state.profile.first_name ? state.profile.first_name : meta.first_name;
-    var last = state.profile && state.profile.last_name ? state.profile.last_name : meta.last_name;
-    var email = user.email || '';
-    var letter = initials(first, last, email);
+    var letter = initials(values.first_name, values.last_name, values.email);
 
     var nameEl = $('[data-account-name]');
     var memberSince = $('[data-account-member-since]');
 
     if (nameEl) {
-      nameEl.textContent = [first, last].filter(Boolean).join(' ') || 'Gaviom member';
+      nameEl.textContent = [values.first_name, values.last_name].filter(Boolean).join(' ') || 'Gaviom member';
     }
+
+    var emailEl = $('[data-account-email]');
+    if (emailEl) emailEl.textContent = values.email;
 
     var since = (state.profile && state.profile.created_at) || user.created_at;
     if (memberSince && since) {
@@ -237,10 +241,37 @@
     }
   }
 
-  function fillProfileForm() {
-    var user = state.session.user;
-    var meta = user.user_metadata || {};
+  function debugLog(label, detail) {
+    var ctx =
+      window.GaviomAuth && window.GaviomAuth.getDebugContext
+        ? window.GaviomAuth.getDebugContext()
+        : { isMobile: window.matchMedia('(max-width:768px)').matches, width: window.innerWidth };
+    var payload = Object.assign({}, ctx, detail || {});
+    if (window.GaviomAuth && window.GaviomAuth.log) {
+      window.GaviomAuth.log('[Account] ' + label, payload);
+      return;
+    }
+    if (window.location.search.indexOf('auth_debug=1') !== -1) {
+      console.log('[Gaviom Account]', label, payload);
+    }
+  }
+
+  var PROFILE_TABLE = 'profiles';
+
+  function profileFromState() {
     var p = state.profile || {};
+    return {
+      first_name: p.first_name || '',
+      last_name: p.last_name || '',
+      email: p.email || '',
+      date_of_birth: p.date_of_birth || '',
+      state: p.state || '',
+      marketing_opt_in: !!p.marketing_opt_in,
+    };
+  }
+
+  function fillProfileForm() {
+    var values = profileFromState();
 
     var first = $('#profile-first');
     var last = $('#profile-last');
@@ -249,28 +280,135 @@
     var st = $('#profile-state');
     var marketing = $('[data-profile-marketing]');
 
-    if (first) first.value = p.first_name || meta.first_name || '';
-    if (last) last.value = p.last_name || meta.last_name || '';
-    if (email) email.value = user.email || '';
-    if (dob) dob.value = p.date_of_birth || meta.date_of_birth || '';
-    if (st) st.value = p.state || meta.state || '';
-    if (marketing) marketing.checked = !!(p.marketing_opt_in != null ? p.marketing_opt_in : meta.marketing_opt_in);
+    if (first) first.value = values.first_name;
+    if (last) last.value = values.last_name;
+    if (email) email.value = values.email;
+    if (dob) dob.value = values.date_of_birth ? String(values.date_of_birth).slice(0, 10) : '';
+    if (marketing) marketing.checked = !!values.marketing_opt_in;
 
-    if (window.GaviomAuth && window.GaviomAuth.fillStateSelect) {
-      window.GaviomAuth.fillStateSelect(st);
-      if (st && st.value) st.value = p.state || meta.state || st.value;
+    if (st) {
+      if (window.GaviomAuth && window.GaviomAuth.fillStateSelect) {
+        window.GaviomAuth.fillStateSelect(st, values.state);
+      } else if (values.state) {
+        st.value = values.state;
+      }
     }
   }
 
-  async function loadProfile(client) {
-    var userId = state.session.user.id;
-    var result = await client.from('users').select('*').eq('id', userId).maybeSingle();
-    if (result.error && result.error.code !== 'PGRST116') {
-      console.warn('[Gaviom account] profile load', result.error.message);
+  function ensureStateSelect() {
+    var st = $('#profile-state');
+    if (!st) return;
+    if (window.GaviomAuth && window.GaviomAuth.fillStateSelect) {
+      window.GaviomAuth.fillStateSelect(st);
+      return;
     }
-    state.profile = result.data || null;
-    renderUserHeader();
-    fillProfileForm();
+    if (st.options.length <= 1) {
+      st.innerHTML =
+        '<option value="" disabled selected>Select your state</option>' +
+        '<option value="AL">Alabama (AL)</option><option value="AK">Alaska (AK)</option>' +
+        '<option value="AZ">Arizona (AZ)</option><option value="AR">Arkansas (AR)</option>' +
+        '<option value="CA">California (CA)</option><option value="CO">Colorado (CO)</option>' +
+        '<option value="CT">Connecticut (CT)</option><option value="DE">Delaware (DE)</option>' +
+        '<option value="FL">Florida (FL)</option><option value="GA">Georgia (GA)</option>' +
+        '<option value="HI">Hawaii (HI)</option><option value="ID">Idaho (ID)</option>' +
+        '<option value="IL">Illinois (IL)</option><option value="IN">Indiana (IN)</option>' +
+        '<option value="IA">Iowa (IA)</option><option value="KS">Kansas (KS)</option>' +
+        '<option value="KY">Kentucky (KY)</option><option value="LA">Louisiana (LA)</option>' +
+        '<option value="ME">Maine (ME)</option><option value="MD">Maryland (MD)</option>' +
+        '<option value="MA">Massachusetts (MA)</option><option value="MI">Michigan (MI)</option>' +
+        '<option value="MN">Minnesota (MN)</option><option value="MS">Mississippi (MS)</option>' +
+        '<option value="MO">Missouri (MO)</option><option value="MT">Montana (MT)</option>' +
+        '<option value="NE">Nebraska (NE)</option><option value="NV">Nevada (NV)</option>' +
+        '<option value="NH">New Hampshire (NH)</option><option value="NJ">New Jersey (NJ)</option>' +
+        '<option value="NM">New Mexico (NM)</option><option value="NY">New York (NY)</option>' +
+        '<option value="NC">North Carolina (NC)</option><option value="ND">North Dakota (ND)</option>' +
+        '<option value="OH">Ohio (OH)</option><option value="OK">Oklahoma (OK)</option>' +
+        '<option value="OR">Oregon (OR)</option><option value="PA">Pennsylvania (PA)</option>' +
+        '<option value="RI">Rhode Island (RI)</option><option value="SC">South Carolina (SC)</option>' +
+        '<option value="SD">South Dakota (SD)</option><option value="TN">Tennessee (TN)</option>' +
+        '<option value="TX">Texas (TX)</option><option value="UT">Utah (UT)</option>' +
+        '<option value="VT">Vermont (VT)</option><option value="VA">Virginia (VA)</option>' +
+        '<option value="WA">Washington (WA)</option><option value="WV">West Virginia (WV)</option>' +
+        '<option value="WI">Wisconsin (WI)</option><option value="WY">Wyoming (WY)</option>' +
+        '<option value="DC">Washington DC (DC)</option>';
+    }
+  }
+
+  function applySessionShell(session) {
+    if (!session || !session.user) return;
+    var email = session.user.email || '';
+    var nameEl = $('[data-account-name]');
+    var emailEl = $('[data-account-email]');
+    var memberSince = $('[data-account-member-since]');
+    if (emailEl && email) emailEl.textContent = email;
+    if (nameEl && email) nameEl.textContent = email;
+    if (memberSince && session.user.created_at) {
+      memberSince.textContent = formatDateShort(session.user.created_at);
+    }
+    syncAvatars(null, initials('', '', email));
+  }
+
+  async function loadProfile(client) {
+    if (!state.session || !state.session.user) return;
+
+    var userId = state.session.user.id;
+    debugLog('loadProfile:start', { userId: userId });
+
+    try {
+      await client.auth.getSession();
+
+      var result = await client.from(PROFILE_TABLE).select('*').eq('id', userId).maybeSingle();
+      if (!result.data && !result.error) {
+        await new Promise(function (resolve) {
+          setTimeout(resolve, 400);
+        });
+        result = await client.from(PROFILE_TABLE).select('*').eq('id', userId).maybeSingle();
+      }
+
+      if (result.error) {
+        debugLog('loadProfile:rls-error', {
+          code: result.error.code,
+          message: result.error.message,
+          hint: result.error.hint || null,
+        });
+        console.warn('[Gaviom account] profile load', result.error.message);
+        showAlert(
+          'Could not load profile (user ' + userId.slice(0, 8) + '…): ' + result.error.message,
+          'error'
+        );
+      }
+
+      debugLog('loadProfile:db-row', result.data || null);
+
+      if (!result.data) {
+        debugLog('loadProfile:missing', { userId: userId, profileInDb: false });
+        state.profile = null;
+        showAlert(
+          'No profile row for ' +
+            (state.session.user.email || userId) +
+            '. In Supabase: Table Editor → profiles → check this user id exists.',
+          'error'
+        );
+      } else {
+        state.profile = result.data;
+        debugLog('loadProfile:found', {
+          userId: userId,
+          profileInDb: true,
+          hasFirstName: !!result.data.first_name,
+          hasLastName: !!result.data.last_name,
+          hasEmail: !!result.data.email,
+          hasState: !!result.data.state,
+        });
+      }
+    } catch (err) {
+      console.error('[Gaviom account] loadProfile', err);
+      showAlert(err.message || 'Profile load failed.', 'error');
+    } finally {
+      debugLog('loadProfile:done', state.profile);
+      renderUserHeader();
+      fillProfileForm();
+      document.body.dataset.accountReady = '1';
+    }
   }
 
   async function loadEntries(client) {
@@ -442,7 +580,7 @@
     if (cta) {
       cta.hidden = active;
       cta.textContent = 'Join Gaviom+';
-      cta.href = '/checkout.html?plan=monthly';
+      cta.href = '/gaviom-plus-checkout.html';
       cta.onclick = null;
     }
     if (manage) manage.hidden = !active;
@@ -502,30 +640,54 @@
     var client = window.GaviomAuth.getClient();
     var userId = state.session.user.id;
 
+    var newEmail = ($('#profile-email').value || '').trim().toLowerCase();
+    var currentEmail = (profileFromState().email || '').trim().toLowerCase();
+    var stateCode = $('#profile-state').value;
+
+    if (!stateCode) {
+      showAlert('Select your US state to continue.', 'error');
+      var stEl = $('#profile-state');
+      if (stEl) stEl.focus();
+      return;
+    }
+
     var payload = {
       first_name: $('#profile-first').value.trim(),
       last_name: $('#profile-last').value.trim(),
-      state: $('#profile-state').value,
+      state: stateCode,
       marketing_opt_in: $('[data-profile-marketing]').checked,
     };
+
+    if (newEmail) payload.email = newEmail;
 
     var btn = ev.target.querySelector('[type="submit"]');
     if (btn) btn.disabled = true;
 
     try {
-      var result = await client.from('users').update(payload).eq('id', userId).select().maybeSingle();
+      var result = await client.from(PROFILE_TABLE).update(payload).eq('id', userId).select().maybeSingle();
       if (result.error) throw result.error;
+      if (!result.data) {
+        var insertPayload = Object.assign({ id: userId, email: currentEmail || state.session.user.email }, payload);
+        var inserted = await client.from(PROFILE_TABLE).insert(insertPayload).select().maybeSingle();
+        if (inserted.error) throw inserted.error;
+        result.data = inserted.data;
+      }
       state.profile = result.data || Object.assign({}, state.profile || {}, payload);
-      await client.auth.updateUser({
-        data: {
-          first_name: payload.first_name,
-          last_name: payload.last_name,
-          state: payload.state,
-          marketing_opt_in: payload.marketing_opt_in,
-        },
-      });
+
+      var emailChanged = newEmail && newEmail !== currentEmail;
+      if (emailChanged) {
+        var emailResult = await client.auth.updateUser({ email: newEmail });
+        if (emailResult.error) throw emailResult.error;
+      }
+
       renderUserHeader();
-      showAlert('Profile saved.', 'success');
+      fillProfileForm();
+      showAlert(
+        emailChanged
+          ? 'Profile saved. Check your new inbox to confirm the email change.'
+          : 'Profile saved.',
+        'success'
+      );
     } catch (err) {
       showAlert(window.GaviomAuth.friendlyAuthError(err), 'error');
     } finally {
@@ -554,7 +716,7 @@
       var pub = client.storage.from('avatars').getPublicUrl(path);
       var url = pub.data.publicUrl + '?t=' + Date.now();
 
-      var update = await client.from('users').update({ avatar_url: url }).eq('id', userId);
+      var update = await client.from(PROFILE_TABLE).update({ avatar_url: url }).eq('id', userId);
       if (update.error) throw update.error;
 
       state.profile = state.profile || {};
@@ -606,6 +768,44 @@
         if (input.files && input.files[0]) uploadAvatar(input.files[0]);
       });
     }
+  }
+
+  async function handleSignOut(btn) {
+    if (btn && btn.dataset.signoutBusy === '1') return;
+    var label = btn ? btn.textContent : '';
+    if (btn) {
+      btn.dataset.signoutBusy = '1';
+      btn.disabled = true;
+      btn.textContent = 'Déconnexion…';
+    }
+    try {
+      if (!window.GaviomAuth || !window.GaviomAuth.signOut) {
+        throw new Error('Sign-out is unavailable. Refresh the page.');
+      }
+      await window.GaviomAuth.signOut();
+      window.location.replace('/signin.html');
+    } catch (err) {
+      var msg =
+        window.GaviomAuth && window.GaviomAuth.friendlyAuthError
+          ? window.GaviomAuth.friendlyAuthError(err)
+          : err.message || 'Could not sign out.';
+      showAlert(msg, 'error');
+      if (btn) {
+        btn.dataset.signoutBusy = '0';
+        btn.disabled = false;
+        btn.textContent = label || 'Se déconnecter';
+      }
+    }
+  }
+
+  function bindSignOut() {
+    document.addEventListener('click', function (ev) {
+      var btn = ev.target.closest('[data-account-signout]');
+      if (!btn) return;
+      ev.preventDefault();
+      ev.stopPropagation();
+      handleSignOut(btn);
+    });
   }
 
   function bindForms() {
@@ -670,47 +870,97 @@
 
     var resetBtn = $('[data-account-reset-password]');
     if (resetBtn) resetBtn.addEventListener('click', sendPasswordReset);
-
-    $$('[data-account-signout]').forEach(function (btn) {
-      btn.addEventListener('click', async function () {
-        btn.disabled = true;
-        try {
-          await window.GaviomAuth.signOut();
-          window.location.href = '/signin.html';
-        } catch (err) {
-          btn.disabled = false;
-          showAlert(window.GaviomAuth.friendlyAuthError(err), 'error');
-        }
-      });
-    });
   }
 
   async function init() {
-    if (!document.body.dataset.accountPage) return;
+    if (!isAccountPage()) return;
 
-    var session = await window.GaviomAuth.requireSession('/account.html');
-    if (!session) return;
+    debugLog('init:start', { href: window.location.href });
+
+    if (!window.GaviomAuth) {
+      showAlert('Auth failed to load. Disable ad blockers and refresh.', 'error');
+      return;
+    }
+
+    ensureStateSelect();
+
+    var session = null;
+    try {
+      if (window.GaviomAuth.waitForSession) {
+        session = await window.GaviomAuth.waitForSession(12000);
+      }
+      if (!session && window.GaviomAuth.getSession) {
+        session = await window.GaviomAuth.getSession();
+      }
+    } catch (err) {
+      console.error('[Gaviom account] session', err);
+      showAlert(window.GaviomAuth.friendlyAuthError(err), 'error');
+      return;
+    }
+
+    if (!session || !session.user) {
+      window.location.replace('/signin.html?next=' + encodeURIComponent('/account.html'));
+      return;
+    }
+
+    if (window.GaviomAuth.isEmailConfirmed && !window.GaviomAuth.isEmailConfirmed(session.user)) {
+      window.location.replace('/signin.html?confirm=required&next=' + encodeURIComponent('/account.html'));
+      return;
+    }
 
     state.session = session;
     state.accessToken = session.access_token;
+    applySessionShell(session);
+
+    debugLog('init:session', {
+      userId: session.user.id,
+      email: session.user.email,
+    });
 
     bindNav();
     bindTicketTabs();
     bindGotoOrders();
     bindForms();
 
+    if (window.GaviomAuth.subscribe) {
+      window.GaviomAuth.subscribe(function (nextSession) {
+        if (!nextSession || !nextSession.user) return;
+        state.session = nextSession;
+        state.accessToken = nextSession.access_token;
+        applySessionShell(nextSession);
+        try {
+          var subClient = window.GaviomAuth.getClient();
+          loadProfile(subClient).catch(function (err) {
+            debugLog('subscribe:profile-error', err.message);
+          });
+        } catch (err) {
+          debugLog('subscribe:profile-error', err.message);
+        }
+      });
+    }
+
     try {
       var client = window.GaviomAuth.getClient();
       await loadProfile(client);
       await Promise.all([loadOrders(), loadEntries(client), loadMembership(client), loadPromos(client)]);
     } catch (err) {
+      console.error('[Gaviom account] init', err);
       showAlert(window.GaviomAuth.friendlyAuthError(err), 'error');
     }
   }
 
+  function bootAccount() {
+    if (!isAccountPage()) return;
+    bindSignOut();
+    init().catch(function (err) {
+      console.error('[Gaviom account] boot', err);
+      showAlert(err.message || 'Account page failed to start.', 'error');
+    });
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', bootAccount);
   } else {
-    init();
+    bootAccount();
   }
 })();

@@ -1,5 +1,7 @@
 const Stripe = require('stripe');
 const { resolveOrder } = require('./lib/resolve-order');
+const { verifyVerifiedUser } = require('./lib/supabase-user');
+const { validateAccountEmail } = require('./lib/email-validation');
 
 function parseBody(req) {
   let body = req.body;
@@ -28,7 +30,7 @@ function siteOrigin(req) {
 }
 
 function isValidEmail(email) {
-  return typeof email === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+  return validateAccountEmail(email).ok;
 }
 
 function resolveAction(req) {
@@ -55,7 +57,10 @@ async function handleCreateIntent(req, res, sk) {
   const parsed = parseBody(req);
   if (parsed.error) return res.status(400).json({ error: parsed.error });
 
-  const userId = String(parsed.body?.userId || parsed.body?.supabase_user_id || '').trim() || null;
+  const auth = await verifyVerifiedUser(req);
+  if (auth.error) return res.status(auth.status).json({ error: auth.error });
+  const userId = auth.user.id;
+
   const resolved = resolveOrder(parsed.body);
   if (resolved.error) return res.status(400).json({ error: resolved.error });
   if (resolved.mode === 'subscription') {
@@ -72,8 +77,8 @@ async function handleCreateIntent(req, res, sk) {
       automatic_payment_methods: { enabled: true, allow_redirects: 'never' },
       metadata: {
         ...built.metadata,
-        customer_email: '',
-        ...(userId ? { supabase_user_id: userId } : {}),
+        customer_email: auth.user.email || '',
+        supabase_user_id: userId,
       },
     });
     return res.status(200).json({
@@ -93,21 +98,28 @@ async function handleUpdateIntent(req, res, sk) {
 
   const paymentIntentId = String(parsed.body?.paymentIntentId || '').trim();
   const email = (parsed.body?.email || '').trim().toLowerCase();
-  const userId = String(parsed.body?.userId || parsed.body?.supabase_user_id || '').trim() || null;
+  const auth = await verifyVerifiedUser(req);
+  if (auth.error) return res.status(auth.status).json({ error: auth.error });
+  const userId = auth.user.id;
 
   if (!paymentIntentId.startsWith('pi_')) {
     return res.status(400).json({ error: 'Invalid payment reference' });
   }
-  if (!isValidEmail(email)) {
-    return res.status(400).json({ error: 'Enter a valid email address' });
+  const emailCheck = validateAccountEmail(email);
+  if (!emailCheck.ok) {
+    return res.status(400).json({ error: emailCheck.error });
+  }
+  const accountEmail = (auth.user.email || '').trim().toLowerCase();
+  if (accountEmail && emailCheck.email !== accountEmail) {
+    return res.status(403).json({ error: 'Email must match your signed-in account.' });
   }
 
   const stripe = new Stripe(sk);
   try {
     const existing = await stripe.paymentIntents.retrieve(paymentIntentId);
-    const metadata = { ...(existing.metadata || {}), customer_email: email };
-    if (userId) metadata.supabase_user_id = userId;
-    await stripe.paymentIntents.update(paymentIntentId, { receipt_email: email, metadata });
+    const metadata = { ...(existing.metadata || {}), customer_email: emailCheck.email };
+    metadata.supabase_user_id = userId;
+    await stripe.paymentIntents.update(paymentIntentId, { receipt_email: emailCheck.email, metadata });
     return res.status(200).json({ ok: true });
   } catch (err) {
     console.error('stripe update-intent:', err.message);
@@ -119,39 +131,79 @@ async function handleCreateCheckout(req, res, sk) {
   const parsed = parseBody(req);
   if (parsed.error) return res.status(400).json({ error: parsed.error });
 
-  const email = (parsed.body?.email || '').trim().toLowerCase();
-  const userId = String(parsed.body?.userId || parsed.body?.supabase_user_id || '').trim() || null;
-  if (!isValidEmail(email)) {
-    return res.status(400).json({ error: 'Enter a valid email address' });
-  }
-
   const resolved = resolveOrder(parsed.body);
   if (resolved.error) return res.status(400).json({ error: resolved.error });
 
   const { built, mode } = resolved;
+  let email = (parsed.body?.email || '').trim().toLowerCase();
+  let userId = null;
+
+  if (mode === 'subscription') {
+    const auth = await verifyVerifiedUser(req);
+    if (auth.error) return res.status(auth.status).json({ error: auth.error });
+    userId = auth.user.id;
+    email = (email || auth.user.email || '').trim().toLowerCase();
+    const emailCheck = validateAccountEmail(email);
+    if (!emailCheck.ok) {
+      return res.status(400).json({ error: emailCheck.error });
+    }
+    email = emailCheck.email;
+    if (auth.user.email && email !== auth.user.email.trim().toLowerCase()) {
+      return res.status(403).json({ error: 'Email must match your signed-in account.' });
+    }
+  } else {
+    const auth = await verifyVerifiedUser(req);
+    if (auth.error) return res.status(auth.status).json({ error: auth.error });
+    userId = auth.user.id;
+    email = (email || auth.user.email || '').trim().toLowerCase();
+    const emailCheck = validateAccountEmail(email);
+    if (!emailCheck.ok) {
+      return res.status(400).json({ error: emailCheck.error });
+    }
+    email = emailCheck.email;
+    if (auth.user.email && email !== auth.user.email.trim().toLowerCase()) {
+      return res.status(403).json({ error: 'Email must match your signed-in account.' });
+    }
+  }
+
   const stripe = new Stripe(sk);
   const origin = siteOrigin(req);
+  const embedded = parsed.body?.embedded === true;
 
   try {
-    const session = await stripe.checkout.sessions.create({
+    const sessionParams = {
       mode,
       customer_email: email,
       line_items: built.lineItems,
-      success_url: `${origin}/checkout-success.html?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url:
-        mode === 'subscription'
-          ? `${origin}/checkout.html?plan=monthly&canceled=1`
-          : `${origin}/checkout.html?canceled=1`,
       metadata: {
         ...built.metadata,
         customer_email: email,
         ...(userId ? { supabase_user_id: userId } : {}),
       },
-      payment_method_types: mode === 'subscription' ? undefined : ['card'],
       allow_promotion_codes: false,
       billing_address_collection: 'auto',
+    };
+
+    if (embedded) {
+      sessionParams.ui_mode = 'embedded';
+      sessionParams.return_url = `${origin}/checkout-success.html?session_id={CHECKOUT_SESSION_ID}`;
+    } else {
+      sessionParams.success_url = `${origin}/checkout-success.html?session_id={CHECKOUT_SESSION_ID}`;
+      sessionParams.cancel_url =
+        mode === 'subscription'
+          ? `${origin}/gaviom-plus-checkout.html?canceled=1`
+          : `${origin}/checkout.html?canceled=1`;
+      if (mode !== 'subscription') {
+        sessionParams.payment_method_types = ['card'];
+      }
+    }
+
+    const session = await stripe.checkout.sessions.create(sessionParams);
+    return res.status(200).json({
+      url: session.url || null,
+      clientSecret: session.client_secret || null,
+      sessionId: session.id,
     });
-    return res.status(200).json({ url: session.url, sessionId: session.id });
   } catch (err) {
     console.error('stripe create-checkout:', err.message);
     return res.status(500).json({ error: 'Could not start checkout. Please try again.' });

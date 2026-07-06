@@ -41,7 +41,7 @@
     try {
       if (!window.GaviomAuth) await loadScripts();
       if (!window.GaviomAuth || !window.GaviomAuth.configReady()) return null;
-      return await window.GaviomAuth.getSession();
+      return await window.GaviomAuth.waitForSession();
     } catch (e) {
       return null;
     }
