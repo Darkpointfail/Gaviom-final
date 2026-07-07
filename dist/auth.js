@@ -345,6 +345,30 @@
     return data;
   }
 
+  async function completeResetViaApi(resetToken, resetType, password) {
+    var res = await fetch('/api/auth-complete-reset', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify({
+        token: resetToken,
+        type: resetType || 'recovery',
+        password: password,
+      }),
+    });
+    var data = {};
+    try {
+      data = await res.json();
+    } catch (e) {
+      /* ignore */
+    }
+    if (!res.ok) {
+      var apiMessage = normalizeAlertMessage(data.error || data.message || data.msg);
+      throw new Error(apiMessage || 'Could not save your new password.');
+    }
+    return data;
+  }
+
   async function signInViaApi(email, password) {
     var res = await fetch('/api/auth-signin', {
       method: 'POST',
@@ -1069,6 +1093,10 @@
     if (!form) return;
     var alertEl = $('[data-auth-alert]');
     var params = new URLSearchParams(window.location.search || '');
+    var resetToken = (params.get('token') || '').trim();
+    var resetType = (params.get('type') || 'recovery').trim();
+    var tokenBasedReset = !!resetToken;
+    var sessionReady = false;
 
     if (params.get('reset') === 'error') {
       showAlert(alertEl, 'This reset link expired or was already used. Request a new one from sign in.', 'error');
@@ -1076,26 +1104,8 @@
       return;
     }
 
-    try {
-      await bootstrapAuth();
-      var session = null;
-      if (isPasswordRecoveryLanding()) {
-        session = await waitForRecoverySession(12000);
-      } else {
-        session = await window.GaviomAuth.waitForSession(8000);
-      }
-      if (!session || !session.user) {
-        showAlert(alertEl, 'Open the reset link from your email, or request a new one from sign in.', 'error');
-        form.hidden = true;
-        return;
-      }
-      showAlert(
-        alertEl,
-        'Choose a new password for ' + (session.user.email || 'your account') + '.',
-        'success'
-      );
-    } catch (err) {
-      showAlert(alertEl, friendlyAuthError(err), 'error');
+    if (params.get('done') === '1') {
+      showAlert(alertEl, 'Password updated. You can sign in on any device with your new password.', 'success');
       form.hidden = true;
       return;
     }
@@ -1117,18 +1127,68 @@
         if (confirmEl) markFieldInvalid(confirmEl);
         return;
       }
+      if (!tokenBasedReset && !sessionReady) {
+        showAlert(alertEl, 'Your reset session is still loading. Wait a moment and try again.', 'error');
+        return;
+      }
       setLoading(form, true);
       try {
-        var apiData = await setPasswordViaApi(password);
+        var apiData = tokenBasedReset
+          ? await completeResetViaApi(resetToken, resetType, password)
+          : await setPasswordViaApi(password);
         await applyAuthSessionFromApi(apiData, 'PASSWORD_UPDATED');
-        showAlert(alertEl, 'Password updated. Redirecting to your account…', 'success');
-        window.location.replace('/account.html');
+        try {
+          history.replaceState(null, '', '/reset-password.html?done=1');
+        } catch (replaceErr) {
+          /* ignore */
+        }
+        showAlert(
+          alertEl,
+          'Password saved. You can now sign in on any device. Redirecting to your account…',
+          'success'
+        );
+        window.setTimeout(function () {
+          window.location.replace('/account.html');
+        }, 1200);
       } catch (err) {
         showAlert(alertEl, friendlyAuthError(err), 'error');
       } finally {
         setLoading(form, false);
       }
     });
+
+    if (tokenBasedReset) {
+      showAlert(
+        alertEl,
+        'Choose a new password. After saving, you can sign in on your computer or phone.',
+        'success'
+      );
+      return;
+    }
+
+    try {
+      await bootstrapAuth();
+      var session = null;
+      if (isPasswordRecoveryLanding()) {
+        session = await waitForRecoverySession(12000);
+      } else {
+        session = await window.GaviomAuth.waitForSession(8000);
+      }
+      if (!session || !session.user) {
+        showAlert(alertEl, 'Open the reset link from your email, or request a new one from sign in.', 'error');
+        form.hidden = true;
+        return;
+      }
+      sessionReady = true;
+      showAlert(
+        alertEl,
+        'Choose a new password for ' + (session.user.email || 'your account') + '.',
+        'success'
+      );
+    } catch (err) {
+      showAlert(alertEl, friendlyAuthError(err), 'error');
+      form.hidden = true;
+    }
   }
 
   async function guardSignedIn() {

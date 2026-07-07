@@ -1,5 +1,3 @@
-const publicCfg = require('./gaviom-supabase-public');
-const { adminConfig } = require('./supabase-admin');
 const { adminAuthConfig, formatServiceError } = require('./send-auth-confirmation');
 const { validateAccountEmail } = require('./email-validation');
 const { sendResendEmail, resendErrorMessage } = require('./resend-mail');
@@ -13,10 +11,6 @@ function escapeHtml(value) {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
-}
-
-function escapeJson(value) {
-  return JSON.stringify(value).replace(/</g, '\\u003c');
 }
 
 function extractActionLink(payload) {
@@ -36,7 +30,7 @@ function buildResetUrlFromActionLink(actionLink, preferredType) {
     if (!token) return actionLink;
     const origin = (process.env.AUTH_CONFIRM_ORIGIN || 'https://gaviom.com').replace(/\/$/, '');
     const params = new URLSearchParams({ token, type });
-    return `${origin}/api/auth-reset?${params.toString()}`;
+    return `${origin}/reset-password.html?${params.toString()}`;
   } catch {
     return actionLink;
   }
@@ -186,55 +180,6 @@ async function verifyRecoveryToken(url, anonKey, token, primaryType) {
   return { error: lastError || { message: 'verify failed' } };
 }
 
-function resetLandingHtml(accessToken, refreshToken) {
-  const tokensJson = escapeJson({
-    access_token: accessToken,
-    refresh_token: refreshToken,
-  });
-
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Reset password, Gaviom</title>
-  <style>
-    body { font-family: system-ui, sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; color: #0a1628; background: #f8fafc; }
-    .box { text-align: center; padding: 2rem; max-width: 28rem; }
-    .box p { margin: 0; line-height: 1.6; }
-  </style>
-</head>
-<body>
-  <div class="box">
-    <p>Link verified. Opening password reset…</p>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-  <script src="/auth-config.js"></script>
-  <script>
-  (async function () {
-    var tokens = ${tokensJson};
-    try {
-      var cfg = window.GAVIOM_AUTH_CONFIG;
-      if (!cfg || !cfg.supabaseUrl || !cfg.supabaseAnonKey) throw new Error('config');
-      var client = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey, {
-        auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false }
-      });
-      var result = await client.auth.setSession({
-        access_token: tokens.access_token,
-        refresh_token: tokens.refresh_token
-      });
-      if (result.error) throw result.error;
-      try { history.replaceState(null, '', '/reset-password.html'); } catch (e) {}
-      window.location.replace('/reset-password.html?ready=1');
-    } catch (e) {
-      window.location.replace('/reset-password.html?reset=error');
-    }
-  })();
-  </script>
-</body>
-</html>`;
-}
-
 async function deliverPasswordResetEmail(email) {
   const apiKey = (process.env.RESEND_API_KEY || '').trim();
   if (!apiKey || apiKey.includes('REPLACE')) {
@@ -305,30 +250,8 @@ async function handleAuthReset(req, res) {
     return res.redirect(302, '/reset-password.html?reset=error');
   }
 
-  const cfg = adminConfig();
-  const anonKey = (process.env.SUPABASE_ANON_KEY || publicCfg.supabaseAnonKey || '').trim();
-  const url = (process.env.SUPABASE_URL || publicCfg.supabaseUrl || '').trim();
-
-  if (!cfg || !anonKey || !url) {
-    return res.status(503).send('Password reset is not configured.');
-  }
-
-  try {
-    const verified = await verifyRecoveryToken(url, anonKey, token, type);
-    if (verified.error || !verified.data) {
-      console.error('auth-reset:verify', verified.error);
-      return res.redirect(302, '/reset-password.html?reset=error');
-    }
-
-    res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    res.setHeader('Cache-Control', 'no-store');
-    return res.status(200).send(
-      resetLandingHtml(verified.data.access_token, verified.data.refresh_token)
-    );
-  } catch (err) {
-    console.error('auth-reset:', err.message);
-    return res.redirect(302, '/reset-password.html?reset=error');
-  }
+  const params = new URLSearchParams({ token, type });
+  return res.redirect(302, `/reset-password.html?${params.toString()}`);
 }
 
 module.exports = {
@@ -336,4 +259,5 @@ module.exports = {
   sendPasswordResetEmail,
   handleAuthReset,
   buildResetUrlFromActionLink,
+  verifyRecoveryToken,
 };
