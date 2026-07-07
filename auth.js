@@ -138,6 +138,7 @@
     var hash = window.location.hash || '';
     return (
       params.get('verified') === '1' ||
+      params.has('confirm_token') ||
       params.has('code') ||
       params.has('token_hash') ||
       hash.indexOf('access_token=') !== -1 ||
@@ -369,6 +370,29 @@
     return data;
   }
 
+  async function completeConfirmViaApi(confirmToken, confirmType) {
+    var res = await fetch('/api/auth-complete-confirm', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify({
+        confirm_token: confirmToken,
+        type: confirmType || 'invite',
+      }),
+    });
+    var data = {};
+    try {
+      data = await res.json();
+    } catch (e) {
+      /* ignore */
+    }
+    if (!res.ok) {
+      var apiMessage = normalizeAlertMessage(data.error || data.message || data.msg);
+      throw new Error(apiMessage || 'Could not confirm your email.');
+    }
+    return data;
+  }
+
   async function signInViaApi(email, password) {
     var res = await fetch('/api/auth-signin', {
       method: 'POST',
@@ -396,6 +420,12 @@
     return data;
   }
 
+  function pickSessionUser(apiData, clientUser, fallbackUser) {
+    if (apiData && apiData.user) return apiData.user;
+    if (clientUser) return clientUser;
+    return fallbackUser || null;
+  }
+
   async function applyAuthSessionFromApi(apiData, eventLabel) {
     var client = getClient();
     var setResult = await client.auth.setSession({
@@ -404,7 +434,12 @@
     });
     if (setResult.error) throw setResult.error;
     var userResult = await client.auth.getUser();
-    var user = userResult.data && userResult.data.user ? userResult.data.user : apiData.user;
+    var clientUser = userResult.data && userResult.data.user ? userResult.data.user : null;
+    var user = pickSessionUser(
+      apiData,
+      clientUser,
+      setResult.data && setResult.data.session ? setResult.data.session.user : null
+    );
     if (setResult.data && setResult.data.session) {
       var session = Object.assign({}, setResult.data.session, { user: user || setResult.data.session.user });
       applySession(session, eventLabel || 'SIGNED_IN');
@@ -460,9 +495,12 @@
     persistApiSessionToStorage(apiData);
     var sessionResult = await client.auth.getSession();
     if (sessionResult.data && sessionResult.data.session && sessionResult.data.session.user) {
-      applySession(sessionResult.data.session, eventLabel || 'SIGNED_IN');
+      var storedSession = Object.assign({}, sessionResult.data.session, {
+        user: pickSessionUser(apiData, sessionResult.data.session.user, null),
+      });
+      applySession(storedSession, eventLabel || 'SIGNED_IN');
       emitAuthChanged('SIGNED_IN');
-      return sessionResult.data.session;
+      return storedSession;
     }
     throw lastErr || new Error('Could not establish session. Clear site data for gaviom.com and try again.');
   }
@@ -1249,6 +1287,11 @@
     if (page === 'reset-password') return;
     if (page !== 'signin' && page !== 'signup') return;
 
+    if (page === 'signin') {
+      var signinParams = new URLSearchParams(window.location.search || '');
+      if (signinParams.get('confirm_token')) return;
+    }
+
     if (isEmailConfirmationLanding()) {
       showConfirmationSigningIn();
       var landed = await completeEmailConfirmationLanding();
@@ -1271,6 +1314,38 @@
     }
   }
 
+  async function runEmailConfirmFromUrl(params, alertEl) {
+    var confirmToken = (params.get('confirm_token') || '').trim();
+    if (!confirmToken) return false;
+    var confirmType = (params.get('type') || 'invite').trim();
+    showConfirmationSigningIn();
+    try {
+      var client = getClient();
+      await clearLocalSession(client);
+      var apiData = await completeConfirmViaApi(confirmToken, confirmType);
+      await applyAuthSessionFromApiRobust(apiData, 'SIGNED_IN');
+      try {
+        params.delete('confirm_token');
+        params.delete('type');
+        var search = params.toString();
+        history.replaceState(null, '', window.location.pathname + (search ? '?' + search : ''));
+      } catch (scrubErr) {
+        /* ignore */
+      }
+      showAlert(alertEl, 'Email confirmed. Redirecting to your account…', 'success');
+      var dest = readPostVerifyNext('/account.html');
+      clearPostVerifyNext();
+      window.setTimeout(function () {
+        window.location.replace(dest);
+      }, 800);
+      return true;
+    } catch (err) {
+      logAuth('confirm:token-error', err.message || String(err));
+      showAlert(alertEl, friendlyAuthError(err), 'error');
+      return false;
+    }
+  }
+
   async function initSignIn() {
     var form = $('#auth-signin-form');
     if (!form) return;
@@ -1279,6 +1354,12 @@
     if (rememberEl) rememberEl.checked = shouldRememberMe();
 
     var params = new URLSearchParams(window.location.search);
+    if (params.get('confirm_token')) {
+      storePostVerifyNext();
+      await runEmailConfirmFromUrl(params, alertEl);
+      return;
+    }
+
     if (params.get('reset') === 'done') {
       showAlert(alertEl, 'Your password was updated. Sign in with your new password.', 'success');
     } else if (params.get('verified') === '1') {

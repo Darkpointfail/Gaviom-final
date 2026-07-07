@@ -905,6 +905,16 @@
     }
 
     if (window.GaviomAuth.isEmailConfirmed && !window.GaviomAuth.isEmailConfirmed(session.user)) {
+      if (window.GaviomAuth.refreshUser) {
+        var refreshedUser = await window.GaviomAuth.refreshUser();
+        if (refreshedUser) {
+          session = Object.assign({}, session, { user: refreshedUser });
+          state.session = session;
+        }
+      }
+    }
+
+    if (window.GaviomAuth.isEmailConfirmed && !window.GaviomAuth.isEmailConfirmed(session.user)) {
       window.location.replace('/signin.html?confirm=required&next=' + encodeURIComponent('/account.html'));
       return;
     }
