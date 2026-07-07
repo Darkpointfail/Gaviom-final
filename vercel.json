@@ -237,6 +237,10 @@
       "destination": "/api/account?action=confirm-email"
     },
     {
+      "source": "/api/auth-signin",
+      "destination": "/api/account?action=signin"
+    },
+    {
       "source": "/api/auth-set-password",
       "destination": "/api/account?action=set-password"
     },

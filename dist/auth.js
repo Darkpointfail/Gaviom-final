@@ -345,6 +345,51 @@
     return data;
   }
 
+  async function signInViaApi(email, password) {
+    var res = await fetch('/api/auth-signin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify({
+        email: String(email || '').trim().toLowerCase(),
+        password: password,
+      }),
+    });
+    var data = {};
+    try {
+      data = await res.json();
+    } catch (e) {
+      /* ignore */
+    }
+    if (!res.ok) {
+      var err = new Error(normalizeAlertMessage(data.error || data.message || data.msg) || 'Sign in failed.');
+      err.code = data.code || null;
+      throw err;
+    }
+    if (!data.access_token || !data.refresh_token) {
+      throw new Error('Sign in failed. Try again.');
+    }
+    return data;
+  }
+
+  async function applyAuthSessionFromApi(apiData, eventLabel) {
+    var client = getClient();
+    var setResult = await client.auth.setSession({
+      access_token: apiData.access_token,
+      refresh_token: apiData.refresh_token,
+    });
+    if (setResult.error) throw setResult.error;
+    var userResult = await client.auth.getUser();
+    var user = userResult.data && userResult.data.user ? userResult.data.user : apiData.user;
+    if (setResult.data && setResult.data.session) {
+      var session = Object.assign({}, setResult.data.session, { user: user || setResult.data.session.user });
+      applySession(session, eventLabel || 'SIGNED_IN');
+      emitAuthChanged('SIGNED_IN');
+      return session;
+    }
+    throw new Error('Could not establish session.');
+  }
+
   async function signupViaApi(payload) {
     var res = await fetch('/api/auth-signup', {
       method: 'POST',
@@ -1074,11 +1119,10 @@
       }
       setLoading(form, true);
       try {
-        await setPasswordViaApi(password);
-        var client = getClient();
-        await clearLocalSession(client);
-        showAlert(alertEl, 'Password updated. Sign in with your new password.', 'success');
-        window.location.replace('/signin.html?reset=done');
+        var apiData = await setPasswordViaApi(password);
+        await applyAuthSessionFromApi(apiData, 'PASSWORD_UPDATED');
+        showAlert(alertEl, 'Password updated. Redirecting to your account…', 'success');
+        window.location.replace('/account.html');
       } catch (err) {
         showAlert(alertEl, friendlyAuthError(err), 'error');
       } finally {
@@ -1156,33 +1200,40 @@
         showAlert(alertEl, 'Enter your email and password.', 'error');
         return;
       }
+      email = email.trim().toLowerCase();
       setRememberMe(!rememberEl || rememberEl.checked);
       setLoading(form, true);
       try {
-        var client = getClient();
-        var result = await withAuthTimeout(
-          client.auth.signInWithPassword({ email: email.trim(), password: password }),
-          20000,
-          'Sign in timed out. Check your connection and try again.'
-        );
-        if (result.error) throw result.error;
-        if (!result.data || !result.data.session) {
-          throw { code: 'invalid_credentials', message: 'Invalid login credentials' };
+        var signedIn = false;
+        try {
+          var apiData = await signInViaApi(email, password);
+          await applyAuthSessionFromApi(apiData, 'SIGNED_IN');
+          signedIn = true;
+        } catch (apiErr) {
+          logAuth('signin:api-failed', apiErr.message);
+          if (apiErr.code === 'email_not_confirmed') throw apiErr;
         }
-        var userResult = await client.auth.getUser();
-        var freshUser = userResult.data && userResult.data.user ? userResult.data.user : result.data.session.user;
-        if (userResult.error && !isEmailConfirmed(result.data.session.user)) {
-          throw userResult.error;
+        if (!signedIn) {
+          var client = getClient();
+          var result = await withAuthTimeout(
+            client.auth.signInWithPassword({ email: email, password: password }),
+            20000,
+            'Sign in timed out. Check your connection and try again.'
+          );
+          if (result.error) throw result.error;
+          if (!result.data || !result.data.session) {
+            throw { code: 'invalid_credentials', message: 'Invalid login credentials' };
+          }
+          var userResult = await client.auth.getUser();
+          var freshUser = userResult.data && userResult.data.user ? userResult.data.user : result.data.session.user;
+          if (!isEmailConfirmed(freshUser)) {
+            await clearLocalSession(client);
+            throw { code: 'email_not_confirmed', message: 'Email not confirmed' };
+          }
+          applySession(Object.assign({}, result.data.session, { user: freshUser }), 'SIGNED_IN');
+          emitAuthChanged('SIGNED_IN');
         }
-        if (!isEmailConfirmed(freshUser)) {
-          await clearLocalSession(client);
-          throw { code: 'email_not_confirmed', message: 'Email not confirmed' };
-        }
-        if (freshUser && result.data.session) {
-          result.data.session = Object.assign({}, result.data.session, { user: freshUser });
-          applySession(result.data.session, 'SIGNED_IN');
-        }
-        logAuth('signin:ok', { userId: freshUser.id, email: freshUser.email });
+        logAuth('signin:ok', { email: email });
         showAlert(alertEl, 'Signed in. Redirecting…', 'success');
         redirectAfterAuth();
       } catch (err) {
