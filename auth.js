@@ -1179,18 +1179,9 @@
         try {
           await sendPasswordResetViaApi(email.trim());
           showAlert(alertEl, 'Password reset email sent. Check your inbox and spam folder.', 'success');
-        } catch (apiErr) {
-          logAuth('forgot:api-failed', apiErr.message);
-          try {
-            var client = getClient();
-            var result = await client.auth.resetPasswordForEmail(email.trim(), {
-              redirectTo: window.location.origin + '/reset-password.html',
-            });
-            if (result.error) throw result.error;
-            showAlert(alertEl, 'Password reset email sent. Check your inbox.', 'success');
-          } catch (err) {
-            showAlert(alertEl, friendlyAuthError(err), 'error');
-          }
+        } catch (err) {
+          logAuth('forgot:error', err.message);
+          showAlert(alertEl, friendlyAuthError(err), 'error');
         } finally {
           setLoading(form, false);
         }
@@ -1435,17 +1426,7 @@
       if (!configReady()) throw new Error('Account service is not configured.');
       var value = String(email || '').trim();
       if (!value) throw new Error('Enter your email address.');
-      try {
-        await sendPasswordResetViaApi(value);
-        return true;
-      } catch (apiErr) {
-        logAuth('reset:api-failed', apiErr.message);
-      }
-      var client = getClient();
-      var result = await client.auth.resetPasswordForEmail(value, {
-        redirectTo: window.location.origin + '/reset-password.html',
-      });
-      if (result.error) throw result.error;
+      await sendPasswordResetViaApi(value);
       return true;
     },
     signOut: async function () {
