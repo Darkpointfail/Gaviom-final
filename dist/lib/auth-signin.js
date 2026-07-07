@@ -77,6 +77,8 @@ async function signInWithPassword(email, password) {
       ok: true,
       access_token: attempt.data.access_token,
       refresh_token: attempt.data.refresh_token,
+      expires_in: attempt.data.expires_in,
+      expires_at: attempt.data.expires_at,
       user: attempt.data.user || null,
     };
   }
@@ -128,6 +130,8 @@ async function handleAuthSignin(req, res) {
     ok: true,
     access_token: result.access_token,
     refresh_token: result.refresh_token,
+    expires_in: result.expires_in,
+    expires_at: result.expires_at,
     user: result.user,
   });
 }

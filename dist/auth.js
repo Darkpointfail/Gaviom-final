@@ -414,6 +414,59 @@
     throw new Error('Could not establish session.');
   }
 
+  function persistApiSessionToStorage(apiData) {
+    var key = getSupabaseStorageKey();
+    if (!key || !apiData || !apiData.access_token || !apiData.refresh_token) return false;
+    var expiresIn = Number(apiData.expires_in);
+    if (!expiresIn || Number.isNaN(expiresIn)) expiresIn = 3600;
+    var expiresAt = Number(apiData.expires_at);
+    if (!expiresAt || Number.isNaN(expiresAt)) {
+      expiresAt = Math.round(Date.now() / 1000) + expiresIn;
+    }
+    var payload = {
+      access_token: apiData.access_token,
+      refresh_token: apiData.refresh_token,
+      expires_in: expiresIn,
+      expires_at: expiresAt,
+      token_type: 'bearer',
+      user: apiData.user || null,
+    };
+    try {
+      var persist = localStorage.getItem(AUTH_PERSIST_KEY) !== '0';
+      (persist ? localStorage : sessionStorage).setItem(key, JSON.stringify(payload));
+      (persist ? sessionStorage : localStorage).removeItem(key);
+      return true;
+    } catch (e) {
+      logAuth('persist-session:error', e.message);
+      return false;
+    }
+  }
+
+  async function applyAuthSessionFromApiRobust(apiData, eventLabel) {
+    var client = getClient();
+    var lastErr = null;
+    for (var attempt = 0; attempt < 2; attempt++) {
+      try {
+        if (attempt > 0) {
+          await clearLocalSession(client);
+          persistApiSessionToStorage(apiData);
+        }
+        return await applyAuthSessionFromApi(apiData, eventLabel);
+      } catch (err) {
+        lastErr = err;
+        logAuth('set-session:retry', err.message || String(err));
+      }
+    }
+    persistApiSessionToStorage(apiData);
+    var sessionResult = await client.auth.getSession();
+    if (sessionResult.data && sessionResult.data.session && sessionResult.data.session.user) {
+      applySession(sessionResult.data.session, eventLabel || 'SIGNED_IN');
+      emitAuthChanged('SIGNED_IN');
+      return sessionResult.data.session;
+    }
+    throw lastErr || new Error('Could not establish session. Clear site data for gaviom.com and try again.');
+  }
+
   async function signupViaApi(payload) {
     var res = await fetch('/api/auth-signup', {
       method: 'POST',
@@ -1136,7 +1189,7 @@
         var apiData = tokenBasedReset
           ? await completeResetViaApi(resetToken, resetType, password)
           : await setPasswordViaApi(password);
-        await applyAuthSessionFromApi(apiData, 'PASSWORD_UPDATED');
+        await applyAuthSessionFromApiRobust(apiData, 'PASSWORD_UPDATED');
         try {
           history.replaceState(null, '', '/reset-password.html?done=1');
         } catch (replaceErr) {
@@ -1261,42 +1314,18 @@
         return;
       }
       email = email.trim().toLowerCase();
-      setRememberMe(!rememberEl || rememberEl.checked);
       setLoading(form, true);
       try {
-        var signedIn = false;
-        try {
-          var apiData = await signInViaApi(email, password);
-          await applyAuthSessionFromApi(apiData, 'SIGNED_IN');
-          signedIn = true;
-        } catch (apiErr) {
-          logAuth('signin:api-failed', apiErr.message);
-          if (apiErr.code === 'email_not_confirmed') throw apiErr;
-        }
-        if (!signedIn) {
-          var client = getClient();
-          var result = await withAuthTimeout(
-            client.auth.signInWithPassword({ email: email, password: password }),
-            20000,
-            'Sign in timed out. Check your connection and try again.'
-          );
-          if (result.error) throw result.error;
-          if (!result.data || !result.data.session) {
-            throw { code: 'invalid_credentials', message: 'Invalid login credentials' };
-          }
-          var userResult = await client.auth.getUser();
-          var freshUser = userResult.data && userResult.data.user ? userResult.data.user : result.data.session.user;
-          if (!isEmailConfirmed(freshUser)) {
-            await clearLocalSession(client);
-            throw { code: 'email_not_confirmed', message: 'Email not confirmed' };
-          }
-          applySession(Object.assign({}, result.data.session, { user: freshUser }), 'SIGNED_IN');
-          emitAuthChanged('SIGNED_IN');
-        }
+        var client = getClient();
+        await clearLocalSession(client);
+        setRememberMe(!rememberEl || rememberEl.checked);
+        var apiData = await signInViaApi(email, password);
+        await applyAuthSessionFromApiRobust(apiData, 'SIGNED_IN');
         logAuth('signin:ok', { email: email });
         showAlert(alertEl, 'Signed in. Redirecting…', 'success');
         redirectAfterAuth();
       } catch (err) {
+        logAuth('signin:error', err.message || String(err));
         showAlert(alertEl, friendlyAuthError(err), 'error');
       } finally {
         setLoading(form, false);
