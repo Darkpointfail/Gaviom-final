@@ -3,6 +3,7 @@ const { verifyBearerUser } = require('../lib/supabase-user');
 const { sendAuthConfirmationEmail } = require('../lib/send-auth-confirmation');
 const { handleAuthSignup } = require('../lib/auth-signup');
 const { handleAuthConfirm } = require('../lib/auth-confirm-email');
+const { sendPasswordResetEmail, handleAuthReset } = require('../lib/auth-reset-password');
 
 function resolveAction(req) {
   const q = req.query?.action;
@@ -10,6 +11,8 @@ function resolveAction(req) {
   const path = (req.url || '').split('?')[0] || '';
   if (path.includes('auth-signup')) return 'signup';
   if (path.includes('auth-confirm')) return 'confirm-email';
+  if (path.includes('auth-reset-password')) return 'reset-password-email';
+  if (path.includes('auth-reset')) return 'reset-password';
   if (path.includes('auth-confirmation-email') || path.includes('confirmation-email')) {
     return 'confirmation-email';
   }
@@ -159,6 +162,14 @@ module.exports = async function handler(req, res) {
 
   if (action === 'confirm-email') {
     return handleAuthConfirm(req, res);
+  }
+
+  if (action === 'reset-password-email') {
+    return sendPasswordResetEmail(req, res);
+  }
+
+  if (action === 'reset-password') {
+    return handleAuthReset(req, res);
   }
 
   return res.status(400).json({ error: 'Unknown account action' });

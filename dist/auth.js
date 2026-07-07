@@ -300,6 +300,26 @@
     return data;
   }
 
+  async function sendPasswordResetViaApi(email) {
+    var res = await fetch('/api/auth-reset-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify({ email: String(email || '').trim() }),
+    });
+    var data = {};
+    try {
+      data = await res.json();
+    } catch (e) {
+      /* ignore */
+    }
+    if (!res.ok) {
+      var apiMessage = normalizeAlertMessage(data.error || data.message || data.msg);
+      throw new Error(apiMessage || 'Could not send password reset email.');
+    }
+    return data;
+  }
+
   async function signupViaApi(payload) {
     var res = await fetch('/api/auth-signup', {
       method: 'POST',
@@ -944,8 +964,107 @@
     });
   }
 
+  async function waitForRecoverySession(maxWaitMs) {
+    var client = getClient();
+    var deadline = Date.now() + (maxWaitMs || 12000);
+
+    while (Date.now() < deadline) {
+      var session = await establishSessionFromUrl(client);
+      if (session && session.user) return session;
+      var result = await client.auth.getSession();
+      if (result.data && result.data.session && result.data.session.user) {
+        return result.data.session;
+      }
+      await new Promise(function (resolve) {
+        setTimeout(resolve, 200);
+      });
+    }
+
+    return null;
+  }
+
+  function isPasswordRecoveryLanding() {
+    var params = new URLSearchParams(window.location.search || '');
+    var hash = window.location.hash || '';
+    return (
+      params.get('ready') === '1' ||
+      params.has('code') ||
+      hash.indexOf('type=recovery') !== -1 ||
+      hash.indexOf('access_token=') !== -1
+    );
+  }
+
+  async function initResetPassword() {
+    var form = $('#auth-reset-password-form');
+    if (!form) return;
+    var alertEl = $('[data-auth-alert]');
+    var params = new URLSearchParams(window.location.search || '');
+
+    if (params.get('reset') === 'error') {
+      showAlert(alertEl, 'This reset link expired or was already used. Request a new one from sign in.', 'error');
+      form.hidden = true;
+      return;
+    }
+
+    try {
+      await bootstrapAuth();
+      var session = null;
+      if (isPasswordRecoveryLanding()) {
+        session = await waitForRecoverySession(12000);
+      } else {
+        session = await window.GaviomAuth.waitForSession(8000);
+      }
+      if (!session || !session.user) {
+        showAlert(alertEl, 'Open the reset link from your email, or request a new one from sign in.', 'error');
+        form.hidden = true;
+        return;
+      }
+      showAlert(
+        alertEl,
+        'Choose a new password for ' + (session.user.email || 'your account') + '.',
+        'success'
+      );
+    } catch (err) {
+      showAlert(alertEl, friendlyAuthError(err), 'error');
+      form.hidden = true;
+      return;
+    }
+
+    form.addEventListener('submit', async function (ev) {
+      ev.preventDefault();
+      showAlert(alertEl, '', '');
+      var passwordEl = $('#reset-password');
+      var confirmEl = $('#reset-password-confirm');
+      var password = passwordEl ? passwordEl.value : '';
+      var confirm = confirmEl ? confirmEl.value : '';
+      if (!password || password.length < 8) {
+        showAlert(alertEl, 'Choose a password with at least 8 characters.', 'error');
+        if (passwordEl) markFieldInvalid(passwordEl);
+        return;
+      }
+      if (password !== confirm) {
+        showAlert(alertEl, 'Passwords do not match.', 'error');
+        if (confirmEl) markFieldInvalid(confirmEl);
+        return;
+      }
+      setLoading(form, true);
+      try {
+        var client = getClient();
+        var result = await client.auth.updateUser({ password: password });
+        if (result.error) throw result.error;
+        showAlert(alertEl, 'Password updated. Redirecting to your account…', 'success');
+        window.location.replace('/account.html');
+      } catch (err) {
+        showAlert(alertEl, friendlyAuthError(err), 'error');
+      } finally {
+        setLoading(form, false);
+      }
+    });
+  }
+
   async function guardSignedIn() {
     var page = document.body.dataset.authPage;
+    if (page === 'reset-password') return;
     if (page !== 'signin' && page !== 'signup') return;
 
     if (isEmailConfirmationLanding()) {
@@ -1058,14 +1177,20 @@
         }
         setLoading(form, true);
         try {
-          var client = getClient();
-          var result = await client.auth.resetPasswordForEmail(email.trim(), {
-            redirectTo: window.location.origin + '/signin.html',
-          });
-          if (result.error) throw result.error;
-          showAlert(alertEl, 'Password reset email sent. Check your inbox.', 'success');
-        } catch (err) {
-          showAlert(alertEl, friendlyAuthError(err), 'error');
+          await sendPasswordResetViaApi(email.trim());
+          showAlert(alertEl, 'Password reset email sent. Check your inbox and spam folder.', 'success');
+        } catch (apiErr) {
+          logAuth('forgot:api-failed', apiErr.message);
+          try {
+            var client = getClient();
+            var result = await client.auth.resetPasswordForEmail(email.trim(), {
+              redirectTo: window.location.origin + '/reset-password.html',
+            });
+            if (result.error) throw result.error;
+            showAlert(alertEl, 'Password reset email sent. Check your inbox.', 'success');
+          } catch (err) {
+            showAlert(alertEl, friendlyAuthError(err), 'error');
+          }
         } finally {
           setLoading(form, false);
         }
@@ -1176,6 +1301,7 @@
     var page = document.body.dataset.authPage;
     if (page === 'signin') initSignIn();
     if (page === 'signup') initSignUp();
+    if (page === 'reset-password') initResetPassword();
   }
 
   if (document.readyState === 'loading') {
@@ -1301,6 +1427,23 @@
         type: 'signup',
         email: value,
         options: { emailRedirectTo: emailConfirmRedirectUrl() },
+      });
+      if (result.error) throw result.error;
+      return true;
+    },
+    requestPasswordReset: async function (email) {
+      if (!configReady()) throw new Error('Account service is not configured.');
+      var value = String(email || '').trim();
+      if (!value) throw new Error('Enter your email address.');
+      try {
+        await sendPasswordResetViaApi(value);
+        return true;
+      } catch (apiErr) {
+        logAuth('reset:api-failed', apiErr.message);
+      }
+      var client = getClient();
+      var result = await client.auth.resetPasswordForEmail(value, {
+        redirectTo: window.location.origin + '/reset-password.html',
       });
       if (result.error) throw result.error;
       return true;

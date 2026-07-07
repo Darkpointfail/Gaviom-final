@@ -755,11 +755,7 @@
     var email = state.session.user.email;
     if (!email) return;
     try {
-      var client = window.GaviomAuth.getClient();
-      var result = await client.auth.resetPasswordForEmail(email, {
-        redirectTo: window.location.origin + '/signin.html',
-      });
-      if (result.error) throw result.error;
+      await window.GaviomAuth.requestPasswordReset(email);
       showAlert('Password reset email sent.', 'success');
     } catch (err) {
       showAlert(window.GaviomAuth.friendlyAuthError(err), 'error');
