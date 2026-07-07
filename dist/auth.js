@@ -320,6 +320,31 @@
     return data;
   }
 
+  async function setPasswordViaApi(password) {
+    var token = await window.GaviomAuth.getAccessToken();
+    if (!token) throw new Error('Your reset session expired. Request a new password reset email.');
+    var res = await fetch('/api/auth-set-password', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+      credentials: 'same-origin',
+      body: JSON.stringify({ password: password }),
+    });
+    var data = {};
+    try {
+      data = await res.json();
+    } catch (e) {
+      /* ignore */
+    }
+    if (!res.ok) {
+      var apiMessage = normalizeAlertMessage(data.error || data.message || data.msg);
+      throw new Error(apiMessage || 'Could not save your new password.');
+    }
+    return data;
+  }
+
   async function signupViaApi(payload) {
     var res = await fetch('/api/auth-signup', {
       method: 'POST',
@@ -1049,11 +1074,11 @@
       }
       setLoading(form, true);
       try {
+        await setPasswordViaApi(password);
         var client = getClient();
-        var result = await client.auth.updateUser({ password: password });
-        if (result.error) throw result.error;
-        showAlert(alertEl, 'Password updated. Redirecting to your account…', 'success');
-        window.location.replace('/account.html');
+        await clearLocalSession(client);
+        showAlert(alertEl, 'Password updated. Sign in with your new password.', 'success');
+        window.location.replace('/signin.html?reset=done');
       } catch (err) {
         showAlert(alertEl, friendlyAuthError(err), 'error');
       } finally {
@@ -1097,7 +1122,9 @@
     if (rememberEl) rememberEl.checked = shouldRememberMe();
 
     var params = new URLSearchParams(window.location.search);
-    if (params.get('verified') === '1') {
+    if (params.get('reset') === 'done') {
+      showAlert(alertEl, 'Your password was updated. Sign in with your new password.', 'success');
+    } else if (params.get('verified') === '1') {
       showConfirmationSigningIn();
       waitForConfirmedSession(12000).then(function (session) {
         if (session && session.user && isEmailConfirmed(session.user)) {
