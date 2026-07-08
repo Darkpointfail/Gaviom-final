@@ -1391,6 +1391,16 @@
 
       if (proof && email) {
         apiData = await confirmProofViaApi(email, proof);
+        if (apiData && (apiData.signin_required || (apiData.email_confirmed && !apiData.access_token))) {
+          if (statusEl) statusEl.hidden = true;
+          if (fallbackEl) fallbackEl.hidden = false;
+          showAlert(
+            alertEl,
+            apiData.error || 'Your email is confirmed. Sign in with your password on the sign-in page.',
+            'success'
+          );
+          return true;
+        }
       } else if (confirmToken) {
         apiData = await completeConfirmViaApi(confirmToken, confirmType);
       } else {
