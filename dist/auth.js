@@ -393,6 +393,31 @@
     return data.user;
   }
 
+  async function confirmProofViaApi(email, proof) {
+    var res = await fetch('/api/auth-confirm-proof', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify({
+        email: String(email || '').trim().toLowerCase(),
+        proof: proof,
+      }),
+    });
+    var data = {};
+    try {
+      data = await res.json();
+    } catch (e) {
+      /* ignore */
+    }
+    if (!res.ok) {
+      var apiMessage = normalizeAlertMessage(data.error || data.message || data.msg);
+      var err = new Error(apiMessage || 'Could not confirm your email.');
+      err.email_confirmed = !!data.email_confirmed;
+      throw err;
+    }
+    return data;
+  }
+
   async function completeConfirmViaApi(confirmToken, confirmType) {
     var res = await fetch('/api/auth-complete-confirm', {
       method: 'POST',
@@ -1312,7 +1337,7 @@
 
     if (page === 'signin') {
       var signinParams = new URLSearchParams(window.location.search || '');
-      if (signinParams.get('confirm_token')) return;
+      if (signinParams.get('confirm_token') || (signinParams.get('proof') && signinParams.get('email'))) return;
     }
     if (page === 'callback') return;
 
@@ -1338,62 +1363,115 @@
     }
   }
 
+  async function finishAuthCallbackSuccess(alertEl, statusEl) {
+    if (statusEl) statusEl.hidden = true;
+    showAlert(alertEl, 'Email confirmed. Redirecting to your account…', 'success');
+    var dest = readPostVerifyNext('/account.html');
+    clearPostVerifyNext();
+    window.setTimeout(function () {
+      window.location.replace(dest);
+    }, 600);
+  }
+
+  async function runAuthCallbackConfirmation(params, alertEl, statusEl, fallbackEl, triggerEl) {
+    var proof = (params.get('proof') || '').trim();
+    var email = (params.get('email') || '').trim().toLowerCase();
+    var confirmToken = (params.get('confirm_token') || '').trim();
+    var confirmType = (params.get('type') || 'signup').trim();
+
+    if (triggerEl) {
+      triggerEl.disabled = true;
+      triggerEl.textContent = 'Confirming…';
+    }
+
+    try {
+      var client = getClient();
+      await clearLocalSession(client);
+      var apiData = null;
+
+      if (proof && email) {
+        apiData = await confirmProofViaApi(email, proof);
+      } else if (confirmToken) {
+        apiData = await completeConfirmViaApi(confirmToken, confirmType);
+      } else {
+        throw new Error('This confirmation link is invalid or expired.');
+      }
+
+      await applyAuthSessionFromApiRobust(apiData, 'SIGNED_IN');
+      try {
+        params.delete('proof');
+        params.delete('email');
+        params.delete('confirm_token');
+        params.delete('type');
+        var search = params.toString();
+        history.replaceState(null, '', window.location.pathname + (search ? '?' + search : ''));
+      } catch (scrubErr) {
+        /* ignore */
+      }
+      await finishAuthCallbackSuccess(alertEl, statusEl);
+      return true;
+    } catch (err) {
+      logAuth('callback:confirm-error', err.message || String(err));
+      if (statusEl) statusEl.hidden = true;
+      if (fallbackEl) fallbackEl.hidden = false;
+      if (err.email_confirmed) {
+        showAlert(
+          alertEl,
+          'Your email is confirmed. Sign in with your password on the sign-in page.',
+          'success'
+        );
+      } else {
+        showAlert(alertEl, friendlyAuthError(err), 'error');
+      }
+      if (triggerEl) {
+        triggerEl.disabled = false;
+        triggerEl.textContent = 'Confirm my email';
+      }
+      return false;
+    }
+  }
+
   async function initAuthCallback() {
     var alertEl = $('[data-auth-alert]');
     var statusEl = $('[data-auth-callback-status]');
     var fallbackEl = $('[data-auth-callback-fallback]');
+    var actionEl = $('[data-auth-callback-action]');
     var params = new URLSearchParams(window.location.search || '');
 
     storePostVerifyNext();
 
+    var proof = (params.get('proof') || '').trim();
+    var email = (params.get('email') || '').trim().toLowerCase();
     var confirmToken = (params.get('confirm_token') || '').trim();
-    var confirmType = (params.get('type') || 'signup').trim();
 
-    if (confirmToken) {
-      try {
-        var client = getClient();
-        await clearLocalSession(client);
-        var apiData = await completeConfirmViaApi(confirmToken, confirmType);
-        await applyAuthSessionFromApiRobust(apiData, 'SIGNED_IN');
-        if (statusEl) statusEl.hidden = true;
-        showAlert(alertEl, 'Email confirmed. Redirecting to your account…', 'success');
-        var dest = readPostVerifyNext('/account.html');
-        clearPostVerifyNext();
-        window.setTimeout(function () {
-          window.location.replace(dest);
-        }, 600);
-        return;
-      } catch (err) {
-        logAuth('callback:confirm-error', err.message || String(err));
-        if (statusEl) statusEl.hidden = true;
-        if (fallbackEl) fallbackEl.hidden = false;
-        showAlert(alertEl, friendlyAuthError(err), 'error');
-        return;
-      }
+    if (!proof && !confirmToken) {
+      if (statusEl) statusEl.hidden = true;
+      if (fallbackEl) fallbackEl.hidden = false;
+      showAlert(
+        alertEl,
+        'This confirmation link is invalid or expired. Go to sign in and use Resend confirmation.',
+        'error'
+      );
+      return;
     }
 
-    try {
-      await bootstrapAuth();
-      var session = await waitForConfirmedSession(12000);
-      if (session && session.user && isEmailConfirmed(session.user)) {
-        if (statusEl) statusEl.hidden = true;
-        showAlert(alertEl, 'Email confirmed. Redirecting to your account…', 'success');
-        var nextDest = readPostVerifyNext('/account.html');
-        clearPostVerifyNext();
-        window.location.replace(nextDest);
-        return;
-      }
-    } catch (legacyErr) {
-      logAuth('callback:legacy-error', legacyErr.message || String(legacyErr));
+    if (statusEl) {
+      statusEl.innerHTML =
+        '<p class="auth-verify-pending__msg">Ready to confirm' +
+        (email ? ' <strong>' + email + '</strong>' : ' your email') +
+        '.</p>' +
+        '<p class="auth-verify-pending__hint font-mono">Click the button below to finish. This avoids email scanners consuming your link.</p>';
     }
 
-    if (statusEl) statusEl.hidden = true;
-    if (fallbackEl) fallbackEl.hidden = false;
-    showAlert(
-      alertEl,
-      'This confirmation link is invalid or expired. Go to sign in and use Resend confirmation.',
-      'error'
-    );
+    if (actionEl) {
+      actionEl.hidden = false;
+      actionEl.addEventListener('click', function () {
+        runAuthCallbackConfirmation(params, alertEl, statusEl, fallbackEl, actionEl);
+      });
+      return;
+    }
+
+    await runAuthCallbackConfirmation(params, alertEl, statusEl, fallbackEl, null);
   }
 
   async function initSignIn() {
@@ -1404,7 +1482,7 @@
     if (rememberEl) rememberEl.checked = shouldRememberMe();
 
     var params = new URLSearchParams(window.location.search);
-    if (params.get('confirm_token')) {
+    if (params.get('confirm_token') || (params.get('proof') && params.get('email'))) {
       var legacyQuery = params.toString();
       window.location.replace('/auth-callback.html' + (legacyQuery ? '?' + legacyQuery : ''));
       return;

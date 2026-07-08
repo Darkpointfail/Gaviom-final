@@ -33,13 +33,15 @@
   <main class="auth-main">
     <div class="wrap auth-shell">
       <section class="auth-card" aria-label="Email confirmation status">
-        <h2 class="auth-card__title font-display">Confirming your email</h2>
-        <p class="auth-card__sub">Please wait while we verify your account.</p>
+        <h2 class="auth-card__title font-display">Confirm your email</h2>
+        <p class="auth-card__sub">One last step to activate your Gaviom account.</p>
         <p class="auth-alert" data-auth-alert hidden role="alert" aria-live="polite"></p>
         <div class="auth-verify-pending" data-auth-callback-status>
-          <p class="auth-verify-pending__msg">Verifying your confirmation link…</p>
-          <p class="auth-verify-pending__hint font-mono">You will be signed in and redirected automatically.</p>
+          <p class="auth-verify-pending__msg">Preparing email confirmation…</p>
         </div>
+        <button type="button" class="btn btn-primary btn-lg auth-submit" data-auth-callback-action hidden>
+          Confirm my email
+        </button>
         <p class="auth-legal font-mono" data-auth-callback-fallback hidden>
           Having trouble? <a href="/signin.html">Go to sign in</a> and use Resend confirmation.
         </p>
@@ -49,7 +51,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="/auth-config.js"></script>
-  <script src="/auth.js?v=20260714-confirm-hash"></script>
+  <script src="/auth.js?v=20260714-confirm-proof"></script>
 
   <script>
 (function () {

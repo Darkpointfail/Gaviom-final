@@ -3,6 +3,11 @@ const { validateAccountEmail } = require('./email-validation');
 const { sendResendEmail, resendErrorMessage } = require('./resend-mail');
 
 const { buildConfirmUrlFromActionLink, extractLinkProperties } = require('./auth-confirm-email');
+const {
+  createEmailConfirmProof,
+  buildProofConfirmUrl,
+} = require('./auth-confirm-proof');
+const { fetchAdminUserByEmail } = require('./auth-user');
 
 const FROM = (process.env.AUTH_CONFIRM_FROM || 'Gaviom <noreply@getgaviom.com>').trim();
 const REDIRECT = (process.env.AUTH_CONFIRM_REDIRECT || 'https://gaviom.com/auth-callback.html').trim();
@@ -140,11 +145,17 @@ async function deliverAuthConfirmationEmail(email) {
     return { ok: false, error: linkResult.error };
   }
 
-  const confirmUrl = buildConfirmUrlFromActionLink(linkResult.link, linkResult.verification_type || linkResult.type, {
-    hashed_token: linkResult.hashed_token,
-    verification_type: linkResult.verification_type || linkResult.type,
-    action_link: linkResult.link,
-  });
+  const cfg = adminAuthConfig();
+  const adminUser = cfg ? await fetchAdminUserByEmail(cfg, emailCheck.email) : null;
+  const proofResult = adminUser?.id ? createEmailConfirmProof(adminUser.id, emailCheck.email) : null;
+
+  const confirmUrl = proofResult?.proof
+    ? buildProofConfirmUrl(emailCheck.email, proofResult.proof)
+    : buildConfirmUrlFromActionLink(linkResult.link, linkResult.verification_type || linkResult.type, {
+        hashed_token: linkResult.hashed_token,
+        verification_type: linkResult.verification_type || linkResult.type,
+        action_link: linkResult.link,
+      });
   const mail = buildConfirmationEmail(emailCheck.email, confirmUrl);
   const sendResult = await sendResendEmail(apiKey, {
     from: FROM,
