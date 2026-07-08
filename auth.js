@@ -400,7 +400,7 @@
       credentials: 'same-origin',
       body: JSON.stringify({
         confirm_token: confirmToken,
-        type: confirmType || 'invite',
+        type: confirmType || 'signup',
       }),
     });
     var data = {};
@@ -1347,7 +1347,7 @@
     storePostVerifyNext();
 
     var confirmToken = (params.get('confirm_token') || '').trim();
-    var confirmType = (params.get('type') || 'invite').trim();
+    var confirmType = (params.get('type') || 'signup').trim();
 
     if (confirmToken) {
       try {

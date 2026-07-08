@@ -1,6 +1,11 @@
 const publicCfg = require('./gaviom-supabase-public');
 const { adminConfig } = require('./supabase-admin');
-const { verifyEmailToken, forceConfirmUser, isUserConfirmed } = require('./auth-confirm-email');
+const { verifyEmailToken, forceConfirmUser } = require('./auth-confirm-email');
+const {
+  isUserEmailConfirmed,
+  fetchAdminUserById,
+  mergeCanonicalUser,
+} = require('./auth-user');
 
 async function refreshVerifiedSession(url, anonKey, refreshToken) {
   const refreshRes = await fetch(`${url}/auth/v1/token?grant_type=refresh_token`, {
@@ -33,7 +38,7 @@ async function completeEmailConfirmation(token, type) {
     return { error: 'Confirmation link is invalid or expired.', status: 400 };
   }
 
-  const verified = await verifyEmailToken(url, anonKey, confirmToken, type || 'invite');
+  const verified = await verifyEmailToken(url, anonKey, confirmToken, type || 'signup');
   if (verified.error || !verified.data?.access_token) {
     return {
       error: 'This confirmation link expired or was already used. Request a new one from sign in.',
@@ -44,27 +49,37 @@ async function completeEmailConfirmation(token, type) {
   const data = verified.data;
   const userId = data.user && data.user.id;
 
-  if (userId) {
-    await forceConfirmUser(cfg, userId);
+  if (!userId) {
+    return { error: 'Could not identify your account from this confirmation link.', status: 502 };
   }
 
-  if (userId && !isUserConfirmed(data.user)) {
-    const refreshed = await refreshVerifiedSession(url, anonKey, data.refresh_token);
-    if (refreshed) {
-      data.access_token = refreshed.access_token;
-      data.refresh_token = refreshed.refresh_token;
-      if (refreshed.user) data.user = refreshed.user;
-      if (refreshed.expires_in) data.expires_in = refreshed.expires_in;
-      if (refreshed.expires_at) data.expires_at = refreshed.expires_at;
-    }
+  const confirmed = await forceConfirmUser(cfg, userId);
+  if (!confirmed) {
+    return {
+      error: 'Could not confirm your email on the server. Try Resend confirmation from sign in.',
+      status: 502,
+    };
   }
 
-  if (userId && data.user && !isUserConfirmed(data.user)) {
-    data.user = Object.assign({}, data.user, {
-      email_confirmed_at: data.user.email_confirmed_at || new Date().toISOString(),
-      confirmed_at: data.user.confirmed_at || new Date().toISOString(),
-    });
+  const adminUser = await fetchAdminUserById(cfg, userId);
+  if (!adminUser || !isUserEmailConfirmed(adminUser)) {
+    console.error('auth-complete-confirm:admin-user-unconfirmed', { userId });
+    return {
+      error: 'Email confirmation did not complete. Request a new confirmation email from sign in.',
+      status: 502,
+    };
   }
+
+  const refreshed = await refreshVerifiedSession(url, anonKey, data.refresh_token);
+  if (refreshed) {
+    data.access_token = refreshed.access_token;
+    data.refresh_token = refreshed.refresh_token;
+    if (refreshed.expires_in) data.expires_in = refreshed.expires_in;
+    if (refreshed.expires_at) data.expires_at = refreshed.expires_at;
+    if (refreshed.user) data.user = refreshed.user;
+  }
+
+  const canonicalUser = mergeCanonicalUser(data.user, adminUser);
 
   return {
     ok: true,
@@ -72,7 +87,8 @@ async function completeEmailConfirmation(token, type) {
     refresh_token: data.refresh_token,
     expires_in: data.expires_in,
     expires_at: data.expires_at,
-    user: data.user || null,
+    user: canonicalUser,
+    email_confirmed: true,
   };
 }
 
@@ -92,7 +108,7 @@ async function handleCompleteConfirm(req, res) {
   }
 
   const token = body?.confirm_token || body?.token || '';
-  const result = await completeEmailConfirmation(token, body?.type || 'invite');
+  const result = await completeEmailConfirmation(token, body?.type || 'signup');
   if (!result.ok) {
     return res.status(result.status || 502).json({ error: result.error });
   }
@@ -104,6 +120,7 @@ async function handleCompleteConfirm(req, res) {
     expires_in: result.expires_in,
     expires_at: result.expires_at,
     user: result.user,
+    email_confirmed: result.email_confirmed,
   });
 }
 
