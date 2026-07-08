@@ -1378,7 +1378,7 @@
   async function runAuthCallbackConfirmation(params, alertEl, statusEl, fallbackEl, triggerEl) {
     var proof = (params.get('proof') || '').trim();
     var email = (params.get('email') || '').trim().toLowerCase();
-    var confirmToken = (params.get('confirm_token') || '').trim();
+    var confirmToken = (params.get('confirm_token') || params.get('token_hash') || params.get('token') || '').trim();
     var confirmType = (params.get('type') || 'signup').trim();
 
     if (triggerEl) {
@@ -1452,9 +1452,15 @@
 
     storePostVerifyNext();
 
+    if (isEmailConfirmationLanding()) {
+      var landed = await completeEmailConfirmationLanding();
+      if (landed) return;
+    }
+
     var proof = (params.get('proof') || '').trim();
     var email = (params.get('email') || '').trim().toLowerCase();
-    var confirmToken = (params.get('confirm_token') || '').trim();
+    var confirmToken = (params.get('confirm_token') || params.get('token_hash') || params.get('token') || '').trim();
+    var confirmType = (params.get('type') || 'signup').trim();
 
     if (!proof && !confirmToken) {
       if (statusEl) statusEl.hidden = true;

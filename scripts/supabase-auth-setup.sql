@@ -13,6 +13,12 @@
 -- Confirmation emails are sent via Resend (not Supabase SMTP).
 -- Links point to /auth-callback.html and are completed server-side via /api/auth-complete-confirm.
 --
+-- Supabase → Authentication → Emails → "Confirm signup" template:
+--   Keep {{ .ConfirmationURL }} in the link href (Supabase generates the URL).
+--   That template is only used if Supabase sends the email (SMTP enabled).
+--   Gaviom signup normally sends a separate Resend email ("Confirm your Gaviom account").
+--   If users click the Supabase link, redirect must land on auth-callback.html (see URL Configuration).
+--
 -- For existing projects with public.users, run supabase-profiles-migration.sql instead.
 
 create table if not exists public.profiles (

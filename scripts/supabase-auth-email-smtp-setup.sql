@@ -38,7 +38,15 @@
 
 -- ÉTAPE 3 — Supabase → Authentication → URL Configuration
 --   Site URL:       https://gaviom.com
---   Redirect URLs:  https://gaviom.com/signin.html
+--   Redirect URLs:  https://gaviom.com/auth-callback.html
+--                   https://gaviom.com/signin.html
+--                   https://gaviom.com/account.html
+--                   https://gaviom.com/reset-password.html
+--
+-- ÉTAPE 3b — Supabase → Authentication → Emails → Confirm signup
+--   Gardez {{ .ConfirmationURL }} dans le lien (ne pas le remplacer par une URL fixe).
+--   Ce template sert seulement si Supabase envoie l'email (SMTP activé).
+--   Gaviom envoie normalement ses propres emails via Resend (sujet "Confirm your Gaviom account").
 
 -- ÉTAPE 4 — Supabase → Authentication → Providers → Email
 --   Confirm email : ON
