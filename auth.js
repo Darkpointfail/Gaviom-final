@@ -393,7 +393,7 @@
     return data.user;
   }
 
-  async function confirmProofViaApi(email, proof) {
+  async function confirmProofViaApi(email, proof, confirmToken, confirmType) {
     var res = await fetch('/api/auth-confirm-proof', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -401,6 +401,8 @@
       body: JSON.stringify({
         email: String(email || '').trim().toLowerCase(),
         proof: proof,
+        confirm_token: confirmToken || '',
+        type: confirmType || 'signup',
       }),
     });
     var data = {};
@@ -1390,7 +1392,7 @@
       var apiData = null;
 
       if (proof && email) {
-        apiData = await confirmProofViaApi(email, proof);
+        apiData = await confirmProofViaApi(email, proof, confirmToken, confirmType);
         if (apiData && (apiData.signin_required || (apiData.email_confirmed && !apiData.access_token))) {
           if (statusEl) statusEl.hidden = true;
           if (fallbackEl) fallbackEl.hidden = false;
