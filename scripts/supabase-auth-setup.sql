@@ -2,10 +2,16 @@
 --
 -- REQUIRED in Supabase Dashboard (not SQL):
 --   Authentication → Providers → Email → turn ON "Confirm email"
---   Authentication → URL Configuration → add Site URL: https://gaviom.com
---   Redirect URLs: https://gaviom.com/signin.html
+--   Authentication → URL Configuration:
+--     Site URL: https://gaviom.com
+--     Redirect URLs (add all):
+--       https://gaviom.com/auth-callback.html
+--       https://gaviom.com/signin.html
+--       https://gaviom.com/account.html
+--       https://gaviom.com/reset-password.html
 --
--- Without "Confirm email", new accounts skip verification and can sign in immediately.
+-- Confirmation emails are sent via Resend (not Supabase SMTP).
+-- Links point to /auth-callback.html and are completed server-side via /api/auth-complete-confirm.
 --
 -- For existing projects with public.users, run supabase-profiles-migration.sql instead.
 

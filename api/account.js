@@ -8,6 +8,7 @@ const { handleSetPassword } = require('../lib/auth-set-password');
 const { handleAuthSignin } = require('../lib/auth-signin');
 const { handleCompleteReset } = require('../lib/auth-complete-reset');
 const { handleCompleteConfirm } = require('../lib/auth-complete-confirm');
+const { handleAuthMe } = require('../lib/auth-me');
 
 function resolveAction(req) {
   const q = req.query?.action;
@@ -15,6 +16,7 @@ function resolveAction(req) {
   const path = (req.url || '').split('?')[0] || '';
   if (path.includes('auth-signup')) return 'signup';
   if (path.includes('auth-confirm')) return 'confirm-email';
+  if (path.includes('auth-me')) return 'auth-me';
   if (path.includes('auth-complete-confirm')) return 'complete-confirm';
   if (path.includes('auth-complete-reset')) return 'complete-reset';
   if (path.includes('auth-signin')) return 'signin';
@@ -194,6 +196,10 @@ module.exports = async function handler(req, res) {
 
   if (action === 'complete-confirm') {
     return handleCompleteConfirm(req, res);
+  }
+
+  if (action === 'auth-me') {
+    return handleAuthMe(req, res);
   }
 
   return res.status(400).json({ error: 'Unknown account action' });

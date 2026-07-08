@@ -904,13 +904,17 @@
       return;
     }
 
-    if (window.GaviomAuth.isEmailConfirmed && !window.GaviomAuth.isEmailConfirmed(session.user)) {
-      if (window.GaviomAuth.refreshUser) {
-        var refreshedUser = await window.GaviomAuth.refreshUser();
-        if (refreshedUser) {
-          session = Object.assign({}, session, { user: refreshedUser });
-          state.session = session;
-        }
+    if (window.GaviomAuth.syncSessionUser) {
+      var syncedUser = await window.GaviomAuth.syncSessionUser();
+      if (syncedUser) {
+        session = Object.assign({}, session, { user: syncedUser });
+        state.session = session;
+      }
+    } else if (window.GaviomAuth.refreshUser) {
+      var refreshedUser = await window.GaviomAuth.refreshUser();
+      if (refreshedUser) {
+        session = Object.assign({}, session, { user: refreshedUser });
+        state.session = session;
       }
     }
 

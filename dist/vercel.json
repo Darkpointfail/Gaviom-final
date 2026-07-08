@@ -237,6 +237,10 @@
       "destination": "/api/account?action=confirm-email"
     },
     {
+      "source": "/api/auth-me",
+      "destination": "/api/account?action=auth-me"
+    },
+    {
       "source": "/api/auth-complete-confirm",
       "destination": "/api/account?action=complete-confirm"
     },

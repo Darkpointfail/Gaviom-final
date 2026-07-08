@@ -97,7 +97,7 @@
   }
 
   function emailConfirmRedirectUrl() {
-    return window.location.origin + '/signin.html?verified=1';
+    return window.location.origin + '/auth-callback.html';
   }
 
   function storePostVerifyNext() {
@@ -368,6 +368,29 @@
       throw new Error(apiMessage || 'Could not save your new password.');
     }
     return data;
+  }
+
+  async function syncSessionUserFromServer() {
+    var token = await window.GaviomAuth.getAccessToken();
+    if (!token) return null;
+    var res = await fetch('/api/auth-me', {
+      method: 'GET',
+      headers: { Authorization: 'Bearer ' + token },
+      credentials: 'same-origin',
+    });
+    var data = {};
+    try {
+      data = await res.json();
+    } catch (e) {
+      /* ignore */
+    }
+    if (!res.ok || !data.user) return null;
+    if (authState.session) {
+      authState.session = Object.assign({}, authState.session, { user: data.user });
+      authState.user = data.user;
+      emitAuthChanged('USER_UPDATED');
+    }
+    return data.user;
   }
 
   async function completeConfirmViaApi(confirmToken, confirmType) {
@@ -1291,6 +1314,7 @@
       var signinParams = new URLSearchParams(window.location.search || '');
       if (signinParams.get('confirm_token')) return;
     }
+    if (page === 'callback') return;
 
     if (isEmailConfirmationLanding()) {
       showConfirmationSigningIn();
@@ -1314,36 +1338,62 @@
     }
   }
 
-  async function runEmailConfirmFromUrl(params, alertEl) {
+  async function initAuthCallback() {
+    var alertEl = $('[data-auth-alert]');
+    var statusEl = $('[data-auth-callback-status]');
+    var fallbackEl = $('[data-auth-callback-fallback]');
+    var params = new URLSearchParams(window.location.search || '');
+
+    storePostVerifyNext();
+
     var confirmToken = (params.get('confirm_token') || '').trim();
-    if (!confirmToken) return false;
     var confirmType = (params.get('type') || 'invite').trim();
-    showConfirmationSigningIn();
-    try {
-      var client = getClient();
-      await clearLocalSession(client);
-      var apiData = await completeConfirmViaApi(confirmToken, confirmType);
-      await applyAuthSessionFromApiRobust(apiData, 'SIGNED_IN');
+
+    if (confirmToken) {
       try {
-        params.delete('confirm_token');
-        params.delete('type');
-        var search = params.toString();
-        history.replaceState(null, '', window.location.pathname + (search ? '?' + search : ''));
-      } catch (scrubErr) {
-        /* ignore */
+        var client = getClient();
+        await clearLocalSession(client);
+        var apiData = await completeConfirmViaApi(confirmToken, confirmType);
+        await applyAuthSessionFromApiRobust(apiData, 'SIGNED_IN');
+        if (statusEl) statusEl.hidden = true;
+        showAlert(alertEl, 'Email confirmed. Redirecting to your account…', 'success');
+        var dest = readPostVerifyNext('/account.html');
+        clearPostVerifyNext();
+        window.setTimeout(function () {
+          window.location.replace(dest);
+        }, 600);
+        return;
+      } catch (err) {
+        logAuth('callback:confirm-error', err.message || String(err));
+        if (statusEl) statusEl.hidden = true;
+        if (fallbackEl) fallbackEl.hidden = false;
+        showAlert(alertEl, friendlyAuthError(err), 'error');
+        return;
       }
-      showAlert(alertEl, 'Email confirmed. Redirecting to your account…', 'success');
-      var dest = readPostVerifyNext('/account.html');
-      clearPostVerifyNext();
-      window.setTimeout(function () {
-        window.location.replace(dest);
-      }, 800);
-      return true;
-    } catch (err) {
-      logAuth('confirm:token-error', err.message || String(err));
-      showAlert(alertEl, friendlyAuthError(err), 'error');
-      return false;
     }
+
+    try {
+      await bootstrapAuth();
+      var session = await waitForConfirmedSession(12000);
+      if (session && session.user && isEmailConfirmed(session.user)) {
+        if (statusEl) statusEl.hidden = true;
+        showAlert(alertEl, 'Email confirmed. Redirecting to your account…', 'success');
+        var nextDest = readPostVerifyNext('/account.html');
+        clearPostVerifyNext();
+        window.location.replace(nextDest);
+        return;
+      }
+    } catch (legacyErr) {
+      logAuth('callback:legacy-error', legacyErr.message || String(legacyErr));
+    }
+
+    if (statusEl) statusEl.hidden = true;
+    if (fallbackEl) fallbackEl.hidden = false;
+    showAlert(
+      alertEl,
+      'This confirmation link is invalid or expired. Go to sign in and use Resend confirmation.',
+      'error'
+    );
   }
 
   async function initSignIn() {
@@ -1355,8 +1405,8 @@
 
     var params = new URLSearchParams(window.location.search);
     if (params.get('confirm_token')) {
-      storePostVerifyNext();
-      await runEmailConfirmFromUrl(params, alertEl);
+      var legacyQuery = params.toString();
+      window.location.replace('/auth-callback.html' + (legacyQuery ? '?' + legacyQuery : ''));
       return;
     }
 
@@ -1541,6 +1591,7 @@
     if (page === 'signin') initSignIn();
     if (page === 'signup') initSignUp();
     if (page === 'reset-password') initResetPassword();
+    if (page === 'callback') initAuthCallback();
   }
 
   if (document.readyState === 'loading') {
@@ -1566,6 +1617,8 @@
       try {
         var client = getClient();
         if (!authState.ready) await bootstrapAuth();
+        var synced = await syncSessionUserFromServer();
+        if (synced) return synced;
         var result = await client.auth.getUser();
         if (result.error) throw result.error;
         var user = result.data && result.data.user ? result.data.user : null;
@@ -1579,6 +1632,7 @@
         return authState.user;
       }
     },
+    syncSessionUser: syncSessionUserFromServer,
     subscribe: function (fn) {
       authSubscribers.push(fn);
       if (authState.ready) fn(authState.session, 'SUBSCRIBE');
