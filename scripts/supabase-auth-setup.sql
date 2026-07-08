@@ -11,7 +11,7 @@
 --       https://gaviom.com/reset-password.html
 --
 -- Confirmation emails are sent via Resend (not Supabase SMTP).
--- Email button links to /api/auth-confirm (one click → confirm server-side → redirect to account).
+-- Email button links to /auth-callback.html (fresh token per send; confirmed via POST, not on email prefetch).
 --
 -- For existing projects with public.users, run supabase-profiles-migration.sql instead.
 

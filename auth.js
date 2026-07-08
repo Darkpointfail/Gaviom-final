@@ -1391,7 +1391,9 @@
       await clearLocalSession(client);
       var apiData = null;
 
-      if (proof && email) {
+      if (confirmToken) {
+        apiData = await completeConfirmViaApi(confirmToken, confirmType);
+      } else if (proof && email) {
         apiData = await confirmProofViaApi(email, proof, confirmToken, confirmType);
         if (apiData && (apiData.signin_required || (apiData.email_confirmed && !apiData.access_token))) {
           if (statusEl) statusEl.hidden = true;
@@ -1403,8 +1405,6 @@
           );
           return true;
         }
-      } else if (confirmToken) {
-        apiData = await completeConfirmViaApi(confirmToken, confirmType);
       } else {
         throw new Error('This confirmation link is invalid or expired.');
       }
@@ -1470,6 +1470,17 @@
         'This confirmation link is invalid or expired. Go to sign in and use Resend confirmation.',
         'error'
       );
+      return;
+    }
+
+    if (confirmToken && !proof) {
+      if (statusEl) {
+        statusEl.innerHTML =
+          '<p class="auth-verify-pending__msg">Confirming your account…</p>' +
+          '<p class="auth-verify-pending__hint font-mono">Please wait a moment.</p>';
+      }
+      if (actionEl) actionEl.hidden = true;
+      await runAuthCallbackConfirmation(params, alertEl, statusEl, fallbackEl, null);
       return;
     }
 
