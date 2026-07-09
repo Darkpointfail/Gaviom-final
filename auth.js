@@ -133,12 +133,47 @@
     }
   }
 
+  var confirmAuditState = {
+    initAuthCallbackCalls: 0,
+    runConfirmationCalls: 0,
+    completeConfirmApiCalls: 0,
+    requestId: null,
+  };
+
+  function confirmAuditLog(label, detail) {
+    var payload = {
+      ts: new Date().toISOString(),
+      label: label,
+      counts: {
+        initAuthCallback: confirmAuditState.initAuthCallbackCalls,
+        runConfirmation: confirmAuditState.runConfirmationCalls,
+        completeConfirmApi: confirmAuditState.completeConfirmApiCalls,
+      },
+    };
+    if (detail) payload.detail = detail;
+    console.info('[Gaviom Confirm Audit]', payload);
+  }
+
+  function authCallbackPendingToken() {
+    var params = new URLSearchParams(window.location.search || '');
+    return !!(
+      params.get('confirm_token') ||
+      params.get('token_hash') ||
+      params.get('token') ||
+      params.get('proof')
+    );
+  }
+
+  function shouldSkipAutoLanding() {
+    if (document.body.dataset.authPage !== 'callback') return false;
+    return authCallbackPendingToken();
+  }
+
   function isEmailConfirmationLanding() {
     var params = new URLSearchParams(window.location.search || '');
     var hash = window.location.hash || '';
     return (
       params.get('verified') === '1' ||
-      params.has('confirm_token') ||
       params.has('code') ||
       params.has('token_hash') ||
       hash.indexOf('access_token=') !== -1 ||
@@ -420,7 +455,14 @@
     return data;
   }
 
-  async function completeConfirmViaApi(confirmToken, confirmType) {
+  async function completeConfirmViaApi(confirmToken, confirmType, issued) {
+    confirmAuditState.completeConfirmApiCalls += 1;
+    confirmAuditLog('completeConfirmViaApi:call', {
+      requestId: confirmAuditState.requestId,
+      type: confirmType || 'signup',
+      tokenPreview: String(confirmToken || '').slice(0, 8),
+      issued: issued || null,
+    });
     var res = await fetch('/api/auth-complete-confirm', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -428,6 +470,8 @@
       body: JSON.stringify({
         confirm_token: confirmToken,
         type: confirmType || 'signup',
+        issued: issued || null,
+        request_id: confirmAuditState.requestId,
       }),
     });
     var data = {};
@@ -747,7 +791,7 @@
         auth: {
           persistSession: true,
           autoRefreshToken: true,
-          detectSessionInUrl: true,
+          detectSessionInUrl: document.body.dataset.authPage !== 'callback',
           storage: createAuthStorage(),
         },
       });
@@ -770,7 +814,10 @@
         var result = await client.auth.getSession();
         applySession(result.data.session || null, 'INITIAL_SESSION');
 
-        var redirected = await completeEmailConfirmationLanding();
+        var redirected = false;
+        if (!shouldSkipAutoLanding()) {
+          redirected = await completeEmailConfirmationLanding();
+        }
         if (redirected) return null;
 
         setTimeout(function () {
@@ -1376,10 +1423,28 @@
   }
 
   async function runAuthCallbackConfirmation(params, alertEl, statusEl, fallbackEl, triggerEl) {
+    if (window.__gaviomConfirmRunning) {
+      confirmAuditLog('runAuthCallbackConfirmation:skipped-duplicate');
+      return false;
+    }
+    window.__gaviomConfirmRunning = true;
+    confirmAuditState.runConfirmationCalls += 1;
+
     var proof = (params.get('proof') || '').trim();
     var email = (params.get('email') || '').trim().toLowerCase();
     var confirmToken = (params.get('confirm_token') || params.get('token_hash') || params.get('token') || '').trim();
     var confirmType = (params.get('type') || 'signup').trim();
+    var issued = (params.get('issued') || '').trim();
+    confirmAuditState.requestId =
+      confirmAuditState.requestId || 'cli_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+    confirmAuditLog('runAuthCallbackConfirmation:start', {
+      requestId: confirmAuditState.requestId,
+      href: window.location.href,
+      hasProof: !!proof,
+      hasConfirmToken: !!confirmToken,
+      type: confirmType,
+      issued: issued || null,
+    });
 
     if (triggerEl) {
       triggerEl.disabled = true;
@@ -1392,7 +1457,7 @@
       var apiData = null;
 
       if (confirmToken) {
-        apiData = await completeConfirmViaApi(confirmToken, confirmType);
+        apiData = await completeConfirmViaApi(confirmToken, confirmType, issued);
       } else if (proof && email) {
         apiData = await confirmProofViaApi(email, proof, confirmToken, confirmType);
         if (apiData && (apiData.signin_required || (apiData.email_confirmed && !apiData.access_token))) {
@@ -1415,12 +1480,14 @@
         params.delete('email');
         params.delete('confirm_token');
         params.delete('type');
+        params.delete('issued');
         var search = params.toString();
         history.replaceState(null, '', window.location.pathname + (search ? '?' + search : ''));
       } catch (scrubErr) {
         /* ignore */
       }
       await finishAuthCallbackSuccess(alertEl, statusEl);
+      window.__gaviomConfirmRunning = false;
       return true;
     } catch (err) {
       logAuth('callback:confirm-error', err.message || String(err));
@@ -1439,11 +1506,16 @@
         triggerEl.disabled = false;
         triggerEl.textContent = 'Confirm my email';
       }
+      window.__gaviomConfirmRunning = false;
       return false;
     }
   }
 
   async function initAuthCallback() {
+    confirmAuditState.initAuthCallbackCalls += 1;
+    confirmAuditLog('initAuthCallback:start', {
+      href: window.location.href,
+    });
     var alertEl = $('[data-auth-alert]');
     var statusEl = $('[data-auth-callback-status]');
     var fallbackEl = $('[data-auth-callback-fallback]');
@@ -1452,7 +1524,7 @@
 
     storePostVerifyNext();
 
-    if (isEmailConfirmationLanding()) {
+    if (!authCallbackPendingToken() && isEmailConfirmationLanding()) {
       var landed = await completeEmailConfirmationLanding();
       if (landed) return;
     }
@@ -1692,7 +1764,7 @@
       /* legacy cleanup */
     }
     showConfigBanner();
-    if (configReady()) bootstrapAuth();
+    if (configReady() && document.body.dataset.authPage !== 'callback') bootstrapAuth();
     guardSignedIn();
     var page = document.body.dataset.authPage;
     if (page === 'signin') initSignIn();
