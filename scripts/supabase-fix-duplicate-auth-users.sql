@@ -39,6 +39,5 @@ having count(*) > 1;
 -- Remplace YOUR_EMAIL_HERE, puis décommente :
 --
 -- update auth.users
--- set email_confirmed_at = coalesce(email_confirmed_at, now()),
---     confirmed_at = coalesce(confirmed_at, now())
+-- set email_confirmed_at = coalesce(email_confirmed_at, now())
 -- where lower(email) = lower('YOUR_EMAIL_HERE');
