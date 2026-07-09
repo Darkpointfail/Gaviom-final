@@ -1,33 +1,36 @@
 const Stripe = require('stripe');
 const { verifyBearerUser } = require('../lib/supabase-user');
-const { sendAuthConfirmationEmail } = require('../lib/send-auth-confirmation');
 const { handleAuthSignup } = require('../lib/auth-signup');
-const { handleAuthConfirm } = require('../lib/auth-confirm-email');
 const { sendPasswordResetEmail, handleAuthReset } = require('../lib/auth-reset-password');
 const { handleSetPassword } = require('../lib/auth-set-password');
 const { handleAuthSignin } = require('../lib/auth-signin');
 const { handleCompleteReset } = require('../lib/auth-complete-reset');
-const { handleCompleteConfirm } = require('../lib/auth-complete-confirm');
 const { handleAuthMe } = require('../lib/auth-me');
-const { handleConfirmProof } = require('../lib/auth-confirm-proof');
+const { handleVerifyEmailCode } = require('../lib/verify-email-code');
+const { handleResendEmailCode } = require('../lib/resend-email-code');
+
+const LEGACY_CONFIRM_MESSAGE =
+  'Email confirmation links are no longer used. Enter your 6-digit verification code on the verify page.';
 
 function resolveAction(req) {
   const q = req.query?.action;
   if (q) return String(q);
   const path = (req.url || '').split('?')[0] || '';
+  if (path.includes('verify-email-code')) return 'verify-email-code';
+  if (path.includes('resend-email-code')) return 'resend-email-code';
   if (path.includes('auth-signup')) return 'signup';
-  if (path.includes('auth-confirm')) return 'confirm-email';
-  if (path.includes('auth-confirm-proof')) return 'confirm-proof';
   if (path.includes('auth-me')) return 'auth-me';
-  if (path.includes('auth-complete-confirm')) return 'complete-confirm';
   if (path.includes('auth-complete-reset')) return 'complete-reset';
   if (path.includes('auth-signin')) return 'signin';
   if (path.includes('auth-set-password')) return 'set-password';
   if (path.includes('auth-reset-password')) return 'reset-password-email';
   if (path.includes('auth-reset')) return 'reset-password';
   if (path.includes('auth-confirmation-email') || path.includes('confirmation-email')) {
-    return 'confirmation-email';
+    return 'resend-email-code';
   }
+  if (path.includes('auth-confirm')) return 'legacy-confirm';
+  if (path.includes('auth-confirm-proof')) return 'legacy-confirm';
+  if (path.includes('auth-complete-confirm')) return 'legacy-confirm';
   if (path.includes('billing-portal')) return 'billing-portal';
   if (path.includes('orders')) return 'orders';
   return 'orders';
@@ -137,6 +140,13 @@ async function handleBillingPortal(req, res) {
   }
 }
 
+function handleLegacyConfirm(req, res) {
+  return res.status(410).json({
+    error: LEGACY_CONFIRM_MESSAGE,
+    verify_url: '/verify-email.html',
+  });
+}
+
 module.exports = async function handler(req, res) {
   const action = resolveAction(req);
 
@@ -156,12 +166,16 @@ module.exports = async function handler(req, res) {
     return handleBillingPortal(req, res);
   }
 
-  if (action === 'confirmation-email') {
-    if (req.method !== 'POST') {
-      res.setHeader('Allow', 'POST');
-      return res.status(405).json({ error: 'Method not allowed' });
-    }
-    return sendAuthConfirmationEmail(req, res);
+  if (action === 'verify-email-code') {
+    return handleVerifyEmailCode(req, res);
+  }
+
+  if (action === 'resend-email-code') {
+    return handleResendEmailCode(req, res);
+  }
+
+  if (action === 'legacy-confirm') {
+    return handleLegacyConfirm(req, res);
   }
 
   if (action === 'signup') {
@@ -170,10 +184,6 @@ module.exports = async function handler(req, res) {
       return res.status(405).json({ error: 'Method not allowed' });
     }
     return handleAuthSignup(req, res);
-  }
-
-  if (action === 'confirm-email') {
-    return handleAuthConfirm(req, res);
   }
 
   if (action === 'reset-password-email') {
@@ -196,16 +206,8 @@ module.exports = async function handler(req, res) {
     return handleCompleteReset(req, res);
   }
 
-  if (action === 'complete-confirm') {
-    return handleCompleteConfirm(req, res);
-  }
-
   if (action === 'auth-me') {
     return handleAuthMe(req, res);
-  }
-
-  if (action === 'confirm-proof') {
-    return handleConfirmProof(req, res);
   }
 
   return res.status(400).json({ error: 'Unknown account action' });

@@ -314,17 +314,9 @@
     if (resend) {
       resend.addEventListener('click', async function () {
         if (!state.authEmail) return;
-        resend.disabled = true;
-        try {
-          if (window.GaviomAuth && window.GaviomAuth.resendConfirmationEmail) {
-            await window.GaviomAuth.resendConfirmationEmail(state.authEmail);
-            showNotice('Confirmation email sent. Check your inbox and spam folder.', false);
-          }
-        } catch (err) {
-          showNotice(err.message || 'Could not resend confirmation email.', true);
-        } finally {
-          resend.disabled = false;
-        }
+        window.location.href =
+          '/verify-email.html?email=' + encodeURIComponent(state.authEmail) +
+          '&next=' + encodeURIComponent(returnUrl());
       });
     }
 

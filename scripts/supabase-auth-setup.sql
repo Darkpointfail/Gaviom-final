@@ -5,13 +5,13 @@
 --   Authentication → URL Configuration:
 --     Site URL: https://gaviom.com
 --     Redirect URLs (add all):
---       https://gaviom.com/auth-callback.html
+--       https://gaviom.com/verify-email.html
 --       https://gaviom.com/signin.html
 --       https://gaviom.com/account.html
 --       https://gaviom.com/reset-password.html
 --
--- Confirmation emails are sent via Resend (not Supabase SMTP).
--- Email button links to /auth-callback.html (fresh token per send; confirmed via POST, not on email prefetch).
+-- Email verification uses 6-digit OTP codes sent via Resend.
+-- Run scripts/supabase-email-verification-codes.sql to create the codes table.
 --
 -- For existing projects with public.users, run supabase-profiles-migration.sql instead.
 

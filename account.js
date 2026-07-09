@@ -919,7 +919,7 @@
     }
 
     if (window.GaviomAuth.isEmailConfirmed && !window.GaviomAuth.isEmailConfirmed(session.user)) {
-      window.location.replace('/signin.html?confirm=required&next=' + encodeURIComponent('/account.html'));
+      window.location.replace('/verify-email.html?verify=required&next=' + encodeURIComponent('/account.html'));
       return;
     }
 

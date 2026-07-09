@@ -230,15 +230,23 @@
     },
     {
       "source": "/api/auth-confirmation-email",
-      "destination": "/api/account?action=confirmation-email"
+      "destination": "/api/account?action=resend-email-code"
+    },
+    {
+      "source": "/api/resend-email-code",
+      "destination": "/api/account?action=resend-email-code"
+    },
+    {
+      "source": "/api/verify-email-code",
+      "destination": "/api/account?action=verify-email-code"
     },
     {
       "source": "/api/auth-confirm",
-      "destination": "/api/account?action=confirm-email"
+      "destination": "/api/account?action=legacy-confirm"
     },
     {
       "source": "/api/auth-confirm-proof",
-      "destination": "/api/account?action=confirm-proof"
+      "destination": "/api/account?action=legacy-confirm"
     },
     {
       "source": "/api/auth-me",
@@ -246,7 +254,7 @@
     },
     {
       "source": "/api/auth-complete-confirm",
-      "destination": "/api/account?action=complete-confirm"
+      "destination": "/api/account?action=legacy-confirm"
     },
     {
       "source": "/api/auth-complete-reset",
