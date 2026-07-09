@@ -1183,7 +1183,7 @@
       .replace(/"/g, '&quot;');
   }
 
-  function showSignupVerifyScreen(email, initialError) {
+  function showSignupOtpScreen(email, initialError) {
     var card = document.querySelector('.auth-card');
     if (!card || card.querySelector('[data-auth-verify-pending]')) return;
 
@@ -1203,11 +1203,16 @@
     block.className = 'auth-verify-pending';
     block.setAttribute('data-auth-verify-pending', '');
     block.innerHTML =
-      '<p class="auth-verify-pending__msg">We sent a confirmation link to <strong>' + safeEmail + '</strong>. Open it to activate your account — you will be signed in automatically.</p>' +
-      '<p class="auth-verify-pending__hint font-mono">Check your spam or promotions folder. If nothing arrives within 5 minutes, use Resend confirmation below or try another email provider (Gmail, Outlook).</p>' +
+      '<p class="auth-verify-pending__msg">We sent a 6-digit code to <strong>' + safeEmail + '</strong>. Enter it below to activate your account.</p>' +
+      '<p class="auth-verify-pending__hint font-mono">Check your spam or promotions folder. The code expires in 10 minutes.</p>' +
       '<p class="auth-alert" data-auth-verify-alert role="alert" aria-live="polite"' + (initialError ? '' : ' hidden') + '></p>' +
+      '<form class="co-form auth-form" id="auth-signup-verify-form" action="#" method="get" novalidate>' +
+      '<div class="co-field"><label for="signup-verify-code">Verification code</label>' +
+      '<input id="signup-verify-code" name="code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="123456" required /></div>' +
+      '<button type="submit" class="btn btn-primary btn-lg auth-submit">Verify account</button>' +
+      '</form>' +
       '<div class="auth-verify-pending__actions">' +
-      '<button type="button" class="btn btn-primary btn-lg auth-submit" data-auth-signup-resend>Resend confirmation email</button>' +
+      '<button type="button" class="btn btn-ghost auth-submit" data-auth-signup-resend>Resend code</button>' +
       '<a href="/signin.html" class="btn btn-ghost auth-verify-pending__signin">Go to sign in</a>' +
       '</div>';
 
@@ -1215,21 +1220,49 @@
     if (insertBefore) card.insertBefore(block, insertBefore);
     else card.appendChild(block);
 
+    var alertEl = block.querySelector('[data-auth-verify-alert]');
     if (initialError) {
-      showAlert(block.querySelector('[data-auth-verify-alert]'), initialError, 'error');
+      showAlert(alertEl, initialError, 'error');
+    }
+
+    var verifyForm = block.querySelector('#auth-signup-verify-form');
+    if (verifyForm) {
+      verifyForm.addEventListener('submit', async function (ev) {
+        ev.preventDefault();
+        showAlert(alertEl, '', '');
+        var code = ($('#signup-verify-code') || {}).value || '';
+        code = code.trim();
+        if (!/^\d{6}$/.test(code)) {
+          showAlert(alertEl, 'Enter the 6-digit code from your email.', 'error');
+          return;
+        }
+        setLoading(verifyForm, true);
+        try {
+          await verifyEmailCodeViaApi(email, code);
+          showAlert(alertEl, 'Email verified. Redirecting to sign in…', 'success');
+          window.setTimeout(function () {
+            window.location.href = '/signin.html?verified=1&email=' + encodeURIComponent(email);
+          }, 700);
+        } catch (err) {
+          showAlert(alertEl, friendlyAuthError(err), 'error');
+        } finally {
+          setLoading(verifyForm, false);
+        }
+      });
     }
 
     block.querySelector('[data-auth-signup-resend]').addEventListener('click', async function () {
       var btn = block.querySelector('[data-auth-signup-resend]');
-      var alertEl = block.querySelector('[data-auth-verify-alert]');
       if (btn) btn.disabled = true;
       try {
-        await window.GaviomAuth.resendVerificationCode(email);
-        showAlert(alertEl, 'Confirmation email sent. Check your inbox and spam folder.', 'success');
+        await resendEmailCodeViaApi(email);
+        showAlert(alertEl, 'Verification code sent. Check your inbox and spam folder.', 'success');
       } catch (err) {
         showAlert(alertEl, friendlyAuthError(err), 'error');
       } finally {
-        if (btn) btn.disabled = false;
+        window.setTimeout(function () {
+          if (btn) btn.disabled = false;
+        }, 60000);
       }
     });
   }
@@ -1446,7 +1479,7 @@
       if (!session || !session.user) return;
       if (!isEmailConfirmed(session.user)) {
         if (page === 'signup') {
-          window.location.href = verifyEmailRedirectUrl(session.user.email || '');
+          showSignupOtpScreen(session.user.email || '');
         }
         return;
       }
@@ -1804,6 +1837,12 @@
     fillStateSelect($('#signup-state'));
     setupSignupDob();
 
+    var signupParams = new URLSearchParams(window.location.search || '');
+    var pendingVerifyEmail = (signupParams.get('email') || '').trim().toLowerCase();
+    if (pendingVerifyEmail) {
+      showSignupOtpScreen(pendingVerifyEmail);
+    }
+
     form.querySelectorAll('input, select').forEach(function (el) {
       el.addEventListener('input', function () { el.classList.remove('auth-input-invalid'); });
       el.addEventListener('change', function () { el.classList.remove('auth-input-invalid'); });
@@ -1846,7 +1885,9 @@
           marketing_opt_in: signupData.marketing_opt_in,
         });
         logAuth('signup:created-via-api', { email: signupEmail });
-        window.location.href = verifyEmailRedirectUrl(signupEmail);
+        setLoading(form, false);
+        showSignupOtpScreen(signupEmail);
+        form.reset();
         return;
       } catch (err) {
         showAlert(alertEl, friendlyAuthError(err), 'error');
