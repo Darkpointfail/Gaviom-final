@@ -3,9 +3,15 @@ const { rateLimitRequest } = require('../lib/rate-limit');
 const { verifyVerifiedUser } = require('../lib/supabase-user');
 const { saveCreatorApplication, reviewUrls } = require('../lib/creator-application-service');
 
-const APPLICATION_TO = (process.env.CREATOR_APPLICATION_TO || 'info@getgaviom.com').trim();
-const APPLICATION_FROM =
-  (process.env.CREATOR_APPLICATION_FROM || 'Gaviom Creators <inquiries@getgaviom.com>').trim();
+const APPLICATION_TO = (process.env.CREATOR_APPLICATION_TO || 'info@getgaviom.com')
+  .split(',')
+  .map((value) => value.trim())
+  .filter(Boolean);
+const APPLICATION_FROM = (
+  process.env.CREATOR_APPLICATION_FROM ||
+  process.env.AUTH_CONFIRM_FROM ||
+  'Gaviom Creators <noreply@getgaviom.com>'
+).trim();
 
 function resolveOrigin(req) {
   const configured = (process.env.CREATOR_APPLICATION_ORIGIN || '').trim();
@@ -258,7 +264,7 @@ module.exports = async function handler(req, res) {
   try {
     const adminResult = await sendResendEmail(apiKey, {
       from: APPLICATION_FROM,
-      to: [APPLICATION_TO],
+      to: APPLICATION_TO,
       reply_to: [mail.replyTo],
       subject: mail.subject,
       text: mail.text,
