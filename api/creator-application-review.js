@@ -1,4 +1,7 @@
-const { reviewCreatorApplication } = require('../lib/creator-application-service');
+const {
+  reviewCreatorApplication,
+  notifyApprovedApplication,
+} = require('../lib/creator-application-service');
 
 function resolveOrigin(req) {
   const configured = (process.env.CREATOR_APPLICATION_ORIGIN || '').trim();
@@ -8,6 +11,10 @@ function resolveOrigin(req) {
   const host = req.headers['x-forwarded-host'] || req.headers.host;
   if (host) return `https://${host}`.replace(/\/$/, '');
   return 'https://gaviom.com';
+}
+
+function reviewSecret() {
+  return (process.env.CREATOR_REVIEW_SECRET || '').trim();
 }
 
 function renderPage(title, message, ok) {
@@ -33,6 +40,16 @@ function renderPage(title, message, ok) {
 </body></html>`;
 }
 
+function emailStatusMessage(result) {
+  if (result.emailSent) {
+    return ` Un email de confirmation a été envoyé à <strong>${result.application.email}</strong>.`;
+  }
+  if (result.emailError) {
+    return ` Attention : l'email n'a pas pu être envoyé (${result.emailError}).`;
+  }
+  return " Attention : l'email de confirmation n'a pas pu être envoyé.";
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== 'GET') {
     res.setHeader('Allow', 'GET');
@@ -44,6 +61,34 @@ module.exports = async function handler(req, res) {
   const origin = resolveOrigin(req);
 
   try {
+    if (action === 'notify-approved') {
+      const secret = reviewSecret();
+      const key = String(req.query?.key || '').trim();
+      if (!secret || key !== secret) {
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        return res.status(401).send(renderPage('Unauthorized', 'Invalid or missing review key.', false));
+      }
+
+      const email = String(req.query?.email || '').trim();
+      const result = await notifyApprovedApplication(email, origin);
+
+      if (result.error) {
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        return res
+          .status(result.status || 400)
+          .send(renderPage('Resend failed', String(result.error), false));
+      }
+
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      return res.send(
+        renderPage(
+          'Approval email sent',
+          `L'email d'approbation a été renvoyé à <strong>${result.application.email}</strong>.`,
+          true
+        )
+      );
+    }
+
     const result = await reviewCreatorApplication(token, action, origin);
 
     if (result.error) {
@@ -71,8 +116,8 @@ module.exports = async function handler(req, res) {
       return res.send(
         renderPage(
           'Application approved',
-          `<strong>${name}</strong> now has creator dashboard access. An approval email was sent to ${result.application.email}.`,
-          true
+          `<strong>${name}</strong> now has creator dashboard access.${emailStatusMessage(result)}`,
+          result.emailSent !== false
         )
       );
     }
@@ -81,8 +126,8 @@ module.exports = async function handler(req, res) {
     return res.send(
       renderPage(
         'Application rejected',
-        `The application for <strong>${name}</strong> was rejected. The applicant was notified by email.`,
-        true
+        `The application for <strong>${name}</strong> was rejected.${emailStatusMessage(result)}`,
+        result.emailSent !== false
       )
     );
   } catch (err) {
