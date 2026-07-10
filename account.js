@@ -300,6 +300,37 @@
     }
   }
 
+  function renderCreatorSection() {
+    var status = (state.profile && state.profile.creator_status) || 'none';
+    var applyBtn = $('[data-account-creator-apply]');
+    var dashboardBtn = $('[data-account-creator-dashboard]');
+    var statusEl = $('[data-account-creator-status]');
+    var noteEl = $('[data-account-creator-note]');
+
+    if (applyBtn) applyBtn.hidden = status !== 'none' && status !== 'rejected';
+    if (dashboardBtn) dashboardBtn.hidden = status !== 'approved';
+
+    if (statusEl) {
+      if (status === 'pending') {
+        statusEl.hidden = false;
+        statusEl.textContent = 'Candidature en cours d\'examen — réponse sous 3 à 5 jours ouvrés.';
+      } else if (status === 'rejected') {
+        statusEl.hidden = false;
+        statusEl.textContent = 'Dernière candidature non retenue. Vous pouvez en soumettre une nouvelle.';
+      } else if (status === 'approved') {
+        statusEl.hidden = false;
+        statusEl.textContent = 'Compte creator approuvé — accès dashboard actif.';
+      } else {
+        statusEl.hidden = true;
+        statusEl.textContent = '';
+      }
+    }
+
+    if (noteEl) {
+      noteEl.hidden = status === 'pending' || status === 'approved';
+    }
+  }
+
   function ensureStateSelect() {
     var st = $('#profile-state');
     if (!st) return;
@@ -412,6 +443,7 @@
       debugLog('loadProfile:done', state.profile);
       renderUserHeader();
       fillProfileForm();
+      renderCreatorSection();
       document.body.dataset.accountReady = '1';
     }
   }

@@ -95,8 +95,28 @@
     var form = qs('[data-cr-apply-form]');
     if (!form) return;
 
+    var submitBtn = qs('[type="submit"]', form);
+    var errorEl = qs('[data-cr-apply-error]');
+
+    function showError(message) {
+      if (!errorEl) return;
+      errorEl.textContent = message;
+      errorEl.hidden = !message;
+    }
+
+    function setSubmitting(isSubmitting) {
+      if (submitBtn) {
+        submitBtn.disabled = isSubmitting;
+        submitBtn.textContent = isSubmitting
+          ? 'Envoi en cours…'
+          : 'Soumettre ma candidature';
+      }
+    }
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      showError('');
+
       var required = qsa('[required]', form);
       var valid = true;
       required.forEach(function (field) {
@@ -107,13 +127,79 @@
           field.style.borderColor = '';
         }
       });
-      if (!valid) return;
+      if (!valid) {
+        showError('Veuillez remplir tous les champs obligatoires.');
+        return;
+      }
 
-      var success = qs('[data-cr-apply-success]');
-      var card = qs('[data-cr-apply-card]');
-      if (card) card.hidden = true;
-      if (success) success.hidden = false;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (!window.GaviomAuth || !window.GaviomAuth.getAccessToken) {
+        showError('Connectez-vous pour soumettre votre candidature.');
+        return;
+      }
+
+      var params = new URLSearchParams(window.location.search || '');
+      var payload = {};
+      qsa('input, select, textarea', form).forEach(function (field) {
+        if (!field.name) return;
+        payload[field.name] = field.value.trim();
+      });
+      payload.source = params.get('from') === 'account' ? 'gaviom-account-creator' : 'gaviom-creator-apply';
+      payload.submittedAt = new Date().toISOString();
+
+      setSubmitting(true);
+
+      window.GaviomAuth.getAccessToken()
+        .then(function (token) {
+          if (!token) {
+            window.location.replace(
+              '/signin.html?next=' + encodeURIComponent(window.location.pathname + window.location.search)
+            );
+            throw new Error('Sign in required');
+          }
+          return fetch('/api/creator-application', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: 'Bearer ' + token,
+            },
+            body: JSON.stringify(payload),
+          });
+        })
+        .then(function (res) {
+          return res.json().catch(function () {
+            return {};
+          }).then(function (data) {
+            return { ok: res.ok, status: res.status, data: data };
+          });
+        })
+        .then(function (result) {
+          if (!result.ok) {
+            if (result.status === 401) {
+              window.location.replace(
+                '/signin.html?next=' + encodeURIComponent(window.location.pathname + window.location.search)
+              );
+              return;
+            }
+            throw new Error(
+              (result.data && result.data.error) ||
+                'Impossible d\'envoyer la candidature. Réessayez dans un instant.'
+            );
+          }
+
+          var success = qs('[data-cr-apply-success]');
+          var card = qs('[data-cr-apply-card]');
+          if (card) card.hidden = true;
+          if (success) success.hidden = false;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        })
+        .catch(function (err) {
+          if (err.message !== 'Sign in required') {
+            showError(err.message || 'Impossible d\'envoyer la candidature.');
+          }
+        })
+        .finally(function () {
+          setSubmitting(false);
+        });
     });
   }
 
@@ -155,11 +241,10 @@
       if (!window.GaviomAuth) return;
       window.GaviomAuth.waitForSession(4000).then(function (session) {
         if (!session || !session.user) {
-          if (fromAccount) {
-            window.location.replace(
-              '/signin.html?next=' + encodeURIComponent('/creators/apply?from=account')
-            );
-          }
+          window.location.replace(
+            '/signin.html?next=' +
+              encodeURIComponent(window.location.pathname + window.location.search)
+          );
           return;
         }
         var user = session.user;
@@ -335,6 +420,87 @@
     tick();
   }
 
+  /* Dashboard access gate (approved creators only) */
+  function initDashboardGate() {
+    var root = qs('[data-cr-dashboard]');
+    if (!root) return;
+
+    var gate = qs('[data-cr-dash-gate]');
+    var content = qs('[data-cr-dash-content]');
+
+    function showGate(kind, message) {
+      if (content) content.hidden = true;
+      if (!gate) return;
+      gate.hidden = false;
+      qsa('[data-cr-dash-gate-panel]', gate).forEach(function (panel) {
+        panel.hidden = panel.getAttribute('data-cr-dash-gate-panel') !== kind;
+      });
+      var msgEl = qs('[data-cr-dash-gate-message]', gate);
+      if (msgEl && message) msgEl.textContent = message;
+    }
+
+    function allowDashboard() {
+      if (gate) gate.hidden = true;
+      if (content) content.hidden = false;
+    }
+
+    function checkProfile(client, user) {
+      client
+        .from('profiles')
+        .select('creator_status,first_name,last_name,creator_slug')
+        .eq('id', user.id)
+        .maybeSingle()
+        .then(function (result) {
+          var status = (result.data && result.data.creator_status) || 'none';
+          if (status === 'approved') {
+            allowDashboard();
+            return;
+          }
+          if (status === 'pending') {
+            showGate('pending');
+            return;
+          }
+          if (status === 'rejected') {
+            showGate('rejected');
+            return;
+          }
+          showGate('none');
+        })
+        .catch(function () {
+          showGate('none', 'Impossible de vérifier votre accès creator.');
+        });
+    }
+
+    function start() {
+      if (!window.GaviomAuth) {
+        window.location.replace('/signin.html?next=' + encodeURIComponent('/creators/dashboard'));
+        return;
+      }
+      window.GaviomAuth.waitForSession(6000).then(function (session) {
+        if (!session || !session.user) {
+          window.location.replace('/signin.html?next=' + encodeURIComponent('/creators/dashboard'));
+          return;
+        }
+        if (window.GaviomAuth.isEmailConfirmed && !window.GaviomAuth.isEmailConfirmed(session.user)) {
+          window.location.replace(
+            '/verify-email.html?verify=required&next=' + encodeURIComponent('/creators/dashboard')
+          );
+          return;
+        }
+        var client =
+          typeof window.GaviomAuth.getClient === 'function' ? window.GaviomAuth.getClient() : null;
+        if (!client) {
+          showGate('none', 'Auth client unavailable.');
+          return;
+        }
+        checkProfile(client, session.user);
+      });
+    }
+
+    if (window.GaviomAuth) start();
+    else window.addEventListener('load', start, { once: true });
+  }
+
   /* Hero card progress animation */
   function initHeroProgress() {
     var fill = qs('[data-cr-hero-progress]');
@@ -353,6 +519,7 @@
     initDashboard();
     initWizard();
     initCountdown();
+    initDashboardGate();
     initHeroProgress();
   }
 

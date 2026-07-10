@@ -664,6 +664,28 @@ body.cr-page::before { opacity: 0.08; }
   margin-top: 24px;
 }
 
+.cr-apply-error {
+  margin: 16px 0 0;
+  padding: 12px 14px;
+  border-radius: var(--cr-radius-sm);
+  background: rgba(196, 68, 68, 0.08);
+  border: 1px solid rgba(196, 68, 68, 0.25);
+  color: #9b2c2c;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.cr-dash-gate {
+  padding-top: 48px;
+  padding-bottom: 64px;
+}
+
+.cr-dash-gate-card {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px 36px;
+}
+
 .cr-apply-success {
   text-align: center;
   padding: 48px 32px;

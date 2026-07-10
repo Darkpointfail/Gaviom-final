@@ -21,6 +21,36 @@
   <header class="nav"><div class="wrap nav-inner"><a href="/" class="brand"><span class="brand-mark" aria-hidden="true">G</span> Gaviom</a><nav class="nav-links"><a href="/creators/" class="cr-nav-active">Creators</a></nav><div class="nav-right"><a href="/account.html" class="nav-signin">Account</a><a href="/creators/apply" class="btn btn-ghost btn-sm">Invite creators</a></div></div></header>
 
   <main class="cr-dash-shell">
+    <div class="wrap cr-dash-gate" data-cr-dash-gate hidden>
+      <div class="cr-apply-card cr-dash-gate-card">
+        <div data-cr-dash-gate-panel="pending" hidden>
+          <p class="eyebrow" style="margin-bottom:8px;"><span class="bar"></span> Candidature en cours</p>
+          <h1 class="font-display" style="font-size:28px;margin:0 0 12px;">Accès en attente de validation</h1>
+          <p style="color:var(--cr-muted);max-width:48ch;line-height:1.6;margin:0 0 24px;">Votre candidature Gaviom Creator est en cours d'examen. Vous recevrez un email dès qu'elle sera approuvée.</p>
+          <a href="/account.html#creator" class="btn btn-primary">Retour à mon compte</a>
+        </div>
+        <div data-cr-dash-gate-panel="rejected" hidden>
+          <p class="eyebrow" style="margin-bottom:8px;"><span class="bar"></span> Candidature non retenue</p>
+          <h1 class="font-display" style="font-size:28px;margin:0 0 12px;">Accès non disponible</h1>
+          <p style="color:var(--cr-muted);max-width:48ch;line-height:1.6;margin:0 0 24px;">Votre dernière candidature n'a pas été approuvée. Contactez <a href="mailto:info@getgaviom.com">info@getgaviom.com</a> ou soumettez une nouvelle candidature.</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <a href="/creators/apply?from=account" class="btn btn-primary">Nouvelle candidature</a>
+            <a href="/account.html#creator" class="btn btn-ghost">Mon compte</a>
+          </div>
+        </div>
+        <div data-cr-dash-gate-panel="none" hidden>
+          <p class="eyebrow" style="margin-bottom:8px;"><span class="bar"></span> Gaviom Creator</p>
+          <h1 class="font-display" style="font-size:28px;margin:0 0 12px;">Dashboard réservé aux creators approuvés</h1>
+          <p data-cr-dash-gate-message style="color:var(--cr-muted);max-width:48ch;line-height:1.6;margin:0 0 24px;">Soumettez votre candidature pour lancer votre premier sweepstakes vérifié.</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <a href="/creators/apply?from=account" class="btn btn-primary">Soumettre ma candidature</a>
+            <a href="/creators/" class="btn btn-ghost">En savoir plus</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div data-cr-dash-content hidden>
     <div class="cr-dash-layout">
       <aside class="cr-dash-sidebar">
         <div class="cr-dash-profile">
@@ -262,9 +292,13 @@
         </div>
       </div>
     </div>
+    </div>
   </main>
 
-  <script defer src="/creators.js?v=20260709-creator"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/auth-config.js"></script>
+  <script src="/auth.js?v=20260722-otp-verify"></script>
+  <script defer src="/creators.js?v=20260710-creator-gate"></script>
 
   <script>
 (function () {
