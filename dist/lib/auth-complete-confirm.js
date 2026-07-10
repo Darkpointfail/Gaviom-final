@@ -1,8 +1,9 @@
 const publicCfg = require('./gaviom-supabase-public');
 const { adminConfig } = require('./supabase-admin');
-const { verifyEmailToken, forceConfirmUser } = require('./auth-confirm-email');
+const { verifyEmailToken } = require('./auth-confirm-email');
+const { createConfirmRequestId, tokenPreview, auditConfirm } = require('./auth-audit-log');
 const {
-  isUserEmailConfirmed,
+  ensureUserEmailConfirmed,
   fetchAdminUserById,
   mergeCanonicalUser,
 } = require('./auth-user');
@@ -24,22 +25,48 @@ async function refreshVerifiedSession(url, anonKey, refreshToken) {
   return refreshed;
 }
 
-async function completeEmailConfirmation(token, type) {
+async function completeEmailConfirmation(token, type, meta) {
   const cfg = adminConfig();
-  const anonKey = (process.env.SUPABASE_ANON_KEY || publicCfg.supabaseAnonKey || '').trim();
-  const url = (process.env.SUPABASE_URL || publicCfg.supabaseUrl || '').trim();
+  const authCfg = publicCfg.publicAuthConfig();
+  const requestId = meta?.requestId || createConfirmRequestId();
 
-  if (!cfg || !anonKey || !url) {
+  if (!cfg || !authCfg.url || !authCfg.anonKey) {
+    auditConfirm('complete:config-missing', { requestId });
     return { error: 'Account confirmation is not configured.', status: 503 };
   }
 
   const confirmToken = String(token || '').trim();
+  const confirmType = String(type || 'signup').trim();
+  auditConfirm('complete:start', {
+    requestId,
+    type: confirmType,
+    token: tokenPreview(confirmToken),
+    issued: meta?.issued || null,
+  });
+
   if (!confirmToken) {
     return { error: 'Confirmation link is invalid or expired.', status: 400 };
   }
 
-  const verified = await verifyEmailToken(url, anonKey, confirmToken, type || 'signup');
+  const verified = await verifyEmailToken(
+    authCfg.url,
+    authCfg.anonKey,
+    confirmToken,
+    confirmType,
+    { requestId, source: 'completeEmailConfirmation' }
+  );
   if (verified.error || !verified.data?.access_token) {
+    auditConfirm('complete:verify-rejected', {
+      requestId,
+      type: confirmType,
+      token: tokenPreview(confirmToken),
+      error:
+        verified.error?.msg ||
+        verified.error?.message ||
+        verified.error?.error_description ||
+        verified.error?.error ||
+        'verify failed',
+    });
     return {
       error: 'This confirmation link expired or was already used. Request a new one from sign in.',
       status: 401,
@@ -53,33 +80,52 @@ async function completeEmailConfirmation(token, type) {
     return { error: 'Could not identify your account from this confirmation link.', status: 502 };
   }
 
-  const confirmed = await forceConfirmUser(cfg, userId);
-  if (!confirmed) {
-    return {
-      error: 'Could not confirm your email on the server. Try Resend confirmation from sign in.',
-      status: 502,
-    };
-  }
-
-  const adminUser = await fetchAdminUserById(cfg, userId);
-  if (!adminUser || !isUserEmailConfirmed(adminUser)) {
-    console.error('auth-complete-confirm:admin-user-unconfirmed', { userId });
-    return {
-      error: 'Email confirmation did not complete. Request a new confirmation email from sign in.',
-      status: 502,
-    };
-  }
-
-  const refreshed = await refreshVerifiedSession(url, anonKey, data.refresh_token);
+  let adminUser = await fetchAdminUserById(cfg, userId);
+  const refreshed = await refreshVerifiedSession(authCfg.url, authCfg.anonKey, data.refresh_token);
   if (refreshed) {
     data.access_token = refreshed.access_token;
     data.refresh_token = refreshed.refresh_token;
     if (refreshed.expires_in) data.expires_in = refreshed.expires_in;
     if (refreshed.expires_at) data.expires_at = refreshed.expires_at;
     if (refreshed.user) data.user = refreshed.user;
+    adminUser = (await fetchAdminUserById(cfg, userId)) || adminUser;
   }
 
-  const canonicalUser = mergeCanonicalUser(data.user, adminUser);
+  const confirmCheck = await ensureUserEmailConfirmed(cfg, userId);
+  const freshAdminUser = confirmCheck.user || adminUser;
+  auditConfirm('complete:admin-check', {
+    requestId,
+    userId,
+    email: freshAdminUser?.email || data.user?.email || null,
+    adminEmailConfirmedAt: freshAdminUser?.email_confirmed_at || null,
+    confirmationSuccess: confirmCheck.ok,
+  });
+
+  if (!confirmCheck.ok) {
+    auditConfirm('complete:rejected-unconfirmed', {
+      requestId,
+      userId,
+      type: confirmType,
+      adminEmailConfirmedAt: freshAdminUser?.email_confirmed_at || null,
+    });
+    return {
+      error: 'Email confirmation failed. Please request a new confirmation link.',
+      status: 502,
+      email_confirmed: false,
+    };
+  }
+
+  const canonicalUser = mergeCanonicalUser(data.user, freshAdminUser);
+
+  auditConfirm('complete:success', {
+    requestId,
+    userId,
+    type: confirmType,
+    email: canonicalUser?.email || null,
+    adminEmailConfirmedAt: freshAdminUser?.email_confirmed_at || null,
+    confirmationSuccess: true,
+    email_confirmed: true,
+  });
 
   return {
     ok: true,
@@ -107,10 +153,24 @@ async function handleCompleteConfirm(req, res) {
     }
   }
 
+  const requestId = createConfirmRequestId();
   const token = body?.confirm_token || body?.token || '';
-  const result = await completeEmailConfirmation(token, body?.type || 'signup');
-  if (!result.ok) {
-    return res.status(result.status || 502).json({ error: result.error });
+  auditConfirm('api:complete-confirm', {
+    requestId,
+    type: body?.type || 'signup',
+    token: tokenPreview(token),
+    issued: body?.issued || null,
+    userAgent: req.headers['user-agent'] || null,
+  });
+  const result = await completeEmailConfirmation(token, body?.type || 'signup', {
+    requestId,
+    issued: body?.issued || null,
+  });
+  if (!result.ok || result.email_confirmed !== true) {
+    return res.status(result.status || 502).json({
+      error: result.error || 'Email confirmation failed. Please request a new confirmation link.',
+      email_confirmed: false,
+    });
   }
 
   return res.status(200).json({

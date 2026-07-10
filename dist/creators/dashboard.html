@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="icon" href="/favicon.ico?v=3" type="image/x-icon" sizes="48x48" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Creator Dashboard — Gaviom</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Geist+Mono:wght@400;500&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" />  <link rel="preload" as="style" href="/styles.css?v=20260713-mobile-auth" media="(min-width: 769px)" />
+  <link rel="stylesheet" href="/styles.css?v=20260713-mobile-auth" media="(min-width: 769px)" />
+  <link rel="stylesheet" href="/styles.css?v=20260713-mobile-auth" media="print" onload="this.media='(max-width:768px)'" />
+  <noscript><link rel="stylesheet" href="/styles.css?v=20260713-mobile-auth" /></noscript>
+  <link rel="stylesheet" href="/creators.css?v=20260709-creator" />
+  <link rel="stylesheet" href="/mobile.css?v=20260713-mobile-auth" media="screen and (max-width:1024px)" />
+</head>
+<body class="cr-page cr-dash-page" data-cr-dashboard>
+  <div class="topbar"><div class="wrap topbar-inner"><div class="topbar-left"><span class="font-mono" style="font-size:12px;">Creator Dashboard</span></div><div><a class="tlink" href="/creators/">Creator program</a></div></div></div>
+
+  <header class="nav"><div class="wrap nav-inner"><a href="/" class="brand"><span class="brand-mark" aria-hidden="true">G</span> Gaviom</a><nav class="nav-links"><a href="/creators/" class="cr-nav-active">Creators</a></nav><div class="nav-right"><a href="/account.html" class="nav-signin">Account</a><a href="/creators/apply" class="btn btn-ghost btn-sm">Invite creators</a></div></div></header>
+
+  <main class="cr-dash-shell">
+    <div class="cr-dash-layout">
+      <aside class="cr-dash-sidebar">
+        <div class="cr-dash-profile">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="width:44px;height:44px;border-radius:50%;background:var(--cr-gold-soft);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;">MC</div>
+            <div>
+              <p style="margin:0;font-weight:600;font-size:15px;">Maria Chen</p>
+              <p class="font-mono" style="margin:2px 0 0;font-size:11px;color:var(--cr-muted);">Pro Creator</p>
+            </div>
+          </div>
+          <div style="margin-top:12px;"><span class="cr-verified-badge">Verified by Gaviom</span></div>
+        </div>
+        <nav class="cr-dash-nav" aria-label="Creator dashboard">
+          <a href="#overview" class="cr-dash-nav__link is-active" data-cr-dash-nav="overview">Overview</a>
+          <a href="#giveaways" class="cr-dash-nav__link" data-cr-dash-nav="giveaways">My giveaways</a>
+          <a href="#create" class="cr-dash-nav__link" data-cr-dash-nav="create">Create giveaway</a>
+          <a href="#revenue" class="cr-dash-nav__link" data-cr-dash-nav="revenue">Revenue</a>
+          <a href="#settings" class="cr-dash-nav__link" data-cr-dash-nav="settings">Settings</a>
+        </nav>
+      </aside>
+
+      <div class="cr-dash-main">
+        <!-- Overview -->
+        <div class="cr-dash-panel is-active" data-cr-dash-panel="overview" id="overview">
+          <header style="margin-bottom:24px;">
+            <h1 class="font-display" style="font-size:28px;margin:0 0 6px;">Welcome back, Maria</h1>
+            <p style="margin:0;color:var(--cr-muted);font-size:15px;">Here's what's happening with your giveaways.</p>
+          </header>
+
+          <div class="cr-stats-grid">
+            <div class="cr-stat-card"><p class="cr-stat-card__label">Active giveaways</p><p class="cr-stat-card__value">2</p></div>
+            <div class="cr-stat-card"><p class="cr-stat-card__label">Total participants</p><p class="cr-stat-card__value">1,842</p></div>
+            <div class="cr-stat-card"><p class="cr-stat-card__label">Tickets sold</p><p class="cr-stat-card__value">2,156</p></div>
+            <div class="cr-stat-card"><p class="cr-stat-card__label">Revenue (MTD)</p><p class="cr-stat-card__value">$18.4K</p></div>
+          </div>
+
+          <div class="cr-dash-card">
+            <div class="cr-dash-card__head"><h2 class="cr-dash-card__title">Pending actions</h2></div>
+            <div class="cr-dash-card__body">
+              <div class="cr-giveaway-row">
+                <div class="cr-giveaway-row__info">
+                  <h4>Vegas Weekend Escape</h4>
+                  <p class="cr-giveaway-row__meta">Status: Under Review · Submitted 2 days ago</p>
+                </div>
+                <span class="cr-status-pill cr-status-pill--active">Under Review</span>
+              </div>
+              <div class="cr-giveaway-row">
+                <div class="cr-giveaway-row__info">
+                  <h4>Miami Getaway — upload prize proof</h4>
+                  <p class="cr-giveaway-row__meta">Gaviom requested additional documentation</p>
+                </div>
+                <a href="#create" class="btn btn-ghost btn-sm" data-cr-dash-nav="create" onclick="return false;">Upload</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="cr-dash-card">
+            <div class="cr-dash-card__head"><h2 class="cr-dash-card__title">Upcoming draws</h2></div>
+            <div class="cr-dash-card__body">
+              <div class="cr-giveaway-row">
+                <div class="cr-giveaway-row__info">
+                  <h4>Win a 5-Night Miami Getaway</h4>
+                  <p class="cr-giveaway-row__meta">Draw: Mar 15, 2026 · 680 / 1,000 tickets sold</p>
+                </div>
+                <a href="/creators/demo/miami-getaway" class="btn btn-ghost btn-sm">View page</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Giveaways list -->
+        <div class="cr-dash-panel" data-cr-dash-panel="giveaways" id="giveaways">
+          <header style="margin-bottom:24px;">
+            <h1 class="font-display" style="font-size:28px;margin:0 0 6px;">My giveaways</h1>
+            <p style="margin:0;color:var(--cr-muted);">All your campaigns and their status.</p>
+          </header>
+          <div class="cr-dash-card">
+            <div class="cr-dash-card__body" style="padding-top:8px;">
+              <div class="cr-giveaway-row">
+                <div class="cr-giveaway-row__info">
+                  <h4>Win a 5-Night Miami Getaway</h4>
+                  <p class="cr-giveaway-row__meta">Live · 680 entries · $12/ticket · Draw Mar 15</p>
+                </div>
+                <span class="cr-status-pill cr-status-pill--live">Live</span>
+              </div>
+              <div class="cr-giveaway-row">
+                <div class="cr-giveaway-row__info">
+                  <h4>Vegas Weekend Escape</h4>
+                  <p class="cr-giveaway-row__meta">Under Review · $8/ticket · 500 max entries</p>
+                </div>
+                <span class="cr-status-pill cr-status-pill--active">Under Review</span>
+              </div>
+              <div class="cr-giveaway-row">
+                <div class="cr-giveaway-row__info">
+                  <h4>Summer Cruise Bundle (draft)</h4>
+                  <p class="cr-giveaway-row__meta">Draft · Last edited yesterday</p>
+                </div>
+                <span class="cr-status-pill">Draft</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Create wizard -->
+        <div class="cr-dash-panel" data-cr-dash-panel="create" id="create">
+          <header style="margin-bottom:24px;">
+            <h1 class="font-display" style="font-size:28px;margin:0 0 6px;">Create giveaway</h1>
+            <p style="margin:0;color:var(--cr-muted);">Build your campaign step by step, then submit for Gaviom review.</p>
+          </header>
+
+          <div class="cr-dash-card" data-cr-wizard>
+            <div class="cr-dash-card__body" data-cr-wizard-form>
+              <div class="cr-wizard-steps">
+                <button type="button" class="cr-wizard-step-tab is-active" data-cr-wizard-step>1. Info</button>
+                <button type="button" class="cr-wizard-step-tab" data-cr-wizard-step>2. Prize</button>
+                <button type="button" class="cr-wizard-step-tab" data-cr-wizard-step>3. Settings</button>
+                <button type="button" class="cr-wizard-step-tab" data-cr-wizard-step>4. Preview</button>
+                <button type="button" class="cr-wizard-step-tab" data-cr-wizard-step>5. Submit</button>
+              </div>
+
+              <div class="cr-wizard-pane is-active" data-cr-wizard-pane>
+                <h3 class="font-display" style="font-size:18px;margin:0 0 16px;">Giveaway information</h3>
+                <div class="cr-form-grid">
+                  <div class="cr-field" style="grid-column:1/-1;"><label>Title *</label><input name="gw_title" type="text" value="Win a 5-Night Miami Getaway" /></div>
+                  <div class="cr-field" style="grid-column:1/-1;"><label>Description *</label><textarea name="gw_description">Join me for the chance to win an all-expenses-paid 5-night stay in Miami Beach, including flights and hotel.</textarea></div>
+                  <div class="cr-field"><label>Category</label>
+                    <select name="gw_category"><option>Travel</option><option>Lifestyle</option><option>Fitness</option></select>
+                  </div>
+                  <div class="cr-field"><label>Cover image URL</label><input type="url" placeholder="Upload coming soon" /></div>
+                </div>
+              </div>
+
+              <div class="cr-wizard-pane" data-cr-wizard-pane>
+                <h3 class="font-display" style="font-size:18px;margin:0 0 16px;">Prize information</h3>
+                <div class="cr-form-grid">
+                  <div class="cr-field"><label>Prize name *</label><input name="gw_prize" type="text" value="5-Night Miami Beach Hotel + Flights" /></div>
+                  <div class="cr-field"><label>Prize value (USD) *</label><input name="gw_prize_value" type="number" value="4200" /></div>
+                  <div class="cr-field" style="grid-column:1/-1;"><label>Proof of ownership / purchase</label><input type="file" accept="image/*,.pdf" /><p class="font-mono" style="font-size:11px;color:var(--cr-muted);margin-top:6px;">Receipt, invoice, or photo of prize. Required before approval.</p></div>
+                </div>
+              </div>
+
+              <div class="cr-wizard-pane" data-cr-wizard-pane>
+                <h3 class="font-display" style="font-size:18px;margin:0 0 16px;">Sweepstakes settings</h3>
+                <div class="cr-form-grid">
+                  <div class="cr-field"><label>Ticket price (USD) *</label><input name="gw_ticket_price" type="number" value="12" min="1" /></div>
+                  <div class="cr-field"><label>Max tickets *</label><input name="gw_max_tickets" type="number" value="1000" /></div>
+                  <div class="cr-field"><label>Start date</label><input type="date" /></div>
+                  <div class="cr-field"><label>End date</label><input type="date" /></div>
+                  <div class="cr-field" style="grid-column:1/-1;"><label>Draw date *</label><input type="datetime-local" /></div>
+                </div>
+              </div>
+
+              <div class="cr-wizard-pane" data-cr-wizard-pane>
+                <h3 class="font-display" style="font-size:18px;margin:0 0 16px;text-align:center;">Public page preview</h3>
+                <div class="cr-wizard-preview">
+                  <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+                    <span class="cr-verified-badge">Verified</span>
+                    <span class="font-mono" style="font-size:11px;color:var(--cr-muted);">gaviom.com/maria-chen/…</span>
+                  </div>
+                  <img src="/images/cruise-hero-1280w.webp" alt="" style="width:100%;border-radius:10px;margin-bottom:12px;" />
+                  <h4 class="font-display" data-cr-preview-title style="margin:0 0 6px;font-size:18px;">Win a 5-Night Miami Getaway</h4>
+                  <p data-cr-preview-prize style="margin:0 0 8px;font-size:14px;color:var(--cr-muted);">5-Night Miami Beach Hotel + Flights</p>
+                  <p data-cr-preview-price class="font-mono" style="font-size:13px;color:var(--cr-gold-dark);margin:0;">$12 per entry</p>
+                </div>
+              </div>
+
+              <div class="cr-wizard-pane" data-cr-wizard-pane>
+                <h3 class="font-display" style="font-size:18px;margin:0 0 12px;">Submit for Gaviom review</h3>
+                <p style="font-size:15px;color:var(--cr-muted);line-height:1.6;margin-bottom:20px;">Once submitted, our compliance team will verify your identity, prize authenticity, official rules and campaign details. Typical review: 1–2 business days for Pro creators.</p>
+                <ul class="cr-review-list" style="margin-bottom:24px;">
+                  <li><span class="cr-check">✓</span> Creator identity</li>
+                  <li><span class="cr-check">✓</span> Prize authenticity</li>
+                  <li><span class="cr-check">✓</span> Official rules generated</li>
+                  <li><span class="cr-check">✓</span> AMOE free entry active</li>
+                </ul>
+              </div>
+
+              <div class="cr-wizard-actions">
+                <button type="button" class="btn btn-ghost" data-cr-wizard-prev hidden>Back</button>
+                <button type="button" class="btn btn-primary" data-cr-wizard-next>Continue</button>
+                <button type="button" class="btn btn-primary" data-cr-wizard-submit hidden>Submit for review</button>
+              </div>
+            </div>
+
+            <div class="cr-dash-card__body" data-cr-wizard-submitted hidden style="text-align:center;padding:48px 24px;">
+              <div class="cr-apply-success__icon" style="margin:0 auto 20px;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.5"/></svg></div>
+              <h3 class="font-display" style="font-size:22px;margin:0 0 8px;">Submitted for review</h3>
+              <p style="color:var(--cr-muted);margin:0 0 20px;">Your giveaway is now in the Gaviom review queue. We'll email you when it's approved.</p>
+              <div class="cr-status-flow">
+                <span class="cr-status-pill cr-status-pill--active">Submitted</span>
+                <span class="cr-status-arrow">→</span>
+                <span class="cr-status-pill">Under Review</span>
+                <span class="cr-status-arrow">→</span>
+                <span class="cr-status-pill cr-status-pill--live">Live</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Revenue -->
+        <div class="cr-dash-panel" data-cr-dash-panel="revenue" id="revenue">
+          <header style="margin-bottom:24px;">
+            <h1 class="font-display" style="font-size:28px;margin:0 0 6px;">Revenue</h1>
+            <p style="margin:0;color:var(--cr-muted);">Track earnings across all live campaigns. Pro Creator fee: 15%.</p>
+          </header>
+          <div class="cr-stats-grid" style="grid-template-columns:repeat(3,1fr);">
+            <div class="cr-stat-card"><p class="cr-stat-card__label">Total revenue</p><p class="cr-stat-card__value">$25,872</p></div>
+            <div class="cr-stat-card"><p class="cr-stat-card__label">Platform fees</p><p class="cr-stat-card__value">$3,881</p></div>
+            <div class="cr-stat-card"><p class="cr-stat-card__label">Your earnings</p><p class="cr-stat-card__value" style="color:var(--cr-gold-dark);">$21,991</p></div>
+          </div>
+          <div class="cr-dash-card">
+            <div class="cr-dash-card__head"><h2 class="cr-dash-card__title">Payout history</h2></div>
+            <div class="cr-dash-card__body">
+              <div class="cr-giveaway-row"><div class="cr-giveaway-row__info"><h4>Miami Getaway — pending</h4><p class="cr-giveaway-row__meta">Draw not yet complete · Est. $6,528 after draw</p></div><span class="cr-status-pill">Pending</span></div>
+              <div class="cr-giveaway-row"><div class="cr-giveaway-row__info"><h4>January Cruise Bundle</h4><p class="cr-giveaway-row__meta">Paid Feb 12, 2026 · $4,250</p></div><span class="cr-status-pill cr-status-pill--live">Paid</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Settings -->
+        <div class="cr-dash-panel" data-cr-dash-panel="settings" id="settings">
+          <header style="margin-bottom:24px;">
+            <h1 class="font-display" style="font-size:28px;margin:0 0 6px;">Settings</h1>
+            <p style="margin:0;color:var(--cr-muted);">Manage your creator profile and payout details.</p>
+          </header>
+          <div class="cr-dash-card">
+            <div class="cr-dash-card__body">
+              <div class="cr-form-grid">
+                <div class="cr-field"><label>Creator display name</label><input type="text" value="Maria Chen" /></div>
+                <div class="cr-field"><label>Public URL slug</label><input type="text" value="maria-chen" /></div>
+                <div class="cr-field" style="grid-column:1/-1;"><label>Bio</label><textarea>Travel creator sharing adventures around the world. 240K followers across Instagram and TikTok.</textarea></div>
+                <div class="cr-field"><label>Instagram</label><input type="url" value="https://instagram.com/mariatravels" /></div>
+                <div class="cr-field"><label>TikTok</label><input type="url" value="https://tiktok.com/@mariatravels" /></div>
+              </div>
+              <p class="font-mono" style="font-size:12px;color:var(--cr-muted);margin-top:20px;">Stripe Connect payout setup — connect your bank account to receive earnings after each draw.</p>
+              <button type="button" class="btn btn-primary" style="margin-top:12px;">Connect Stripe payouts</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script defer src="/creators.js?v=20260709-creator"></script>
+
+  <script>
+(function () {
+  function loadGA() {
+    if (window.__gaviomGaLoaded) return;
+    window.__gaviomGaLoaded = true;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-6Z150MVYT0';
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', 'G-6Z150MVYT0');
+  }
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(loadGA, { timeout: 4000 });
+  } else {
+    window.addEventListener('load', function () { setTimeout(loadGA, 1500); }, { once: true });
+  }
+})();
+</script>
+</body>
+</html>

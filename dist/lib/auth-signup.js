@@ -1,9 +1,9 @@
 const { validateAccountEmail } = require('./email-validation');
 const {
   adminAuthConfig,
-  deliverAuthConfirmationEmail,
   formatServiceError,
 } = require('./send-auth-confirmation');
+const { issueVerificationCodeForUser } = require('./email-verification-service');
 
 function parseJsonBody(req) {
   let body = req.body;
@@ -183,6 +183,36 @@ async function handleAuthSignup(req, res) {
   const validated = validateSignupPayload(parsed.body);
   if (validated.error) return res.status(400).json({ error: validated.error });
 
+  const existingBeforeCreate = await findUserByEmail(cfg, validated.email);
+  if (existingBeforeCreate?.id) {
+    if (existingBeforeCreate.email_confirmed_at) {
+      return res.status(409).json({
+        error: 'This email is already registered. Sign in instead.',
+      });
+    }
+
+    await adminUpdateUserMetadata(cfg, existingBeforeCreate.id, validated.metadata);
+    await upsertProfile(cfg, existingBeforeCreate.id, validated.email, validated.metadata);
+
+    const sendResult = await issueVerificationCodeForUser(
+      existingBeforeCreate.id,
+      validated.email
+    );
+    if (sendResult.ok) {
+      return res.status(200).json({
+        ok: true,
+        resent: true,
+        verify_email: true,
+        email: validated.email,
+      });
+    }
+
+    return res.status(409).json({
+      error:
+        'This email is already registered. Enter your verification code, or try Forgot password.',
+    });
+  }
+
   const createResult = await adminCreateUser(
     cfg,
     validated.email,
@@ -206,14 +236,14 @@ async function handleAuthSignup(req, res) {
         await upsertProfile(cfg, existing.id, validated.email, validated.metadata);
       }
 
-      const sendResult = await deliverAuthConfirmationEmail(validated.email);
+      const sendResult = await issueVerificationCodeForUser(existing.id, validated.email);
       if (sendResult.ok) {
-        return res.status(200).json({ ok: true, resent: true });
+        return res.status(200).json({ ok: true, resent: true, verify_email: true });
       }
 
       return res.status(409).json({
         error:
-          'This email is already registered. Sign in and use Resend confirmation, or try Forgot password.',
+          'This email is already registered. Sign in and enter your verification code, or try Forgot password.',
       });
     }
 
@@ -228,18 +258,23 @@ async function handleAuthSignup(req, res) {
     await upsertProfile(cfg, userId, validated.email, validated.metadata);
   }
 
-  const sendResult = await deliverAuthConfirmationEmail(validated.email);
+  const sendResult = await issueVerificationCodeForUser(userId, validated.email);
   if (!sendResult.ok) {
-    console.error('auth-signup confirmation:', sendResult.error);
+    console.error('auth-signup verification-code:', sendResult.error);
     return res.status(502).json({
       error:
         sendResult.error ||
-        'Account created, but we could not send the confirmation email. Use Resend confirmation on the sign-in page.',
+        'Account created, but we could not send the verification code. Request a new code on the verify page.',
       created: true,
     });
   }
 
-  return res.status(200).json({ ok: true, id: sendResult.id || null });
+  return res.status(200).json({
+    ok: true,
+    verify_email: true,
+    email: validated.email,
+    expires_at: sendResult.expires_at || null,
+  });
 }
 
 module.exports = { handleAuthSignup };

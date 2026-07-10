@@ -1,17 +1,18 @@
 const publicCfg = require('./gaviom-supabase-public');
 
 function supabaseConfig() {
-  const url = (process.env.SUPABASE_URL || publicCfg.supabaseUrl || '').trim();
-  const anonKey = (process.env.SUPABASE_ANON_KEY || publicCfg.supabaseAnonKey || '').trim();
+  const authCfg = publicCfg.publicAuthConfig();
   const serviceKey = (process.env.SUPABASE_SERVICE_ROLE_KEY || '').trim();
-  if (!url || url.includes('REPLACE')) return null;
-  if (!anonKey || anonKey.includes('REPLACE')) return null;
-  return { url, anonKey, serviceKey: serviceKey && !serviceKey.includes('REPLACE') ? serviceKey : null };
+  if (!authCfg.url || authCfg.url.includes('REPLACE')) return null;
+  if (!authCfg.anonKey || authCfg.anonKey.includes('REPLACE')) return null;
+  return {
+    url: authCfg.url,
+    anonKey: authCfg.anonKey,
+    serviceKey: serviceKey && !serviceKey.includes('REPLACE') ? serviceKey : null,
+  };
 }
 
-function isUserEmailConfirmed(user) {
-  return !!(user && user.email_confirmed_at);
-}
+const { isUserEmailConfirmed } = require('./auth-user');
 
 async function verifyBearerUser(req) {
   const cfg = supabaseConfig();
@@ -50,7 +51,7 @@ async function verifyVerifiedUser(req) {
   const auth = await verifyBearerUser(req);
   if (auth.error) return auth;
   if (!isUserEmailConfirmed(auth.user)) {
-    return { error: 'Confirm your email before continuing.', status: 403 };
+    return { error: 'Please verify your email before continuing.', status: 403 };
   }
   return auth;
 }

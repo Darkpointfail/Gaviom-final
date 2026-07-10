@@ -99,7 +99,7 @@
 
   function parseHashSection() {
     var hash = (window.location.hash || '').replace('#', '');
-    var allowed = ['profile', 'tickets', 'draws', 'membership', 'payments', 'promos', 'help', 'security'];
+    var allowed = ['profile', 'tickets', 'draws', 'membership', 'creator', 'payments', 'promos', 'help', 'security'];
     return allowed.indexOf(hash) >= 0 ? hash : '';
   }
 
@@ -919,7 +919,7 @@
     }
 
     if (window.GaviomAuth.isEmailConfirmed && !window.GaviomAuth.isEmailConfirmed(session.user)) {
-      window.location.replace('/signin.html?confirm=required&next=' + encodeURIComponent('/account.html'));
+      window.location.replace('/verify-email.html?verify=required&next=' + encodeURIComponent('/account.html'));
       return;
     }
 

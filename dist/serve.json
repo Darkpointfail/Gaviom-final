@@ -1,0 +1,15 @@
+{
+  "cleanUrls": false,
+  "directoryListing": false,
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/creators", "destination": "/creators/index.html" },
+    { "source": "/creators/apply", "destination": "/creators/apply.html" },
+    { "source": "/creators/dashboard", "destination": "/creators/dashboard.html" },
+    { "source": "/creators/winners", "destination": "/creators/winners.html" },
+    { "source": "/creators/demo/miami-getaway", "destination": "/creators/demo/miami-getaway/index.html" },
+    { "source": "/creators/demo/miami-getaway/", "destination": "/creators/demo/miami-getaway/index.html" },
+    { "source": "/account", "destination": "/account.html" },
+    { "source": "/contact", "destination": "/contact.html" }
+  ]
+}

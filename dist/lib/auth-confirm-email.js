@@ -68,13 +68,11 @@ function buildConfirmUrlFromActionLink(actionLink, preferredType, linkProps) {
 }
 
 function verifyTypes(primaryType) {
-  const ordered = [primaryType, 'signup', 'invite', 'email', 'magiclink'];
-  return ordered.filter(function (type, index, arr) {
-    return type && arr.indexOf(type) === index;
-  });
+  const type = String(primaryType || 'signup').trim();
+  return type ? [type] : ['signup'];
 }
 
-async function verifyEmailToken(url, anonKey, tokenHash, primaryType) {
+async function verifyEmailToken(url, anonKey, tokenHash, primaryType, auditContext) {
   const hash = String(tokenHash || '').trim();
   if (!hash) {
     return { error: { message: 'missing token hash' } };
@@ -84,6 +82,16 @@ async function verifyEmailToken(url, anonKey, tokenHash, primaryType) {
   let lastError = null;
 
   for (const type of types) {
+    if (auditContext) {
+      const { auditConfirm, tokenPreview } = require('./auth-audit-log');
+      auditConfirm('verify:attempt', {
+        requestId: auditContext.requestId || null,
+        type,
+        token: tokenPreview(hash),
+        source: auditContext.source || 'verifyEmailToken',
+      });
+    }
+
     const verifyRes = await fetch(`${url}/auth/v1/verify`, {
       method: 'POST',
       headers: {
@@ -96,9 +104,28 @@ async function verifyEmailToken(url, anonKey, tokenHash, primaryType) {
 
     const data = await verifyRes.json().catch(() => ({}));
     if (verifyRes.ok && data.access_token && data.refresh_token) {
+      if (auditContext) {
+        const { auditConfirm, tokenPreview } = require('./auth-audit-log');
+        auditConfirm('verify:success', {
+          requestId: auditContext.requestId || null,
+          type,
+          token: tokenPreview(hash),
+          userId: data.user?.id || null,
+        });
+      }
       return { data, verifyType: type };
     }
     lastError = data;
+    if (auditContext) {
+      const { auditConfirm, tokenPreview } = require('./auth-audit-log');
+      auditConfirm('verify:failed', {
+        requestId: auditContext.requestId || null,
+        type,
+        token: tokenPreview(hash),
+        status: verifyRes.status,
+        error: data?.msg || data?.message || data?.error_description || data?.error || null,
+      });
+    }
   }
 
   console.error('auth-confirm:verify-failed', {
@@ -109,26 +136,52 @@ async function verifyEmailToken(url, anonKey, tokenHash, primaryType) {
   return { error: lastError || { message: 'verify failed' } };
 }
 
-async function forceConfirmUser(cfg, userId) {
-  if (!cfg || !userId) return false;
+async function confirmViaGeneratedLink(cfg, url, anonKey, email, preferredTypes) {
+  const types = preferredTypes || ['signup', 'invite', 'email', 'magiclink'];
+  let lastError = null;
 
-  const res = await fetch(`${cfg.url}/auth/v1/admin/users/${userId}`, {
-    method: 'PUT',
-    headers: {
-      apikey: cfg.key,
-      Authorization: `Bearer ${cfg.key}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ email_confirm: true }),
-  });
+  for (const type of types) {
+    const res = await fetch(`${cfg.url}/auth/v1/admin/generate_link`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${cfg.key}`,
+        apikey: cfg.key,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        type,
+        email,
+        options: { redirect_to: 'https://gaviom.com/auth-callback.html' },
+      }),
+    });
 
-  if (!res.ok) {
-    const err = await res.text().catch(() => '');
-    console.error('auth-confirm:force-confirm', res.status, err);
-    return false;
+    const data = await res.json().catch(() => ({}));
+    const props = extractLinkProperties(data);
+    if (!res.ok || !props.hashed_token) {
+      lastError = data;
+      continue;
+    }
+
+    const verified = await verifyEmailToken(
+      url,
+      anonKey,
+      props.hashed_token,
+      props.verification_type || type
+    );
+    if (verified.data?.access_token && verified.data?.refresh_token) {
+      return { data: verified.data, verifyType: verified.verifyType || type };
+    }
+    lastError = verified.error || data;
   }
 
-  return true;
+  console.error('auth-confirm:generated-link', lastError);
+  return null;
+}
+
+async function forceConfirmUser(cfg, userId) {
+  const { ensureUserEmailConfirmed } = require('./auth-user');
+  const result = await ensureUserEmailConfirmed(cfg, userId);
+  return result.ok;
 }
 
 function isUserConfirmed(user) {
@@ -149,15 +202,36 @@ async function handleAuthConfirm(req, res) {
     return res.redirect(302, '/signin.html?confirm=error');
   }
 
-  const params = new URLSearchParams({ confirm_token: token, type });
+  const params = new URLSearchParams({
+    confirm_token: token,
+    type,
+    issued: String(Date.now()),
+  });
   if (nextPath && nextPath !== '/account.html') params.set('next', nextPath);
   return res.redirect(302, `/auth-callback.html?${params.toString()}`);
+}
+
+function buildEmailConfirmUrl(hashedToken, preferredType) {
+  const origin = (process.env.AUTH_CONFIRM_ORIGIN || 'https://gaviom.com').replace(/\/$/, '');
+  const params = new URLSearchParams({
+    confirm_token: String(hashedToken || '').trim(),
+    type: String(preferredType || 'signup').trim(),
+    issued: String(Date.now()),
+  });
+  return `${origin}/auth-callback.html?${params.toString()}`;
+}
+
+function buildOneClickConfirmUrl(hashedToken, preferredType) {
+  return buildEmailConfirmUrl(hashedToken, preferredType);
 }
 
 module.exports = {
   handleAuthConfirm,
   buildConfirmUrlFromActionLink,
+  buildEmailConfirmUrl,
+  buildOneClickConfirmUrl,
   verifyEmailToken,
+  confirmViaGeneratedLink,
   forceConfirmUser,
   isUserConfirmed,
   safeNext,

@@ -7,9 +7,9 @@
     "build": "node scripts/patch-launch-dates.mjs && node scripts/normalize-blog-content.mjs && node scripts/build-blog.mjs && node scripts/patch-favicon-html.mjs && node scripts/patch-preconnect-html.mjs && node scripts/patch-google-fonts-html.mjs && node scripts/patch-cart-html.mjs && node scripts/lighthouse-images.mjs --source && node scripts/patch-responsive-images.mjs && node scripts/patch-pagespeed-images.mjs && node scripts/patch-performance-html.mjs && node scripts/patch-mobile-perf-html.mjs && node scripts/patch-home-hero-static.mjs && node scripts/build-static.mjs && node scripts/build-business.mjs && node scripts/optimize-images.mjs && node scripts/minify-assets.mjs",
     "build:business": "node scripts/build-business.mjs",
     "dev": "node scripts/dev-server.mjs",
-    "dev:root": "npx --yes serve -l 3001 .",
+    "dev:static": "npx --yes serve -l 3002 dist",
     "dev:business": "npm run dev --prefix business",
-    "dev:payments": "npx vercel dev",
+    "dev:api": "npx vercel dev --listen 3001",
     "favicons": "node scripts/build-favicons.mjs",
     "preview": "npm run build && npx --yes serve -l 3001 dist",
     "start": "npm run dev"

@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="/styles.css?v=20260713-mobile-auth" media="(min-width: 769px)" />
   <link rel="stylesheet" href="/styles.css?v=20260713-mobile-auth" media="print" onload="this.media='(max-width:768px)'" />
   <noscript><link rel="stylesheet" href="/styles.css?v=20260713-mobile-auth" /></noscript>
-  <link rel="stylesheet" href="/account.css?v=20260708-acct" />
+  <link rel="stylesheet" href="/account.css?v=20260709-creator-acct" />
   <link rel="stylesheet" href="/mobile.css?v=20260713-mobile-auth" media="print" onload="this.media='screen and (max-width:1024px)'" />
   <noscript><link rel="stylesheet" href="/mobile.css?v=20260713-mobile-auth" media="screen and (max-width: 1024px)" /></noscript>
 </head>
@@ -72,6 +72,7 @@
         <a href="#tickets" class="acct-tabs-mobile__link" data-account-nav="tickets">Tickets</a>
         <a href="#draws" class="acct-tabs-mobile__link" data-account-nav="draws">Draws</a>
         <a href="#membership" class="acct-tabs-mobile__link" data-account-nav="membership">Gaviom+</a>
+        <a href="#creator" class="acct-tabs-mobile__link" data-account-nav="creator">Mon événement</a>
         <a href="#promos" class="acct-tabs-mobile__link" data-account-nav="promos">Promos</a>
         <a href="#payments" class="acct-tabs-mobile__link" data-account-nav="payments">Payment</a>
         <a href="#security" class="acct-tabs-mobile__link" data-account-nav="security">Security</a>
@@ -104,6 +105,7 @@
             <a href="#tickets" class="acct-nav__link" data-account-nav="tickets">Tickets</a>
             <a href="#draws" class="acct-nav__link" data-account-nav="draws">Draws</a>
             <a href="#membership" class="acct-nav__link" data-account-nav="membership">Gaviom+</a>
+            <a href="#creator" class="acct-nav__link acct-nav__link--creator" data-account-nav="creator">Créer mon événement</a>
             <a href="#promos" class="acct-nav__link" data-account-nav="promos">Promo codes</a>
             <a href="#payments" class="acct-nav__link" data-account-nav="payments">Payment</a>
             <a href="#security" class="acct-nav__link" data-account-nav="security">Security</a>
@@ -255,6 +257,31 @@
             </div>
           </section>
 
+          <section class="acct-card acct-card--creator" id="creator" data-account-section="creator">
+            <header class="acct-card__head">
+              <h2 class="acct-card__title">Créer mon événement</h2>
+              <p class="acct-card__desc">Lancez votre propre sweepstakes vérifié avec Gaviom — nous gérons les règles, les paiements et le tirage au sort.</p>
+            </header>
+            <div class="acct-creator">
+              <div class="acct-creator__badge">
+                <span class="acct-creator__badge-dot" aria-hidden="true"></span>
+                Gaviom Creator
+              </div>
+              <p class="acct-creator__lede">Vous apportez le prix et votre communauté. Gaviom vérifie, opère et sécurise chaque campagne avant mise en ligne.</p>
+              <ul class="acct-creator__benefits">
+                <li>Sweepstakes vérifié avec badge Gaviom</li>
+                <li>Règles officielles et entrée gratuite (AMOE)</li>
+                <li>Paiements sécurisés et revenus transparents</li>
+                <li>Tirage au sort équitable et annonce du gagnant</li>
+              </ul>
+              <div class="acct-creator__actions">
+                <a href="/creators/apply?from=account" class="btn btn-primary btn-lg" data-account-creator-apply>Soumettre ma candidature</a>
+                <a href="/creators/" class="btn btn-ghost">En savoir plus</a>
+              </div>
+              <p class="acct-creator__note font-mono">Chaque candidature est examinée par l'équipe Gaviom avant activation.</p>
+            </div>
+          </section>
+
           <section class="acct-card" id="promos" data-account-section="promos">
             <header class="acct-card__head">
               <h2 class="acct-card__title">Promo codes</h2>
@@ -352,8 +379,8 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="/auth-config.js"></script>
-  <script src="/auth.js?v=20260714-auth-callback"></script>
-  <script src="/account.js?v=20260713-reset-password"></script>
+  <script src="/auth.js?v=20260722-otp-verify"></script>
+  <script src="/account.js?v=20260709-creator-acct"></script>
   <script defer src="/auth-nav.js"></script>
   <script defer src="/app.js?v=20260713-mobile-auth"></script>
 

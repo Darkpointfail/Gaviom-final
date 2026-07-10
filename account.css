@@ -895,3 +895,81 @@ body.acct-page .nav-signin--active {
   border-color: rgba(180, 35, 24, 0.35);
   background: rgba(180, 35, 24, 0.06);
 }
+
+/* Creator event section */
+.acct-nav__link--creator {
+  color: var(--acct-gold);
+  font-weight: 600;
+}
+
+.acct-nav__link--creator.is-active,
+.acct-nav__link--creator:hover {
+  color: var(--acct-navy);
+}
+
+.acct-card--creator {
+  border-top: 3px solid var(--acct-gold);
+}
+
+.acct-creator__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(200, 169, 106, 0.14);
+  border: 1px solid rgba(200, 169, 106, 0.35);
+  font-family: "Geist Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--acct-gold);
+}
+
+.acct-creator__badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--acct-gold);
+}
+
+.acct-creator__lede {
+  margin: 0 0 var(--acct-space-2);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--acct-muted);
+  max-width: 58ch;
+}
+
+.acct-creator__benefits {
+  margin: 0 0 var(--acct-space-3);
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.acct-creator__benefits li {
+  font-size: 14px;
+  color: var(--acct-text);
+}
+
+.acct-creator__benefits li::before {
+  content: "✓ ";
+  color: var(--acct-gold);
+  font-weight: 700;
+}
+
+.acct-creator__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--acct-space-1);
+  margin-bottom: var(--acct-space-2);
+}
+
+.acct-creator__note {
+  margin: 0;
+  font-size: 11px;
+  color: var(--acct-muted);
+}

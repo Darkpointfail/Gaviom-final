@@ -549,6 +549,11 @@
       /* ignore */
     }
     if (!res.ok) {
+      if (res.status === 404) {
+        throw new Error(
+          'Sign-in API is not running locally. Stop the server and run: npm run dev (uses Vercel dev, not static serve).'
+        );
+      }
       var err = new Error(normalizeAlertMessage(data.error || data.message || data.msg) || 'Sign in failed.');
       err.code = data.code || null;
       throw err;

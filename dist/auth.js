@@ -96,8 +96,10 @@
     return null;
   }
 
-  function emailConfirmRedirectUrl() {
-    return window.location.origin + '/auth-callback.html';
+  function verifyEmailRedirectUrl(email) {
+    var base = '/verify-email.html';
+    if (!email) return base;
+    return base + '?email=' + encodeURIComponent(String(email).trim().toLowerCase());
   }
 
   function storePostVerifyNext() {
@@ -133,12 +135,47 @@
     }
   }
 
+  var confirmAuditState = {
+    initAuthCallbackCalls: 0,
+    runConfirmationCalls: 0,
+    completeConfirmApiCalls: 0,
+    requestId: null,
+  };
+
+  function confirmAuditLog(label, detail) {
+    var payload = {
+      ts: new Date().toISOString(),
+      label: label,
+      counts: {
+        initAuthCallback: confirmAuditState.initAuthCallbackCalls,
+        runConfirmation: confirmAuditState.runConfirmationCalls,
+        completeConfirmApi: confirmAuditState.completeConfirmApiCalls,
+      },
+    };
+    if (detail) payload.detail = detail;
+    console.info('[Gaviom Confirm Audit]', payload);
+  }
+
+  function authCallbackPendingToken() {
+    var params = new URLSearchParams(window.location.search || '');
+    return !!(
+      params.get('confirm_token') ||
+      params.get('token_hash') ||
+      params.get('token') ||
+      params.get('proof')
+    );
+  }
+
+  function shouldSkipAutoLanding() {
+    if (document.body.dataset.authPage !== 'callback') return false;
+    return authCallbackPendingToken();
+  }
+
   function isEmailConfirmationLanding() {
     var params = new URLSearchParams(window.location.search || '');
     var hash = window.location.hash || '';
     return (
       params.get('verified') === '1' ||
-      params.has('confirm_token') ||
       params.has('code') ||
       params.has('token_hash') ||
       hash.indexOf('access_token=') !== -1 ||
@@ -393,7 +430,7 @@
     return data.user;
   }
 
-  async function confirmProofViaApi(email, proof) {
+  async function confirmProofViaApi(email, proof, confirmToken, confirmType) {
     var res = await fetch('/api/auth-confirm-proof', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -401,6 +438,8 @@
       body: JSON.stringify({
         email: String(email || '').trim().toLowerCase(),
         proof: proof,
+        confirm_token: confirmToken || '',
+        type: confirmType || 'signup',
       }),
     });
     var data = {};
@@ -418,7 +457,14 @@
     return data;
   }
 
-  async function completeConfirmViaApi(confirmToken, confirmType) {
+  async function completeConfirmViaApi(confirmToken, confirmType, issued) {
+    confirmAuditState.completeConfirmApiCalls += 1;
+    confirmAuditLog('completeConfirmViaApi:call', {
+      requestId: confirmAuditState.requestId,
+      type: confirmType || 'signup',
+      tokenPreview: String(confirmToken || '').slice(0, 8),
+      issued: issued || null,
+    });
     var res = await fetch('/api/auth-complete-confirm', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -426,6 +472,8 @@
       body: JSON.stringify({
         confirm_token: confirmToken,
         type: confirmType || 'signup',
+        issued: issued || null,
+        request_id: confirmAuditState.requestId,
       }),
     });
     var data = {};
@@ -437,6 +485,49 @@
     if (!res.ok) {
       var apiMessage = normalizeAlertMessage(data.error || data.message || data.msg);
       throw new Error(apiMessage || 'Could not confirm your email.');
+    }
+    return data;
+  }
+
+  async function verifyEmailCodeViaApi(email, code) {
+    var res = await fetch('/api/verify-email-code', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify({
+        email: String(email || '').trim().toLowerCase(),
+        code: String(code || '').trim(),
+      }),
+    });
+    var data = {};
+    try {
+      data = await res.json();
+    } catch (e) {
+      /* ignore */
+    }
+    if (!res.ok || !data.success) {
+      throw new Error(normalizeAlertMessage(data.error || data.message) || 'Could not verify your email.');
+    }
+    return data;
+  }
+
+  async function resendEmailCodeViaApi(email) {
+    var res = await fetch('/api/resend-email-code', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify({
+        email: String(email || '').trim().toLowerCase(),
+      }),
+    });
+    var data = {};
+    try {
+      data = await res.json();
+    } catch (e) {
+      /* ignore */
+    }
+    if (!res.ok || !data.success) {
+      throw new Error(normalizeAlertMessage(data.error || data.message) || 'Could not resend verification code.');
     }
     return data;
   }
@@ -458,6 +549,11 @@
       /* ignore */
     }
     if (!res.ok) {
+      if (res.status === 404) {
+        throw new Error(
+          'Sign-in API is not running locally. Stop the server and run: npm run dev (uses Vercel dev, not static serve).'
+        );
+      }
       var err = new Error(normalizeAlertMessage(data.error || data.message || data.msg) || 'Sign in failed.');
       err.code = data.code || null;
       throw err;
@@ -745,7 +841,7 @@
         auth: {
           persistSession: true,
           autoRefreshToken: true,
-          detectSessionInUrl: true,
+          detectSessionInUrl: document.body.dataset.authPage !== 'callback',
           storage: createAuthStorage(),
         },
       });
@@ -768,7 +864,10 @@
         var result = await client.auth.getSession();
         applySession(result.data.session || null, 'INITIAL_SESSION');
 
-        var redirected = await completeEmailConfirmationLanding();
+        var redirected = false;
+        if (!shouldSkipAutoLanding()) {
+          redirected = await completeEmailConfirmationLanding();
+        }
         if (redirected) return null;
 
         setTimeout(function () {
@@ -886,7 +985,7 @@
       invalid_credentials:
         'Incorrect email or password. Try again or use Forgot password.',
       email_not_confirmed:
-        'Confirm your email before signing in. Check your inbox or resend the confirmation link below.',
+        'Please verify your email first. Enter your verification code on the verify page.',
       unexpected_failure:
         'Account service error, often caused by email confirmation not being configured. Check Supabase Auth settings.',
     };
@@ -1089,7 +1188,7 @@
       .replace(/"/g, '&quot;');
   }
 
-  function showSignupVerifyScreen(email, initialError) {
+  function showSignupOtpScreen(email, initialError) {
     var card = document.querySelector('.auth-card');
     if (!card || card.querySelector('[data-auth-verify-pending]')) return;
 
@@ -1109,11 +1208,16 @@
     block.className = 'auth-verify-pending';
     block.setAttribute('data-auth-verify-pending', '');
     block.innerHTML =
-      '<p class="auth-verify-pending__msg">We sent a confirmation link to <strong>' + safeEmail + '</strong>. Open it to activate your account — you will be signed in automatically.</p>' +
-      '<p class="auth-verify-pending__hint font-mono">Check your spam or promotions folder. If nothing arrives within 5 minutes, use Resend confirmation below or try another email provider (Gmail, Outlook).</p>' +
+      '<p class="auth-verify-pending__msg">We sent a 6-digit code to <strong>' + safeEmail + '</strong>. Enter it below to activate your account.</p>' +
+      '<p class="auth-verify-pending__hint font-mono">Check your spam or promotions folder. The code expires in 10 minutes.</p>' +
       '<p class="auth-alert" data-auth-verify-alert role="alert" aria-live="polite"' + (initialError ? '' : ' hidden') + '></p>' +
+      '<form class="co-form auth-form" id="auth-signup-verify-form" action="#" method="get" novalidate>' +
+      '<div class="co-field"><label for="signup-verify-code">Verification code</label>' +
+      '<input id="signup-verify-code" name="code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="123456" required /></div>' +
+      '<button type="submit" class="btn btn-primary btn-lg auth-submit">Verify account</button>' +
+      '</form>' +
       '<div class="auth-verify-pending__actions">' +
-      '<button type="button" class="btn btn-primary btn-lg auth-submit" data-auth-signup-resend>Resend confirmation email</button>' +
+      '<button type="button" class="btn btn-ghost auth-submit" data-auth-signup-resend>Resend code</button>' +
       '<a href="/signin.html" class="btn btn-ghost auth-verify-pending__signin">Go to sign in</a>' +
       '</div>';
 
@@ -1121,21 +1225,49 @@
     if (insertBefore) card.insertBefore(block, insertBefore);
     else card.appendChild(block);
 
+    var alertEl = block.querySelector('[data-auth-verify-alert]');
     if (initialError) {
-      showAlert(block.querySelector('[data-auth-verify-alert]'), initialError, 'error');
+      showAlert(alertEl, initialError, 'error');
+    }
+
+    var verifyForm = block.querySelector('#auth-signup-verify-form');
+    if (verifyForm) {
+      verifyForm.addEventListener('submit', async function (ev) {
+        ev.preventDefault();
+        showAlert(alertEl, '', '');
+        var code = ($('#signup-verify-code') || {}).value || '';
+        code = code.trim();
+        if (!/^\d{6}$/.test(code)) {
+          showAlert(alertEl, 'Enter the 6-digit code from your email.', 'error');
+          return;
+        }
+        setLoading(verifyForm, true);
+        try {
+          await verifyEmailCodeViaApi(email, code);
+          showAlert(alertEl, 'Email verified. Redirecting to sign in…', 'success');
+          window.setTimeout(function () {
+            window.location.href = '/signin.html?verified=1&email=' + encodeURIComponent(email);
+          }, 700);
+        } catch (err) {
+          showAlert(alertEl, friendlyAuthError(err), 'error');
+        } finally {
+          setLoading(verifyForm, false);
+        }
+      });
     }
 
     block.querySelector('[data-auth-signup-resend]').addEventListener('click', async function () {
       var btn = block.querySelector('[data-auth-signup-resend]');
-      var alertEl = block.querySelector('[data-auth-verify-alert]');
       if (btn) btn.disabled = true;
       try {
-        await window.GaviomAuth.resendConfirmationEmail(email);
-        showAlert(alertEl, 'Confirmation email sent. Check your inbox and spam folder.', 'success');
+        await resendEmailCodeViaApi(email);
+        showAlert(alertEl, 'Verification code sent. Check your inbox and spam folder.', 'success');
       } catch (err) {
         showAlert(alertEl, friendlyAuthError(err), 'error');
       } finally {
-        if (btn) btn.disabled = false;
+        window.setTimeout(function () {
+          if (btn) btn.disabled = false;
+        }, 60000);
       }
     });
   }
@@ -1352,7 +1484,7 @@
       if (!session || !session.user) return;
       if (!isEmailConfirmed(session.user)) {
         if (page === 'signup') {
-          showSignupVerifyScreen(session.user.email || '');
+          showSignupOtpScreen(session.user.email || '');
         }
         return;
       }
@@ -1374,10 +1506,28 @@
   }
 
   async function runAuthCallbackConfirmation(params, alertEl, statusEl, fallbackEl, triggerEl) {
+    if (window.__gaviomConfirmRunning) {
+      confirmAuditLog('runAuthCallbackConfirmation:skipped-duplicate');
+      return false;
+    }
+    window.__gaviomConfirmRunning = true;
+    confirmAuditState.runConfirmationCalls += 1;
+
     var proof = (params.get('proof') || '').trim();
     var email = (params.get('email') || '').trim().toLowerCase();
-    var confirmToken = (params.get('confirm_token') || '').trim();
+    var confirmToken = (params.get('confirm_token') || params.get('token_hash') || params.get('token') || '').trim();
     var confirmType = (params.get('type') || 'signup').trim();
+    var issued = (params.get('issued') || '').trim();
+    confirmAuditState.requestId =
+      confirmAuditState.requestId || 'cli_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+    confirmAuditLog('runAuthCallbackConfirmation:start', {
+      requestId: confirmAuditState.requestId,
+      href: window.location.href,
+      hasProof: !!proof,
+      hasConfirmToken: !!confirmToken,
+      type: confirmType,
+      issued: issued || null,
+    });
 
     if (triggerEl) {
       triggerEl.disabled = true;
@@ -1389,10 +1539,31 @@
       await clearLocalSession(client);
       var apiData = null;
 
-      if (proof && email) {
-        apiData = await confirmProofViaApi(email, proof);
-      } else if (confirmToken) {
-        apiData = await completeConfirmViaApi(confirmToken, confirmType);
+      if (confirmToken) {
+        apiData = await completeConfirmViaApi(confirmToken, confirmType, issued);
+        confirmAuditLog('completeConfirm:result', {
+          requestId: confirmAuditState.requestId,
+          userId: apiData.user && apiData.user.id ? apiData.user.id : null,
+          email: apiData.user && apiData.user.email ? apiData.user.email : null,
+          adminEmailConfirmedAt:
+            apiData.user && apiData.user.email_confirmed_at ? apiData.user.email_confirmed_at : null,
+          confirmationSuccess: apiData.email_confirmed === true,
+        });
+        if (apiData.email_confirmed !== true) {
+          throw new Error('Email confirmation failed. Please request a new confirmation link.');
+        }
+      } else if (proof && email) {
+        apiData = await confirmProofViaApi(email, proof, confirmToken, confirmType);
+        if (apiData && (apiData.signin_required || (apiData.email_confirmed && !apiData.access_token))) {
+          if (statusEl) statusEl.hidden = true;
+          if (fallbackEl) fallbackEl.hidden = false;
+          showAlert(
+            alertEl,
+            apiData.error || 'Your email is confirmed. Sign in with your password on the sign-in page.',
+            'success'
+          );
+          return true;
+        }
       } else {
         throw new Error('This confirmation link is invalid or expired.');
       }
@@ -1403,12 +1574,14 @@
         params.delete('email');
         params.delete('confirm_token');
         params.delete('type');
+        params.delete('issued');
         var search = params.toString();
         history.replaceState(null, '', window.location.pathname + (search ? '?' + search : ''));
       } catch (scrubErr) {
         /* ignore */
       }
       await finishAuthCallbackSuccess(alertEl, statusEl);
+      window.__gaviomConfirmRunning = false;
       return true;
     } catch (err) {
       logAuth('callback:confirm-error', err.message || String(err));
@@ -1427,11 +1600,16 @@
         triggerEl.disabled = false;
         triggerEl.textContent = 'Confirm my email';
       }
+      window.__gaviomConfirmRunning = false;
       return false;
     }
   }
 
   async function initAuthCallback() {
+    confirmAuditState.initAuthCallbackCalls += 1;
+    confirmAuditLog('initAuthCallback:start', {
+      href: window.location.href,
+    });
     var alertEl = $('[data-auth-alert]');
     var statusEl = $('[data-auth-callback-status]');
     var fallbackEl = $('[data-auth-callback-fallback]');
@@ -1440,9 +1618,15 @@
 
     storePostVerifyNext();
 
+    if (!authCallbackPendingToken() && isEmailConfirmationLanding()) {
+      var landed = await completeEmailConfirmationLanding();
+      if (landed) return;
+    }
+
     var proof = (params.get('proof') || '').trim();
     var email = (params.get('email') || '').trim().toLowerCase();
-    var confirmToken = (params.get('confirm_token') || '').trim();
+    var confirmToken = (params.get('confirm_token') || params.get('token_hash') || params.get('token') || '').trim();
+    var confirmType = (params.get('type') || 'signup').trim();
 
     if (!proof && !confirmToken) {
       if (statusEl) statusEl.hidden = true;
@@ -1452,6 +1636,17 @@
         'This confirmation link is invalid or expired. Go to sign in and use Resend confirmation.',
         'error'
       );
+      return;
+    }
+
+    if (confirmToken && !proof) {
+      if (statusEl) {
+        statusEl.innerHTML =
+          '<p class="auth-verify-pending__msg">Confirming your account…</p>' +
+          '<p class="auth-verify-pending__hint font-mono">Please wait a moment.</p>';
+      }
+      if (actionEl) actionEl.hidden = true;
+      await runAuthCallbackConfirmation(params, alertEl, statusEl, fallbackEl, null);
       return;
     }
 
@@ -1482,31 +1677,17 @@
     if (rememberEl) rememberEl.checked = shouldRememberMe();
 
     var params = new URLSearchParams(window.location.search);
-    if (params.get('confirm_token') || (params.get('proof') && params.get('email'))) {
-      var legacyQuery = params.toString();
-      window.location.replace('/auth-callback.html' + (legacyQuery ? '?' + legacyQuery : ''));
-      return;
+    var presetSigninEmail = (params.get('email') || '').trim().toLowerCase();
+    if (presetSigninEmail) {
+      var emailField = $('#signin-email');
+      if (emailField) emailField.value = presetSigninEmail;
     }
-
     if (params.get('reset') === 'done') {
       showAlert(alertEl, 'Your password was updated. Sign in with your new password.', 'success');
+    } else if (params.get('verify') === 'required') {
+      showAlert(alertEl, 'Please verify your email first.', 'error');
     } else if (params.get('verified') === '1') {
-      showConfirmationSigningIn();
-      waitForConfirmedSession(12000).then(function (session) {
-        if (session && session.user && isEmailConfirmed(session.user)) {
-          applySession(session, 'SIGNED_IN');
-          emitAuthChanged('SIGNED_IN');
-          redirectIfSignedInConfirmed(session);
-          return;
-        }
-        if (params.get('confirm') !== 'error') {
-          showAlert(alertEl, 'Email confirmed — finishing sign-in…', 'success');
-        }
-      });
-    } else if (params.get('confirm') === 'error') {
-      showAlert(alertEl, 'This confirmation link expired or was already used. Try signing in below — if your email is confirmed it will work. Otherwise use Resend confirmation.', 'error');
-    } else if (params.get('confirm') === 'required') {
-      showAlert(alertEl, 'Confirm your email before purchasing. Check your inbox for the confirmation link.', 'error');
+      showAlert(alertEl, 'Email verified. You can sign in now.', 'success');
     }
 
     form.addEventListener('submit', async function (ev) {
@@ -1535,7 +1716,16 @@
         redirectAfterAuth();
       } catch (err) {
         logAuth('signin:error', err.message || String(err));
-        showAlert(alertEl, friendlyAuthError(err), 'error');
+        if (err.code === 'email_not_confirmed') {
+          var verifyHref = verifyEmailRedirectUrl(email);
+          showAlert(
+            alertEl,
+            'Please verify your email first. <a href="' + verifyHref + '">Enter verification code</a>',
+            'error'
+          );
+        } else {
+          showAlert(alertEl, friendlyAuthError(err), 'error');
+        }
       } finally {
         setLoading(form, false);
       }
@@ -1568,20 +1758,78 @@
     if (resend) {
       resend.addEventListener('click', async function (ev) {
         ev.preventDefault();
-        showAlert(alertEl, '', '');
         var email = ($('#signin-email') || {}).value || '';
         if (!email) {
-          showAlert(alertEl, 'Enter your email above, then click resend confirmation.', 'error');
+          showAlert(alertEl, 'Enter your email above first.', 'error');
           return;
         }
-        setLoading(form, true);
+        window.location.href = verifyEmailRedirectUrl(email.trim());
+      });
+    }
+  }
+
+  async function initVerifyEmail() {
+    var form = $('#auth-verify-email-form');
+    if (!form) return;
+    var alertEl = $('[data-auth-alert]');
+    var labelEl = $('[data-verify-email-label]');
+    var params = new URLSearchParams(window.location.search || '');
+    var emailInput = $('#verify-email');
+    var codeInput = $('#verify-code');
+    var presetEmail = (params.get('email') || '').trim().toLowerCase();
+    if (emailInput && presetEmail) {
+      emailInput.value = presetEmail;
+      if (labelEl) {
+        labelEl.textContent = 'Enter the 6-digit code we sent to ' + presetEmail + '.';
+      }
+    }
+
+    form.addEventListener('submit', async function (ev) {
+      ev.preventDefault();
+      showAlert(alertEl, '', '');
+      var email = emailInput ? emailInput.value.trim().toLowerCase() : '';
+      var code = codeInput ? codeInput.value.trim() : '';
+      if (!email || !code) {
+        showAlert(alertEl, 'Enter your email and 6-digit code.', 'error');
+        return;
+      }
+      if (!/^\d{6}$/.test(code)) {
+        showAlert(alertEl, 'Enter the 6-digit code from your email.', 'error');
+        return;
+      }
+      setLoading(form, true);
+      try {
+        await verifyEmailCodeViaApi(email, code);
+        showAlert(alertEl, 'Email verified. Redirecting to sign in…', 'success');
+        window.setTimeout(function () {
+          window.location.href = '/signin.html?verified=1&email=' + encodeURIComponent(email);
+        }, 700);
+      } catch (err) {
+        showAlert(alertEl, friendlyAuthError(err), 'error');
+      } finally {
+        setLoading(form, false);
+      }
+    });
+
+    var resendBtn = $('[data-auth-resend-code]');
+    if (resendBtn) {
+      resendBtn.addEventListener('click', async function () {
+        showAlert(alertEl, '', '');
+        var email = emailInput ? emailInput.value.trim().toLowerCase() : '';
+        if (!email) {
+          showAlert(alertEl, 'Enter your email above first.', 'error');
+          return;
+        }
+        resendBtn.disabled = true;
         try {
-          await window.GaviomAuth.resendConfirmationEmail(email.trim());
-          showAlert(alertEl, 'Confirmation email sent. Check your inbox and spam folder.', 'success');
+          await resendEmailCodeViaApi(email);
+          showAlert(alertEl, 'Verification code sent. Check your inbox and spam folder.', 'success');
         } catch (err) {
           showAlert(alertEl, friendlyAuthError(err), 'error');
         } finally {
-          setLoading(form, false);
+          window.setTimeout(function () {
+            resendBtn.disabled = false;
+          }, 60000);
         }
       });
     }
@@ -1593,6 +1841,12 @@
     var alertEl = $('[data-auth-alert]');
     fillStateSelect($('#signup-state'));
     setupSignupDob();
+
+    var signupParams = new URLSearchParams(window.location.search || '');
+    var pendingVerifyEmail = (signupParams.get('email') || '').trim().toLowerCase();
+    if (pendingVerifyEmail) {
+      showSignupOtpScreen(pendingVerifyEmail);
+    }
 
     form.querySelectorAll('input, select').forEach(function (el) {
       el.addEventListener('input', function () { el.classList.remove('auth-input-invalid'); });
@@ -1636,9 +1890,10 @@
           marketing_opt_in: signupData.marketing_opt_in,
         });
         logAuth('signup:created-via-api', { email: signupEmail });
-        showSignupVerifyScreen(signupEmail);
-        showAlert(alertEl, '', '');
+        setLoading(form, false);
+        showSignupOtpScreen(signupEmail);
         form.reset();
+        return;
       } catch (err) {
         showAlert(alertEl, friendlyAuthError(err), 'error');
       } finally {
@@ -1663,13 +1918,13 @@
       /* legacy cleanup */
     }
     showConfigBanner();
-    if (configReady()) bootstrapAuth();
+    if (configReady() && document.body.dataset.authPage !== 'callback') bootstrapAuth();
     guardSignedIn();
     var page = document.body.dataset.authPage;
     if (page === 'signin') initSignIn();
     if (page === 'signup') initSignUp();
+    if (page === 'verify-email') initVerifyEmail();
     if (page === 'reset-password') initResetPassword();
-    if (page === 'callback') initAuthCallback();
   }
 
   if (document.readyState === 'loading') {
@@ -1771,7 +2026,7 @@
         if (session && session.user && isEmailConfirmed(session.user)) return session;
         if (session && session.user && !isEmailConfirmed(session.user)) {
           window.location.href =
-            '/signin.html?confirm=required&next=' + encodeURIComponent(nextPath || '/account.html');
+            '/verify-email.html?verify=required&next=' + encodeURIComponent(nextPath || '/account.html');
           return null;
         }
       } catch (e) {
@@ -1783,23 +2038,11 @@
     },
     isEmailConfirmed: isEmailConfirmed,
     validateSignupEmail: validateSignupEmail,
-    resendConfirmationEmail: async function (email) {
+    resendVerificationCode: async function (email) {
       if (!configReady()) throw new Error('Account service is not configured.');
       var value = String(email || '').trim();
       if (!value) throw new Error('Enter your email address.');
-      try {
-        await sendConfirmationViaApi(value);
-        return true;
-      } catch (apiErr) {
-        logAuth('resend:api-failed', apiErr.message);
-      }
-      var client = getClient();
-      var result = await client.auth.resend({
-        type: 'signup',
-        email: value,
-        options: { emailRedirectTo: emailConfirmRedirectUrl() },
-      });
-      if (result.error) throw result.error;
+      await resendEmailCodeViaApi(value);
       return true;
     },
     requestPasswordReset: async function (email) {

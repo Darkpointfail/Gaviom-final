@@ -230,15 +230,23 @@
     },
     {
       "source": "/api/auth-confirmation-email",
-      "destination": "/api/account?action=confirmation-email"
+      "destination": "/api/account?action=resend-email-code"
+    },
+    {
+      "source": "/api/resend-email-code",
+      "destination": "/api/account?action=resend-email-code"
+    },
+    {
+      "source": "/api/verify-email-code",
+      "destination": "/api/account?action=verify-email-code"
     },
     {
       "source": "/api/auth-confirm",
-      "destination": "/api/account?action=confirm-email"
+      "destination": "/api/account?action=legacy-confirm"
     },
     {
       "source": "/api/auth-confirm-proof",
-      "destination": "/api/account?action=confirm-proof"
+      "destination": "/api/account?action=legacy-confirm"
     },
     {
       "source": "/api/auth-me",
@@ -246,7 +254,7 @@
     },
     {
       "source": "/api/auth-complete-confirm",
-      "destination": "/api/account?action=complete-confirm"
+      "destination": "/api/account?action=legacy-confirm"
     },
     {
       "source": "/api/auth-complete-reset",
@@ -271,6 +279,34 @@
     {
       "source": "/contact",
       "destination": "/contact.html"
+    },
+    {
+      "source": "/creators",
+      "destination": "/creators/index.html"
+    },
+    {
+      "source": "/creators/apply",
+      "destination": "/creators/apply.html"
+    },
+    {
+      "source": "/creators/dashboard",
+      "destination": "/creators/dashboard.html"
+    },
+    {
+      "source": "/creators/winners",
+      "destination": "/creators/winners.html"
+    },
+    {
+      "source": "/creators/demo/miami-getaway",
+      "destination": "/creators/demo/miami-getaway/index.html"
+    },
+    {
+      "source": "/creators/demo/miami-getaway/",
+      "destination": "/creators/demo/miami-getaway/index.html"
+    },
+    {
+      "source": "/creators/:creator/:giveaway",
+      "destination": "/creators/giveaway.html"
     },
     {
       "source": "/account",

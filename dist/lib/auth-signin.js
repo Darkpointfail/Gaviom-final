@@ -1,34 +1,13 @@
 const publicCfg = require('./gaviom-supabase-public');
+const { adminConfig } = require('./supabase-admin');
 const { validateAccountEmail } = require('./email-validation');
 const { formatServiceError } = require('./send-auth-confirmation');
 const { supabaseConfig } = require('./supabase-user');
-
-async function findUserByEmail(cfg, email) {
-  if (!cfg?.serviceKey) return null;
-  const res = await fetch(`${cfg.url}/auth/v1/admin/users?email=${encodeURIComponent(email)}`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${cfg.serviceKey}`,
-      apikey: cfg.serviceKey,
-    },
-  });
-  const data = await res.json().catch(() => ({}));
-  return Array.isArray(data?.users) && data.users[0] ? data.users[0] : null;
-}
-
-async function forceConfirmUser(cfg, userId) {
-  if (!cfg?.serviceKey || !userId) return false;
-  const res = await fetch(`${cfg.url}/auth/v1/admin/users/${userId}`, {
-    method: 'PUT',
-    headers: {
-      Authorization: `Bearer ${cfg.serviceKey}`,
-      apikey: cfg.serviceKey,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ email_confirm: true }),
-  });
-  return res.ok;
-}
+const {
+  isUserEmailConfirmed,
+  fetchAdminUserByEmail,
+  mergeCanonicalUser,
+} = require('./auth-user');
 
 function mapSignInError(data) {
   const message = formatServiceError(data);
@@ -37,7 +16,7 @@ function mapSignInError(data) {
     return {
       status: 403,
       code: 'email_not_confirmed',
-      error: 'Confirm your email before signing in. Check your inbox or use Resend confirmation.',
+      error: 'Please verify your email first.',
     };
   }
   return {
@@ -71,36 +50,83 @@ async function signInWithPassword(email, password) {
     return { error: emailCheck.error, status: 400 };
   }
 
+  const adminCfg = adminConfig();
   let attempt = await passwordGrant(cfg, emailCheck.email, password);
-  if (attempt.ok && attempt.data?.access_token && attempt.data?.refresh_token) {
-    return {
-      ok: true,
-      access_token: attempt.data.access_token,
-      refresh_token: attempt.data.refresh_token,
-      expires_in: attempt.data.expires_in,
-      expires_at: attempt.data.expires_at,
-      user: attempt.data.user || null,
-    };
-  }
 
-  const firstError = mapSignInError(attempt.data);
-  if (firstError.code === 'email_not_confirmed' && cfg.serviceKey) {
-    const user = await findUserByEmail(cfg, emailCheck.email);
-    if (user?.id) {
-      await forceConfirmUser(cfg, user.id);
-      attempt = await passwordGrant(cfg, emailCheck.email, password);
-      if (attempt.ok && attempt.data?.access_token && attempt.data?.refresh_token) {
-        return {
-          ok: true,
-          access_token: attempt.data.access_token,
-          refresh_token: attempt.data.refresh_token,
-          user: attempt.data.user || null,
-        };
+  if (!attempt.ok) {
+    const firstError = mapSignInError(attempt.data);
+
+    if (firstError.code === 'email_not_confirmed' && adminCfg) {
+      const adminUser = await fetchAdminUserByEmail(adminCfg, emailCheck.email);
+      console.info(
+        '[Gaviom Auth Debug]',
+        JSON.stringify({
+          stage: 'signin:email_not_confirmed',
+          email: emailCheck.email,
+          adminUserId: adminUser?.id || null,
+          adminEmailConfirmedAt: adminUser?.email_confirmed_at || null,
+          createdAt: adminUser?.created_at || null,
+        })
+      );
+      if (adminUser && isUserEmailConfirmed(adminUser)) {
+        attempt = await passwordGrant(cfg, emailCheck.email, password);
+      } else {
+        return { error: firstError.error, status: firstError.status, code: firstError.code };
       }
+    } else {
+      return { error: firstError.error, status: firstError.status, code: firstError.code };
     }
   }
 
-  return { error: firstError.error, status: firstError.status, code: firstError.code };
+  if (!attempt.ok || !attempt.data?.access_token || !attempt.data?.refresh_token) {
+    const err = mapSignInError(attempt.data);
+    return { error: err.error, status: err.status, code: err.code };
+  }
+
+  let user = attempt.data.user || null;
+  if (adminCfg && user?.id) {
+    const adminUser = await fetchAdminUserByEmail(adminCfg, emailCheck.email);
+    user = mergeCanonicalUser(user, adminUser);
+  }
+
+  if (!isUserEmailConfirmed(user)) {
+    console.info(
+      '[Gaviom Auth Debug]',
+      JSON.stringify({
+        stage: 'signin:post-grant-unconfirmed',
+        userId: user?.id || null,
+        email: user?.email || null,
+        emailConfirmedAt: user?.email_confirmed_at || null,
+        createdAt: user?.created_at || null,
+      })
+    );
+    return {
+      error: 'Please verify your email first.',
+      status: 403,
+      code: 'email_not_confirmed',
+    };
+  }
+
+  console.info(
+    '[Gaviom Auth Debug]',
+    JSON.stringify({
+      stage: 'signin:success',
+      userId: user?.id || null,
+      email: user?.email || null,
+      emailConfirmedAt: user?.email_confirmed_at || null,
+      createdAt: user?.created_at || null,
+    })
+  );
+
+  return {
+    ok: true,
+    access_token: attempt.data.access_token,
+    refresh_token: attempt.data.refresh_token,
+    expires_in: attempt.data.expires_in,
+    expires_at: attempt.data.expires_at,
+    user,
+    email_confirmed: true,
+  };
 }
 
 async function handleAuthSignin(req, res) {
@@ -133,6 +159,7 @@ async function handleAuthSignin(req, res) {
     expires_in: result.expires_in,
     expires_at: result.expires_at,
     user: result.user,
+    email_confirmed: result.email_confirmed,
   });
 }
 

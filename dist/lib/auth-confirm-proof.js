@@ -1,13 +1,10 @@
 const crypto = require('crypto');
-const publicCfg = require('./gaviom-supabase-public');
+const { publicAuthConfig } = require('./gaviom-supabase-public');
 const { adminConfig } = require('./supabase-admin');
-const { forceConfirmUser } = require('./auth-confirm-email');
-const { verifyEmailToken, extractLinkProperties } = require('./auth-confirm-email');
+const { completeEmailConfirmation } = require('./auth-complete-confirm');
 const {
-  isUserEmailConfirmed,
-  fetchAdminUserById,
   fetchAdminUserByEmail,
-  mergeCanonicalUser,
+  ensureUserEmailConfirmed,
 } = require('./auth-user');
 
 const PROOF_TTL_MS = 72 * 60 * 60 * 1000;
@@ -70,55 +67,28 @@ function verifyEmailConfirmProof(proof, email) {
   return { userId, email: normalizedEmail, exp };
 }
 
-async function issueSessionForEmail(cfg, url, anonKey, email) {
-  const types = ['magiclink', 'email', 'signup', 'invite'];
-  let lastError = null;
+async function completeEmailConfirmationByProof(email, proof, confirmToken, confirmType) {
+  const cfg = adminConfig();
+  const authCfg = publicAuthConfig();
 
-  for (const type of types) {
-    const res = await fetch(`${url}/auth/v1/admin/generate_link`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${cfg.key}`,
-        apikey: cfg.key,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        type,
-        email,
-        options: { redirect_to: 'https://gaviom.com/auth-callback.html' },
-      }),
-    });
-
-    const data = await res.json().catch(() => ({}));
-    const props = extractLinkProperties(data);
-    if (!res.ok || !props.hashed_token) {
-      lastError = data;
-      continue;
-    }
-
-    const verified = await verifyEmailToken(
-      url,
-      anonKey,
-      props.hashed_token,
-      props.verification_type || type
-    );
-    if (verified.data?.access_token && verified.data?.refresh_token) {
-      return { data: verified.data, verifyType: verified.verifyType || type };
-    }
-    lastError = verified.error || data;
+  if (!cfg || !authCfg.url || !authCfg.anonKey) {
+    return { error: 'Account confirmation is not configured.', status: 503 };
   }
 
-  console.error('auth-confirm-proof:issue-session', lastError);
-  return null;
-}
-
-async function completeEmailConfirmationByProof(email, proof) {
-  const cfg = adminConfig();
-  const anonKey = (process.env.SUPABASE_ANON_KEY || publicCfg.supabaseAnonKey || '').trim();
-  const url = (process.env.SUPABASE_URL || publicCfg.supabaseUrl || '').trim();
-
-  if (!cfg || !anonKey || !url) {
-    return { error: 'Account confirmation is not configured.', status: 503 };
+  const token = String(confirmToken || '').trim();
+  if (token) {
+    const parsed = verifyEmailConfirmProof(proof, email);
+    if (!parsed) {
+      return {
+        error: 'This confirmation link is invalid or expired. Request a new one from sign in.',
+        status: 401,
+      };
+    }
+    const adminUser = await fetchAdminUserByEmail(cfg, parsed.email);
+    if (!adminUser?.id || (adminUser.email || '').toLowerCase() !== parsed.email) {
+      return { error: 'Could not verify your account for this confirmation link.', status: 401 };
+    }
+    return completeEmailConfirmation(token, confirmType || 'signup');
   }
 
   const parsed = verifyEmailConfirmProof(proof, email);
@@ -129,55 +99,38 @@ async function completeEmailConfirmationByProof(email, proof) {
     };
   }
 
-  const adminUser = await fetchAdminUserById(cfg, parsed.userId);
-  if (!adminUser || (adminUser.email || '').toLowerCase() !== parsed.email) {
+  const adminUser = await fetchAdminUserByEmail(cfg, parsed.email);
+  if (!adminUser?.id || (adminUser.email || '').toLowerCase() !== parsed.email) {
     return { error: 'Could not verify your account for this confirmation link.', status: 401 };
   }
 
-  const confirmed = await forceConfirmUser(cfg, parsed.userId);
-  if (!confirmed) {
+  const confirmResult = await ensureUserEmailConfirmed(cfg, adminUser.id);
+  if (confirmResult.ok) {
     return {
-      error: 'Could not confirm your email on the server. Try Resend confirmation from sign in.',
-      status: 502,
-    };
-  }
-
-  const freshAdminUser = await fetchAdminUserById(cfg, parsed.userId);
-  if (!freshAdminUser || !isUserEmailConfirmed(freshAdminUser)) {
-    return {
-      error: 'Email confirmation did not complete. Request a new confirmation email from sign in.',
-      status: 502,
-    };
-  }
-
-  const session = await issueSessionForEmail(cfg, url, anonKey, parsed.email);
-  if (!session?.data?.access_token) {
-    return {
-      error: 'Email confirmed but sign-in failed. Sign in with your password on the sign-in page.',
-      status: 502,
+      error: 'Email confirmed. Sign in with your password on the sign-in page.',
+      status: 200,
       email_confirmed: true,
+      signin_required: true,
     };
   }
 
-  const canonicalUser = mergeCanonicalUser(session.data.user, freshAdminUser);
-
+  console.error('auth-confirm-proof:confirm-failed', { userId: adminUser.id, email: parsed.email });
   return {
-    ok: true,
-    access_token: session.data.access_token,
-    refresh_token: session.data.refresh_token,
-    expires_in: session.data.expires_in,
-    expires_at: session.data.expires_at,
-    user: canonicalUser,
-    email_confirmed: true,
+    error: 'Could not confirm your email on the server. Try Resend confirmation from sign in.',
+    status: 502,
   };
 }
 
-function buildProofConfirmUrl(email, proof) {
+function buildProofConfirmUrl(email, proof, linkMeta) {
   const origin = (process.env.AUTH_CONFIRM_ORIGIN || 'https://gaviom.com').replace(/\/$/, '');
   const params = new URLSearchParams({
     email: String(email || '').trim().toLowerCase(),
     proof: proof,
   });
+  const token = String(linkMeta?.confirm_token || linkMeta?.hashed_token || '').trim();
+  const type = String(linkMeta?.type || linkMeta?.verification_type || 'signup').trim();
+  if (token) params.set('confirm_token', token);
+  if (type) params.set('type', type);
   return `${origin}/auth-callback.html?${params.toString()}`;
 }
 
@@ -196,11 +149,17 @@ async function handleConfirmProof(req, res) {
     }
   }
 
-  const result = await completeEmailConfirmationByProof(body?.email || '', body?.proof || '');
+  const result = await completeEmailConfirmationByProof(
+    body?.email || '',
+    body?.proof || '',
+    body?.confirm_token || body?.token || '',
+    body?.type || 'signup'
+  );
   if (!result.ok) {
     return res.status(result.status || 502).json({
       error: result.error,
       email_confirmed: result.email_confirmed || false,
+      signin_required: result.signin_required || false,
     });
   }
 

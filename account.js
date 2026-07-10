@@ -99,7 +99,7 @@
 
   function parseHashSection() {
     var hash = (window.location.hash || '').replace('#', '');
-    var allowed = ['profile', 'tickets', 'draws', 'membership', 'payments', 'promos', 'help', 'security'];
+    var allowed = ['profile', 'tickets', 'draws', 'membership', 'creator', 'payments', 'promos', 'help', 'security'];
     return allowed.indexOf(hash) >= 0 ? hash : '';
   }
 
