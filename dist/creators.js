@@ -296,6 +296,13 @@
       cap: 1000,
       drawDate: '15 mars 2026',
       publicUrl: '/creators/demo/miami-getaway',
+      defaultListing: {
+        publicTitle: 'Gagnez 5 nuits à Miami + vols',
+        description:
+          'Rejoignez mon giveaway pour tenter de gagner un séjour de 5 nuits à Miami Beach avec vols inclus. Hôtel 4★ en bord de mer, petits-déjeuners et transferts aéroport — le rêve d\'une escapade Floride avec Gaviom, sweepstakes vérifié et tirage équitable.',
+        coverImage: '/images/cruise-hero-1280w.webp',
+        gallery: ['/images/cruise-hero-800w.webp', '/images/home-eight-oclock-villa-800w.webp'],
+      },
       tickets: 684,
       ticketsDelta: '+12% vs sem. dernière',
       revenue: 8208,
@@ -322,12 +329,18 @@
       emoji: '🎰',
       status: 'review',
       statusLabel: 'En revue Gaviom',
-      banner: 'Ce sweepstakes est en cours de validation par Gaviom. Les ventes et statistiques seront disponibles après approbation.',
+      banner: 'Complétez votre annonce ci-dessous (photos + description) pendant la revue Gaviom. Les ventes démarreront après approbation.',
       ticketPrice: 8,
       prizeValue: 2800,
       cap: 500,
       drawDate: '—',
       publicUrl: '',
+      defaultListing: {
+        publicTitle: 'Vegas Weekend Escape',
+        description: '',
+        coverImage: '',
+        gallery: [],
+      },
       tickets: 0,
       ticketsDelta: '',
       revenue: 0,
@@ -354,6 +367,316 @@
 
     var state = { id: 'miami', range: 7 };
     var ids = Object.keys(DASH_MOCK_SWEEPSTAKES);
+    var listingDraft = { publicTitle: '', description: '', coverImage: '', gallery: [] };
+
+    function listingStorageKey(swId) {
+      var uid = window.__crDashUserId || 'demo';
+      return 'gaviom-sw-listing:v1:' + uid + ':' + swId;
+    }
+
+    function loadListingFromStorage(swId) {
+      var sw = DASH_MOCK_SWEEPSTAKES[swId];
+      var defaults = (sw && sw.defaultListing) || {
+        publicTitle: sw ? sw.title : '',
+        description: '',
+        coverImage: '',
+        gallery: [],
+      };
+      try {
+        var raw = localStorage.getItem(listingStorageKey(swId));
+        if (!raw) return Object.assign({}, defaults);
+        return Object.assign({}, defaults, JSON.parse(raw));
+      } catch (e) {
+        return Object.assign({}, defaults);
+      }
+    }
+
+    function saveListingToStorage(swId, data) {
+      try {
+        localStorage.setItem(listingStorageKey(swId), JSON.stringify(data));
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function readImageFile(file) {
+      return new Promise(function (resolve, reject) {
+        if (!file || !file.type.match(/^image\/(jpeg|png|webp)$/)) {
+          reject(new Error('Format accepté : JPG, PNG ou WebP.'));
+          return;
+        }
+        if (file.size > 800000) {
+          reject(new Error('Image trop lourde (max 800 Ko) : ' + file.name));
+          return;
+        }
+        var reader = new FileReader();
+        reader.onload = function () {
+          resolve(String(reader.result || ''));
+        };
+        reader.onerror = function () {
+          reject(new Error('Impossible de lire le fichier.'));
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function syncListingPreview() {
+      var titleEl = qs('[data-cr-preview-title]', root);
+      var descEl = qs('[data-cr-preview-desc]', root);
+      var coverImg = qs('[data-cr-preview-cover-img]', root);
+      var coverEmpty = qs('.cr-dash-edit__preview-cover-empty', root);
+      var galleryEl = qs('[data-cr-preview-gallery]', root);
+
+      if (titleEl) titleEl.textContent = listingDraft.publicTitle || 'Titre du sweepstakes';
+      if (descEl) {
+        descEl.textContent =
+          listingDraft.description ||
+          'Ajoutez une description pour présenter votre lot à votre communauté.';
+      }
+
+      if (coverImg && coverEmpty) {
+        if (listingDraft.coverImage) {
+          coverImg.src = listingDraft.coverImage;
+          coverImg.hidden = false;
+          coverEmpty.hidden = true;
+        } else {
+          coverImg.removeAttribute('src');
+          coverImg.hidden = true;
+          coverEmpty.hidden = false;
+        }
+      }
+
+      if (galleryEl) {
+        galleryEl.innerHTML = (listingDraft.gallery || [])
+          .map(function (src) {
+            return '<img src="' + src + '" alt="" />';
+          })
+          .join('');
+      }
+
+      var statusEl = qs('[data-cr-edit-status]', root);
+      if (statusEl) {
+        var complete =
+          listingDraft.publicTitle &&
+          listingDraft.description &&
+          listingDraft.description.length >= 80 &&
+          listingDraft.coverImage;
+        statusEl.textContent = complete ? 'Annonce complète' : 'À compléter';
+        statusEl.classList.toggle('cr-status-pill--live', !!complete);
+      }
+    }
+
+    function renderCoverPreview() {
+      var empty = qs('[data-cr-edit-cover-empty]', root);
+      var preview = qs('[data-cr-edit-cover-preview]', root);
+      var img = qs('[data-cr-edit-cover-img]', root);
+      if (!empty || !preview || !img) return;
+
+      if (listingDraft.coverImage) {
+        empty.hidden = true;
+        preview.hidden = false;
+        img.src = listingDraft.coverImage;
+      } else {
+        empty.hidden = false;
+        preview.hidden = true;
+        img.removeAttribute('src');
+      }
+    }
+
+    function renderGalleryEditor() {
+      var gallery = qs('[data-cr-edit-gallery]', root);
+      var btn = qs('[data-cr-edit-gallery-btn]', root);
+      if (!gallery) return;
+
+      gallery.innerHTML = (listingDraft.gallery || [])
+        .map(function (src, idx) {
+          return (
+            '<div class="cr-dash-gallery__item">' +
+            '<img src="' +
+            src +
+            '" alt="" />' +
+            '<button type="button" data-cr-gallery-remove="' +
+            idx +
+            '" aria-label="Supprimer">×</button></div>'
+          );
+        })
+        .join('');
+
+      if (btn) {
+        btn.hidden = (listingDraft.gallery || []).length >= 4;
+      }
+
+      qsa('[data-cr-gallery-remove]', gallery).forEach(function (btnEl) {
+        btnEl.addEventListener('click', function () {
+          var i = parseInt(btnEl.getAttribute('data-cr-gallery-remove'), 10);
+          listingDraft.gallery.splice(i, 1);
+          renderGalleryEditor();
+          syncListingPreview();
+        });
+      });
+    }
+
+    function loadListingForm(swId) {
+      listingDraft = loadListingFromStorage(swId);
+
+      var titleInput = qs('[data-cr-edit-title]', root);
+      var descInput = qs('[data-cr-edit-description]', root);
+      if (titleInput) titleInput.value = listingDraft.publicTitle || '';
+      if (descInput) descInput.value = listingDraft.description || '';
+
+      renderCoverPreview();
+      renderGalleryEditor();
+      syncListingPreview();
+
+      var msg = qs('[data-cr-edit-msg]', root);
+      if (msg) msg.hidden = true;
+    }
+
+    function showEditMsg(text, isError) {
+      var msg = qs('[data-cr-edit-msg]', root);
+      if (!msg) return;
+      msg.hidden = !text;
+      msg.textContent = text || '';
+      msg.classList.toggle('is-error', !!isError);
+    }
+
+    function initListingEditor() {
+      var form = qs('[data-cr-listing-form]', root);
+      if (!form) return;
+
+      var coverInput = qs('[data-cr-edit-cover-input]', root);
+      var coverBtn = qs('[data-cr-edit-cover-btn]', root);
+      var coverZone = qs('[data-cr-edit-cover-zone]', root);
+      var coverRemove = qs('[data-cr-edit-cover-remove]', root);
+      var galleryInput = qs('[data-cr-edit-gallery-input]', root);
+      var galleryBtn = qs('[data-cr-edit-gallery-btn]', root);
+
+      if (coverBtn && coverInput) {
+        coverBtn.addEventListener('click', function () {
+          coverInput.click();
+        });
+      }
+
+      if (coverZone && coverInput) {
+        coverZone.addEventListener('click', function (e) {
+          if (e.target.closest('[data-cr-edit-cover-remove]')) return;
+          if (!listingDraft.coverImage || e.target.closest('[data-cr-edit-cover-empty]')) {
+            coverInput.click();
+          }
+        });
+
+        coverZone.addEventListener('dragover', function (e) {
+          e.preventDefault();
+          coverZone.classList.add('is-dragover');
+        });
+        coverZone.addEventListener('dragleave', function () {
+          coverZone.classList.remove('is-dragover');
+        });
+        coverZone.addEventListener('drop', function (e) {
+          e.preventDefault();
+          coverZone.classList.remove('is-dragover');
+          var file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+          if (!file) return;
+          readImageFile(file)
+            .then(function (dataUrl) {
+              listingDraft.coverImage = dataUrl;
+              renderCoverPreview();
+              syncListingPreview();
+            })
+            .catch(function (err) {
+              showEditMsg(err.message, true);
+            });
+        });
+
+        coverInput.addEventListener('change', function () {
+          var file = coverInput.files && coverInput.files[0];
+          coverInput.value = '';
+          if (!file) return;
+          readImageFile(file)
+            .then(function (dataUrl) {
+              listingDraft.coverImage = dataUrl;
+              renderCoverPreview();
+              syncListingPreview();
+            })
+            .catch(function (err) {
+              showEditMsg(err.message, true);
+            });
+        });
+      }
+
+      if (coverRemove) {
+        coverRemove.addEventListener('click', function (e) {
+          e.stopPropagation();
+          listingDraft.coverImage = '';
+          renderCoverPreview();
+          syncListingPreview();
+        });
+      }
+
+      if (galleryBtn && galleryInput) {
+        galleryBtn.addEventListener('click', function () {
+          galleryInput.click();
+        });
+        galleryInput.addEventListener('change', function () {
+          var files = Array.prototype.slice.call(galleryInput.files || []);
+          galleryInput.value = '';
+          var room = 4 - (listingDraft.gallery || []).length;
+          if (room <= 0) return;
+
+          Promise.all(
+            files.slice(0, room).map(function (f) {
+              return readImageFile(f);
+            })
+          )
+            .then(function (urls) {
+              listingDraft.gallery = (listingDraft.gallery || []).concat(urls);
+              renderGalleryEditor();
+              syncListingPreview();
+            })
+            .catch(function (err) {
+              showEditMsg(err.message, true);
+            });
+        });
+      }
+
+      qsa('[data-cr-edit-title], [data-cr-edit-description]', form).forEach(function (el) {
+        el.addEventListener('input', function () {
+          listingDraft.publicTitle = (qs('[data-cr-edit-title]', root) || {}).value || '';
+          listingDraft.description = (qs('[data-cr-edit-description]', root) || {}).value || '';
+          syncListingPreview();
+        });
+      });
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        listingDraft.publicTitle = (qs('[data-cr-edit-title]', root) || {}).value.trim();
+        listingDraft.description = (qs('[data-cr-edit-description]', root) || {}).value.trim();
+
+        if (!listingDraft.publicTitle) {
+          showEditMsg('Ajoutez un titre public.', true);
+          return;
+        }
+        if (listingDraft.description.length < 80) {
+          showEditMsg('La description doit contenir au moins 80 caractères.', true);
+          return;
+        }
+        if (!listingDraft.coverImage) {
+          showEditMsg('Ajoutez une photo de couverture.', true);
+          return;
+        }
+
+        if (!saveListingToStorage(state.id, listingDraft)) {
+          showEditMsg('Erreur de sauvegarde — images peut-être trop lourdes.', true);
+          return;
+        }
+
+        showEditMsg('Annonce enregistrée avec succès.', false);
+        syncListingPreview();
+      });
+    }
+
+    initListingEditor();
 
     function renderPickerMenu() {
       var menu = qs('[data-cr-dash-picker-menu]', root);
@@ -535,6 +858,7 @@
       }
 
       renderPickerMenu();
+      loadListingForm(id);
     }
 
     var trigger = qs('[data-cr-dash-picker-trigger]', root);
@@ -725,6 +1049,7 @@
         .then(function (result) {
           var status = (result.data && result.data.creator_status) || 'none';
           if (status === 'approved') {
+            window.__crDashUserId = user.id;
             allowDashboard(result.data);
             return;
           }

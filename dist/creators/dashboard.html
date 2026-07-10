@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="/styles.css?v=20260713-mobile-auth" media="(min-width: 769px)" />
   <link rel="stylesheet" href="/styles.css?v=20260713-mobile-auth" media="print" onload="this.media='(max-width:768px)'" />
   <noscript><link rel="stylesheet" href="/styles.css?v=20260713-mobile-auth" /></noscript>
-  <link rel="stylesheet" href="/creators.css?v=20260710-dash-one" />
+  <link rel="stylesheet" href="/creators.css?v=20260710-dash-edit" />
   <link rel="stylesheet" href="/mobile.css?v=20260713-mobile-auth" media="screen and (max-width:1024px)" />
 </head>
 <body class="cr-page cr-dash-page" data-cr-dashboard>
@@ -81,6 +81,78 @@
 
         <!-- Status banner for non-live sweepstakes -->
         <div class="cr-dash-one__banner" data-cr-dash-banner hidden role="status"></div>
+
+        <!-- Edit public listing -->
+        <section class="cr-dash-card cr-dash-edit" data-cr-dash-edit>
+          <div class="cr-dash-card__head">
+            <div>
+              <h2 class="cr-dash-card__title">Modifier l'annonce</h2>
+              <p class="cr-dash-card__sub font-mono">Photos et description affichées sur votre page sweepstakes publique</p>
+            </div>
+            <span class="cr-status-pill" data-cr-edit-status>Brouillon</span>
+          </div>
+          <div class="cr-dash-card__body">
+            <div class="cr-dash-edit__grid">
+              <form class="cr-dash-edit__form" data-cr-listing-form novalidate>
+                <div class="cr-field">
+                  <label for="cr_edit_title">Titre public</label>
+                  <input id="cr_edit_title" name="publicTitle" type="text" data-cr-edit-title placeholder="Ex. Gagnez 5 nuits à Miami + vols" required />
+                </div>
+                <div class="cr-field">
+                  <label for="cr_edit_desc">Description</label>
+                  <textarea id="cr_edit_desc" name="description" data-cr-edit-description rows="6" required placeholder="Décrivez le lot, pourquoi votre communauté va adorer ce giveaway, et comment participer…"></textarea>
+                  <p class="cr-dash-edit__hint font-mono">Minimum 80 caractères · visible sur la page publique après validation Gaviom</p>
+                </div>
+
+                <div class="cr-field">
+                  <label>Photo principale (couverture)</label>
+                  <div class="cr-dash-upload">
+                    <input type="file" accept="image/jpeg,image/png,image/webp" data-cr-edit-cover-input hidden />
+                    <div class="cr-dash-upload__zone" data-cr-edit-cover-zone>
+                      <div class="cr-dash-upload__placeholder" data-cr-edit-cover-empty>
+                        <span aria-hidden="true">📷</span>
+                        <p>Glissez une image ou cliquez pour ajouter la photo de couverture</p>
+                        <button type="button" class="btn btn-ghost btn-sm" data-cr-edit-cover-btn>Choisir une photo</button>
+                      </div>
+                      <div class="cr-dash-upload__preview" data-cr-edit-cover-preview hidden>
+                        <img alt="" data-cr-edit-cover-img />
+                        <button type="button" class="cr-dash-upload__remove" data-cr-edit-cover-remove aria-label="Supprimer la photo">×</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="cr-field">
+                  <label>Photos supplémentaires <span class="cr-dash-edit__hint-inline">(max 4)</span></label>
+                  <input type="file" accept="image/jpeg,image/png,image/webp" multiple data-cr-edit-gallery-input hidden />
+                  <div class="cr-dash-gallery" data-cr-edit-gallery></div>
+                  <button type="button" class="btn btn-ghost btn-sm" data-cr-edit-gallery-btn>+ Ajouter des photos</button>
+                </div>
+
+                <div class="cr-dash-edit__actions">
+                  <button type="submit" class="btn btn-primary" data-cr-edit-save>Enregistrer l'annonce</button>
+                  <p class="cr-dash-edit__msg font-mono" data-cr-edit-msg hidden role="status"></p>
+                </div>
+              </form>
+
+              <aside class="cr-dash-edit__preview" aria-label="Aperçu de l'annonce">
+                <p class="cr-dash-edit__preview-label font-mono">Aperçu page publique</p>
+                <article class="cr-dash-edit__preview-card">
+                  <div class="cr-dash-edit__preview-cover" data-cr-preview-cover>
+                    <span class="cr-dash-edit__preview-cover-empty">Photo de couverture</span>
+                    <img alt="" data-cr-preview-cover-img hidden />
+                  </div>
+                  <div class="cr-dash-edit__preview-body">
+                    <span class="cr-verified-badge">Verified by Gaviom</span>
+                    <h3 class="font-display" data-cr-preview-title>Titre du sweepstakes</h3>
+                    <p data-cr-preview-desc>La description apparaîtra ici…</p>
+                    <div class="cr-dash-edit__preview-thumbs" data-cr-preview-gallery></div>
+                  </div>
+                </article>
+              </aside>
+            </div>
+          </div>
+        </section>
 
         <!-- KPIs -->
         <div class="cr-stats-grid cr-dash-one__stats">
@@ -176,7 +248,8 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="/auth-config.js"></script>
   <script src="/auth.js?v=20260722-otp-verify"></script>
-  <script defer src="/creators.js?v=20260710-dash-one"></script>
+  <script defer src="/creators.js?v=20260710-dash-edit"></script>
+
   <script>
 (function () {
   function loadGA() {

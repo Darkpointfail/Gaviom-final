@@ -1126,6 +1126,200 @@ body.cr-page::before { opacity: 0.08; }
 
 .btn-block { display: flex; width: 100%; justify-content: center; margin-top: 16px; }
 
+/* Listing editor */
+.cr-dash-edit__grid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 28px;
+  align-items: start;
+}
+
+.cr-dash-edit__form { display: flex; flex-direction: column; gap: 20px; }
+
+.cr-dash-edit__hint {
+  margin: 8px 0 0;
+  font-size: 11px;
+  color: var(--cr-muted);
+}
+
+.cr-dash-edit__hint-inline {
+  font-weight: 400;
+  color: var(--cr-muted);
+  font-size: 12px;
+}
+
+.cr-dash-edit__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  padding-top: 4px;
+}
+
+.cr-dash-edit__msg {
+  margin: 0;
+  font-size: 12px;
+  color: #1a6b47;
+}
+
+.cr-dash-edit__msg.is-error { color: #9b2c2c; }
+
+.cr-dash-upload__zone {
+  border: 2px dashed var(--cr-line);
+  border-radius: var(--cr-radius-sm);
+  overflow: hidden;
+  background: rgba(10, 22, 40, 0.02);
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.cr-dash-upload__zone.is-dragover {
+  border-color: var(--cr-gold-dark, #9a7b3c);
+  background: var(--cr-gold-soft);
+}
+
+.cr-dash-upload__placeholder {
+  padding: 28px 20px;
+  text-align: center;
+  color: var(--cr-muted);
+  font-size: 14px;
+}
+
+.cr-dash-upload__placeholder span { font-size: 28px; display: block; margin-bottom: 8px; }
+
+.cr-dash-upload__preview {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: #0a1628;
+}
+
+.cr-dash-upload__preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cr-dash-upload__remove {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.cr-dash-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.cr-dash-gallery__item {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--cr-line);
+}
+
+.cr-dash-gallery__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cr-dash-gallery__item button {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.cr-dash-edit__preview {
+  position: sticky;
+  top: 88px;
+}
+
+.cr-dash-edit__preview-label {
+  margin: 0 0 12px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cr-muted);
+}
+
+.cr-dash-edit__preview-card {
+  border: 1px solid var(--cr-line);
+  border-radius: var(--cr-radius-sm);
+  overflow: hidden;
+  background: var(--cr-surface);
+  box-shadow: var(--cr-shadow);
+}
+
+.cr-dash-edit__preview-cover {
+  aspect-ratio: 16 / 10;
+  background: var(--cr-gold-soft);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.cr-dash-edit__preview-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cr-dash-edit__preview-cover-empty {
+  font-size: 12px;
+  color: var(--cr-muted);
+}
+
+.cr-dash-edit__preview-body {
+  padding: 16px;
+}
+
+.cr-dash-edit__preview-body h3 {
+  margin: 10px 0 8px;
+  font-size: 18px;
+}
+
+.cr-dash-edit__preview-body p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--cr-muted);
+  white-space: pre-wrap;
+}
+
+.cr-dash-edit__preview-thumbs {
+  display: flex;
+  gap: 6px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.cr-dash-edit__preview-thumbs img {
+  width: 52px;
+  height: 52px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
 .cr-giveaway-row {
   display: flex;
   align-items: center;
@@ -1470,6 +1664,8 @@ body.cr-page::before { opacity: 0.08; }
   .cr-revenue,
   .cr-gw-layout,
   .cr-dash-one__grid { grid-template-columns: 1fr; }
+  .cr-dash-edit__grid { grid-template-columns: 1fr; }
+  .cr-dash-edit__preview { position: static; }
   .cr-stats-grid { grid-template-columns: repeat(2, 1fr); }
   .cr-dash-one__toolbar { align-items: stretch; }
 
