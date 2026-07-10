@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="/styles.css?v=20260713-mobile-auth" media="(min-width: 769px)" />
   <link rel="stylesheet" href="/styles.css?v=20260713-mobile-auth" media="print" onload="this.media='(max-width:768px)'" />
   <noscript><link rel="stylesheet" href="/styles.css?v=20260713-mobile-auth" /></noscript>
-  <link rel="stylesheet" href="/creators.css?v=20260710-dash-edit" />
+  <link rel="stylesheet" href="/creators.css?v=20260710-dash-edit-fix" />
   <link rel="stylesheet" href="/mobile.css?v=20260713-mobile-auth" media="screen and (max-width:1024px)" />
 </head>
 <body class="cr-page cr-dash-page" data-cr-dashboard>
@@ -107,12 +107,13 @@
                 <div class="cr-field">
                   <label>Photo principale (couverture)</label>
                   <div class="cr-dash-upload">
-                    <input type="file" accept="image/jpeg,image/png,image/webp" data-cr-edit-cover-input hidden />
                     <div class="cr-dash-upload__zone" data-cr-edit-cover-zone>
+                      <input type="file" accept="image/*" data-cr-edit-cover-input class="cr-dash-file-input" />
                       <div class="cr-dash-upload__placeholder" data-cr-edit-cover-empty>
                         <span aria-hidden="true">📷</span>
                         <p>Glissez une image ou cliquez pour ajouter la photo de couverture</p>
                         <button type="button" class="btn btn-ghost btn-sm" data-cr-edit-cover-btn>Choisir une photo</button>
+                        <p class="cr-dash-upload__loading font-mono" data-cr-edit-cover-loading hidden>Compression en cours…</p>
                       </div>
                       <div class="cr-dash-upload__preview" data-cr-edit-cover-preview hidden>
                         <img alt="" data-cr-edit-cover-img />
@@ -124,7 +125,7 @@
 
                 <div class="cr-field">
                   <label>Photos supplémentaires <span class="cr-dash-edit__hint-inline">(max 4)</span></label>
-                  <input type="file" accept="image/jpeg,image/png,image/webp" multiple data-cr-edit-gallery-input hidden />
+                  <input type="file" accept="image/*" multiple data-cr-edit-gallery-input class="cr-dash-file-input" />
                   <div class="cr-dash-gallery" data-cr-edit-gallery></div>
                   <button type="button" class="btn btn-ghost btn-sm" data-cr-edit-gallery-btn>+ Ajouter des photos</button>
                 </div>
@@ -248,7 +249,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="/auth-config.js"></script>
   <script src="/auth.js?v=20260722-otp-verify"></script>
-  <script defer src="/creators.js?v=20260710-dash-edit"></script>
+  <script defer src="/creators.js?v=20260710-dash-edit-fix"></script>
 
   <script>
 (function () {

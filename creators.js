@@ -400,25 +400,93 @@
       }
     }
 
-    function readImageFile(file) {
+    function compressImageFile(file, maxWidth, targetBytes) {
+      maxWidth = maxWidth || 1600;
+      targetBytes = targetBytes || 450000;
+
       return new Promise(function (resolve, reject) {
-        if (!file || !file.type.match(/^image\/(jpeg|png|webp)$/)) {
-          reject(new Error('Format accepté : JPG, PNG ou WebP.'));
+        if (!file) {
+          reject(new Error('Aucun fichier sélectionné.'));
           return;
         }
-        if (file.size > 800000) {
-          reject(new Error('Image trop lourde (max 800 Ko) : ' + file.name));
+        if (!file.type || file.type.indexOf('image/') !== 0) {
+          reject(new Error('Choisissez une image (JPG, PNG, HEIC…).'));
           return;
         }
+
         var reader = new FileReader();
         reader.onload = function () {
-          resolve(String(reader.result || ''));
+          var img = new Image();
+          img.onload = function () {
+            var scale = Math.min(1, maxWidth / img.width, maxWidth / img.height);
+            var w = Math.max(1, Math.round(img.width * scale));
+            var h = Math.max(1, Math.round(img.height * scale));
+            var canvas = document.createElement('canvas');
+            canvas.width = w;
+            canvas.height = h;
+            var ctx = canvas.getContext('2d');
+            if (!ctx) {
+              reject(new Error('Impossible de traiter l\'image.'));
+              return;
+            }
+            ctx.drawImage(img, 0, 0, w, h);
+
+            var quality = 0.88;
+            var dataUrl = canvas.toDataURL('image/jpeg', quality);
+            while (dataUrl.length > targetBytes * 1.4 && quality > 0.35) {
+              quality -= 0.07;
+              dataUrl = canvas.toDataURL('image/jpeg', quality);
+            }
+            if (dataUrl.length > targetBytes * 1.4) {
+              reject(
+                new Error(
+                  'Image encore trop lourde après compression. Essayez une photo plus petite.'
+                )
+              );
+              return;
+            }
+            resolve(dataUrl);
+          };
+          img.onerror = function () {
+            reject(
+              new Error(
+                'Format non supporté par le navigateur. Exportez en JPG ou PNG et réessayez.'
+              )
+            );
+          };
+          img.src = reader.result;
         };
         reader.onerror = function () {
           reject(new Error('Impossible de lire le fichier.'));
         };
         reader.readAsDataURL(file);
       });
+    }
+
+    function setCoverLoading(isLoading) {
+      var loading = qs('[data-cr-edit-cover-loading]', root);
+      var btn = qs('[data-cr-edit-cover-btn]', root);
+      if (loading) loading.hidden = !isLoading;
+      if (btn) btn.disabled = isLoading;
+    }
+
+    function applyCoverFile(file) {
+      if (!file) return;
+      setCoverLoading(true);
+      showEditMsg('', false);
+      compressImageFile(file)
+        .then(function (dataUrl) {
+          listingDraft.coverImage = dataUrl;
+          renderCoverPreview();
+          syncListingPreview();
+          showEditMsg('Photo ajoutée — cliquez « Enregistrer l\'annonce » pour sauvegarder.', false);
+        })
+        .catch(function (err) {
+          showEditMsg(err.message || 'Impossible d\'ajouter la photo.', true);
+        })
+        .finally(function () {
+          setCoverLoading(false);
+        });
     }
 
     function syncListingPreview() {
@@ -553,7 +621,9 @@
       var galleryBtn = qs('[data-cr-edit-gallery-btn]', root);
 
       if (coverBtn && coverInput) {
-        coverBtn.addEventListener('click', function () {
+        coverBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
           coverInput.click();
         });
       }
@@ -561,6 +631,7 @@
       if (coverZone && coverInput) {
         coverZone.addEventListener('click', function (e) {
           if (e.target.closest('[data-cr-edit-cover-remove]')) return;
+          if (e.target.closest('[data-cr-edit-cover-btn]')) return;
           if (!listingDraft.coverImage || e.target.closest('[data-cr-edit-cover-empty]')) {
             coverInput.click();
           }
@@ -577,31 +648,13 @@
           e.preventDefault();
           coverZone.classList.remove('is-dragover');
           var file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
-          if (!file) return;
-          readImageFile(file)
-            .then(function (dataUrl) {
-              listingDraft.coverImage = dataUrl;
-              renderCoverPreview();
-              syncListingPreview();
-            })
-            .catch(function (err) {
-              showEditMsg(err.message, true);
-            });
+          applyCoverFile(file);
         });
 
         coverInput.addEventListener('change', function () {
           var file = coverInput.files && coverInput.files[0];
           coverInput.value = '';
-          if (!file) return;
-          readImageFile(file)
-            .then(function (dataUrl) {
-              listingDraft.coverImage = dataUrl;
-              renderCoverPreview();
-              syncListingPreview();
-            })
-            .catch(function (err) {
-              showEditMsg(err.message, true);
-            });
+          applyCoverFile(file);
         });
       }
 
@@ -624,15 +677,17 @@
           var room = 4 - (listingDraft.gallery || []).length;
           if (room <= 0) return;
 
+          showEditMsg('Compression des photos…', false);
           Promise.all(
             files.slice(0, room).map(function (f) {
-              return readImageFile(f);
+              return compressImageFile(f);
             })
           )
             .then(function (urls) {
               listingDraft.gallery = (listingDraft.gallery || []).concat(urls);
               renderGalleryEditor();
               syncListingPreview();
+              showEditMsg(urls.length + ' photo(s) ajoutée(s).', false);
             })
             .catch(function (err) {
               showEditMsg(err.message, true);
