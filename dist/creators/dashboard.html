@@ -1,24 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="icon" href="/favicon.ico?v=3" type="image/x-icon" sizes="48x48" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Creator Dashboard — Gaviom</title>
+  <title>Dashboard Creator — Gaviom</title>
   <meta name="robots" content="noindex" />
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Geist+Mono:wght@400;500&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" />  <link rel="preload" as="style" href="/styles.css?v=20260713-mobile-auth" media="(min-width: 769px)" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Geist+Mono:wght@400;500&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preload" as="style" href="/styles.css?v=20260713-mobile-auth" media="(min-width: 769px)" />
   <link rel="stylesheet" href="/styles.css?v=20260713-mobile-auth" media="(min-width: 769px)" />
   <link rel="stylesheet" href="/styles.css?v=20260713-mobile-auth" media="print" onload="this.media='(max-width:768px)'" />
   <noscript><link rel="stylesheet" href="/styles.css?v=20260713-mobile-auth" /></noscript>
-  <link rel="stylesheet" href="/creators.css?v=20260709-creator" />
+  <link rel="stylesheet" href="/creators.css?v=20260710-dash-one" />
   <link rel="stylesheet" href="/mobile.css?v=20260713-mobile-auth" media="screen and (max-width:1024px)" />
 </head>
 <body class="cr-page cr-dash-page" data-cr-dashboard>
-  <div class="topbar"><div class="wrap topbar-inner"><div class="topbar-left"><span class="font-mono" style="font-size:12px;">Creator Dashboard</span></div><div><a class="tlink" href="/creators/">Creator program</a></div></div></div>
+  <div class="topbar"><div class="wrap topbar-inner"><div class="topbar-left"><span class="font-mono" style="font-size:12px;">Creator Dashboard</span></div><div><a class="tlink" href="/account.html#creator">Mon compte</a> · <a class="tlink" href="/creators/">Programme Creator</a></div></div></div>
 
-  <header class="nav"><div class="wrap nav-inner"><a href="/" class="brand"><span class="brand-mark" aria-hidden="true">G</span> Gaviom</a><nav class="nav-links"><a href="/creators/" class="cr-nav-active">Creators</a></nav><div class="nav-right"><a href="/account.html" class="nav-signin">Account</a><a href="/creators/apply" class="btn btn-ghost btn-sm">Invite creators</a></div></div></header>
+  <header class="nav"><div class="wrap nav-inner"><a href="/" class="brand"><span class="brand-mark" aria-hidden="true">G</span> Gaviom</a><nav class="nav-links"><a href="/creators/" class="cr-nav-active">Creators</a></nav><div class="nav-right"><a href="/account.html" class="nav-signin">Mon compte</a></div></div></header>
 
   <main class="cr-dash-shell">
     <div class="wrap cr-dash-gate" data-cr-dash-gate hidden>
@@ -26,7 +27,7 @@
         <div data-cr-dash-gate-panel="pending" hidden>
           <p class="eyebrow" style="margin-bottom:8px;"><span class="bar"></span> Candidature en cours</p>
           <h1 class="font-display" style="font-size:28px;margin:0 0 12px;">Accès en attente de validation</h1>
-          <p style="color:var(--cr-muted);max-width:48ch;line-height:1.6;margin:0 0 24px;">Votre candidature Gaviom Creator est en cours d'examen. Vous recevrez un email dès qu'elle sera approuvée.</p>
+          <p style="color:var(--cr-muted);max-width:48ch;line-height:1.6;margin:0 0 24px;">Votre premier sweepstakes est en cours d'examen. Vous recevrez un email dès qu'il sera approuvé et que le dashboard sera ouvert.</p>
           <a href="/account.html#creator" class="btn btn-primary">Retour à mon compte</a>
         </div>
         <div data-cr-dash-gate-panel="rejected" hidden>
@@ -41,7 +42,7 @@
         <div data-cr-dash-gate-panel="none" hidden>
           <p class="eyebrow" style="margin-bottom:8px;"><span class="bar"></span> Gaviom Creator</p>
           <h1 class="font-display" style="font-size:28px;margin:0 0 12px;">Dashboard réservé aux creators approuvés</h1>
-          <p data-cr-dash-gate-message style="color:var(--cr-muted);max-width:48ch;line-height:1.6;margin:0 0 24px;">Soumettez votre candidature pour lancer votre premier sweepstakes vérifié.</p>
+          <p data-cr-dash-gate-message style="color:var(--cr-muted);max-width:48ch;line-height:1.6;margin:0 0 24px;">Soumettez votre première candidature sweepstakes pour ouvrir votre dashboard.</p>
           <div style="display:flex;gap:12px;flex-wrap:wrap;">
             <a href="/creators/apply?from=account" class="btn btn-primary">Soumettre ma candidature</a>
             <a href="/creators/" class="btn btn-ghost">En savoir plus</a>
@@ -50,256 +51,132 @@
       </div>
     </div>
 
-    <div data-cr-dash-content hidden>
-    <div class="cr-dash-layout">
-      <aside class="cr-dash-sidebar">
-        <div class="cr-dash-profile">
-          <div style="display:flex;align-items:center;gap:12px;">
-            <div style="width:44px;height:44px;border-radius:50%;background:var(--cr-gold-soft);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;">MC</div>
+    <div class="cr-dash-one" data-cr-dash-content hidden>
+      <div class="wrap">
+        <!-- Toolbar: sweepstakes selector + add new -->
+        <header class="cr-dash-one__toolbar">
+          <div class="cr-dash-one__intro">
+            <p class="eyebrow" style="margin-bottom:6px;"><span class="bar"></span> Creator dashboard</p>
+            <h1 class="font-display cr-dash-one__title">Bonjour, <span data-cr-dash-creator-name>Creator</span></h1>
+            <p class="cr-dash-one__sub">Suivez les ventes, les acheteurs et le chiffre d'affaires du sweepstakes sélectionné.</p>
+          </div>
+          <div class="cr-dash-one__controls">
+            <div class="cr-dash-picker" data-cr-dash-picker>
+              <span class="cr-dash-picker__label font-mono">Sweepstakes actif</span>
+              <button type="button" class="cr-dash-picker__trigger" data-cr-dash-picker-trigger aria-haspopup="listbox" aria-expanded="false">
+                <span class="cr-dash-picker__thumb" aria-hidden="true">🎁</span>
+                <span class="cr-dash-picker__text">
+                  <strong data-cr-dash-picker-title>—</strong>
+                  <small data-cr-dash-picker-meta>—</small>
+                </span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/></svg>
+              </button>
+              <ul class="cr-dash-picker__menu" data-cr-dash-picker-menu hidden role="listbox"></ul>
+            </div>
+            <a href="/creators/apply?from=account&amp;new=1" class="btn btn-ghost cr-dash-one__add">
+              <span aria-hidden="true">+</span> Ajouter un Sweepstakes
+            </a>
+          </div>
+        </header>
+
+        <!-- Status banner for non-live sweepstakes -->
+        <div class="cr-dash-one__banner" data-cr-dash-banner hidden role="status"></div>
+
+        <!-- KPIs -->
+        <div class="cr-stats-grid cr-dash-one__stats">
+          <div class="cr-stat-card">
+            <p class="cr-stat-card__label">Produits vendus</p>
+            <p class="cr-stat-card__value" data-cr-metric-tickets>—</p>
+            <p class="cr-stat-card__delta font-mono" data-cr-metric-tickets-delta></p>
+          </div>
+          <div class="cr-stat-card">
+            <p class="cr-stat-card__label">Chiffre d'affaires</p>
+            <p class="cr-stat-card__value" data-cr-metric-revenue>—</p>
+            <p class="cr-stat-card__delta font-mono" data-cr-metric-revenue-delta></p>
+          </div>
+          <div class="cr-stat-card">
+            <p class="cr-stat-card__label">Participants uniques</p>
+            <p class="cr-stat-card__value" data-cr-metric-buyers>—</p>
+            <p class="cr-stat-card__delta font-mono" data-cr-metric-buyers-delta></p>
+          </div>
+          <div class="cr-stat-card cr-stat-card--highlight">
+            <p class="cr-stat-card__label">Vos revenus (net)</p>
+            <p class="cr-stat-card__value" data-cr-metric-earnings style="color:var(--cr-gold-dark);">—</p>
+            <p class="cr-stat-card__delta font-mono" data-cr-metric-earnings-note></p>
+          </div>
+        </div>
+
+        <!-- Chart + side summary -->
+        <div class="cr-dash-one__grid">
+          <section class="cr-dash-card cr-dash-chart-card">
+            <div class="cr-dash-card__head">
+              <div>
+                <h2 class="cr-dash-card__title">Évolution des ventes</h2>
+                <p class="cr-dash-card__sub font-mono" data-cr-chart-subtitle>30 derniers jours</p>
+              </div>
+              <div class="cr-dash-chart-tabs" data-cr-chart-range>
+                <button type="button" class="cr-dash-chart-tabs__btn is-active" data-range="7">7j</button>
+                <button type="button" class="cr-dash-chart-tabs__btn" data-range="30">30j</button>
+              </div>
+            </div>
+            <div class="cr-dash-card__body">
+              <div class="cr-dash-chart" data-cr-dash-chart aria-hidden="true">
+                <svg viewBox="0 0 640 220" preserveAspectRatio="none" data-cr-chart-svg></svg>
+              </div>
+              <p class="cr-dash-chart-empty font-mono" data-cr-chart-empty hidden>Aucune vente pour ce sweepstakes — les données apparaîtront dès la mise en ligne.</p>
+            </div>
+          </section>
+
+          <aside class="cr-dash-card cr-dash-summary-card">
+            <div class="cr-dash-card__head"><h2 class="cr-dash-card__title">Résumé du lot</h2></div>
+            <div class="cr-dash-card__body">
+              <dl class="cr-dash-summary">
+                <div><dt>Prix / entrée</dt><dd data-cr-summary-price>—</dd></div>
+                <div><dt>Valeur du lot</dt><dd data-cr-summary-prize-value>—</dd></div>
+                <div><dt>Objectif entrées</dt><dd data-cr-summary-cap>—</dd></div>
+                <div><dt>Progression</dt><dd><span data-cr-summary-progress>—</span><span class="cr-dash-progress"><span data-cr-summary-progress-bar></span></span></dd></div>
+                <div><dt>Tirage prévu</dt><dd data-cr-summary-draw>—</dd></div>
+                <div><dt>Statut Gaviom</dt><dd data-cr-summary-status>—</dd></div>
+              </dl>
+              <a href="#" class="btn btn-ghost btn-sm btn-block" data-cr-summary-page hidden>Voir la page publique</a>
+            </div>
+          </aside>
+        </div>
+
+        <!-- Buyers table -->
+        <section class="cr-dash-card">
+          <div class="cr-dash-card__head">
             <div>
-              <p style="margin:0;font-weight:600;font-size:15px;">Maria Chen</p>
-              <p class="font-mono" style="margin:2px 0 0;font-size:11px;color:var(--cr-muted);">Pro Creator</p>
+              <h2 class="cr-dash-card__title">Acheteurs &amp; participants payants</h2>
+              <p class="cr-dash-card__sub font-mono">Détail des entrées achetées sur ce sweepstakes</p>
             </div>
+            <span class="cr-status-pill cr-status-pill--live" data-cr-buyers-count>0 achats</span>
           </div>
-          <div style="margin-top:12px;"><span class="cr-verified-badge">Verified by Gaviom</span></div>
-        </div>
-        <nav class="cr-dash-nav" aria-label="Creator dashboard">
-          <a href="#overview" class="cr-dash-nav__link is-active" data-cr-dash-nav="overview">Overview</a>
-          <a href="#giveaways" class="cr-dash-nav__link" data-cr-dash-nav="giveaways">My giveaways</a>
-          <a href="#create" class="cr-dash-nav__link" data-cr-dash-nav="create">Create giveaway</a>
-          <a href="#revenue" class="cr-dash-nav__link" data-cr-dash-nav="revenue">Revenue</a>
-          <a href="#settings" class="cr-dash-nav__link" data-cr-dash-nav="settings">Settings</a>
-        </nav>
-      </aside>
-
-      <div class="cr-dash-main">
-        <!-- Overview -->
-        <div class="cr-dash-panel is-active" data-cr-dash-panel="overview" id="overview">
-          <header style="margin-bottom:24px;">
-            <h1 class="font-display" style="font-size:28px;margin:0 0 6px;">Welcome back, Maria</h1>
-            <p style="margin:0;color:var(--cr-muted);font-size:15px;">Here's what's happening with your giveaways.</p>
-          </header>
-
-          <div class="cr-stats-grid">
-            <div class="cr-stat-card"><p class="cr-stat-card__label">Active giveaways</p><p class="cr-stat-card__value">2</p></div>
-            <div class="cr-stat-card"><p class="cr-stat-card__label">Total participants</p><p class="cr-stat-card__value">1,842</p></div>
-            <div class="cr-stat-card"><p class="cr-stat-card__label">Tickets sold</p><p class="cr-stat-card__value">2,156</p></div>
-            <div class="cr-stat-card"><p class="cr-stat-card__label">Revenue (MTD)</p><p class="cr-stat-card__value">$18.4K</p></div>
+          <div class="cr-dash-card__body cr-dash-table-wrap">
+            <table class="cr-dash-table" data-cr-buyers-table>
+              <thead>
+                <tr>
+                  <th>Participant</th>
+                  <th>Email</th>
+                  <th>Entrées</th>
+                  <th>Montant</th>
+                  <th>Date</th>
+                  <th>Statut</th>
+                </tr>
+              </thead>
+              <tbody data-cr-buyers-body></tbody>
+            </table>
+            <p class="cr-dash-table-empty font-mono" data-cr-buyers-empty hidden>Aucun achat enregistré pour le moment.</p>
           </div>
-
-          <div class="cr-dash-card">
-            <div class="cr-dash-card__head"><h2 class="cr-dash-card__title">Pending actions</h2></div>
-            <div class="cr-dash-card__body">
-              <div class="cr-giveaway-row">
-                <div class="cr-giveaway-row__info">
-                  <h4>Vegas Weekend Escape</h4>
-                  <p class="cr-giveaway-row__meta">Status: Under Review · Submitted 2 days ago</p>
-                </div>
-                <span class="cr-status-pill cr-status-pill--active">Under Review</span>
-              </div>
-              <div class="cr-giveaway-row">
-                <div class="cr-giveaway-row__info">
-                  <h4>Miami Getaway — upload prize proof</h4>
-                  <p class="cr-giveaway-row__meta">Gaviom requested additional documentation</p>
-                </div>
-                <a href="#create" class="btn btn-ghost btn-sm" data-cr-dash-nav="create" onclick="return false;">Upload</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="cr-dash-card">
-            <div class="cr-dash-card__head"><h2 class="cr-dash-card__title">Upcoming draws</h2></div>
-            <div class="cr-dash-card__body">
-              <div class="cr-giveaway-row">
-                <div class="cr-giveaway-row__info">
-                  <h4>Win a 5-Night Miami Getaway</h4>
-                  <p class="cr-giveaway-row__meta">Draw: Mar 15, 2026 · 680 / 1,000 tickets sold</p>
-                </div>
-                <a href="/creators/demo/miami-getaway" class="btn btn-ghost btn-sm">View page</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Giveaways list -->
-        <div class="cr-dash-panel" data-cr-dash-panel="giveaways" id="giveaways">
-          <header style="margin-bottom:24px;">
-            <h1 class="font-display" style="font-size:28px;margin:0 0 6px;">My giveaways</h1>
-            <p style="margin:0;color:var(--cr-muted);">All your campaigns and their status.</p>
-          </header>
-          <div class="cr-dash-card">
-            <div class="cr-dash-card__body" style="padding-top:8px;">
-              <div class="cr-giveaway-row">
-                <div class="cr-giveaway-row__info">
-                  <h4>Win a 5-Night Miami Getaway</h4>
-                  <p class="cr-giveaway-row__meta">Live · 680 entries · $12/ticket · Draw Mar 15</p>
-                </div>
-                <span class="cr-status-pill cr-status-pill--live">Live</span>
-              </div>
-              <div class="cr-giveaway-row">
-                <div class="cr-giveaway-row__info">
-                  <h4>Vegas Weekend Escape</h4>
-                  <p class="cr-giveaway-row__meta">Under Review · $8/ticket · 500 max entries</p>
-                </div>
-                <span class="cr-status-pill cr-status-pill--active">Under Review</span>
-              </div>
-              <div class="cr-giveaway-row">
-                <div class="cr-giveaway-row__info">
-                  <h4>Summer Cruise Bundle (draft)</h4>
-                  <p class="cr-giveaway-row__meta">Draft · Last edited yesterday</p>
-                </div>
-                <span class="cr-status-pill">Draft</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Create wizard -->
-        <div class="cr-dash-panel" data-cr-dash-panel="create" id="create">
-          <header style="margin-bottom:24px;">
-            <h1 class="font-display" style="font-size:28px;margin:0 0 6px;">Create giveaway</h1>
-            <p style="margin:0;color:var(--cr-muted);">Build your campaign step by step, then submit for Gaviom review.</p>
-          </header>
-
-          <div class="cr-dash-card" data-cr-wizard>
-            <div class="cr-dash-card__body" data-cr-wizard-form>
-              <div class="cr-wizard-steps">
-                <button type="button" class="cr-wizard-step-tab is-active" data-cr-wizard-step>1. Info</button>
-                <button type="button" class="cr-wizard-step-tab" data-cr-wizard-step>2. Prize</button>
-                <button type="button" class="cr-wizard-step-tab" data-cr-wizard-step>3. Settings</button>
-                <button type="button" class="cr-wizard-step-tab" data-cr-wizard-step>4. Preview</button>
-                <button type="button" class="cr-wizard-step-tab" data-cr-wizard-step>5. Submit</button>
-              </div>
-
-              <div class="cr-wizard-pane is-active" data-cr-wizard-pane>
-                <h3 class="font-display" style="font-size:18px;margin:0 0 16px;">Giveaway information</h3>
-                <div class="cr-form-grid">
-                  <div class="cr-field" style="grid-column:1/-1;"><label>Title *</label><input name="gw_title" type="text" value="Win a 5-Night Miami Getaway" /></div>
-                  <div class="cr-field" style="grid-column:1/-1;"><label>Description *</label><textarea name="gw_description">Join me for the chance to win an all-expenses-paid 5-night stay in Miami Beach, including flights and hotel.</textarea></div>
-                  <div class="cr-field"><label>Category</label>
-                    <select name="gw_category"><option>Travel</option><option>Lifestyle</option><option>Fitness</option></select>
-                  </div>
-                  <div class="cr-field"><label>Cover image URL</label><input type="url" placeholder="Upload coming soon" /></div>
-                </div>
-              </div>
-
-              <div class="cr-wizard-pane" data-cr-wizard-pane>
-                <h3 class="font-display" style="font-size:18px;margin:0 0 16px;">Prize information</h3>
-                <div class="cr-form-grid">
-                  <div class="cr-field"><label>Prize name *</label><input name="gw_prize" type="text" value="5-Night Miami Beach Hotel + Flights" /></div>
-                  <div class="cr-field"><label>Prize value (USD) *</label><input name="gw_prize_value" type="number" value="4200" /></div>
-                  <div class="cr-field" style="grid-column:1/-1;"><label>Proof of ownership / purchase</label><input type="file" accept="image/*,.pdf" /><p class="font-mono" style="font-size:11px;color:var(--cr-muted);margin-top:6px;">Receipt, invoice, or photo of prize. Required before approval.</p></div>
-                </div>
-              </div>
-
-              <div class="cr-wizard-pane" data-cr-wizard-pane>
-                <h3 class="font-display" style="font-size:18px;margin:0 0 16px;">Sweepstakes settings</h3>
-                <div class="cr-form-grid">
-                  <div class="cr-field"><label>Ticket price (USD) *</label><input name="gw_ticket_price" type="number" value="12" min="1" /></div>
-                  <div class="cr-field"><label>Max tickets *</label><input name="gw_max_tickets" type="number" value="1000" /></div>
-                  <div class="cr-field"><label>Start date</label><input type="date" /></div>
-                  <div class="cr-field"><label>End date</label><input type="date" /></div>
-                  <div class="cr-field" style="grid-column:1/-1;"><label>Draw date *</label><input type="datetime-local" /></div>
-                </div>
-              </div>
-
-              <div class="cr-wizard-pane" data-cr-wizard-pane>
-                <h3 class="font-display" style="font-size:18px;margin:0 0 16px;text-align:center;">Public page preview</h3>
-                <div class="cr-wizard-preview">
-                  <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-                    <span class="cr-verified-badge">Verified</span>
-                    <span class="font-mono" style="font-size:11px;color:var(--cr-muted);">gaviom.com/maria-chen/…</span>
-                  </div>
-                  <img src="/images/cruise-hero-1280w.webp" alt="" style="width:100%;border-radius:10px;margin-bottom:12px;" />
-                  <h4 class="font-display" data-cr-preview-title style="margin:0 0 6px;font-size:18px;">Win a 5-Night Miami Getaway</h4>
-                  <p data-cr-preview-prize style="margin:0 0 8px;font-size:14px;color:var(--cr-muted);">5-Night Miami Beach Hotel + Flights</p>
-                  <p data-cr-preview-price class="font-mono" style="font-size:13px;color:var(--cr-gold-dark);margin:0;">$12 per entry</p>
-                </div>
-              </div>
-
-              <div class="cr-wizard-pane" data-cr-wizard-pane>
-                <h3 class="font-display" style="font-size:18px;margin:0 0 12px;">Submit for Gaviom review</h3>
-                <p style="font-size:15px;color:var(--cr-muted);line-height:1.6;margin-bottom:20px;">Once submitted, our compliance team will verify your identity, prize authenticity, official rules and campaign details. Typical review: 1–2 business days for Pro creators.</p>
-                <ul class="cr-review-list" style="margin-bottom:24px;">
-                  <li><span class="cr-check">✓</span> Creator identity</li>
-                  <li><span class="cr-check">✓</span> Prize authenticity</li>
-                  <li><span class="cr-check">✓</span> Official rules generated</li>
-                  <li><span class="cr-check">✓</span> AMOE free entry active</li>
-                </ul>
-              </div>
-
-              <div class="cr-wizard-actions">
-                <button type="button" class="btn btn-ghost" data-cr-wizard-prev hidden>Back</button>
-                <button type="button" class="btn btn-primary" data-cr-wizard-next>Continue</button>
-                <button type="button" class="btn btn-primary" data-cr-wizard-submit hidden>Submit for review</button>
-              </div>
-            </div>
-
-            <div class="cr-dash-card__body" data-cr-wizard-submitted hidden style="text-align:center;padding:48px 24px;">
-              <div class="cr-apply-success__icon" style="margin:0 auto 20px;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.5"/></svg></div>
-              <h3 class="font-display" style="font-size:22px;margin:0 0 8px;">Submitted for review</h3>
-              <p style="color:var(--cr-muted);margin:0 0 20px;">Your giveaway is now in the Gaviom review queue. We'll email you when it's approved.</p>
-              <div class="cr-status-flow">
-                <span class="cr-status-pill cr-status-pill--active">Submitted</span>
-                <span class="cr-status-arrow">→</span>
-                <span class="cr-status-pill">Under Review</span>
-                <span class="cr-status-arrow">→</span>
-                <span class="cr-status-pill cr-status-pill--live">Live</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Revenue -->
-        <div class="cr-dash-panel" data-cr-dash-panel="revenue" id="revenue">
-          <header style="margin-bottom:24px;">
-            <h1 class="font-display" style="font-size:28px;margin:0 0 6px;">Revenue</h1>
-            <p style="margin:0;color:var(--cr-muted);">Track earnings across all live campaigns. Pro Creator fee: 15%.</p>
-          </header>
-          <div class="cr-stats-grid" style="grid-template-columns:repeat(3,1fr);">
-            <div class="cr-stat-card"><p class="cr-stat-card__label">Total revenue</p><p class="cr-stat-card__value">$25,872</p></div>
-            <div class="cr-stat-card"><p class="cr-stat-card__label">Platform fees</p><p class="cr-stat-card__value">$3,881</p></div>
-            <div class="cr-stat-card"><p class="cr-stat-card__label">Your earnings</p><p class="cr-stat-card__value" style="color:var(--cr-gold-dark);">$21,991</p></div>
-          </div>
-          <div class="cr-dash-card">
-            <div class="cr-dash-card__head"><h2 class="cr-dash-card__title">Payout history</h2></div>
-            <div class="cr-dash-card__body">
-              <div class="cr-giveaway-row"><div class="cr-giveaway-row__info"><h4>Miami Getaway — pending</h4><p class="cr-giveaway-row__meta">Draw not yet complete · Est. $6,528 after draw</p></div><span class="cr-status-pill">Pending</span></div>
-              <div class="cr-giveaway-row"><div class="cr-giveaway-row__info"><h4>January Cruise Bundle</h4><p class="cr-giveaway-row__meta">Paid Feb 12, 2026 · $4,250</p></div><span class="cr-status-pill cr-status-pill--live">Paid</span></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Settings -->
-        <div class="cr-dash-panel" data-cr-dash-panel="settings" id="settings">
-          <header style="margin-bottom:24px;">
-            <h1 class="font-display" style="font-size:28px;margin:0 0 6px;">Settings</h1>
-            <p style="margin:0;color:var(--cr-muted);">Manage your creator profile and payout details.</p>
-          </header>
-          <div class="cr-dash-card">
-            <div class="cr-dash-card__body">
-              <div class="cr-form-grid">
-                <div class="cr-field"><label>Creator display name</label><input type="text" value="Maria Chen" /></div>
-                <div class="cr-field"><label>Public URL slug</label><input type="text" value="maria-chen" /></div>
-                <div class="cr-field" style="grid-column:1/-1;"><label>Bio</label><textarea>Travel creator sharing adventures around the world. 240K followers across Instagram and TikTok.</textarea></div>
-                <div class="cr-field"><label>Instagram</label><input type="url" value="https://instagram.com/mariatravels" /></div>
-                <div class="cr-field"><label>TikTok</label><input type="url" value="https://tiktok.com/@mariatravels" /></div>
-              </div>
-              <p class="font-mono" style="font-size:12px;color:var(--cr-muted);margin-top:20px;">Stripe Connect payout setup — connect your bank account to receive earnings after each draw.</p>
-              <button type="button" class="btn btn-primary" style="margin-top:12px;">Connect Stripe payouts</button>
-            </div>
-          </div>
-        </div>
+        </section>
       </div>
-    </div>
     </div>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="/auth-config.js"></script>
   <script src="/auth.js?v=20260722-otp-verify"></script>
-  <script defer src="/creators.js?v=20260710-creator-gate"></script>
-
+  <script defer src="/creators.js?v=20260710-dash-one"></script>
   <script>
 (function () {
   function loadGA() {

@@ -281,34 +281,299 @@
     }
   }
 
-  /* Dashboard navigation */
-  function initDashboard() {
+  /* One-page creator dashboard (sweepstakes selector + analytics) */
+  var DASH_MOCK_SWEEPSTAKES = {
+    miami: {
+      id: 'miami',
+      title: 'Miami Getaway — 5 nuits + vols',
+      meta: 'Live · $12 / entrée',
+      emoji: '🌴',
+      status: 'live',
+      statusLabel: 'En ligne',
+      banner: '',
+      ticketPrice: 12,
+      prizeValue: 4200,
+      cap: 1000,
+      drawDate: '15 mars 2026',
+      publicUrl: '/creators/demo/miami-getaway',
+      tickets: 684,
+      ticketsDelta: '+12% vs sem. dernière',
+      revenue: 8208,
+      revenueDelta: '+18% vs sem. dernière',
+      buyers: 412,
+      buyersDelta: '+9% nouveaux acheteurs',
+      feePct: 0.15,
+      sales7: [42, 58, 51, 72, 88, 95, 110],
+      sales30: [12, 18, 22, 28, 35, 40, 48, 52, 55, 60, 58, 62, 70, 75, 80, 88, 92, 98, 105, 110, 108, 115, 120, 118, 125, 130, 128, 132, 140, 145],
+      purchases: [
+        { name: 'Sarah M.', email: 's.m***@gmail.com', entries: 5, amount: 60, date: '10 juil. 2026', status: 'Payé' },
+        { name: 'James K.', email: 'j.k***@yahoo.com', entries: 10, amount: 120, date: '10 juil. 2026', status: 'Payé' },
+        { name: 'Emily R.', email: 'emily.r***@outlook.com', entries: 3, amount: 36, date: '9 juil. 2026', status: 'Payé' },
+        { name: 'Marcus T.', email: 'marcus***@icloud.com', entries: 8, amount: 96, date: '9 juil. 2026', status: 'Payé' },
+        { name: 'Lisa P.', email: 'lisa.p***@gmail.com', entries: 2, amount: 24, date: '8 juil. 2026', status: 'Payé' },
+        { name: 'David W.', email: 'd.w***@hotmail.com', entries: 15, amount: 180, date: '8 juil. 2026', status: 'Payé' },
+        { name: 'Anna C.', email: 'anna.c***@gmail.com', entries: 4, amount: 48, date: '7 juil. 2026', status: 'Payé' },
+      ],
+    },
+    vegas: {
+      id: 'vegas',
+      title: 'Vegas Weekend Escape',
+      meta: 'En revue · $8 / entrée',
+      emoji: '🎰',
+      status: 'review',
+      statusLabel: 'En revue Gaviom',
+      banner: 'Ce sweepstakes est en cours de validation par Gaviom. Les ventes et statistiques seront disponibles après approbation.',
+      ticketPrice: 8,
+      prizeValue: 2800,
+      cap: 500,
+      drawDate: '—',
+      publicUrl: '',
+      tickets: 0,
+      ticketsDelta: '',
+      revenue: 0,
+      revenueDelta: '',
+      buyers: 0,
+      buyersDelta: '',
+      feePct: 0.15,
+      sales7: [0, 0, 0, 0, 0, 0, 0],
+      sales30: [],
+      purchases: [],
+    },
+  };
+
+  function fmtMoney(n) {
+    if (!n) return '$0';
+    if (n >= 1000) return '$' + (n / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+    return '$' + n.toLocaleString('en-US');
+  }
+
+  function initDashboardOnePage() {
     var root = qs('[data-cr-dashboard]');
-    if (!root) return;
+    var one = qs('[data-cr-dash-content]');
+    if (!root || !one || !one.classList.contains('cr-dash-one')) return;
 
-    var links = qsa('[data-cr-dash-nav]', root);
-    var panels = qsa('[data-cr-dash-panel]', root);
+    var state = { id: 'miami', range: 7 };
+    var ids = Object.keys(DASH_MOCK_SWEEPSTAKES);
 
-    function showPanel(id) {
-      panels.forEach(function (p) {
-        p.classList.toggle('is-active', p.getAttribute('data-cr-dash-panel') === id);
+    function renderPickerMenu() {
+      var menu = qs('[data-cr-dash-picker-menu]', root);
+      if (!menu) return;
+      menu.innerHTML = ids
+        .map(function (id) {
+          var sw = DASH_MOCK_SWEEPSTAKES[id];
+          return (
+            '<li role="option">' +
+            '<button type="button" class="cr-dash-picker__option' +
+            (id === state.id ? ' is-active' : '') +
+            '" data-cr-dash-pick="' +
+            id +
+            '">' +
+            '<span class="cr-dash-picker__thumb">' +
+            sw.emoji +
+            '</span>' +
+            '<span class="cr-dash-picker__text"><strong>' +
+            sw.title +
+            '</strong><small>' +
+            sw.meta +
+            '</small></span>' +
+            '</button></li>'
+          );
+        })
+        .join('');
+    }
+
+    function renderChart(values) {
+      var svg = qs('[data-cr-chart-svg]', root);
+      var empty = qs('[data-cr-chart-empty]', root);
+      var chart = qs('[data-cr-dash-chart]', root);
+      if (!svg) return;
+
+      if (!values || !values.length || values.every(function (v) { return !v; })) {
+        if (chart) chart.hidden = true;
+        if (empty) empty.hidden = false;
+        svg.innerHTML = '';
+        return;
+      }
+
+      if (chart) chart.hidden = false;
+      if (empty) empty.hidden = true;
+
+      var w = 640;
+      var h = 220;
+      var pad = { t: 16, r: 12, b: 28, l: 12 };
+      var max = Math.max.apply(null, values.concat([1]));
+      var step = (w - pad.l - pad.r) / Math.max(values.length - 1, 1);
+
+      var points = values.map(function (v, i) {
+        var x = pad.l + i * step;
+        var y = pad.t + (h - pad.t - pad.b) * (1 - v / max);
+        return x + ',' + y;
       });
-      links.forEach(function (l) {
-        l.classList.toggle('is-active', l.getAttribute('data-cr-dash-nav') === id);
+
+      var area =
+        'M' +
+        pad.l +
+        ',' +
+        (h - pad.b) +
+        ' L' +
+        points.join(' L') +
+        ' L' +
+        (pad.l + (values.length - 1) * step) +
+        ',' +
+        (h - pad.b) +
+        ' Z';
+
+      var grids = [0.25, 0.5, 0.75].map(function (pct) {
+        var y = pad.t + (h - pad.t - pad.b) * pct;
+        return '<line class="cr-dash-chart-grid" x1="' + pad.l + '" y1="' + y + '" x2="' + (w - pad.r) + '" y2="' + y + '"/>';
+      });
+
+      svg.innerHTML =
+        '<defs><linearGradient id="crChartGradient" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0%" stop-color="#c8a96a"/><stop offset="100%" stop-color="#c8a96a" stop-opacity="0"/></linearGradient></defs>' +
+        grids.join('') +
+        '<path class="cr-dash-chart-area" d="' +
+        area +
+        '"/>' +
+        '<polyline class="cr-dash-chart-line" points="' +
+        points.join(' ') +
+        '"/>';
+    }
+
+    function renderSweepstakes(id) {
+      var sw = DASH_MOCK_SWEEPSTAKES[id];
+      if (!sw) return;
+      state.id = id;
+
+      var title = qs('[data-cr-dash-picker-title]', root);
+      var meta = qs('[data-cr-dash-picker-meta]', root);
+      if (title) title.textContent = sw.title;
+      if (meta) meta.textContent = sw.meta;
+
+      var banner = qs('[data-cr-dash-banner]', root);
+      if (banner) {
+        if (sw.banner) {
+          banner.hidden = false;
+          banner.textContent = sw.banner;
+        } else {
+          banner.hidden = true;
+        }
+      }
+
+      var earnings = Math.round(sw.revenue * (1 - sw.feePct));
+      qs('[data-cr-metric-tickets]', root).textContent = sw.tickets.toLocaleString('en-US');
+      qs('[data-cr-metric-revenue]', root).textContent = fmtMoney(sw.revenue);
+      qs('[data-cr-metric-buyers]', root).textContent = sw.buyers.toLocaleString('en-US');
+      qs('[data-cr-metric-earnings]', root).textContent = fmtMoney(earnings);
+
+      qs('[data-cr-metric-tickets-delta]', root).textContent = sw.ticketsDelta || '';
+      qs('[data-cr-metric-revenue-delta]', root).textContent = sw.revenueDelta || '';
+      qs('[data-cr-metric-buyers-delta]', root).textContent = sw.buyersDelta || '';
+      qs('[data-cr-metric-earnings-note]', root).textContent =
+        sw.revenue > 0 ? 'Après commission Gaviom (' + Math.round(sw.feePct * 100) + '%)' : '';
+
+      var progress = sw.cap ? Math.min(100, Math.round((sw.tickets / sw.cap) * 100)) : 0;
+      qs('[data-cr-summary-price]', root).textContent = '$' + sw.ticketPrice + ' / entrée';
+      qs('[data-cr-summary-prize-value]', root).textContent = fmtMoney(sw.prizeValue);
+      qs('[data-cr-summary-cap]', root).textContent = sw.cap.toLocaleString('en-US') + ' max';
+      qs('[data-cr-summary-progress]', root).textContent = progress + '%';
+      var bar = qs('[data-cr-summary-progress-bar]', root);
+      if (bar) bar.style.width = progress + '%';
+      qs('[data-cr-summary-draw]', root).textContent = sw.drawDate;
+      qs('[data-cr-summary-status]', root).textContent = sw.statusLabel;
+
+      var pageBtn = qs('[data-cr-summary-page]', root);
+      if (pageBtn) {
+        if (sw.publicUrl) {
+          pageBtn.hidden = false;
+          pageBtn.href = sw.publicUrl;
+        } else {
+          pageBtn.hidden = true;
+        }
+      }
+
+      var values = state.range === 7 ? sw.sales7 : sw.sales30;
+      qs('[data-cr-chart-subtitle]', root).textContent =
+        state.range === 7 ? '7 derniers jours' : '30 derniers jours';
+      renderChart(values);
+
+      var tbody = qs('[data-cr-buyers-body]', root);
+      var empty = qs('[data-cr-buyers-empty]', root);
+      var table = qs('[data-cr-buyers-table]', root);
+      var count = qs('[data-cr-buyers-count]', root);
+
+      if (count) count.textContent = sw.purchases.length + ' achat' + (sw.purchases.length > 1 ? 's' : '');
+
+      if (!sw.purchases.length) {
+        if (table) table.hidden = true;
+        if (empty) empty.hidden = false;
+        if (tbody) tbody.innerHTML = '';
+      } else {
+        if (table) table.hidden = false;
+        if (empty) empty.hidden = true;
+        if (tbody) {
+          tbody.innerHTML = sw.purchases
+            .map(function (p) {
+              return (
+                '<tr><td><strong>' +
+                p.name +
+                '</strong></td><td>' +
+                p.email +
+                '</td><td>' +
+                p.entries +
+                '</td><td>' +
+                fmtMoney(p.amount) +
+                '</td><td>' +
+                p.date +
+                '</td><td><span class="cr-status-pill cr-status-pill--live">' +
+                p.status +
+                '</span></td></tr>'
+              );
+            })
+            .join('');
+        }
+      }
+
+      renderPickerMenu();
+    }
+
+    var trigger = qs('[data-cr-dash-picker-trigger]', root);
+    var menu = qs('[data-cr-dash-picker-menu]', root);
+
+    if (trigger && menu) {
+      trigger.addEventListener('click', function () {
+        var open = !menu.hidden;
+        menu.hidden = open;
+        trigger.setAttribute('aria-expanded', open ? 'false' : 'true');
+      });
+
+      menu.addEventListener('click', function (e) {
+        var btn = e.target.closest('[data-cr-dash-pick]');
+        if (!btn) return;
+        renderSweepstakes(btn.getAttribute('data-cr-dash-pick'));
+        menu.hidden = true;
+        trigger.setAttribute('aria-expanded', 'false');
+      });
+
+      document.addEventListener('click', function (e) {
+        if (!e.target.closest('[data-cr-dash-picker]')) {
+          menu.hidden = true;
+          trigger.setAttribute('aria-expanded', 'false');
+        }
       });
     }
 
-    links.forEach(function (link) {
-      link.addEventListener('click', function (e) {
-        e.preventDefault();
-        showPanel(link.getAttribute('data-cr-dash-nav'));
+    qsa('[data-cr-chart-range] [data-range]', root).forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        qsa('[data-cr-chart-range] [data-range]', root).forEach(function (b) {
+          b.classList.toggle('is-active', b === btn);
+        });
+        state.range = parseInt(btn.getAttribute('data-range'), 10) || 7;
+        renderSweepstakes(state.id);
       });
     });
 
-    var hash = (location.hash || '#overview').replace('#', '');
-    if (panels.some(function (p) { return p.getAttribute('data-cr-dash-panel') === hash; })) {
-      showPanel(hash);
-    }
+    renderSweepstakes(state.id);
   }
 
   /* Create giveaway wizard */
@@ -439,9 +704,16 @@
       if (msgEl && message) msgEl.textContent = message;
     }
 
-    function allowDashboard() {
+    function allowDashboard(profile) {
       if (gate) gate.hidden = true;
       if (content) content.hidden = false;
+      if (profile) {
+        var nameEl = qs('[data-cr-dash-creator-name]');
+        if (nameEl) {
+          var full = [profile.first_name, profile.last_name].filter(Boolean).join(' ').trim();
+          if (full) nameEl.textContent = full.split(' ')[0];
+        }
+      }
     }
 
     function checkProfile(client, user) {
@@ -453,7 +725,7 @@
         .then(function (result) {
           var status = (result.data && result.data.creator_status) || 'none';
           if (status === 'approved') {
-            allowDashboard();
+            allowDashboard(result.data);
             return;
           }
           if (status === 'pending') {
@@ -516,7 +788,7 @@
     initReveal();
     initApplyForm();
     initApplyFromAccount();
-    initDashboard();
+    initDashboardOnePage();
     initWizard();
     initCountdown();
     initDashboardGate();
