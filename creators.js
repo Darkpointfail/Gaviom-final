@@ -409,7 +409,7 @@
           reject(new Error('Aucun fichier sélectionné.'));
           return;
         }
-        if (!file.type || file.type.indexOf('image/') !== 0) {
+        if (file.type && file.type.indexOf('image/') !== 0) {
           reject(new Error('Choisissez une image (JPG, PNG, HEIC…).'));
           return;
         }
@@ -465,9 +465,9 @@
 
     function setCoverLoading(isLoading) {
       var loading = qs('[data-cr-edit-cover-loading]', root);
-      var btn = qs('[data-cr-edit-cover-btn]', root);
+      var zone = qs('[data-cr-edit-cover-zone]', root);
       if (loading) loading.hidden = !isLoading;
-      if (btn) btn.disabled = isLoading;
+      if (zone) zone.classList.toggle('is-loading', !!isLoading);
     }
 
     function applyCoverFile(file) {
@@ -539,16 +539,19 @@
       var empty = qs('[data-cr-edit-cover-empty]', root);
       var preview = qs('[data-cr-edit-cover-preview]', root);
       var img = qs('[data-cr-edit-cover-img]', root);
+      var coverInput = qs('[data-cr-edit-cover-input]', root);
       if (!empty || !preview || !img) return;
 
       if (listingDraft.coverImage) {
         empty.hidden = true;
         preview.hidden = false;
         img.src = listingDraft.coverImage;
+        if (coverInput) coverInput.classList.add('is-disabled');
       } else {
         empty.hidden = false;
         preview.hidden = true;
         img.removeAttribute('src');
+        if (coverInput) coverInput.classList.remove('is-disabled');
       }
     }
 
@@ -613,67 +616,23 @@
       var form = qs('[data-cr-listing-form]', root);
       if (!form) return;
 
-      var coverInput = qs('[data-cr-edit-cover-input]', root);
-      var coverBtn = qs('[data-cr-edit-cover-btn]', root);
       var coverZone = qs('[data-cr-edit-cover-zone]', root);
       var coverRemove = qs('[data-cr-edit-cover-remove]', root);
-      var galleryInput = qs('[data-cr-edit-gallery-input]', root);
-      var galleryBtn = qs('[data-cr-edit-gallery-btn]', root);
 
-      if (coverBtn && coverInput) {
-        coverBtn.addEventListener('click', function (e) {
-          e.preventDefault();
-          e.stopPropagation();
-          coverInput.click();
-        });
-      }
+      root.addEventListener('change', function (e) {
+        var target = e.target;
+        if (!target || !target.matches) return;
 
-      if (coverZone && coverInput) {
-        coverZone.addEventListener('click', function (e) {
-          if (e.target.closest('[data-cr-edit-cover-remove]')) return;
-          if (e.target.closest('[data-cr-edit-cover-btn]')) return;
-          if (!listingDraft.coverImage || e.target.closest('[data-cr-edit-cover-empty]')) {
-            coverInput.click();
-          }
-        });
+        if (target.matches('[data-cr-edit-cover-input]')) {
+          var coverFile = target.files && target.files[0];
+          target.value = '';
+          applyCoverFile(coverFile);
+          return;
+        }
 
-        coverZone.addEventListener('dragover', function (e) {
-          e.preventDefault();
-          coverZone.classList.add('is-dragover');
-        });
-        coverZone.addEventListener('dragleave', function () {
-          coverZone.classList.remove('is-dragover');
-        });
-        coverZone.addEventListener('drop', function (e) {
-          e.preventDefault();
-          coverZone.classList.remove('is-dragover');
-          var file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
-          applyCoverFile(file);
-        });
-
-        coverInput.addEventListener('change', function () {
-          var file = coverInput.files && coverInput.files[0];
-          coverInput.value = '';
-          applyCoverFile(file);
-        });
-      }
-
-      if (coverRemove) {
-        coverRemove.addEventListener('click', function (e) {
-          e.stopPropagation();
-          listingDraft.coverImage = '';
-          renderCoverPreview();
-          syncListingPreview();
-        });
-      }
-
-      if (galleryBtn && galleryInput) {
-        galleryBtn.addEventListener('click', function () {
-          galleryInput.click();
-        });
-        galleryInput.addEventListener('change', function () {
-          var files = Array.prototype.slice.call(galleryInput.files || []);
-          galleryInput.value = '';
+        if (target.matches('[data-cr-edit-gallery-input]')) {
+          var files = Array.prototype.slice.call(target.files || []);
+          target.value = '';
           var room = 4 - (listingDraft.gallery || []).length;
           if (room <= 0) return;
 
@@ -692,6 +651,32 @@
             .catch(function (err) {
               showEditMsg(err.message, true);
             });
+        }
+      });
+
+      if (coverZone) {
+        coverZone.addEventListener('dragover', function (e) {
+          e.preventDefault();
+          coverZone.classList.add('is-dragover');
+        });
+        coverZone.addEventListener('dragleave', function () {
+          coverZone.classList.remove('is-dragover');
+        });
+        coverZone.addEventListener('drop', function (e) {
+          e.preventDefault();
+          coverZone.classList.remove('is-dragover');
+          var file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+          applyCoverFile(file);
+        });
+      }
+
+      if (coverRemove) {
+        coverRemove.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          listingDraft.coverImage = '';
+          renderCoverPreview();
+          syncListingPreview();
         });
       }
 
@@ -730,6 +715,19 @@
         syncListingPreview();
       });
     }
+
+    function applyPendingSetupMode() {
+      if (!window.__crDashPendingMode) return;
+      one.classList.add('is-pending-setup');
+      var sub = qs('.cr-dash-one__sub', root);
+      if (sub) {
+        sub.textContent =
+          'Votre sweepstakes est en revue — complétez photos et description pendant l\'examen Gaviom.';
+      }
+      renderSweepstakes('vegas');
+    }
+
+    window.__crDashApplyPendingSetup = applyPendingSetupMode;
 
     initListingEditor();
 
@@ -1109,7 +1107,18 @@
             return;
           }
           if (status === 'pending') {
-            showGate('pending');
+            window.__crDashUserId = user.id;
+            window.__crDashPendingMode = true;
+            allowDashboard(result.data);
+            if (typeof window.__crDashApplyPendingSetup === 'function') {
+              window.__crDashApplyPendingSetup();
+            }
+            var editSection = qs('[data-cr-dash-edit]', root);
+            if (editSection) {
+              setTimeout(function () {
+                editSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }, 150);
+            }
             return;
           }
           if (status === 'rejected') {
@@ -1151,6 +1160,19 @@
 
     if (window.GaviomAuth) start();
     else window.addEventListener('load', start, { once: true });
+
+    var continueBtn = qs('[data-cr-dash-gate-continue]', root);
+    if (continueBtn) {
+      continueBtn.addEventListener('click', function () {
+        window.__crDashPendingMode = true;
+        allowDashboard(null);
+        if (typeof window.__crDashApplyPendingSetup === 'function') {
+          window.__crDashApplyPendingSetup();
+        }
+        var editSection = qs('[data-cr-dash-edit]', root);
+        if (editSection) editSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
   }
 
   /* Hero card progress animation */

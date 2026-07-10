@@ -400,25 +400,93 @@
       }
     }
 
-    function readImageFile(file) {
+    function compressImageFile(file, maxWidth, targetBytes) {
+      maxWidth = maxWidth || 1600;
+      targetBytes = targetBytes || 450000;
+
       return new Promise(function (resolve, reject) {
-        if (!file || !file.type.match(/^image\/(jpeg|png|webp)$/)) {
-          reject(new Error('Format accepté : JPG, PNG ou WebP.'));
+        if (!file) {
+          reject(new Error('Aucun fichier sélectionné.'));
           return;
         }
-        if (file.size > 800000) {
-          reject(new Error('Image trop lourde (max 800 Ko) : ' + file.name));
+        if (file.type && file.type.indexOf('image/') !== 0) {
+          reject(new Error('Choisissez une image (JPG, PNG, HEIC…).'));
           return;
         }
+
         var reader = new FileReader();
         reader.onload = function () {
-          resolve(String(reader.result || ''));
+          var img = new Image();
+          img.onload = function () {
+            var scale = Math.min(1, maxWidth / img.width, maxWidth / img.height);
+            var w = Math.max(1, Math.round(img.width * scale));
+            var h = Math.max(1, Math.round(img.height * scale));
+            var canvas = document.createElement('canvas');
+            canvas.width = w;
+            canvas.height = h;
+            var ctx = canvas.getContext('2d');
+            if (!ctx) {
+              reject(new Error('Impossible de traiter l\'image.'));
+              return;
+            }
+            ctx.drawImage(img, 0, 0, w, h);
+
+            var quality = 0.88;
+            var dataUrl = canvas.toDataURL('image/jpeg', quality);
+            while (dataUrl.length > targetBytes * 1.4 && quality > 0.35) {
+              quality -= 0.07;
+              dataUrl = canvas.toDataURL('image/jpeg', quality);
+            }
+            if (dataUrl.length > targetBytes * 1.4) {
+              reject(
+                new Error(
+                  'Image encore trop lourde après compression. Essayez une photo plus petite.'
+                )
+              );
+              return;
+            }
+            resolve(dataUrl);
+          };
+          img.onerror = function () {
+            reject(
+              new Error(
+                'Format non supporté par le navigateur. Exportez en JPG ou PNG et réessayez.'
+              )
+            );
+          };
+          img.src = reader.result;
         };
         reader.onerror = function () {
           reject(new Error('Impossible de lire le fichier.'));
         };
         reader.readAsDataURL(file);
       });
+    }
+
+    function setCoverLoading(isLoading) {
+      var loading = qs('[data-cr-edit-cover-loading]', root);
+      var zone = qs('[data-cr-edit-cover-zone]', root);
+      if (loading) loading.hidden = !isLoading;
+      if (zone) zone.classList.toggle('is-loading', !!isLoading);
+    }
+
+    function applyCoverFile(file) {
+      if (!file) return;
+      setCoverLoading(true);
+      showEditMsg('', false);
+      compressImageFile(file)
+        .then(function (dataUrl) {
+          listingDraft.coverImage = dataUrl;
+          renderCoverPreview();
+          syncListingPreview();
+          showEditMsg('Photo ajoutée — cliquez « Enregistrer l\'annonce » pour sauvegarder.', false);
+        })
+        .catch(function (err) {
+          showEditMsg(err.message || 'Impossible d\'ajouter la photo.', true);
+        })
+        .finally(function () {
+          setCoverLoading(false);
+        });
     }
 
     function syncListingPreview() {
@@ -471,16 +539,19 @@
       var empty = qs('[data-cr-edit-cover-empty]', root);
       var preview = qs('[data-cr-edit-cover-preview]', root);
       var img = qs('[data-cr-edit-cover-img]', root);
+      var coverInput = qs('[data-cr-edit-cover-input]', root);
       if (!empty || !preview || !img) return;
 
       if (listingDraft.coverImage) {
         empty.hidden = true;
         preview.hidden = false;
         img.src = listingDraft.coverImage;
+        if (coverInput) coverInput.classList.add('is-disabled');
       } else {
         empty.hidden = false;
         preview.hidden = true;
         img.removeAttribute('src');
+        if (coverInput) coverInput.classList.remove('is-disabled');
       }
     }
 
@@ -545,27 +616,45 @@
       var form = qs('[data-cr-listing-form]', root);
       if (!form) return;
 
-      var coverInput = qs('[data-cr-edit-cover-input]', root);
-      var coverBtn = qs('[data-cr-edit-cover-btn]', root);
       var coverZone = qs('[data-cr-edit-cover-zone]', root);
       var coverRemove = qs('[data-cr-edit-cover-remove]', root);
-      var galleryInput = qs('[data-cr-edit-gallery-input]', root);
-      var galleryBtn = qs('[data-cr-edit-gallery-btn]', root);
 
-      if (coverBtn && coverInput) {
-        coverBtn.addEventListener('click', function () {
-          coverInput.click();
-        });
-      }
+      root.addEventListener('change', function (e) {
+        var target = e.target;
+        if (!target || !target.matches) return;
 
-      if (coverZone && coverInput) {
-        coverZone.addEventListener('click', function (e) {
-          if (e.target.closest('[data-cr-edit-cover-remove]')) return;
-          if (!listingDraft.coverImage || e.target.closest('[data-cr-edit-cover-empty]')) {
-            coverInput.click();
-          }
-        });
+        if (target.matches('[data-cr-edit-cover-input]')) {
+          var coverFile = target.files && target.files[0];
+          target.value = '';
+          applyCoverFile(coverFile);
+          return;
+        }
 
+        if (target.matches('[data-cr-edit-gallery-input]')) {
+          var files = Array.prototype.slice.call(target.files || []);
+          target.value = '';
+          var room = 4 - (listingDraft.gallery || []).length;
+          if (room <= 0) return;
+
+          showEditMsg('Compression des photos…', false);
+          Promise.all(
+            files.slice(0, room).map(function (f) {
+              return compressImageFile(f);
+            })
+          )
+            .then(function (urls) {
+              listingDraft.gallery = (listingDraft.gallery || []).concat(urls);
+              renderGalleryEditor();
+              syncListingPreview();
+              showEditMsg(urls.length + ' photo(s) ajoutée(s).', false);
+            })
+            .catch(function (err) {
+              showEditMsg(err.message, true);
+            });
+        }
+      });
+
+      if (coverZone) {
         coverZone.addEventListener('dragover', function (e) {
           e.preventDefault();
           coverZone.classList.add('is-dragover');
@@ -577,66 +666,17 @@
           e.preventDefault();
           coverZone.classList.remove('is-dragover');
           var file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
-          if (!file) return;
-          readImageFile(file)
-            .then(function (dataUrl) {
-              listingDraft.coverImage = dataUrl;
-              renderCoverPreview();
-              syncListingPreview();
-            })
-            .catch(function (err) {
-              showEditMsg(err.message, true);
-            });
-        });
-
-        coverInput.addEventListener('change', function () {
-          var file = coverInput.files && coverInput.files[0];
-          coverInput.value = '';
-          if (!file) return;
-          readImageFile(file)
-            .then(function (dataUrl) {
-              listingDraft.coverImage = dataUrl;
-              renderCoverPreview();
-              syncListingPreview();
-            })
-            .catch(function (err) {
-              showEditMsg(err.message, true);
-            });
+          applyCoverFile(file);
         });
       }
 
       if (coverRemove) {
         coverRemove.addEventListener('click', function (e) {
+          e.preventDefault();
           e.stopPropagation();
           listingDraft.coverImage = '';
           renderCoverPreview();
           syncListingPreview();
-        });
-      }
-
-      if (galleryBtn && galleryInput) {
-        galleryBtn.addEventListener('click', function () {
-          galleryInput.click();
-        });
-        galleryInput.addEventListener('change', function () {
-          var files = Array.prototype.slice.call(galleryInput.files || []);
-          galleryInput.value = '';
-          var room = 4 - (listingDraft.gallery || []).length;
-          if (room <= 0) return;
-
-          Promise.all(
-            files.slice(0, room).map(function (f) {
-              return readImageFile(f);
-            })
-          )
-            .then(function (urls) {
-              listingDraft.gallery = (listingDraft.gallery || []).concat(urls);
-              renderGalleryEditor();
-              syncListingPreview();
-            })
-            .catch(function (err) {
-              showEditMsg(err.message, true);
-            });
         });
       }
 
@@ -675,6 +715,19 @@
         syncListingPreview();
       });
     }
+
+    function applyPendingSetupMode() {
+      if (!window.__crDashPendingMode) return;
+      one.classList.add('is-pending-setup');
+      var sub = qs('.cr-dash-one__sub', root);
+      if (sub) {
+        sub.textContent =
+          'Votre sweepstakes est en revue — complétez photos et description pendant l\'examen Gaviom.';
+      }
+      renderSweepstakes('vegas');
+    }
+
+    window.__crDashApplyPendingSetup = applyPendingSetupMode;
 
     initListingEditor();
 
@@ -1054,7 +1107,18 @@
             return;
           }
           if (status === 'pending') {
-            showGate('pending');
+            window.__crDashUserId = user.id;
+            window.__crDashPendingMode = true;
+            allowDashboard(result.data);
+            if (typeof window.__crDashApplyPendingSetup === 'function') {
+              window.__crDashApplyPendingSetup();
+            }
+            var editSection = qs('[data-cr-dash-edit]', root);
+            if (editSection) {
+              setTimeout(function () {
+                editSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }, 150);
+            }
             return;
           }
           if (status === 'rejected') {
@@ -1096,6 +1160,19 @@
 
     if (window.GaviomAuth) start();
     else window.addEventListener('load', start, { once: true });
+
+    var continueBtn = qs('[data-cr-dash-gate-continue]', root);
+    if (continueBtn) {
+      continueBtn.addEventListener('click', function () {
+        window.__crDashPendingMode = true;
+        allowDashboard(null);
+        if (typeof window.__crDashApplyPendingSetup === 'function') {
+          window.__crDashApplyPendingSetup();
+        }
+        var editSection = qs('[data-cr-dash-edit]', root);
+        if (editSection) editSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
   }
 
   /* Hero card progress animation */

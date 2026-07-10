@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="/styles.css?v=20260713-mobile-auth" media="(min-width: 769px)" />
   <link rel="stylesheet" href="/styles.css?v=20260713-mobile-auth" media="print" onload="this.media='(max-width:768px)'" />
   <noscript><link rel="stylesheet" href="/styles.css?v=20260713-mobile-auth" /></noscript>
-  <link rel="stylesheet" href="/creators.css?v=20260710-dash-edit-fix" />
+  <link rel="stylesheet" href="/creators.css?v=20260710-upload-fix" />
   <link rel="stylesheet" href="/mobile.css?v=20260713-mobile-auth" media="screen and (max-width:1024px)" />
 </head>
 <body class="cr-page cr-dash-page" data-cr-dashboard>
@@ -26,9 +26,9 @@
       <div class="cr-apply-card cr-dash-gate-card">
         <div data-cr-dash-gate-panel="pending" hidden>
           <p class="eyebrow" style="margin-bottom:8px;"><span class="bar"></span> Candidature en cours</p>
-          <h1 class="font-display" style="font-size:28px;margin:0 0 12px;">Accès en attente de validation</h1>
-          <p style="color:var(--cr-muted);max-width:48ch;line-height:1.6;margin:0 0 24px;">Votre premier sweepstakes est en cours d'examen. Vous recevrez un email dès qu'il sera approuvé et que le dashboard sera ouvert.</p>
-          <a href="/account.html#creator" class="btn btn-primary">Retour à mon compte</a>
+          <h1 class="font-display" style="font-size:28px;margin:0 0 12px;">Complétez votre annonce</h1>
+          <p style="color:var(--cr-muted);max-width:48ch;line-height:1.6;margin:0 0 24px;">Votre sweepstakes est en revue Gaviom. En attendant, ajoutez vos photos et votre description ci-dessous.</p>
+          <button type="button" class="btn btn-primary" data-cr-dash-gate-continue>Modifier mon annonce</button>
         </div>
         <div data-cr-dash-gate-panel="rejected" hidden>
           <p class="eyebrow" style="margin-bottom:8px;"><span class="bar"></span> Candidature non retenue</p>
@@ -105,18 +105,19 @@
                 </div>
 
                 <div class="cr-field">
-                  <label>Photo principale (couverture)</label>
+                  <label for="cr_edit_cover_input">Photo principale (couverture)</label>
                   <div class="cr-dash-upload">
                     <div class="cr-dash-upload__zone" data-cr-edit-cover-zone>
-                      <input type="file" accept="image/*" data-cr-edit-cover-input class="cr-dash-file-input" />
+                      <input id="cr_edit_cover_input" type="file" accept="image/*" data-cr-edit-cover-input class="cr-dash-file-input" />
                       <div class="cr-dash-upload__placeholder" data-cr-edit-cover-empty>
                         <span aria-hidden="true">📷</span>
-                        <p>Glissez une image ou cliquez pour ajouter la photo de couverture</p>
-                        <button type="button" class="btn btn-ghost btn-sm" data-cr-edit-cover-btn>Choisir une photo</button>
+                        <p>Appuyez ici ou glissez une image (JPG, PNG, photo iPhone…)</p>
+                        <span class="btn btn-ghost btn-sm cr-dash-upload__pick">Choisir une photo</span>
                         <p class="cr-dash-upload__loading font-mono" data-cr-edit-cover-loading hidden>Compression en cours…</p>
                       </div>
                       <div class="cr-dash-upload__preview" data-cr-edit-cover-preview hidden>
-                        <img alt="" data-cr-edit-cover-img />
+                        <img alt="Aperçu couverture" data-cr-edit-cover-img />
+                        <label for="cr_edit_cover_input" class="btn btn-ghost btn-sm cr-dash-upload__change">Changer la photo</label>
                         <button type="button" class="cr-dash-upload__remove" data-cr-edit-cover-remove aria-label="Supprimer la photo">×</button>
                       </div>
                     </div>
@@ -124,10 +125,10 @@
                 </div>
 
                 <div class="cr-field">
-                  <label>Photos supplémentaires <span class="cr-dash-edit__hint-inline">(max 4)</span></label>
-                  <input type="file" accept="image/*" multiple data-cr-edit-gallery-input class="cr-dash-file-input" />
+                  <label for="cr_edit_gallery_input">Photos supplémentaires <span class="cr-dash-edit__hint-inline">(max 4)</span></label>
+                  <input id="cr_edit_gallery_input" type="file" accept="image/*" multiple data-cr-edit-gallery-input class="cr-dash-file-input cr-dash-file-input--gallery" />
                   <div class="cr-dash-gallery" data-cr-edit-gallery></div>
-                  <button type="button" class="btn btn-ghost btn-sm" data-cr-edit-gallery-btn>+ Ajouter des photos</button>
+                  <label for="cr_edit_gallery_input" class="btn btn-ghost btn-sm cr-dash-gallery__add" data-cr-edit-gallery-btn>+ Ajouter des photos</label>
                 </div>
 
                 <div class="cr-dash-edit__actions">
@@ -156,7 +157,7 @@
         </section>
 
         <!-- KPIs -->
-        <div class="cr-stats-grid cr-dash-one__stats">
+        <div class="cr-stats-grid cr-dash-one__stats" data-cr-dash-pending-hide>
           <div class="cr-stat-card">
             <p class="cr-stat-card__label">Produits vendus</p>
             <p class="cr-stat-card__value" data-cr-metric-tickets>—</p>
@@ -180,7 +181,7 @@
         </div>
 
         <!-- Chart + side summary -->
-        <div class="cr-dash-one__grid">
+        <div class="cr-dash-one__grid" data-cr-dash-pending-hide>
           <section class="cr-dash-card cr-dash-chart-card">
             <div class="cr-dash-card__head">
               <div>
@@ -217,7 +218,7 @@
         </div>
 
         <!-- Buyers table -->
-        <section class="cr-dash-card">
+        <section class="cr-dash-card" data-cr-dash-pending-hide>
           <div class="cr-dash-card__head">
             <div>
               <h2 class="cr-dash-card__title">Acheteurs &amp; participants payants</h2>
@@ -249,7 +250,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="/auth-config.js"></script>
   <script src="/auth.js?v=20260722-otp-verify"></script>
-  <script defer src="/creators.js?v=20260710-dash-edit-fix"></script>
+  <script defer src="/creators.js?v=20260710-upload-fix"></script>
 
   <script>
 (function () {
