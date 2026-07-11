@@ -20,11 +20,6 @@
 
 body.cr-page::before { opacity: 0.08; }
 
-.cr-page .nav-links a.cr-nav-active {
-  color: var(--gold-light);
-  font-weight: 600;
-}
-
 /* Hero */
 .cr-hero {
   position: relative;
