@@ -968,6 +968,11 @@ body.acct-page .nav-signin--active {
   margin-bottom: var(--acct-space-2);
 }
 
+.acct-creator__loading {
+  pointer-events: none;
+  opacity: 0.72;
+}
+
 .acct-creator__note {
   margin: 0;
   font-size: 11px;
