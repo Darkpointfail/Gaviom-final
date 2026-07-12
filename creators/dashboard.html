@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="/styles.css?v=20260713-mobile-auth" media="(min-width: 769px)" />
   <link rel="stylesheet" href="/styles.css?v=20260713-mobile-auth" media="print" onload="this.media='(max-width:768px)'" />
   <noscript><link rel="stylesheet" href="/styles.css?v=20260713-mobile-auth" /></noscript>
-  <link rel="stylesheet" href="/creators.css?v=20260710-upload-fix" />
+  <link rel="stylesheet" href="/creators.css?v=20260711-dash-pro" />
   <link rel="stylesheet" href="/mobile.css?v=20260713-mobile-auth" media="screen and (max-width:1024px)" />
 </head>
 <body class="cr-page cr-dash-page" data-cr-dashboard>
@@ -85,9 +85,9 @@
         <!-- Toolbar: sweepstakes selector + add new -->
         <header class="cr-dash-one__toolbar">
           <div class="cr-dash-one__intro">
-            <p class="eyebrow" style="margin-bottom:6px;"><span class="bar"></span> Creator dashboard</p>
+            <p class="cr-dash-one__eyebrow font-mono">Creator dashboard</p>
             <h1 class="font-display cr-dash-one__title">Bonjour, <span data-cr-dash-creator-name>Creator</span></h1>
-            <p class="cr-dash-one__sub">Suivez les ventes, les acheteurs et le chiffre d'affaires du sweepstakes sélectionné.</p>
+            <p class="cr-dash-one__sub">Vue d'ensemble de vos ventes, participants et revenus.</p>
           </div>
           <div class="cr-dash-one__controls">
             <div class="cr-dash-picker" data-cr-dash-picker>
@@ -204,7 +204,7 @@
           </div>
           <div class="cr-stat-card cr-stat-card--highlight">
             <p class="cr-stat-card__label">Vos revenus (net)</p>
-            <p class="cr-stat-card__value" data-cr-metric-earnings style="color:var(--cr-gold-dark);">—</p>
+            <p class="cr-stat-card__value" data-cr-metric-earnings>—</p>
             <p class="cr-stat-card__delta font-mono" data-cr-metric-earnings-note></p>
           </div>
         </div>
@@ -212,19 +212,22 @@
         <!-- Chart + side summary -->
         <div class="cr-dash-one__grid" data-cr-dash-pending-hide>
           <section class="cr-dash-card cr-dash-chart-card">
-            <div class="cr-dash-card__head">
+            <div class="cr-dash-card__head cr-dash-chart-card__head">
               <div>
                 <h2 class="cr-dash-card__title">Évolution des ventes</h2>
-                <p class="cr-dash-card__sub font-mono" data-cr-chart-subtitle>30 derniers jours</p>
+                <p class="cr-dash-chart-kpi">
+                  <strong data-cr-chart-total>—</strong>
+                  <span data-cr-chart-total-label>entrées sur la période</span>
+                </p>
               </div>
-              <div class="cr-dash-chart-tabs" data-cr-chart-range>
-                <button type="button" class="cr-dash-chart-tabs__btn is-active" data-range="7">7j</button>
-                <button type="button" class="cr-dash-chart-tabs__btn" data-range="30">30j</button>
+              <div class="cr-dash-chart-tabs" data-cr-chart-range role="tablist" aria-label="Période du graphique">
+                <button type="button" class="cr-dash-chart-tabs__btn is-active" data-range="7" role="tab" aria-selected="true">7 jours</button>
+                <button type="button" class="cr-dash-chart-tabs__btn" data-range="30" role="tab" aria-selected="false">30 jours</button>
               </div>
             </div>
-            <div class="cr-dash-card__body">
+            <div class="cr-dash-card__body cr-dash-chart-card__body">
               <div class="cr-dash-chart" data-cr-dash-chart aria-hidden="true">
-                <svg viewBox="0 0 640 220" preserveAspectRatio="none" data-cr-chart-svg></svg>
+                <svg viewBox="0 0 720 260" preserveAspectRatio="xMidYMid meet" data-cr-chart-svg role="img" aria-label="Graphique des ventes"></svg>
               </div>
               <p class="cr-dash-chart-empty font-mono" data-cr-chart-empty hidden>Aucune vente pour ce sweepstakes — les données apparaîtront dès la mise en ligne.</p>
             </div>
@@ -281,7 +284,7 @@
   <script src="/auth.js?v=20260722-otp-verify"></script>
   <script defer src="/auth-nav.js"></script>
   <script defer src="/app.js?v=20260713-mobile-auth"></script>
-  <script defer src="/creators.js?v=20260710-upload-fix"></script>
+  <script defer src="/creators.js?v=20260711-dash-pro"></script>
 
   <script>
 (function () {

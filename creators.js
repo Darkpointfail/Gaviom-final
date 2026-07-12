@@ -758,7 +758,71 @@
         .join('');
     }
 
-    function renderChart(values) {
+    function formatChartTick(value) {
+      if (value >= 1000) return (value / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+      return String(Math.round(value));
+    }
+
+    function niceChartMax(value) {
+      var v = Math.max(value, 1);
+      if (v <= 5) return 5;
+      var magnitude = Math.pow(10, Math.floor(Math.log10(v)));
+      var normalized = v / magnitude;
+      var nice = normalized <= 1 ? 1 : normalized <= 2 ? 2 : normalized <= 5 ? 5 : 10;
+      return nice * magnitude;
+    }
+
+    function buildSmoothPath(points) {
+      if (!points.length) return '';
+      if (points.length === 1) return 'M' + points[0].x + ',' + points[0].y;
+      var path = 'M' + points[0].x + ',' + points[0].y;
+      for (var i = 0; i < points.length - 1; i++) {
+        var p0 = points[Math.max(0, i - 1)];
+        var p1 = points[i];
+        var p2 = points[i + 1];
+        var p3 = points[Math.min(points.length - 1, i + 2)];
+        var cp1x = p1.x + (p2.x - p0.x) / 6;
+        var cp1y = p1.y + (p2.y - p0.y) / 6;
+        var cp2x = p2.x - (p3.x - p1.x) / 6;
+        var cp2y = p2.y - (p3.y - p1.y) / 6;
+        path += ' C' + cp1x + ',' + cp1y + ' ' + cp2x + ',' + cp2y + ' ' + p2.x + ',' + p2.y;
+      }
+      return path;
+    }
+
+    function chartDayLabels(count) {
+      var labels = [];
+      var now = new Date();
+      for (var i = 0; i < count; i++) {
+        var day = new Date(now);
+        day.setDate(day.getDate() - (count - 1 - i));
+        labels.push(day.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }));
+      }
+      return labels;
+    }
+
+    function pickChartLabelIndices(count, maxLabels) {
+      if (count <= maxLabels) {
+        var all = [];
+        for (var i = 0; i < count; i++) all.push(i);
+        return all;
+      }
+      var indices = [];
+      var step = (count - 1) / (maxLabels - 1);
+      for (var j = 0; j < maxLabels; j++) {
+        indices.push(Math.round(j * step));
+      }
+      return indices;
+    }
+
+    function setMetricDelta(el, text) {
+      if (!el) return;
+      el.textContent = text || '';
+      el.classList.toggle('is-positive', !!(text && text.charAt(0) === '+'));
+      el.hidden = !text;
+    }
+
+    function renderChart(values, rangeDays) {
       var svg = qs('[data-cr-chart-svg]', root);
       var empty = qs('[data-cr-chart-empty]', root);
       var chart = qs('[data-cr-dash-chart]', root);
@@ -774,46 +838,120 @@
       if (chart) chart.hidden = false;
       if (empty) empty.hidden = true;
 
-      var w = 640;
-      var h = 220;
-      var pad = { t: 16, r: 12, b: 28, l: 12 };
-      var max = Math.max.apply(null, values.concat([1]));
-      var step = (w - pad.l - pad.r) / Math.max(values.length - 1, 1);
+      var w = 720;
+      var h = 260;
+      var pad = { t: 24, r: 24, b: 48, l: 56 };
+      var plotW = w - pad.l - pad.r;
+      var plotH = h - pad.t - pad.b;
+      var max = niceChartMax(Math.max.apply(null, values));
+      var step = plotW / Math.max(values.length - 1, 1);
+      var dayLabels = chartDayLabels(values.length);
+      var labelIndices = pickChartLabelIndices(values.length, rangeDays === 7 ? 7 : 6);
 
       var points = values.map(function (v, i) {
-        var x = pad.l + i * step;
-        var y = pad.t + (h - pad.t - pad.b) * (1 - v / max);
-        return x + ',' + y;
+        return {
+          x: pad.l + i * step,
+          y: pad.t + plotH * (1 - (v || 0) / max),
+          v: v || 0,
+        };
       });
 
-      var area =
-        'M' +
-        pad.l +
+      var linePath = buildSmoothPath(points);
+      var areaPath =
+        linePath +
+        ' L' +
+        points[points.length - 1].x +
         ',' +
         (h - pad.b) +
         ' L' +
-        points.join(' L') +
-        ' L' +
-        (pad.l + (values.length - 1) * step) +
+        points[0].x +
         ',' +
         (h - pad.b) +
         ' Z';
 
-      var grids = [0.25, 0.5, 0.75].map(function (pct) {
-        var y = pad.t + (h - pad.t - pad.b) * pct;
-        return '<line class="cr-dash-chart-grid" x1="' + pad.l + '" y1="' + y + '" x2="' + (w - pad.r) + '" y2="' + y + '"/>';
-      });
+      var yTicks = [0, max * 0.33, max * 0.66, max];
+      var grid = yTicks
+        .map(function (tick) {
+          var y = pad.t + plotH * (1 - tick / max);
+          return (
+            '<line class="cr-dash-chart-grid" x1="' +
+            pad.l +
+            '" y1="' +
+            y +
+            '" x2="' +
+            (w - pad.r) +
+            '" y2="' +
+            y +
+            '"/>' +
+            '<text class="cr-dash-chart-axis-y" x="' +
+            (pad.l - 10) +
+            '" y="' +
+            (y + 4) +
+            '" text-anchor="end">' +
+            formatChartTick(tick) +
+            '</text>'
+          );
+        })
+        .join('');
+
+      var xLabels = labelIndices
+        .map(function (idx) {
+          var point = points[idx];
+          if (!point) return '';
+          return (
+            '<text class="cr-dash-chart-axis-x" x="' +
+            point.x +
+            '" y="' +
+            (h - 16) +
+            '" text-anchor="middle">' +
+            dayLabels[idx] +
+            '</text>'
+          );
+        })
+        .join('');
+
+      var dots = points
+        .map(function (point, idx) {
+          var isLast = idx === points.length - 1;
+          return (
+            '<circle class="cr-dash-chart-dot' +
+            (isLast ? ' cr-dash-chart-dot--active' : '') +
+            '" cx="' +
+            point.x +
+            '" cy="' +
+            point.y +
+            '" r="' +
+            (isLast ? 4.5 : 3) +
+            '"/>'
+          );
+        })
+        .join('');
 
       svg.innerHTML =
-        '<defs><linearGradient id="crChartGradient" x1="0" y1="0" x2="0" y2="1">' +
-        '<stop offset="0%" stop-color="#c8a96a"/><stop offset="100%" stop-color="#c8a96a" stop-opacity="0"/></linearGradient></defs>' +
-        grids.join('') +
-        '<path class="cr-dash-chart-area" d="' +
-        area +
+        '<defs>' +
+        '<linearGradient id="crChartGradient" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0%" stop-color="#0d2b45" stop-opacity="0.12"/>' +
+        '<stop offset="100%" stop-color="#0d2b45" stop-opacity="0"/>' +
+        '</linearGradient>' +
+        '</defs>' +
+        '<line class="cr-dash-chart-baseline" x1="' +
+        pad.l +
+        '" y1="' +
+        (h - pad.b) +
+        '" x2="' +
+        (w - pad.r) +
+        '" y2="' +
+        (h - pad.b) +
         '"/>' +
-        '<polyline class="cr-dash-chart-line" points="' +
-        points.join(' ') +
-        '"/>';
+        grid +
+        xLabels +
+        '<path class="cr-dash-chart-area" d="' +
+        areaPath +
+        '"/>' +
+        '<path class="cr-dash-chart-line" d="' +
+        linePath +
+        '"/>' +
+        dots;
     }
 
     function renderSweepstakes(id) {
@@ -842,9 +980,9 @@
       qs('[data-cr-metric-buyers]', root).textContent = sw.buyers.toLocaleString('en-US');
       qs('[data-cr-metric-earnings]', root).textContent = fmtMoney(earnings);
 
-      qs('[data-cr-metric-tickets-delta]', root).textContent = sw.ticketsDelta || '';
-      qs('[data-cr-metric-revenue-delta]', root).textContent = sw.revenueDelta || '';
-      qs('[data-cr-metric-buyers-delta]', root).textContent = sw.buyersDelta || '';
+      setMetricDelta(qs('[data-cr-metric-tickets-delta]', root), sw.ticketsDelta || '');
+      setMetricDelta(qs('[data-cr-metric-revenue-delta]', root), sw.revenueDelta || '');
+      setMetricDelta(qs('[data-cr-metric-buyers-delta]', root), sw.buyersDelta || '');
       qs('[data-cr-metric-earnings-note]', root).textContent =
         sw.revenue > 0 ? 'Après commission Gaviom (' + Math.round(sw.feePct * 100) + '%)' : '';
 
@@ -869,9 +1007,17 @@
       }
 
       var values = state.range === 7 ? sw.sales7 : sw.sales30;
-      qs('[data-cr-chart-subtitle]', root).textContent =
-        state.range === 7 ? '7 derniers jours' : '30 derniers jours';
-      renderChart(values);
+      var total = (values || []).reduce(function (sum, value) {
+        return sum + (value || 0);
+      }, 0);
+      var totalEl = qs('[data-cr-chart-total]', root);
+      var totalLabelEl = qs('[data-cr-chart-total-label]', root);
+      if (totalEl) totalEl.textContent = total.toLocaleString('fr-FR');
+      if (totalLabelEl) {
+        totalLabelEl.textContent =
+          state.range === 7 ? 'entrées · 7 derniers jours' : 'entrées · 30 derniers jours';
+      }
+      renderChart(values, state.range);
 
       var tbody = qs('[data-cr-buyers-body]', root);
       var empty = qs('[data-cr-buyers-empty]', root);
@@ -943,7 +1089,9 @@
     qsa('[data-cr-chart-range] [data-range]', root).forEach(function (btn) {
       btn.addEventListener('click', function () {
         qsa('[data-cr-chart-range] [data-range]', root).forEach(function (b) {
-          b.classList.toggle('is-active', b === btn);
+          var active = b === btn;
+          b.classList.toggle('is-active', active);
+          b.setAttribute('aria-selected', active ? 'true' : 'false');
         });
         state.range = parseInt(btn.getAttribute('data-range'), 10) || 7;
         renderSweepstakes(state.id);
