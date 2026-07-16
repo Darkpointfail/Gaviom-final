@@ -1409,6 +1409,11 @@ a.brand.corp-brand {
   pointer-events: none;
   filter: saturate(0.88) contrast(1.08) brightness(0.9);
 }
+@media (min-width: 769px) {
+  .hero-home--video .hero-home__lcp {
+    filter: none;
+  }
+}
 .hero-home__video {
   position: absolute;
   inset: 0;
@@ -2579,6 +2584,10 @@ a.brand.corp-brand {
   line-height: 1.5;
 }
 .pd-hero-note a { color: var(--ink-2); text-decoration: underline; text-underline-offset: 2px; }
+.pd-amoe-note {
+  margin: 12px 0 0;
+  max-width: none;
+}
 .pd-trust .check {
   width: 18px;
   height: 18px;
@@ -3631,6 +3640,38 @@ html:has(body.how-page)::before {
   border: 1px solid var(--line);
 }
 
+.how-host-fork {
+  padding-top: 0;
+}
+.how-host-fork__grid {
+  gap: 20px;
+}
+.how-host-fork__card {
+  padding: 28px;
+}
+.how-host-fork__title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.how-host-fork__text {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  margin: 0 0 16px;
+}
+.how-host-fork__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.sweep-outro--host {
+  padding: 48px 0;
+  background: var(--paper-2);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
 /* Membership */
 .mem-hero-grid {
   align-items: center;
@@ -4349,8 +4390,8 @@ html:has(body.how-page)::before {
   filter: saturate(1.12) contrast(1.06) brightness(0.88);
 }
 .full-bleed-quote--iphone .full-bleed-quote__photo img {
-  object-position: center 55%;
-  filter: saturate(1.04) contrast(1.05) brightness(0.9);
+  object-position: center 58%;
+  filter: saturate(1.04) contrast(1.05) brightness(0.88);
 }
 @media (max-width: 640px) {
   .full-bleed-quote--iphone .full-bleed-quote__photo img {

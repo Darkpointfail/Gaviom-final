@@ -14,13 +14,13 @@
   <meta name="description" content="Manage your Gaviom profile, sweepstakes tickets, Gaviom+ membership, payment methods, and promo codes." />
   <meta name="robots" content="noindex" />
   <style>html { background-color: #FAFAF7; }</style>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Geist+Mono:wght@400;500&family=Geist:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet" />  <link rel="preload" as="style" href="/styles.css?v=20260713-mobile-auth" media="(min-width: 769px)" />
-  <link rel="stylesheet" href="/styles.css?v=20260713-mobile-auth" media="(min-width: 769px)" />
-  <link rel="stylesheet" href="/styles.css?v=20260713-mobile-auth" media="print" onload="this.media='(max-width:768px)'" />
-  <noscript><link rel="stylesheet" href="/styles.css?v=20260713-mobile-auth" /></noscript>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Geist+Mono:wght@400;500&family=Geist:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet" />  <link rel="preload" as="style" href="/styles.css?v=20260712-mobile-perf" media="(min-width: 769px)" />
+  <link rel="stylesheet" href="/styles.css?v=20260712-mobile-perf" media="(min-width: 769px)" />
+  <link rel="stylesheet" href="/styles.css?v=20260712-mobile-perf" media="print" onload="this.media='(max-width:768px)'" />
+  <noscript><link rel="stylesheet" href="/styles.css?v=20260712-mobile-perf" /></noscript>
   <link rel="stylesheet" href="/account.css?v=20260709-creator-acct" />
-  <link rel="stylesheet" href="/mobile.css?v=20260713-mobile-auth" media="print" onload="this.media='screen and (max-width:1024px)'" />
-  <noscript><link rel="stylesheet" href="/mobile.css?v=20260713-mobile-auth" media="screen and (max-width: 1024px)" /></noscript>
+  <link rel="stylesheet" href="/mobile.css?v=20260712-mobile-perf" media="print" onload="this.media='screen and (max-width:1024px)'" />
+  <noscript><link rel="stylesheet" href="/mobile.css?v=20260712-mobile-perf" media="screen and (max-width: 1024px)" /></noscript>
 </head>
 <body class="acct-page" data-account-page="1">
   <div class="topbar">
@@ -30,7 +30,7 @@
         <span class="extra" data-topbar-extra>· Pre-sale open · First draw September 6, 8pm ET</span>
       </div>
       <div>
-        <a class="tlink" href="/free-entry.html">Free entry by mail</a>
+        <a class="tlink" href="/free-entry.html">Free entry (AMOE)</a>
         &nbsp;·&nbsp;
         <a class="tlink" href="/rules.html">Official Rules</a>
       </div>
@@ -48,7 +48,8 @@
         <a href="/winners.html">Winners</a>
         <a href="/how.html">How it works</a>
         <a href="/impact.html">Impact</a>
-        <a href="/membership.html">Gaviom+</a>
+        
+        <a href="/creators/">For creators</a>
         <a href="/business/">For business</a>
       </nav>
       <div class="nav-right">
@@ -275,6 +276,7 @@
                 <li>Tirage au sort équitable et annonce du gagnant</li>
               </ul>
               <div class="acct-creator__actions">
+                <span class="btn btn-primary btn-lg acct-creator__loading" data-account-creator-loading aria-busy="true">Chargement…</span>
                 <a href="/creators/apply?from=account" class="btn btn-primary btn-lg" data-account-creator-apply hidden>Soumettre ma candidature</a>
                 <a href="/creators/dashboard" class="btn btn-primary btn-lg" data-account-creator-dashboard hidden>Accéder au dashboard</a>
                 <a href="/creators/" class="btn btn-ghost" data-account-creator-learn>En savoir plus</a>
@@ -373,7 +375,7 @@
         <p class="footer-tagline">A new US sweepstakes platform. Operated by Gaviom Inc., a Delaware corporation.</p>
       </div>
       <div class="footer-col"><h4>Play</h4><ul><li><a href="/prizes.html">All sweepstakes</a></li><li><a href="/prize.html">Grand prize</a></li><li><a href="/winners.html">Winners</a></li></ul></div>
-      <div class="footer-col"><h4>Account</h4><ul><li><a href="/account.html">My account</a></li><li><a href="/membership.html">Gaviom+</a></li></ul></div>
+      <div class="footer-col"><h4>Account</h4><ul><li><a href="/account.html">My account</a></li><li></li></ul></div>
       <div class="footer-col"><h4>Legal</h4><ul><li><a href="/rules.html">Official Rules</a></li><li><a href="/privacy.html">Privacy</a></li><li><a href="/terms.html">Terms</a></li></ul></div>
     </div>
     <div class="wrap footer-legal"><span>© 2026 Gaviom Inc.</span><span>18+ · Void where prohibited</span></div>
@@ -382,9 +384,9 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="/auth-config.js"></script>
   <script src="/auth.js?v=20260722-otp-verify"></script>
-  <script src="/account.js?v=20260710-creator-status"></script>
+  <script src="/account.js?v=20260711-creator-fast"></script>
   <script defer src="/auth-nav.js"></script>
-  <script defer src="/app.js?v=20260713-mobile-auth"></script>
+  <script defer src="/app.js?v=20260712-mobile-perf"></script>
 
   <script>
 (function () {

@@ -1,5 +1,6 @@
 const { adminAuthConfig, formatServiceError } = require('./send-auth-confirmation');
 const { validateAccountEmail } = require('./email-validation');
+const { fetchAdminUserByEmail } = require('./auth-user');
 const { sendResendEmail, resendErrorMessage } = require('./resend-mail');
 
 const FROM = (process.env.AUTH_RESET_FROM || process.env.AUTH_CONFIRM_FROM || 'Gaviom <noreply@getgaviom.com>').trim();
@@ -37,15 +38,7 @@ function buildResetUrlFromActionLink(actionLink, preferredType) {
 }
 
 async function findUserByEmail(cfg, email) {
-  const res = await fetch(`${cfg.url}/auth/v1/admin/users?email=${encodeURIComponent(email)}`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${cfg.key}`,
-      apikey: cfg.key,
-    },
-  });
-  const data = await res.json().catch(() => ({}));
-  return Array.isArray(data?.users) && data.users[0] ? data.users[0] : null;
+  return fetchAdminUserByEmail(cfg, email);
 }
 
 async function ensureUserConfirmed(cfg, user) {

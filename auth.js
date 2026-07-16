@@ -664,7 +664,11 @@
     }
     if (!res.ok) {
       var apiMessage = normalizeAlertMessage(data.error || data.message || data.msg);
-      throw new Error(apiMessage || 'Could not create account.');
+      var err = new Error(apiMessage || 'Could not create account.');
+      if (data.code) err.code = data.code;
+      if (data.verified != null) err.verified = !!data.verified;
+      if (data.verify_email != null) err.verify_email = !!data.verify_email;
+      throw err;
     }
     return data;
   }
@@ -1895,6 +1899,23 @@
         form.reset();
         return;
       } catch (err) {
+        if (err && (err.verify_email || /verification code/i.test(err.message || ''))) {
+          logAuth('signup:existing-unverified', { email: signupEmail });
+          setLoading(form, false);
+          showSignupOtpScreen(
+            signupEmail,
+            err.message || 'Enter the verification code we sent to your email.'
+          );
+          return;
+        }
+        if (err && err.code === 'email_exists' && err.verified) {
+          showAlert(
+            alertEl,
+            'This email already has a Gaviom account (likely from a previous signup). Sign in at gaviom.com/signin — or use Forgot password to set a new one.',
+            'error'
+          );
+          return;
+        }
         showAlert(alertEl, friendlyAuthError(err), 'error');
       } finally {
         setLoading(form, false);

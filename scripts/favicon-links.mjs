@@ -5,7 +5,6 @@ export function faviconHeadLinks() {
   const v = `?v=${FAVICON_VERSION}`;
   return `  <link rel="icon" href="/favicon.ico${v}" type="image/x-icon" sizes="48x48" />
   <link rel="manifest" href="/site.webmanifest" />
-  <meta name="google-site-verification" content="REPLACE_WITH_YOUR_CODE" />
 `;
 }
 

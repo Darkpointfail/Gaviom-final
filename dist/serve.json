@@ -3,6 +3,8 @@
   "directoryListing": false,
   "rewrites": [
     { "source": "/", "destination": "/index.html" },
+    { "source": "/business", "destination": "/business/index.html" },
+    { "source": "/business/", "destination": "/business/index.html" },
     { "source": "/creators", "destination": "/creators/index.html" },
     { "source": "/creators/apply", "destination": "/creators/apply.html" },
     { "source": "/creators/dashboard", "destination": "/creators/dashboard.html" },

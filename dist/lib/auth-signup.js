@@ -3,6 +3,7 @@ const {
   adminAuthConfig,
   formatServiceError,
 } = require('./send-auth-confirmation');
+const { fetchAdminUserByEmail } = require('./auth-user');
 const { issueVerificationCodeForUser } = require('./email-verification-service');
 
 function parseJsonBody(req) {
@@ -90,14 +91,20 @@ async function adminFetch(cfg, path, options = {}) {
 }
 
 async function findUserByEmail(cfg, email) {
-  const result = await adminFetch(
-    cfg,
-    `/auth/v1/admin/users?email=${encodeURIComponent(email)}`,
-    { method: 'GET' }
-  );
-  if (!result.ok) return null;
-  const users = result.data?.users;
-  return Array.isArray(users) && users[0] ? users[0] : null;
+  return fetchAdminUserByEmail(cfg, email);
+}
+
+function emailExistsResponse(existing, message) {
+  const verified = !!(existing?.email_confirmed_at || existing?.confirmed_at);
+  return {
+    status: 409,
+    body: {
+      error: message,
+      code: 'email_exists',
+      verified,
+      verify_email: !verified,
+    },
+  };
 }
 
 async function adminCreateUser(cfg, email, password, metadata) {
@@ -185,10 +192,12 @@ async function handleAuthSignup(req, res) {
 
   const existingBeforeCreate = await findUserByEmail(cfg, validated.email);
   if (existingBeforeCreate?.id) {
-    if (existingBeforeCreate.email_confirmed_at) {
-      return res.status(409).json({
-        error: 'This email is already registered. Sign in instead.',
-      });
+    if (existingBeforeCreate.email_confirmed_at || existingBeforeCreate.confirmed_at) {
+      const exists = emailExistsResponse(
+        existingBeforeCreate,
+        'This email is already registered. Sign in instead, or use Forgot password.'
+      );
+      return res.status(exists.status).json(exists.body);
     }
 
     await adminUpdateUserMetadata(cfg, existingBeforeCreate.id, validated.metadata);
@@ -196,7 +205,8 @@ async function handleAuthSignup(req, res) {
 
     const sendResult = await issueVerificationCodeForUser(
       existingBeforeCreate.id,
-      validated.email
+      validated.email,
+      { req }
     );
     if (sendResult.ok) {
       return res.status(200).json({
@@ -207,10 +217,12 @@ async function handleAuthSignup(req, res) {
       });
     }
 
-    return res.status(409).json({
-      error:
-        'This email is already registered. Enter your verification code, or try Forgot password.',
-    });
+    const exists = emailExistsResponse(
+      existingBeforeCreate,
+      sendResult.error ||
+        'This email is already registered. Enter your verification code, or try Forgot password.'
+    );
+    return res.status(exists.status).json(exists.body);
   }
 
   const createResult = await adminCreateUser(
@@ -225,10 +237,12 @@ async function handleAuthSignup(req, res) {
 
     if (mapped.type === 'email_exists') {
       const existing = await findUserByEmail(cfg, validated.email);
-      if (existing && existing.email_confirmed_at) {
-        return res.status(409).json({
-          error: 'This email is already registered. Sign in instead.',
-        });
+      if (existing && (existing.email_confirmed_at || existing.confirmed_at)) {
+        const exists = emailExistsResponse(
+          existing,
+          'This email is already registered. Sign in instead, or use Forgot password.'
+        );
+        return res.status(exists.status).json(exists.body);
       }
 
       if (existing && existing.id) {
@@ -236,15 +250,26 @@ async function handleAuthSignup(req, res) {
         await upsertProfile(cfg, existing.id, validated.email, validated.metadata);
       }
 
-      const sendResult = await issueVerificationCodeForUser(existing.id, validated.email);
+      const sendResult = await issueVerificationCodeForUser(
+        existing?.id,
+        validated.email,
+        { req }
+      );
       if (sendResult.ok) {
-        return res.status(200).json({ ok: true, resent: true, verify_email: true });
+        return res.status(200).json({
+          ok: true,
+          resent: true,
+          verify_email: true,
+          email: validated.email,
+        });
       }
 
-      return res.status(409).json({
-        error:
-          'This email is already registered. Sign in and enter your verification code, or try Forgot password.',
-      });
+      const exists = emailExistsResponse(
+        existing,
+        sendResult.error ||
+          'This email is already registered. Sign in and enter your verification code, or try Forgot password.'
+      );
+      return res.status(exists.status).json(exists.body);
     }
 
     return res.status(createResult.status >= 400 ? createResult.status : 502).json({

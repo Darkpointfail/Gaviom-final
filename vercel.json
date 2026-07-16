@@ -277,6 +277,10 @@
       "destination": "/api/account?action=reset-password"
     },
     {
+      "source": "/api/amoe-submit",
+      "destination": "/api/amoe"
+    },
+    {
       "source": "/contact",
       "destination": "/contact.html"
     },

@@ -12,7 +12,7 @@ import { googleAnalyticsDeferred, GA_MEASUREMENT_ID } from './analytics-head.mjs
 import { criticalHomeStyleTag } from './critical-home-css.mjs';
 
 const root = process.cwd();
-const ASSET_V = '20260713-mobile-auth';
+const ASSET_V = '20260712-mobile-perf';
 
 const GA_BLOCK =
   /\s*(?:<!-- Google tag \(gtag\.js\)[^\n]*\n)?\s*<script async src="https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=[^"]+"><\/script>\s*<script>[\s\S]*?gtag\('config', '[^']+'\);\s*<\/script>/gi;
@@ -120,12 +120,17 @@ function patchIndexHero(html) {
   return html;
 }
 
+function stripInvalidGoogleVerification(html) {
+  return html.replace(/\s*<meta name="google-site-verification"[^>]*>\s*/gi, '\n');
+}
+
 let updated = 0;
 
 for (const file of walk(root)) {
   let html = readFileSync(file, 'utf8');
   const original = html;
 
+  html = stripInvalidGoogleVerification(html);
   html = stripGa(html);
   html = deferScripts(html);
   html = bumpAssetVersions(html);

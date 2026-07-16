@@ -29,14 +29,25 @@ export function Header() {
           <a href="#faq" className="transition hover:text-ink">
             FAQ
           </a>
+          <a href="https://gaviom.com/creators/" className="transition hover:text-ink">
+            Creators
+          </a>
         </nav>
-        <button
-          type="button"
-          onClick={() => openQuote('Discovery call')}
-          className="btn-primary !py-2.5 !text-xs sm:!text-sm"
-        >
-          Book discovery call
-        </button>
+        <div className="flex items-center gap-2 sm:gap-3">
+          <a
+            href="https://gaviom.com"
+            className="btn-secondary !py-2.5 !text-xs sm:!text-sm whitespace-nowrap"
+          >
+            Sweepstakes
+          </a>
+          <button
+            type="button"
+            onClick={() => openQuote('Discovery call')}
+            className="btn-primary !py-2.5 !text-xs sm:!text-sm whitespace-nowrap"
+          >
+            Book discovery call
+          </button>
+        </div>
       </div>
     </header>
   );

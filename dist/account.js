@@ -257,6 +257,38 @@
   }
 
   var PROFILE_TABLE = 'profiles';
+  var CREATOR_STATUS_CACHE_PREFIX = 'gaviom-creator-status:v1:';
+
+  function creatorStatusCacheKey(userId) {
+    return CREATOR_STATUS_CACHE_PREFIX + userId;
+  }
+
+  function readCachedCreatorStatus(userId) {
+    try {
+      var raw = localStorage.getItem(creatorStatusCacheKey(userId));
+      if (!raw) return null;
+      var parsed = JSON.parse(raw);
+      return parsed && parsed.status ? parsed.status : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function writeCachedCreatorStatus(userId, status) {
+    try {
+      localStorage.setItem(
+        creatorStatusCacheKey(userId),
+        JSON.stringify({ status: status, at: Date.now() })
+      );
+    } catch (e) {
+      /* ignore quota */
+    }
+  }
+
+  function ensureProfileShell() {
+    if (!state.profile) state.profile = {};
+    return state.profile;
+  }
 
   function profileFromState() {
     var p = state.profile || {};
@@ -301,19 +333,40 @@
   }
 
   function renderCreatorSection() {
-    var status = (state.profile && state.profile.creator_status) || 'none';
+    var status =
+      state.profile && state.profile.creator_status != null
+        ? state.profile.creator_status
+        : null;
+    var loadingEl = $('[data-account-creator-loading]');
     var applyBtn = $('[data-account-creator-apply]');
     var dashboardBtn = $('[data-account-creator-dashboard]');
     var statusEl = $('[data-account-creator-status]');
     var noteEl = $('[data-account-creator-note]');
+    var isLoading = status === null;
 
-    if (applyBtn) applyBtn.hidden = status !== 'none' && status !== 'rejected';
-    if (dashboardBtn) dashboardBtn.hidden = status !== 'approved';
+    if (loadingEl) loadingEl.hidden = !isLoading;
+    if (isLoading) {
+      if (applyBtn) applyBtn.hidden = true;
+      if (dashboardBtn) dashboardBtn.hidden = true;
+      if (statusEl) statusEl.hidden = true;
+      return;
+    }
+
+    var showDashboard = status === 'approved' || status === 'pending';
+    var showApply = status === 'none' || status === 'rejected';
+
+    if (applyBtn) applyBtn.hidden = !showApply;
+    if (dashboardBtn) {
+      dashboardBtn.hidden = !showDashboard;
+      dashboardBtn.textContent =
+        status === 'pending' ? 'Compléter mon annonce' : 'Accéder au dashboard';
+    }
 
     if (statusEl) {
       if (status === 'pending') {
         statusEl.hidden = false;
-        statusEl.textContent = 'Candidature en cours d\'examen — réponse sous 3 à 5 jours ouvrés.';
+        statusEl.textContent =
+          'Candidature en cours d\'examen — complétez votre annonce (photos + description) en attendant.';
       } else if (status === 'rejected') {
         statusEl.hidden = false;
         statusEl.textContent = 'Dernière candidature non retenue. Vous pouvez en soumettre une nouvelle.';
@@ -329,6 +382,45 @@
     if (noteEl) {
       noteEl.hidden = status === 'pending' || status === 'approved';
     }
+  }
+
+  async function loadCreatorStatus(client, userId) {
+    if (!client || !userId) return null;
+
+    debugLog('loadCreatorStatus:start', { userId: userId });
+
+    try {
+      var result = await client
+        .from(PROFILE_TABLE)
+        .select('creator_status')
+        .eq('id', userId)
+        .maybeSingle();
+
+      if (result.error) {
+        debugLog('loadCreatorStatus:error', { message: result.error.message });
+        return null;
+      }
+
+      var status = (result.data && result.data.creator_status) || 'none';
+      ensureProfileShell().creator_status = status;
+      writeCachedCreatorStatus(userId, status);
+      renderCreatorSection();
+      debugLog('loadCreatorStatus:done', { status: status });
+      return status;
+    } catch (err) {
+      debugLog('loadCreatorStatus:exception', { message: err.message });
+      ensureProfileShell().creator_status = 'none';
+      renderCreatorSection();
+      return null;
+    }
+  }
+
+  function primeCreatorSectionFromCache(userId) {
+    var cached = readCachedCreatorStatus(userId);
+    if (cached) {
+      ensureProfileShell().creator_status = cached;
+    }
+    renderCreatorSection();
   }
 
   function ensureStateSelect() {
@@ -418,7 +510,10 @@
 
       if (!result.data) {
         debugLog('loadProfile:missing', { userId: userId, profileInDb: false });
-        state.profile = null;
+        state.profile = ensureProfileShell();
+        if (state.profile.creator_status == null) {
+          state.profile.creator_status = 'none';
+        }
         showAlert(
           'No profile row for ' +
             (state.session.user.email || userId) +
@@ -427,6 +522,7 @@
         );
       } else {
         state.profile = result.data;
+        writeCachedCreatorStatus(userId, result.data.creator_status || 'none');
         debugLog('loadProfile:found', {
           userId: userId,
           profileInDb: true,
@@ -919,11 +1015,11 @@
 
     var session = null;
     try {
-      if (window.GaviomAuth.waitForSession) {
-        session = await window.GaviomAuth.waitForSession(12000);
-      }
-      if (!session && window.GaviomAuth.getSession) {
+      if (window.GaviomAuth.getSession) {
         session = await window.GaviomAuth.getSession();
+      }
+      if ((!session || !session.user) && window.GaviomAuth.waitForSession) {
+        session = await window.GaviomAuth.waitForSession(5000);
       }
     } catch (err) {
       console.error('[Gaviom account] session', err);
@@ -936,20 +1032,6 @@
       return;
     }
 
-    if (window.GaviomAuth.syncSessionUser) {
-      var syncedUser = await window.GaviomAuth.syncSessionUser();
-      if (syncedUser) {
-        session = Object.assign({}, session, { user: syncedUser });
-        state.session = session;
-      }
-    } else if (window.GaviomAuth.refreshUser) {
-      var refreshedUser = await window.GaviomAuth.refreshUser();
-      if (refreshedUser) {
-        session = Object.assign({}, session, { user: refreshedUser });
-        state.session = session;
-      }
-    }
-
     if (window.GaviomAuth.isEmailConfirmed && !window.GaviomAuth.isEmailConfirmed(session.user)) {
       window.location.replace('/verify-email.html?verify=required&next=' + encodeURIComponent('/account.html'));
       return;
@@ -958,6 +1040,7 @@
     state.session = session;
     state.accessToken = session.access_token;
     applySessionShell(session);
+    primeCreatorSectionFromCache(session.user.id);
 
     debugLog('init:session', {
       userId: session.user.id,
@@ -969,6 +1052,23 @@
     bindGotoOrders();
     bindForms();
 
+    var client = window.GaviomAuth.getClient();
+    var creatorStatusPromise = loadCreatorStatus(client, session.user.id);
+
+    if (window.GaviomAuth.syncSessionUser) {
+      window.GaviomAuth.syncSessionUser().then(function (syncedUser) {
+        if (!syncedUser) return;
+        session = Object.assign({}, session, { user: syncedUser });
+        state.session = session;
+      });
+    } else if (window.GaviomAuth.refreshUser) {
+      window.GaviomAuth.refreshUser().then(function (refreshedUser) {
+        if (!refreshedUser) return;
+        session = Object.assign({}, session, { user: refreshedUser });
+        state.session = session;
+      });
+    }
+
     if (window.GaviomAuth.subscribe) {
       window.GaviomAuth.subscribe(function (nextSession) {
         if (!nextSession || !nextSession.user) return;
@@ -977,6 +1077,7 @@
         applySessionShell(nextSession);
         try {
           var subClient = window.GaviomAuth.getClient();
+          loadCreatorStatus(subClient, nextSession.user.id).catch(function () {});
           loadProfile(subClient).catch(function (err) {
             debugLog('subscribe:profile-error', err.message);
           });
@@ -987,8 +1088,7 @@
     }
 
     try {
-      var client = window.GaviomAuth.getClient();
-      await loadProfile(client);
+      await Promise.all([creatorStatusPromise, loadProfile(client)]);
       await Promise.all([loadOrders(), loadEntries(client), loadMembership(client), loadPromos(client)]);
     } catch (err) {
       console.error('[Gaviom account] init', err);

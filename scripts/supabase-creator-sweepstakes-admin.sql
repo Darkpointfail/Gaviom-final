@@ -1,0 +1,28 @@
+-- Set a creator sweepstakes live (replace ids).
+-- Run after scripts/supabase-creator-sweepstakes.sql
+
+-- update public.creator_sweepstakes
+-- set status = 'live', updated_at = now()
+-- where id = 'YOUR-SWEEPSTAKES-UUID';
+
+-- Example: bootstrap from existing approved application for a user
+-- insert into public.creator_sweepstakes (
+--   creator_id, application_id, slug, prize_id, title, public_title, description,
+--   prize_name, prize_value_usd, ticket_price_usd, entry_cap, status
+-- )
+-- select
+--   ca.user_id,
+--   ca.id,
+--   lower(regexp_replace(ca.prize, '[^a-zA-Z0-9]+', '-', 'g')) || '-' || left(replace(ca.id::text, '-', ''), 6),
+--   'cr-' || left(replace(ca.id::text, '-', ''), 12),
+--   ca.prize,
+--   ca.prize,
+--   ca.description,
+--   ca.prize,
+--   ca.prize_value_usd,
+--   10,
+--   1000,
+--   'review'
+-- from public.creator_applications ca
+-- where ca.status = 'approved'
+-- on conflict do nothing;

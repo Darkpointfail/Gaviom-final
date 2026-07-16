@@ -282,82 +282,44 @@
   }
 
   /* One-page creator dashboard (sweepstakes selector + analytics) */
-  var DASH_MOCK_SWEEPSTAKES = {
-    miami: {
-      id: 'miami',
-      title: 'Miami Getaway — 5 nuits + vols',
-      meta: 'Live · $12 / entrée',
-      emoji: '🌴',
-      status: 'live',
-      statusLabel: 'En ligne',
-      banner: '',
-      ticketPrice: 12,
-      prizeValue: 4200,
-      cap: 1000,
-      drawDate: '15 mars 2026',
-      publicUrl: '/creators/demo/miami-getaway',
-      defaultListing: {
-        publicTitle: 'Gagnez 5 nuits à Miami + vols',
-        description:
-          'Rejoignez mon giveaway pour tenter de gagner un séjour de 5 nuits à Miami Beach avec vols inclus. Hôtel 4★ en bord de mer, petits-déjeuners et transferts aéroport — le rêve d\'une escapade Floride avec Gaviom, sweepstakes vérifié et tirage équitable.',
-        coverImage: '/images/cruise-hero-1280w.webp',
-        gallery: ['/images/cruise-hero-800w.webp', '/images/home-eight-oclock-villa-800w.webp'],
-      },
-      tickets: 684,
-      ticketsDelta: '+12% vs sem. dernière',
-      revenue: 8208,
-      revenueDelta: '+18% vs sem. dernière',
-      buyers: 412,
-      buyersDelta: '+9% nouveaux acheteurs',
-      feePct: 0.15,
-      sales7: [42, 58, 51, 72, 88, 95, 110],
-      sales30: [12, 18, 22, 28, 35, 40, 48, 52, 55, 60, 58, 62, 70, 75, 80, 88, 92, 98, 105, 110, 108, 115, 120, 118, 125, 130, 128, 132, 140, 145],
-      purchases: [
-        { name: 'Sarah M.', email: 's.m***@gmail.com', entries: 5, amount: 60, date: '10 juil. 2026', status: 'Payé' },
-        { name: 'James K.', email: 'j.k***@yahoo.com', entries: 10, amount: 120, date: '10 juil. 2026', status: 'Payé' },
-        { name: 'Emily R.', email: 'emily.r***@outlook.com', entries: 3, amount: 36, date: '9 juil. 2026', status: 'Payé' },
-        { name: 'Marcus T.', email: 'marcus***@icloud.com', entries: 8, amount: 96, date: '9 juil. 2026', status: 'Payé' },
-        { name: 'Lisa P.', email: 'lisa.p***@gmail.com', entries: 2, amount: 24, date: '8 juil. 2026', status: 'Payé' },
-        { name: 'David W.', email: 'd.w***@hotmail.com', entries: 15, amount: 180, date: '8 juil. 2026', status: 'Payé' },
-        { name: 'Anna C.', email: 'anna.c***@gmail.com', entries: 4, amount: 48, date: '7 juil. 2026', status: 'Payé' },
-      ],
-    },
-    vegas: {
-      id: 'vegas',
-      title: 'Vegas Weekend Escape',
-      meta: 'En revue · $8 / entrée',
-      emoji: '🎰',
-      status: 'review',
-      statusLabel: 'En revue Gaviom',
-      banner: 'Complétez votre annonce ci-dessous (photos + description) pendant la revue Gaviom. Les ventes démarreront après approbation.',
-      ticketPrice: 8,
-      prizeValue: 2800,
-      cap: 500,
-      drawDate: '—',
-      publicUrl: '',
-      defaultListing: {
-        publicTitle: 'Vegas Weekend Escape',
-        description: '',
-        coverImage: '',
-        gallery: [],
-      },
-      tickets: 0,
-      ticketsDelta: '',
-      revenue: 0,
-      revenueDelta: '',
-      buyers: 0,
-      buyersDelta: '',
-      feePct: 0.15,
-      sales7: [0, 0, 0, 0, 0, 0, 0],
-      sales30: [],
-      purchases: [],
-    },
-  };
-
   function fmtMoney(n) {
     if (!n) return '$0';
     if (n >= 1000) return '$' + (n / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
     return '$' + n.toLocaleString('en-US');
+  }
+
+  function normalizeSweepstakes(item) {
+    var a = item.analytics || {};
+    return {
+      id: item.id,
+      title: item.title,
+      meta: item.meta,
+      emoji: item.emoji || '🎁',
+      status: item.status,
+      statusLabel: item.statusLabel,
+      banner: item.banner || '',
+      ticketPrice: item.ticketPrice,
+      prizeValue: item.prizeValue,
+      cap: item.cap,
+      drawDate: item.drawDate,
+      publicUrl: item.publicUrl || '',
+      defaultListing: item.listing || {
+        publicTitle: item.title || '',
+        description: '',
+        coverImage: '',
+        gallery: [],
+      },
+      tickets: a.tickets || 0,
+      ticketsDelta: a.ticketsDelta || '',
+      revenue: a.revenue || 0,
+      revenueDelta: a.revenueDelta || '',
+      buyers: a.buyers || 0,
+      buyersDelta: a.buyersDelta || '',
+      feePct: a.feePct || 0.15,
+      sales7: a.sales7 || [0, 0, 0, 0, 0, 0, 0],
+      sales30: a.sales30 || [],
+      purchases: a.purchases || [],
+    };
   }
 
   function initDashboardOnePage() {
@@ -365,39 +327,127 @@
     var one = qs('[data-cr-dash-content]');
     if (!root || !one || !one.classList.contains('cr-dash-one')) return;
 
-    var state = { id: 'miami', range: 7 };
-    var ids = Object.keys(DASH_MOCK_SWEEPSTAKES);
+    var state = { id: null, range: 7, sweepstakes: {}, loaded: false, loading: false, error: null };
     var listingDraft = { publicTitle: '', description: '', coverImage: '', gallery: [] };
 
-    function listingStorageKey(swId) {
-      var uid = window.__crDashUserId || 'demo';
-      return 'gaviom-sw-listing:v1:' + uid + ':' + swId;
+    function sweepstakesIds() {
+      return Object.keys(state.sweepstakes);
     }
 
-    function loadListingFromStorage(swId) {
-      var sw = DASH_MOCK_SWEEPSTAKES[swId];
+    function dashboardApi(path, options) {
+      options = options || {};
+      if (!window.GaviomAuth || !window.GaviomAuth.getAccessToken) {
+        return Promise.reject(new Error('Connectez-vous pour accéder au dashboard.'));
+      }
+      return window.GaviomAuth.getAccessToken().then(function (token) {
+        if (!token) throw new Error('Connectez-vous pour accéder au dashboard.');
+        return fetch(path, {
+          method: options.method || 'GET',
+          headers: Object.assign(
+            { Authorization: 'Bearer ' + token },
+            options.body ? { 'Content-Type': 'application/json' } : {},
+            options.headers || {}
+          ),
+          body: options.body ? JSON.stringify(options.body) : undefined,
+        }).then(function (res) {
+          return res.json().catch(function () {
+            return {};
+          }).then(function (data) {
+            if (!res.ok) {
+              throw new Error((data && data.error) || 'Impossible de charger le dashboard.');
+            }
+            return data;
+          });
+        });
+      });
+    }
+
+    function setDashboardLoading(isLoading) {
+      state.loading = !!isLoading;
+      var sub = qs('.cr-dash-one__sub', root);
+      if (sub && isLoading) sub.textContent = 'Chargement de vos données…';
+    }
+
+    function setDashboardError(message) {
+      state.error = message || null;
+      var sub = qs('.cr-dash-one__sub', root);
+      if (sub && message) sub.textContent = message;
+    }
+
+    function loadDashboardData() {
+      if (state.loading) return Promise.resolve();
+      setDashboardLoading(true);
+      setDashboardError(null);
+
+      return dashboardApi('/api/creator-dashboard?action=list')
+        .then(function (data) {
+          var map = {};
+          (data.sweepstakes || []).forEach(function (item) {
+            map[item.id] = normalizeSweepstakes(item);
+          });
+          state.sweepstakes = map;
+          state.loaded = true;
+          var ids = sweepstakesIds();
+          if (!state.id && ids.length) state.id = ids[0];
+          if (state.id && !map[state.id] && ids.length) state.id = ids[0];
+
+          var sub = qs('.cr-dash-one__sub', root);
+          if (sub) {
+            sub.textContent =
+              ids.length === 0
+                ? 'Aucun sweepstakes pour le moment — soumettez une candidature creator.'
+                : 'Vue d\'ensemble de vos ventes, participants et revenus.';
+          }
+
+          if (state.id) renderSweepstakes(state.id);
+          else renderEmptyDashboard();
+          renderPickerMenu();
+
+          if (window.__crDashPendingMode && typeof window.__crDashApplyPendingSetup === 'function') {
+            window.__crDashApplyPendingSetup();
+          }
+        })
+        .catch(function (err) {
+          setDashboardError(err.message || 'Impossible de charger le dashboard.');
+        })
+        .finally(function () {
+          setDashboardLoading(false);
+        });
+    }
+
+    window.__crDashLoadData = loadDashboardData;
+
+    function renderEmptyDashboard() {
+      var title = qs('[data-cr-dash-picker-title]', root);
+      var meta = qs('[data-cr-dash-picker-meta]', root);
+      if (title) title.textContent = 'Aucun sweepstakes';
+      if (meta) meta.textContent = 'Soumettez une candidature';
+      var menu = qs('[data-cr-dash-picker-menu]', root);
+      if (menu) menu.innerHTML = '';
+    }
+
+    function loadListingFromSweepstakes(swId) {
+      var sw = state.sweepstakes[swId];
       var defaults = (sw && sw.defaultListing) || {
         publicTitle: sw ? sw.title : '',
         description: '',
         coverImage: '',
         gallery: [],
       };
-      try {
-        var raw = localStorage.getItem(listingStorageKey(swId));
-        if (!raw) return Object.assign({}, defaults);
-        return Object.assign({}, defaults, JSON.parse(raw));
-      } catch (e) {
-        return Object.assign({}, defaults);
-      }
+      return Object.assign({}, defaults);
     }
 
-    function saveListingToStorage(swId, data) {
-      try {
-        localStorage.setItem(listingStorageKey(swId), JSON.stringify(data));
-        return true;
-      } catch (e) {
-        return false;
-      }
+    function saveListingToApi(swId, data) {
+      return dashboardApi('/api/creator-dashboard?action=listing', {
+        method: 'PATCH',
+        body: {
+          sweepstakesId: swId,
+          publicTitle: data.publicTitle,
+          description: data.description,
+          coverImage: data.coverImage,
+          gallery: data.gallery || [],
+        },
+      });
     }
 
     function compressImageFile(file, maxWidth, targetBytes) {
@@ -589,7 +639,7 @@
     }
 
     function loadListingForm(swId) {
-      listingDraft = loadListingFromStorage(swId);
+      listingDraft = loadListingFromSweepstakes(swId);
 
       var titleInput = qs('[data-cr-edit-title]', root);
       var descInput = qs('[data-cr-edit-description]', root);
@@ -706,13 +756,16 @@
           return;
         }
 
-        if (!saveListingToStorage(state.id, listingDraft)) {
-          showEditMsg('Erreur de sauvegarde — images peut-être trop lourdes.', true);
-          return;
-        }
-
-        showEditMsg('Annonce enregistrée avec succès.', false);
-        syncListingPreview();
+        saveListingToApi(state.id, listingDraft)
+          .then(function () {
+            var sw = state.sweepstakes[state.id];
+            if (sw) sw.defaultListing = Object.assign({}, listingDraft);
+            showEditMsg('Annonce enregistrée avec succès.', false);
+            syncListingPreview();
+          })
+          .catch(function (err) {
+            showEditMsg(err.message || 'Erreur de sauvegarde.', true);
+          });
       });
     }
 
@@ -724,7 +777,20 @@
         sub.textContent =
           'Votre sweepstakes est en revue — complétez photos et description pendant l\'examen Gaviom.';
       }
-      renderSweepstakes('vegas');
+      var ids = sweepstakesIds();
+      var pick =
+        ids.find(function (id) {
+          return state.sweepstakes[id] && state.sweepstakes[id].status === 'review';
+        }) || ids[0];
+      if (pick) {
+        renderSweepstakes(pick);
+        var editSection = qs('[data-cr-dash-edit]', root);
+        if (editSection) {
+          setTimeout(function () {
+            editSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 150);
+        }
+      }
     }
 
     window.__crDashApplyPendingSetup = applyPendingSetupMode;
@@ -734,9 +800,10 @@
     function renderPickerMenu() {
       var menu = qs('[data-cr-dash-picker-menu]', root);
       if (!menu) return;
+      var ids = sweepstakesIds();
       menu.innerHTML = ids
         .map(function (id) {
-          var sw = DASH_MOCK_SWEEPSTAKES[id];
+          var sw = state.sweepstakes[id];
           return (
             '<li role="option">' +
             '<button type="button" class="cr-dash-picker__option' +
@@ -955,7 +1022,7 @@
     }
 
     function renderSweepstakes(id) {
-      var sw = DASH_MOCK_SWEEPSTAKES[id];
+      var sw = state.sweepstakes[id];
       if (!sw) return;
       state.id = id;
 
@@ -1098,7 +1165,7 @@
       });
     });
 
-    renderSweepstakes(state.id);
+    renderPickerMenu();
   }
 
   /* Create giveaway wizard */
@@ -1239,6 +1306,9 @@
           if (full) nameEl.textContent = full.split(' ')[0];
         }
       }
+      if (typeof window.__crDashLoadData === 'function') {
+        window.__crDashLoadData();
+      }
     }
 
     function checkProfile(client, user) {
@@ -1258,15 +1328,6 @@
             window.__crDashUserId = user.id;
             window.__crDashPendingMode = true;
             allowDashboard(result.data);
-            if (typeof window.__crDashApplyPendingSetup === 'function') {
-              window.__crDashApplyPendingSetup();
-            }
-            var editSection = qs('[data-cr-dash-edit]', root);
-            if (editSection) {
-              setTimeout(function () {
-                editSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              }, 150);
-            }
             return;
           }
           if (status === 'rejected') {
@@ -1329,6 +1390,8 @@
     if (!fill) return;
     setTimeout(function () {
       fill.style.width = '68%';
+      var label = qs('[data-cr-hero-progress-label]');
+      if (label) label.textContent = '68%';
     }, 400);
   }
 

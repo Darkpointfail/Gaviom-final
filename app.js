@@ -355,6 +355,17 @@
     update();
   }
 
+  function initNavPresaleCta() {
+    document.querySelectorAll('.nav-right a.btn-primary').forEach((el) => {
+      if (el.hasAttribute('data-gaviom-plus-cta')) return;
+      el.href = '/membership.html';
+      el.textContent = 'Gaviom+';
+      el.removeAttribute('data-presale-cta');
+      el.removeAttribute('data-entry-cta');
+      el.removeAttribute('data-presale-price');
+    });
+  }
+
   function initMobileNav() {
     const mq = window.matchMedia('(max-width: 980px)');
 
@@ -627,45 +638,106 @@
     fill.style.setProperty('--progress', String(scale));
   }
 
-  function syncProgressFromCounter(val, cap) {
-    const pct = Math.min(99, Math.round((val / cap) * 100));
-    document.querySelectorAll('[data-progress-dynamic]').forEach((track) => {
+  function syncProgressForGroup(group, val, cap) {
+    const safeCap = Math.max(1, Number(cap) || 3000);
+    const safeVal = Math.max(0, Number(val) || 0);
+    const pct = Math.min(100, Math.round((safeVal / safeCap) * 100));
+    const displayPct = Math.min(99, pct);
+    const text = safeVal.toLocaleString('en-US');
+    const capText = safeCap.toLocaleString('en-US');
+
+    document.querySelectorAll(`[data-live-group="${group}"]`).forEach((el) => {
+      el.textContent = text;
+    });
+
+    document.querySelectorAll(`[data-live-summary="${group}"]`).forEach((el) => {
+      el.textContent = `${text} / ${capText} (${pct}%)`;
+    });
+
+    document.querySelectorAll(`[data-progress-id="progress-${group}"]`).forEach((track) => {
       const fill = track.querySelector('.progress-fill, i');
-      if (fill) setProgressFill(fill, pct);
-      track.classList.toggle('hot', pct > 80);
-      track.setAttribute('data-progress', String(pct));
+      if (fill) setProgressFill(fill, displayPct);
+      track.classList.toggle('hot', displayPct > 80);
+      track.setAttribute('data-progress', String(displayPct));
     });
   }
 
+  function syncSweepPanels(group, pool) {
+    if (!pool) return;
+    const cap = pool.cap || 3000;
+    const remaining = pool.remaining != null ? pool.remaining : Math.max(0, cap - (pool.entries || 0));
+    const ratio = cap > 0 ? Math.max(0, Math.min(1, remaining / cap)) : 1;
+
+    document.querySelectorAll(`[data-sweep-pool="${group}"]`).forEach((wrap) => {
+      wrap.dataset.sweepEntries = String(pool.entries || 0);
+      const valEl = wrap.querySelector('.sweep-panel__spots-val');
+      if (valEl) {
+        valEl.innerHTML = `${remaining.toLocaleString('en-US')} <span class="sweep-panel__spots-of">/ ${cap.toLocaleString('en-US')}</span>`;
+      }
+      const spots = wrap.querySelector('.sweep-panel__spots');
+      if (spots) {
+        spots.setAttribute(
+          'aria-label',
+          `${remaining.toLocaleString('en-US')} spots left of ${cap.toLocaleString('en-US')}`
+        );
+      }
+      const bar = wrap.querySelector('.sweep-panel__spots-bar span');
+      if (bar) bar.style.setProperty('--spots-progress', String(ratio));
+      if (remaining <= 0) wrap.dataset.filterSpots = 'full';
+      else if (remaining < cap * 0.2) wrap.dataset.filterSpots = 'filling';
+      else wrap.dataset.filterSpots = 'open';
+    });
+  }
+
+  function applyPoolStats(pools) {
+    if (!pools || typeof pools !== 'object') return;
+    Object.keys(pools).forEach((group) => {
+      const pool = pools[group];
+      if (!pool) return;
+      syncProgressForGroup(group, pool.entries, pool.cap);
+      syncSweepPanels(group, pool);
+    });
+  }
+
+  async function fetchPoolStats() {
+    const res = await fetch('/api/pool-stats', { credentials: 'same-origin' });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      throw new Error((data && data.error) || 'Could not load pool stats.');
+    }
+    return data;
+  }
+
+  async function refreshPoolStats() {
+    try {
+      const data = await fetchPoolStats();
+      if (data && data.pools) applyPoolStats(data.pools);
+      return data;
+    } catch (err) {
+      console.warn('[Gaviom] pool stats:', err.message || err);
+      return null;
+    }
+  }
+
   function initLiveCounters() {
-    const capEl = document.querySelector('[data-live-counter][data-live-pair]');
-    if (!capEl) return;
-
-    const group = capEl.dataset.liveGroup || 'msc';
-    const cap = parseInt(capEl.dataset.liveMax, 10) || 3000;
-    let val = parseInt(capEl.dataset.liveCounter, 10) || 0;
-    const dripEl = document.querySelector(`[data-live-group="${group}"]:not([data-live-pair])`);
-    const dripMax = dripEl ? parseInt(dripEl.dataset.liveMax, 10) || cap - 1 : cap - 1;
-    const targets = document.querySelectorAll(`[data-live-group="${group}"]`);
-    const head = document.querySelector('[data-live-head]');
-
-    function render() {
-      const text = val.toLocaleString('en-US');
-      targets.forEach((el) => {
-        el.textContent = text;
-      });
-      if (head) head.textContent = text;
-      syncProgressFromCounter(val, cap);
+    if (!document.querySelector('[data-live-group], [data-live-summary], [data-progress-id^="progress-"], [data-sweep-pool]')) {
+      return;
     }
 
-    render();
-    if (capEl.dataset.liveStatic !== undefined) return;
-    setInterval(() => {
-      if (Math.random() < 0.45 && val < dripMax) {
-        val += Math.floor(Math.random() * 2) + 1;
-        render();
-      }
-    }, 3200);
+    refreshPoolStats();
+
+    if (!window.__gaviomPoolStatsInterval) {
+      window.__gaviomPoolStatsInterval = setInterval(refreshPoolStats, 45000);
+    }
+
+    if (!window.__gaviomPoolStatsVisBound) {
+      window.__gaviomPoolStatsVisBound = true;
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) refreshPoolStats();
+      });
+    }
+
+    window.GaviomPoolStats = { refresh: refreshPoolStats };
   }
 
   function initProgress(root) {
@@ -709,15 +781,268 @@
     });
   }
 
-  function initThumbs() {
-    document.querySelectorAll('.pd-thumbs').forEach((wrap) => {
-      const thumbs = wrap.querySelectorAll('.pd-thumb');
-      thumbs.forEach((t) => {
-        t.addEventListener('click', () => {
-          thumbs.forEach((x) => x.classList.remove('active'));
-          t.classList.add('active');
+  function bestGalleryImageUrl(img) {
+    if (!img) return '';
+    if (img.dataset.galleryFull) return img.dataset.galleryFull;
+
+    const srcset = img.getAttribute('srcset');
+    if (srcset) {
+      let bestUrl = '';
+      let bestW = 0;
+      srcset.split(',').forEach((part) => {
+        const bits = part.trim().split(/\s+/);
+        const url = bits[0];
+        const w = parseInt(String(bits[1] || '').replace(/\D/g, ''), 10) || 0;
+        if (url && w >= bestW) {
+          bestW = w;
+          bestUrl = url;
+        }
+      });
+      if (bestUrl) return bestUrl;
+    }
+
+    const src = img.getAttribute('src') || img.src || '';
+    const resized = src.match(/^(.+)-(\d+)w(\.(webp|jpg|jpeg|png))$/i);
+    if (resized) return `${resized[1]}${resized[3]}`;
+    return src;
+  }
+
+  function applyGalleryMainImage(mainEl, url, alt) {
+    if (!mainEl || !url) return;
+    mainEl.src = url;
+    mainEl.removeAttribute('srcset');
+    mainEl.removeAttribute('sizes');
+    if (alt) mainEl.alt = alt;
+  }
+
+  function initGallery() {
+    document.querySelectorAll('[data-gallery]').forEach((gallery) => {
+      const mainImg = gallery.querySelector('[data-gallery-main-img]');
+      const mainVideo = gallery.querySelector('[data-gallery-video]');
+      const mainLegacy = gallery.querySelector('img[data-gallery-main]');
+
+      function showVideo() {
+        if (mainVideo) {
+          mainVideo.classList.add('is-active');
+          mainVideo.muted = true;
+          const p = mainVideo.play();
+          if (p && typeof p.catch === 'function') p.catch(() => {});
+        }
+        if (mainImg) {
+          mainImg.classList.remove('is-active');
+          mainImg.setAttribute('hidden', '');
+        }
+      }
+
+      function showImageFromThumb(thumbImg) {
+        if (!thumbImg) return;
+        const url = bestGalleryImageUrl(thumbImg);
+        if (mainVideo) {
+          mainVideo.classList.remove('is-active');
+          mainVideo.pause();
+        }
+        if (mainImg) {
+          applyGalleryMainImage(mainImg, url, thumbImg.alt);
+          mainImg.classList.add('is-active');
+          mainImg.removeAttribute('hidden');
+        } else if (mainLegacy) {
+          applyGalleryMainImage(mainLegacy, url, thumbImg.alt);
+        }
+      }
+
+      gallery.querySelectorAll('[data-gallery-thumb]').forEach((thumb) => {
+        thumb.addEventListener('click', () => {
+          gallery.querySelectorAll('[data-gallery-thumb]').forEach((t) => t.classList.remove('active'));
+          thumb.classList.add('active');
+          if (thumb.hasAttribute('data-gallery-thumb-video')) showVideo();
+          else showImageFromThumb(thumb.querySelector('img'));
         });
       });
+
+      if (mainVideo) {
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduced) {
+          mainVideo.pause();
+          mainVideo.removeAttribute('autoplay');
+          if (mainImg) {
+            mainImg.removeAttribute('hidden');
+            applyGalleryMainImage(mainImg, mainImg.getAttribute('src'), mainImg.alt);
+          }
+        } else {
+          showVideo();
+        }
+      }
+    });
+  }
+
+  const PRIZE_AMOE = {
+    msc: {
+      sweepstakesId: 1,
+      rulesSection: 'promotion-1',
+      label: 'Sweepstakes #1',
+      checkoutPrize: 'msc',
+    },
+    diving: {
+      sweepstakesId: 2,
+      rulesSection: 'promotion-2',
+      label: 'Sweepstakes #2',
+      checkoutPrize: 'diving',
+    },
+    vegas: {
+      sweepstakesId: 3,
+      rulesSection: 'promotion-3',
+      label: 'Sweepstakes #3',
+      checkoutPrize: 'vegas',
+    },
+    iphone: {
+      sweepstakesId: 4,
+      rulesSection: 'promotion-4',
+      label: 'Sweepstakes #4',
+      checkoutPrize: 'iphone',
+    },
+  };
+
+  function buildFreeEntryHref(ctx) {
+    const base = ctx.freeEntryPath || '/free-entry.html';
+    const params = new URLSearchParams();
+    if (ctx.prizeId) params.set('prize', ctx.prizeId);
+    if (ctx.sweepstakesId) params.set('sweepstakes', String(ctx.sweepstakesId));
+    const q = params.toString();
+    return q ? `${base}?${q}` : base;
+  }
+
+  function buildRulesHref(ctx) {
+    if (ctx.rulesUrl) return ctx.rulesUrl;
+    const base = '/rules.html';
+    if (ctx.rulesSection) return `${base}#${ctx.rulesSection}`;
+    return base;
+  }
+
+  function amoeNoteHtml(ctx) {
+    if (!ctx || ctx.amoeEnabled === false) return '';
+    const freeHref = buildFreeEntryHref(ctx);
+    const rulesHref = buildRulesHref(ctx);
+    const label = ctx.label || (ctx.sweepstakesId ? `Sweepstakes #${ctx.sweepstakesId}` : 'this sweepstakes');
+    return (
+      'No purchase necessary. <a href="' +
+      escapeHtml(freeHref) +
+      '">Free entry (AMOE)</a> online for ' +
+      escapeHtml(label) +
+      ' — same odds as paid entries. <a href="' +
+      escapeHtml(rulesHref) +
+      '">Official Rules</a>'
+    );
+  }
+
+  function buildAmoeContextFromPrizeId(prizeId) {
+    const id = String(prizeId || '').trim();
+    if (!id) return null;
+    const cfg = PRIZE_AMOE[id];
+    if (cfg) {
+      return {
+        prizeId: id,
+        sweepstakesId: cfg.sweepstakesId,
+        rulesSection: cfg.rulesSection,
+        label: cfg.label,
+        checkoutPrize: cfg.checkoutPrize || id,
+        freeEntryPath: '/free-entry.html',
+        amoeEnabled: cfg.amoeEnabled !== false,
+      };
+    }
+    if (/^cr-/.test(id)) {
+      return {
+        prizeId: id,
+        sweepstakesId: null,
+        label: '',
+        freeEntryPath: '/free-entry.html',
+        amoeEnabled: true,
+      };
+    }
+    return null;
+  }
+
+  function resolvePrizeAmoeContext(fromEl) {
+    const root = (fromEl && fromEl.closest('[data-prize-entry]')) || document.querySelector('[data-prize-entry]') || document.body;
+    const prizeId = root.getAttribute('data-prize-entry') || document.body.dataset.prizeEntry || '';
+    const staticCfg = buildAmoeContextFromPrizeId(prizeId);
+    if (staticCfg) return staticCfg;
+
+    const cartBtn = document.querySelector('[data-cart-add]');
+    if (cartBtn) {
+      const fromCart = buildAmoeContextFromPrizeId(cartBtn.getAttribute('data-cart-add'));
+      if (fromCart) return fromCart;
+    }
+
+    const sweepstakesId = root.getAttribute('data-sweepstakes-id') || document.body.dataset.sweepstakesId;
+    if (!prizeId && !sweepstakesId) return null;
+
+    return {
+      prizeId: prizeId || undefined,
+      sweepstakesId: sweepstakesId ? parseInt(sweepstakesId, 10) : null,
+      label: root.getAttribute('data-sweepstakes-label') || document.body.dataset.sweepstakesLabel || '',
+      rulesUrl: root.getAttribute('data-rules-url') || document.body.dataset.rulesUrl || '',
+      rulesSection: root.getAttribute('data-rules-section') || document.body.dataset.rulesSection || '',
+      freeEntryPath: '/free-entry.html',
+      amoeEnabled: root.getAttribute('data-amoe-enabled') !== 'false' && document.body.dataset.amoeEnabled !== 'false',
+    };
+  }
+
+  function applyAmoeDisclosure(el, ctx) {
+    if (!el) return;
+    if (!ctx || ctx.amoeEnabled === false) {
+      el.hidden = true;
+      el.textContent = '';
+      return;
+    }
+    el.innerHTML = amoeNoteHtml(ctx);
+    el.hidden = false;
+  }
+
+  function initPrizeAmoeDisclosures() {
+    document.querySelectorAll('[data-prize-amoe]').forEach((el) => {
+      applyAmoeDisclosure(el, resolvePrizeAmoeContext(el));
+    });
+    document.querySelectorAll('[data-prize-rules-link]').forEach((el) => {
+      const ctx = resolvePrizeAmoeContext(el);
+      if (ctx) el.href = buildRulesHref(ctx);
+    });
+    document.querySelectorAll('[data-prize-free-entry-link]').forEach((el) => {
+      const ctx = resolvePrizeAmoeContext(el);
+      if (ctx) el.href = buildFreeEntryHref(ctx);
+    });
+  }
+
+  function initFreeEntryPage() {
+    if (!/\/free-entry\.html$/i.test(location.pathname)) return;
+
+    const params = new URLSearchParams(location.search);
+    const prizeId = params.get('prize') || '';
+    const sweepstakesParam = params.get('sweepstakes');
+    let ctx = buildAmoeContextFromPrizeId(prizeId);
+
+    if (!ctx && sweepstakesParam) {
+      const sweepstakesId = parseInt(sweepstakesParam, 10);
+      const match = Object.keys(PRIZE_AMOE).find((key) => PRIZE_AMOE[key].sweepstakesId === sweepstakesId);
+      if (match) ctx = buildAmoeContextFromPrizeId(match);
+    }
+
+    if (!ctx) ctx = buildAmoeContextFromPrizeId('msc');
+
+    const sweepstakesId = ctx.sweepstakesId || 1;
+    const label = ctx.label || `Sweepstakes #${sweepstakesId}`;
+    const checkoutPrize = ctx.checkoutPrize || ctx.prizeId || 'msc';
+
+    document.querySelectorAll('[data-fe-checkout-cta]').forEach((el) => {
+      el.href = `/checkout.html?prize=${encodeURIComponent(checkoutPrize)}`;
+    });
+    document.querySelectorAll('[data-fe-prize-link]').forEach((el) => {
+      const prizePaths = {
+        msc: '/prize.html',
+        diving: '/prize-diving.html',
+        vegas: '/prize-vegas.html',
+        iphone: '/prize-iphone.html',
+      };
+      el.href = prizePaths[ctx.prizeId] || '/prizes.html';
     });
   }
 
@@ -753,70 +1078,6 @@
       el.innerHTML = stripeSvg(cat, label);
     });
   }
-
-    function initGallery() {
-      document.querySelectorAll('[data-gallery]').forEach((gallery) => {
-        const mainImg = gallery.querySelector('[data-gallery-main-img]');
-        const mainVideo = gallery.querySelector('[data-gallery-video]');
-        const mainLegacy = gallery.querySelector('img[data-gallery-main]');
-
-        function showVideo() {
-          if (mainVideo) {
-            mainVideo.classList.add('is-active');
-            mainVideo.muted = true;
-            const p = mainVideo.play();
-            if (p && typeof p.catch === 'function') p.catch(() => {});
-          }
-          if (mainImg) {
-            mainImg.classList.remove('is-active');
-            mainImg.setAttribute('hidden', '');
-          }
-        }
-
-        function showImage(src) {
-          if (mainVideo) {
-            mainVideo.classList.remove('is-active');
-            mainVideo.pause();
-          }
-          if (mainImg) {
-            if (src) {
-              const large = src.replace(/w=\d+/, 'w=1200').replace(/q=\d+/, 'q=90');
-              mainImg.src = large;
-            }
-            mainImg.classList.add('is-active');
-            mainImg.removeAttribute('hidden');
-          } else if (mainLegacy && src) {
-            mainLegacy.src = src.replace(/w=\d+/, 'w=1200').replace(/q=\d+/, 'q=90');
-          }
-        }
-
-        gallery.querySelectorAll('[data-gallery-thumb]').forEach((thumb) => {
-          thumb.addEventListener('click', () => {
-            gallery.querySelectorAll('[data-gallery-thumb]').forEach((t) => t.classList.remove('active'));
-            thumb.classList.add('active');
-            if (thumb.hasAttribute('data-gallery-thumb-video')) showVideo();
-            else {
-              const img = thumb.querySelector('img');
-              if (img) showImage(img.src);
-            }
-          });
-        });
-
-        if (mainVideo) {
-          const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-          if (reduced) {
-            mainVideo.pause();
-            mainVideo.removeAttribute('autoplay');
-            if (mainImg) {
-              mainImg.removeAttribute('hidden');
-              showImage(mainImg.getAttribute('src'));
-            }
-          } else {
-            showVideo();
-          }
-        }
-      });
-    }
 
     function initCheckoutMembership(plan) {
       const plans = {
@@ -1049,9 +1310,9 @@
         maxEntries: 3000,
         hook: 'The phone you would have bought anyway, except someone else pays.',
         images: [
-          '/images/iphone-hero.webp',
-          '/images/iphone-closeup.webp',
-          '/images/iphone-flat.webp',
+          '/images/iphone-hero.webp?v=20260712-iphone-v2',
+          '/images/iphone-closeup.webp?v=20260712-iphone-v2',
+          '/images/iphone-flat.webp?v=20260712-iphone-v2',
         ],
         lede: 'Win a factory-unlocked iPhone 17 Pro Max (256GB) in Natural Titanium with AppleCare+ included, shipped to your door within days of the draw, ready to activate on your carrier.',
         sections: [
@@ -1540,6 +1801,28 @@
       if (back) {
         back.href = options.backHref || '/prizes.html';
         back.textContent = options.backText || '← Back to sweepstakes';
+      }
+
+      const amoe = document.querySelector('[data-checkout-amoe]');
+      if (amoe) {
+        if (!items.length) {
+          amoe.hidden = false;
+          amoe.innerHTML =
+            'No purchase necessary. <a href="/free-entry.html">Free alternate entry</a> available with the same odds.';
+        } else if (items.length > 1) {
+          amoe.hidden = false;
+          amoe.innerHTML =
+            'No purchase necessary. <a href="/free-entry.html">Free alternate entry</a> available for each sweepstakes with the same odds. <a href="/rules.html">Official Rules</a>';
+        } else {
+          const ctx = buildAmoeContextFromPrizeId(items[0].prizeId);
+          if (ctx) {
+            applyAmoeDisclosure(amoe, ctx);
+          } else {
+            amoe.hidden = false;
+            amoe.innerHTML =
+              'No purchase necessary. <a href="/free-entry.html">Free alternate entry</a> available with the same odds.';
+          }
+        }
       }
     }
 
@@ -2204,6 +2487,7 @@
       }
 
       scheduleCartLoad();
+      run(initNavPresaleCta);
       if (narrowMobile) {
         scheduleIdle(initBrandLogo);
         scheduleIdle(initBrandHome);
@@ -2236,9 +2520,18 @@
       scheduleIdle(initHeroDreamVideo);
       scheduleIdle(setupBundleSelector);
       scheduleIdle(initChips);
-      scheduleIdle(initThumbs);
       scheduleIdle(initPlaceholders);
-      scheduleIdle(initGallery);
+      if (document.querySelector('[data-gallery]')) {
+        run(initGallery);
+      } else {
+        scheduleIdle(initGallery);
+      }
+      if (document.querySelector('[data-prize-amoe], [data-prize-entry], [data-prize-rules-link]')) {
+        run(initPrizeAmoeDisclosures);
+      } else {
+        scheduleIdle(initPrizeAmoeDisclosures);
+      }
+      run(initFreeEntryPage);
       if (/checkout\.html/i.test(location.pathname)) {
         ensureCartScript()
           .then(() => {

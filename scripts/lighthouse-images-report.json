@@ -1,11 +1,18 @@
 {
-  "generatedAt": "2026-07-06T22:10:39.688Z",
+  "generatedAt": "2026-07-16T22:31:17.887Z",
   "items": [
     {
+      "label": "home-hero-desktop.webp",
+      "before": 225336,
+      "after": 223150,
+      "saved": 2186,
+      "file": "images/home-hero-desktop.webp"
+    },
+    {
       "label": "home-hero-desktop.avif",
-      "before": 60525,
-      "after": 60525,
-      "saved": 0,
+      "before": 163177,
+      "after": 161431,
+      "saved": 1746,
       "file": "images/home-hero-desktop.avif"
     },
     {
@@ -52,8 +59,8 @@
     },
     {
       "label": "iphone-hero-550w.webp",
-      "before": 2864,
-      "after": 2864,
+      "before": 5574,
+      "after": 5574,
       "saved": 0,
       "file": "images/iphone-hero-550w.webp"
     },
