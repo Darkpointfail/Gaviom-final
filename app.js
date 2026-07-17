@@ -1008,7 +1008,12 @@
     });
     document.querySelectorAll('[data-prize-free-entry-link]').forEach((el) => {
       const ctx = resolvePrizeAmoeContext(el);
-      if (ctx) el.href = buildFreeEntryHref(ctx);
+      if (ctx && ctx.amoeEnabled !== false) {
+        el.href = buildFreeEntryHref(ctx);
+        el.hidden = false;
+      } else {
+        el.hidden = true;
+      }
     });
   }
 

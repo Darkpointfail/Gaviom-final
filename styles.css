@@ -2588,6 +2588,9 @@ a.brand.corp-brand {
   margin: 12px 0 0;
   max-width: none;
 }
+.btn-prize-amoe {
+  margin-top: 10px;
+}
 .pd-trust .check {
   width: 18px;
   height: 18px;
@@ -7513,6 +7516,15 @@ body.cart-modal-open { overflow: hidden; }
   padding: 4px 0;
 }
 .sweep-panel__detail-link:hover { color: var(--paper); text-decoration: underline; }
+.sweep-panel__amoe {
+  background: color-mix(in oklab, var(--paper) 92%, transparent);
+  border-color: color-mix(in oklab, var(--paper) 55%, transparent);
+  color: var(--ink);
+}
+.sweep-panel__amoe:hover {
+  border-color: var(--paper);
+  background: var(--paper);
+}
 .co-cart-lines { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
 .co-cart-line {
   display: grid;
@@ -7820,4 +7832,138 @@ body.cart-modal-open { overflow: hidden; }
 }
 .co-form-status.is-error {
   color: #b42318;
+}
+
+/* AMOE high-friction wizard */
+.amoe-wizard {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.amoe-wizard__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.amoe-wizard__step-label {
+  font-family: "Geist Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.amoe-wizard__progress {
+  display: flex;
+  gap: 4px;
+}
+.amoe-wizard__pip {
+  width: 32px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--line);
+}
+.amoe-wizard__pip.is-active {
+  background: var(--gold);
+}
+.amoe-wizard__transition {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--ink-3);
+  margin-bottom: 12px;
+}
+.amoe-wizard__spinner {
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--line);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: amoe-spin 0.7s linear infinite;
+}
+@keyframes amoe-spin {
+  to { transform: rotate(360deg); }
+}
+.amoe-wizard__panel[hidden] {
+  display: none !important;
+}
+.amoe-wizard__panel-title {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+.amoe-wizard__panel-sub {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink-3);
+  margin: 0 0 16px;
+}
+.amoe-wizard__cert-quote {
+  margin: 0 0 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--paper-2);
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+.amoe-wizard__cert-input {
+  font-family: "Geist Mono", monospace;
+  font-size: 11px;
+  line-height: 1.55;
+  min-height: 96px;
+  resize: vertical;
+}
+.amoe-wizard__cert-ok {
+  font-size: 11px;
+  color: #1a6b47;
+  margin-top: 6px;
+}
+.amoe-wizard__cert-err {
+  font-size: 11px;
+  color: #b42318;
+  margin-top: 6px;
+}
+.amoe-wizard__captcha {
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--paper-2);
+}
+.amoe-wizard__captcha p {
+  font-size: 12px;
+  margin: 0 0 4px;
+  color: var(--ink-2);
+}
+.amoe-wizard__captcha .hint {
+  font-size: 11px;
+  color: var(--ink-3);
+  margin-bottom: 10px;
+}
+.amoe-wizard__nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 24px;
+}
+.amoe-wizard__nav .btn-ghost-sm {
+  font-size: 12px;
+  padding: 10px 16px;
+}
+.amoe-wizard__nav .btn-primary {
+  margin-left: auto;
+}
+.amoe-wizard.is-transitioning .amoe-wizard__body {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.amoe-lockout {
+  text-align: center;
+  padding: 32px 20px;
 }
