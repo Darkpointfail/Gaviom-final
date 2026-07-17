@@ -8,6 +8,7 @@ import { HR_BUSINESS_SEO_POSTS } from './hr-business-seo-posts.mjs';
 import { US_CANADA_SEO_POSTS } from './us-canada-seo-posts.mjs';
 import { TRUST_POSTS } from './trust-posts.mjs';
 import { PCH_INTENT_POSTS } from './pch-intent-posts.mjs';
+import { KEYWORD_BATCH_2026_POSTS } from './keyword-batch-2026-posts.mjs';
 import { CANNIBALIZED_REMOVED } from './cannibalization.mjs';
 
 /** @type {Post[]} */
@@ -531,6 +532,7 @@ export const POSTS = [
   ...US_CANADA_SEO_POSTS,
   ...TRUST_POSTS,
   ...PCH_INTENT_POSTS,
+  ...KEYWORD_BATCH_2026_POSTS,
 ].filter((post) => !CANNIBALIZED_REMOVED.has(post.slug));
 
 export const BLOG_META = {
