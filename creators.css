@@ -325,6 +325,54 @@ a.cr-hero-card-link:focus-visible {
   transition: width 1s ease;
 }
 
+/* Color break between hero and content sections */
+.cr-transition-band {
+  background:
+    linear-gradient(
+      90deg,
+      var(--cr-navy-deep) 0%,
+      #0c2240 42%,
+      #1a3a5c 68%,
+      color-mix(in oklab, var(--cr-gold-dark) 55%, var(--cr-navy-deep)) 100%
+    );
+  padding: 18px 0;
+  border-block: 1px solid rgba(200, 169, 106, 0.22);
+}
+
+.cr-transition-band__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cr-transition-band__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.92);
+  transition: color 0.2s ease;
+}
+
+.cr-transition-band__link:hover {
+  color: var(--cr-gold);
+}
+
+.cr-transition-band__arrow {
+  font-size: 14px;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.cr-transition-band__link:hover .cr-transition-band__arrow {
+  transform: translateX(3px);
+}
+
 /* Section blocks */
 .cr-section {
   padding: clamp(64px, 8vw, 112px) 0;
