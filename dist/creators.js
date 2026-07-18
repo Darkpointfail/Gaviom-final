@@ -1422,25 +1422,35 @@
   }
 
   function initDemoBundles() {
-    var root = qs('.cr-demo-bundles');
-    if (!root) return;
-    var label = qs('[data-cr-demo-bundle-label]');
-    var priceEl = qs('[data-cr-demo-buy-price]');
+    var roots = qsa('.cr-demo-bundles');
+    if (!roots.length) return;
 
-    qsa('[data-cr-demo-bundle]', root).forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        qsa('[data-cr-demo-bundle]', root).forEach(function (b) {
-          b.classList.toggle('is-selected', b === btn);
+    function syncPrice(price) {
+      qsa('[data-cr-demo-buy-price]').forEach(function (el) {
+        el.textContent = '$' + price;
+      });
+      qsa('[data-cr-demo-sticky-price]').forEach(function (el) {
+        el.textContent = '$' + price;
+      });
+    }
+
+    roots.forEach(function (root) {
+      var label = qs('[data-cr-demo-bundle-label]', root) || qs('[data-cr-demo-bundle-label]');
+      qsa('[data-cr-demo-bundle]', root).forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          qsa('[data-cr-demo-bundle]').forEach(function (b) {
+            b.classList.toggle('is-selected', b === btn);
+          });
+          var tickets = btn.getAttribute('data-tickets') || '1';
+          var price = btn.getAttribute('data-price') || '12';
+          if (label) {
+            label.textContent =
+              tickets === '1'
+                ? '1 entry'
+                : tickets + ' entries · ' + (tickets === '20' ? 'max odds' : 'better odds');
+          }
+          syncPrice(price);
         });
-        var tickets = btn.getAttribute('data-tickets') || '1';
-        var price = btn.getAttribute('data-price') || '12';
-        if (label) {
-          label.textContent =
-            tickets === '1'
-              ? '1 entry'
-              : tickets + ' entries · ' + (tickets === '20' ? 'best odds' : 'better odds');
-        }
-        if (priceEl) priceEl.textContent = '$' + price;
       });
     });
   }
@@ -1449,27 +1459,43 @@
     var feed = qs('[data-cr-demo-feed]');
     if (!feed) return;
     var idx = 0;
+    var usePremium = feed.classList.contains('cr-xp-feed');
 
     function prependEntry() {
       var data = DEMO_FEED_POOL[idx % DEMO_FEED_POOL.length];
       idx += 1;
       var li = document.createElement('li');
-      li.className = 'cr-demo-feed__item';
-      li.innerHTML =
-        '<span class="cr-demo-feed__avatar">' +
-        data.initials +
-        '</span><span><strong>' +
-        data.name +
-        '</strong> from ' +
-        data.city +
-        ' · <em>' +
-        data.entries +
-        '</em></span><span class="cr-demo-feed__time">Just now</span>';
+      if (usePremium) {
+        li.className = 'cr-xp-feed__row';
+        li.innerHTML =
+          '<span class="cr-xp-feed__av">' +
+          data.initials +
+          '</span><span class="cr-xp-feed__txt"><strong>' +
+          data.name +
+          '</strong> · ' +
+          data.city +
+          ' · ' +
+          data.entries +
+          '</span><span class="cr-xp-feed__time">Just now</span>';
+      } else {
+        li.className = 'cr-demo-feed__item';
+        li.innerHTML =
+          '<span class="cr-demo-feed__avatar">' +
+          data.initials +
+          '</span><span><strong>' +
+          data.name +
+          '</strong> from ' +
+          data.city +
+          ' · <em>' +
+          data.entries +
+          '</em></span><span class="cr-demo-feed__time">Just now</span>';
+      }
       feed.insertBefore(li, feed.firstChild);
-      while (feed.children.length > 6) {
+      while (feed.children.length > 5) {
         feed.removeChild(feed.lastChild);
       }
-      qsa('.cr-demo-feed__time', feed).forEach(function (el, i) {
+      var timeSel = usePremium ? '.cr-xp-feed__time' : '.cr-demo-feed__time';
+      qsa(timeSel, feed).forEach(function (el, i) {
         if (i === 0) return;
         var mins = i * 2;
         el.textContent = mins <= 1 ? '1m ago' : mins + 'm ago';
@@ -1483,7 +1509,11 @@
     var fill = qs('[data-cr-demo-progress]');
     if (!fill) return;
     setTimeout(function () {
-      fill.style.width = '68%';
+      if (fill.tagName === 'SPAN') {
+        fill.style.width = '68%';
+      } else {
+        fill.style.width = '68%';
+      }
     }, 300);
   }
 
