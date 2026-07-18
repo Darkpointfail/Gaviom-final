@@ -1395,6 +1395,98 @@
     }, 400);
   }
 
+  /* Demo giveaway — gallery, bundles, live feed */
+  var DEMO_FEED_POOL = [
+    { initials: 'NB', name: 'Nina B.', city: 'Boston', entries: '3 entries' },
+    { initials: 'RW', name: 'Ryan W.', city: 'Phoenix', entries: '1 entry' },
+    { initials: 'EL', name: 'Emma L.', city: 'Nashville', entries: '10 entries' },
+    { initials: 'KH', name: 'Kai H.', city: 'San Diego', entries: 'Free AMOE' },
+    { initials: 'LM', name: 'Leah M.', city: 'Atlanta', entries: '5 entries' },
+    { initials: 'JP', name: 'James P.', city: 'Dallas', entries: '20 entries' },
+    { initials: 'SC', name: 'Sara C.', city: 'Minneapolis', entries: '1 entry' },
+  ];
+
+  function initDemoGallery() {
+    var main = qs('[data-cr-demo-gallery-main]');
+    if (!main) return;
+    qsa('[data-cr-demo-thumb]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var src = btn.getAttribute('data-cr-demo-thumb');
+        if (!src) return;
+        main.src = src;
+        qsa('[data-cr-demo-thumb]').forEach(function (b) {
+          b.classList.toggle('is-active', b === btn);
+        });
+      });
+    });
+  }
+
+  function initDemoBundles() {
+    var root = qs('.cr-demo-bundles');
+    if (!root) return;
+    var label = qs('[data-cr-demo-bundle-label]');
+    var priceEl = qs('[data-cr-demo-buy-price]');
+
+    qsa('[data-cr-demo-bundle]', root).forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        qsa('[data-cr-demo-bundle]', root).forEach(function (b) {
+          b.classList.toggle('is-selected', b === btn);
+        });
+        var tickets = btn.getAttribute('data-tickets') || '1';
+        var price = btn.getAttribute('data-price') || '12';
+        if (label) {
+          label.textContent =
+            tickets === '1'
+              ? '1 entry'
+              : tickets + ' entries · ' + (tickets === '20' ? 'best odds' : 'better odds');
+        }
+        if (priceEl) priceEl.textContent = '$' + price;
+      });
+    });
+  }
+
+  function initDemoActivityFeed() {
+    var feed = qs('[data-cr-demo-feed]');
+    if (!feed) return;
+    var idx = 0;
+
+    function prependEntry() {
+      var data = DEMO_FEED_POOL[idx % DEMO_FEED_POOL.length];
+      idx += 1;
+      var li = document.createElement('li');
+      li.className = 'cr-demo-feed__item';
+      li.innerHTML =
+        '<span class="cr-demo-feed__avatar">' +
+        data.initials +
+        '</span><span><strong>' +
+        data.name +
+        '</strong> from ' +
+        data.city +
+        ' · <em>' +
+        data.entries +
+        '</em></span><span class="cr-demo-feed__time">Just now</span>';
+      feed.insertBefore(li, feed.firstChild);
+      while (feed.children.length > 6) {
+        feed.removeChild(feed.lastChild);
+      }
+      qsa('.cr-demo-feed__time', feed).forEach(function (el, i) {
+        if (i === 0) return;
+        var mins = i * 2;
+        el.textContent = mins <= 1 ? '1m ago' : mins + 'm ago';
+      });
+    }
+
+    setInterval(prependEntry, 5200);
+  }
+
+  function initDemoProgress() {
+    var fill = qs('[data-cr-demo-progress]');
+    if (!fill) return;
+    setTimeout(function () {
+      fill.style.width = '68%';
+    }, 300);
+  }
+
   function init() {
     initFaq();
     initRevenueCalc();
@@ -1406,6 +1498,10 @@
     initCountdown();
     initDashboardGate();
     initHeroProgress();
+    initDemoGallery();
+    initDemoBundles();
+    initDemoActivityFeed();
+    initDemoProgress();
   }
 
   if (document.readyState === 'loading') {

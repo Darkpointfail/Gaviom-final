@@ -6,21 +6,30 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="icon" href="/favicon.ico?v=3" type="image/x-icon" sizes="48x48" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Win a 5-Night Miami Getaway — Maria Chen · Gaviom</title>
-  <meta name="description" content="Enter Maria Chen's verified Gaviom sweepstakes for a chance to win a 5-night Miami getaway. Official rules, secure payment, fair draw." />
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Geist+Mono:wght@400;500&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" />  <link rel="preload" as="style" href="/styles.css?v=20260712-mobile-perf" media="(min-width: 769px)" />
+  <title>Win a 5-Night Miami Getaway — Maria Chen · Gaviom Demo</title>
+  <meta name="description" content="Live demo: Maria Chen's verified Gaviom creator sweepstakes — entries flowing, dashboard, and a community experience your audience will trust." />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Geist+Mono:wght@400;500&family=Geist:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet" />
+  <link rel="preload" as="style" href="/styles.css?v=20260712-mobile-perf" media="(min-width: 769px)" />
   <link rel="stylesheet" href="/styles.css?v=20260712-mobile-perf" media="(min-width: 769px)" />
   <link rel="stylesheet" href="/styles.css?v=20260712-mobile-perf" media="print" onload="this.media='(max-width:768px)'" />
   <noscript><link rel="stylesheet" href="/styles.css?v=20260712-mobile-perf" /></noscript>
-  <link rel="stylesheet" href="/creators.css?v=20260709-creator" />
+  <link rel="stylesheet" href="/creators.css?v=20260718-demo-rich" />
   <link rel="stylesheet" href="/mobile.css?v=20260712-mobile-perf" media="screen and (max-width:1024px)" />
 </head>
-<body class="cr-page cr-giveaway-page">
+<body class="cr-page cr-giveaway-page cr-demo-page" data-prize-entry="cr-demo-miami" data-sweepstakes-id="901" data-sweepstakes-label="Maria's Miami Getaway">
+  <div class="cr-demo-ribbon" role="note">
+    <div class="wrap cr-demo-ribbon__inner">
+      <span class="cr-demo-ribbon__badge font-mono">Live preview</span>
+      <span>This is how your community experiences a Gaviom creator sweepstakes — scroll for the dashboard view.</span>
+      <a href="/creators/apply" class="cr-demo-ribbon__link">Launch yours →</a>
+    </div>
+  </div>
+
   <div class="topbar">
     <div class="wrap topbar-inner">
       <div class="topbar-left">
-        <span><span class="live-dot soon-dot"></span> <span data-topbar-label>Gaviom launches in</span> <span data-cd="launch" data-cd-format="compact">--</span></span>
-        <span class="extra" data-topbar-extra>· Pre-sale open · First draw September 6, 8pm ET</span>
+        <span><span class="live-dot"></span> <span class="font-mono">680 entries · 514 unique entrants</span></span>
+        <span class="extra" data-topbar-extra>· Draw Mar 15, 8pm ET · Verified by Gaviom</span>
       </div>
       <div>
         <a class="tlink" href="/free-entry.html">Free entry (AMOE)</a>
@@ -39,8 +48,7 @@
         <a href="/winners.html">Winners</a>
         <a href="/how.html">How it works</a>
         <a href="/impact.html">Impact</a>
-        
-        <a href="/creators/">For creators</a>
+        <a href="/creators/" class="active">For creators</a>
         <a href="/business/">For business</a>
       </nav>
       <div class="nav-right">
@@ -67,35 +75,84 @@
               </div>
             </div>
           </div>
-          <a href="/creators/" class="btn btn-ghost btn-sm">About Gaviom Creator</a>
+          <div class="cr-demo-hero-badges">
+            <span class="cr-status-pill cr-status-pill--live"><span class="live-dot"></span> Live now</span>
+            <a href="/creators/" class="btn btn-ghost btn-sm">About Gaviom Creator</a>
+          </div>
+        </div>
+
+        <div class="cr-demo-stats-bar font-mono">
+          <div class="cr-demo-stat"><span class="cr-demo-stat__val" data-cr-demo-stat="entries">680</span><span class="cr-demo-stat__lbl">Entries sold</span></div>
+          <div class="cr-demo-stat"><span class="cr-demo-stat__val" data-cr-demo-stat="unique">514</span><span class="cr-demo-stat__lbl">Unique entrants</span></div>
+          <div class="cr-demo-stat"><span class="cr-demo-stat__val">1 in 1,000</span><span class="cr-demo-stat__lbl">Current odds</span></div>
+          <div class="cr-demo-stat"><span class="cr-demo-stat__val">+$42</span><span class="cr-demo-stat__lbl">Last hour</span></div>
         </div>
 
         <div class="cr-gw-layout">
           <div>
-            <img class="cr-gw-prize-img" src="/images/cruise-hero-1280w.webp" alt="Miami beach getaway prize" width="800" height="500" />
-            <h1 class="cr-gw-prize-title font-display">Win a 5-Night Miami Getaway</h1>
-            <p class="cr-gw-prize-value font-mono">Prize value: $4,200 · Includes flights + hotel</p>
-            <p class="cr-gw-desc">I'm giving one lucky member of my community the trip of a lifetime — 5 nights at a beachfront hotel in Miami, round-trip flights included. This sweepstakes is operated and verified by Gaviom. Every entry supports a fair, transparent draw with official rules and a free mail-in entry option.</p>
+            <div class="cr-demo-gallery">
+              <img class="cr-gw-prize-img cr-demo-gallery__main" src="/images/cruise-hero-1280w.webp" alt="Miami beach getaway prize" width="800" height="500" data-cr-demo-gallery-main />
+              <div class="cr-demo-gallery__thumbs">
+                <button type="button" class="cr-demo-gallery__thumb is-active" data-cr-demo-thumb="/images/cruise-hero-1280w.webp"><img src="/images/cruise-hero-480w.webp" alt="" width="120" height="80" /></button>
+                <button type="button" class="cr-demo-gallery__thumb" data-cr-demo-thumb="/images/vegas-quote-hero-800w.webp"><img src="/images/vegas-quote-hero-450w.webp" alt="" width="120" height="80" /></button>
+                <button type="button" class="cr-demo-gallery__thumb" data-cr-demo-thumb="/images/home-eight-oclock-villa-800w.webp"><img src="/images/home-eight-oclock-villa-480w.webp" alt="" width="120" height="80" /></button>
+              </div>
+            </div>
 
-            <section class="cr-gw-section" style="padding-top:32px;border-top:none;">
-              <h3 class="font-display" style="font-size:20px;margin:0 0 12px;">About Maria</h3>
-              <p style="font-size:15px;line-height:1.65;color:var(--cr-ink-soft);margin:0;">Travel creator sharing adventures around the world. I've partnered with Gaviom because I wanted my community to enter a giveaway they could actually trust — verified prize, official rules, secure payments, and a fair winner process.</p>
+            <h1 class="cr-gw-prize-title font-display">Win a 5-Night Miami Getaway</h1>
+            <p class="cr-gw-prize-value font-mono">Prize value: $4,200 · Flights + ocean-view hotel · 2 guests</p>
+
+            <blockquote class="cr-demo-quote font-quote">
+              "I wanted my community to feel something real — not another comment giveaway. This page is mine, the prize is photographed, and every entrant knows the draw is fair."
+              <cite>— Maria Chen</cite>
+            </blockquote>
+
+            <p class="cr-gw-desc">Five nights at a beachfront hotel in Miami, round-trip flights for two, and $400 in resort credits for dining and experiences. Operated and verified by Gaviom with official rules, secure checkout, and free alternate entry.</p>
+
+            <section class="cr-gw-section cr-demo-includes">
+              <h3 class="font-display cr-demo-section-title">What's included</h3>
+              <ul class="cr-demo-includes-list">
+                <li><strong>Flights</strong> Round-trip economy for 2 · up to $900 value</li>
+                <li><strong>Hotel</strong> 5 nights ocean-view · South Beach area</li>
+                <li><strong>Resort credits</strong> $400 toward spa, dining, or activities</li>
+                <li><strong>Winner choice</strong> Cash equivalent available per Official Rules</li>
+              </ul>
+            </section>
+
+            <section class="cr-gw-section cr-demo-activity">
+              <div class="cr-demo-activity__head">
+                <h3 class="font-display cr-demo-section-title">People entering right now</h3>
+                <span class="cr-status-pill cr-status-pill--live"><span class="live-dot"></span> Live feed</span>
+              </div>
+              <ul class="cr-demo-feed" data-cr-demo-feed aria-live="polite">
+                <li class="cr-demo-feed__item"><span class="cr-demo-feed__avatar">JK</span><span><strong>Jordan K.</strong> from Austin · <em>5 entries</em></span><span class="cr-demo-feed__time">Just now</span></li>
+                <li class="cr-demo-feed__item"><span class="cr-demo-feed__avatar">SL</span><span><strong>Sofia L.</strong> from Miami · <em>1 entry</em></span><span class="cr-demo-feed__time">2m ago</span></li>
+                <li class="cr-demo-feed__item"><span class="cr-demo-feed__avatar">MR</span><span><strong>Marco R.</strong> from Chicago · <em>20 entries</em></span><span class="cr-demo-feed__time">4m ago</span></li>
+                <li class="cr-demo-feed__item"><span class="cr-demo-feed__avatar">AP</span><span><strong>Aisha P.</strong> from Denver · <em>Free AMOE</em></span><span class="cr-demo-feed__time">6m ago</span></li>
+                <li class="cr-demo-feed__item"><span class="cr-demo-feed__avatar">TC</span><span><strong>Taylor C.</strong> from Seattle · <em>5 entries</em></span><span class="cr-demo-feed__time">8m ago</span></li>
+              </ul>
+              <p class="cr-demo-feed__note font-mono">Sample activity for preview · real entries appear instantly on your live page.</p>
             </section>
 
             <section class="cr-gw-section">
-              <h3 class="font-display" style="font-size:20px;margin:0 0 16px;">Why participants trust this giveaway</h3>
+              <h3 class="font-display cr-demo-section-title">About Maria</h3>
+              <p style="font-size:15px;line-height:1.65;color:var(--cr-ink-soft);margin:0;">Travel creator sharing adventures around the world. Maria partnered with Gaviom to give her community a sweepstakes they could trust — verified prize, published rules, secure payments, and a documented winner process.</p>
+            </section>
+
+            <section class="cr-gw-section">
+              <h3 class="font-display cr-demo-section-title">Why participants trust this giveaway</h3>
               <ul class="cr-gw-trust-list">
                 <li><span class="cr-check">✓</span> Verified by Gaviom — creator and prize reviewed</li>
-                <li><span class="cr-check">✓</span> Official rules available for every entrant</li>
+                <li><span class="cr-check">✓</span> Official rules linked on every page</li>
                 <li><span class="cr-check">✓</span> Secure Stripe payment processing</li>
                 <li><span class="cr-check">✓</span> Cryptographically secure random winner selection</li>
-                <li><span class="cr-check">✓</span> Free mail-in entry (AMOE) — no purchase necessary</li>
+                <li><span class="cr-check">✓</span> Free online AMOE — no purchase necessary</li>
                 <li><span class="cr-check">✓</span> Prize delivery confirmed and documented</li>
               </ul>
             </section>
 
             <section class="cr-gw-section">
-              <h3 class="font-display" style="font-size:20px;margin:0 0 12px;">Previous winners</h3>
+              <h3 class="font-display cr-demo-section-title">Previous winners</h3>
               <div class="cr-dash-card" style="margin:0;">
                 <div class="cr-dash-card__body">
                   <div class="cr-giveaway-row">
@@ -110,7 +167,7 @@
             </section>
 
             <section class="cr-gw-section">
-              <h3 class="font-display" style="font-size:20px;margin:0 0 12px;">Legal</h3>
+              <h3 class="font-display cr-demo-section-title">Legal</h3>
               <div class="cr-gw-legal-links">
                 <a href="/rules.html">Official Rules</a>
                 <a href="/free-entry.html">Free Entry (AMOE)</a>
@@ -123,21 +180,29 @@
 
           <aside class="cr-gw-buy-card" id="buy">
             <p class="font-mono" style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--cr-muted);margin:0 0 12px;">Draw ends in</p>
-            <div class="cr-gw-countdown" data-cr-countdown data-cr-countdown-end="2026-03-15T20:00:00-04:00">
+            <div class="cr-gw-countdown" data-cr-countdown data-cr-countdown-end="2026-09-06T20:00:00-04:00">
               <div class="cr-gw-countdown__unit"><span class="cr-gw-countdown__num" data-cr-cd-d>00</span><span class="cr-gw-countdown__lbl">Days</span></div>
               <div class="cr-gw-countdown__unit"><span class="cr-gw-countdown__num" data-cr-cd-h>00</span><span class="cr-gw-countdown__lbl">Hours</span></div>
               <div class="cr-gw-countdown__unit"><span class="cr-gw-countdown__num" data-cr-cd-m>00</span><span class="cr-gw-countdown__lbl">Min</span></div>
               <div class="cr-gw-countdown__unit"><span class="cr-gw-countdown__num" data-cr-cd-s>00</span><span class="cr-gw-countdown__lbl">Sec</span></div>
             </div>
 
-            <p class="cr-gw-ticket-price font-display">$12</p>
-            <p style="margin:0 0 4px;font-size:14px;color:var(--cr-ink-soft);">per entry</p>
-            <p class="cr-gw-tickets-left">320 tickets remaining of 1,000</p>
+            <div class="cr-demo-bundles">
+              <p class="font-mono cr-demo-bundles__label">Pick your entries</p>
+              <div class="cr-demo-bundles__grid">
+                <button type="button" class="cr-demo-bundle" data-cr-demo-bundle data-tickets="1" data-price="12"><span class="cr-demo-bundle__n">1</span><span class="cr-demo-bundle__p">$12</span></button>
+                <button type="button" class="cr-demo-bundle is-selected" data-cr-demo-bundle data-tickets="5" data-price="45"><span class="cr-demo-bundle__tag">Popular</span><span class="cr-demo-bundle__n">5</span><span class="cr-demo-bundle__p">$45</span></button>
+                <button type="button" class="cr-demo-bundle" data-cr-demo-bundle data-tickets="20" data-price="80"><span class="cr-demo-bundle__n">20</span><span class="cr-demo-bundle__p">$80</span></button>
+              </div>
+              <p class="cr-demo-bundles__hint font-mono" data-cr-demo-bundle-label>5 entries · better odds</p>
+            </div>
 
-            <div class="cr-hero-card__progress" style="margin-bottom:20px;"><div class="cr-hero-card__progress-fill" style="width:68%"></div></div>
+            <p class="cr-gw-tickets-left"><strong data-cr-demo-remaining>320</strong> spots left of 1,000</p>
+            <div class="cr-hero-card__progress" style="margin-bottom:20px;"><div class="cr-hero-card__progress-fill" data-cr-demo-progress style="width:68%"></div></div>
 
-            <a href="/signin.html?next=%2Fcreators%2Fdemo%2Fmiami-getaway" class="btn btn-primary btn-block btn-lg">Buy entries</a>
-            <a href="/free-entry.html" class="btn btn-ghost btn-block" style="margin-top:10px;">Free entry (AMOE)</a>
+            <a href="/signin.html?next=%2Fcreators%2Fdemo%2Fmiami-getaway" class="btn btn-primary btn-block btn-lg">Buy entries · <span data-cr-demo-buy-price>$45</span></a>
+            <p class="pd-amoe-note gplus-legal-note font-mono" data-prize-amoe hidden style="margin-top:12px;text-align:center;"></p>
+            <a href="/free-entry.html?prize=cr-demo-miami" class="btn btn-ghost btn-block btn-prize-amoe" data-prize-free-entry-link>Free entry (AMOE)</a>
 
             <ul class="cr-gw-trust-list">
               <li><span class="cr-check">✓</span> Verified by Gaviom</li>
@@ -148,12 +213,125 @@
         </div>
       </div>
     </section>
+
+    <!-- Creator dashboard preview -->
+    <section class="cr-demo-dash" id="creator-dashboard">
+      <div class="cr-demo-dash__divider">
+        <div class="wrap">
+          <p class="cr-demo-dash__eyebrow font-mono">Behind the scenes</p>
+          <h2 class="cr-demo-dash__title font-display">What Maria sees in her dashboard</h2>
+          <p class="cr-demo-dash__sub">Real-time sales, unique entrants, revenue, and every buyer — the control center you get as a Gaviom creator.</p>
+        </div>
+      </div>
+
+      <div class="wrap cr-demo-dash__panel">
+        <header class="cr-dash-one__toolbar cr-demo-dash__toolbar">
+          <div class="cr-dash-one__intro">
+            <p class="cr-dash-one__eyebrow font-mono">Creator dashboard</p>
+            <h3 class="font-display cr-dash-one__title" style="font-size:clamp(24px,3vw,32px);">Hi, Maria</h3>
+            <p class="cr-dash-one__sub">Miami Getaway · Live · 680 entries sold</p>
+          </div>
+          <span class="cr-status-pill cr-status-pill--live"><span class="live-dot"></span> Live sweepstakes</span>
+        </header>
+
+        <div class="cr-stats-grid cr-dash-one__stats">
+          <div class="cr-stat-card">
+            <p class="cr-stat-card__label">Tickets sold</p>
+            <p class="cr-stat-card__value">680</p>
+            <p class="cr-stat-card__delta font-mono is-positive">+42 today</p>
+          </div>
+          <div class="cr-stat-card">
+            <p class="cr-stat-card__label">Gross revenue</p>
+            <p class="cr-stat-card__value">$8.2K</p>
+            <p class="cr-stat-card__delta font-mono is-positive">+$640 this week</p>
+          </div>
+          <div class="cr-stat-card">
+            <p class="cr-stat-card__label">Unique entrants</p>
+            <p class="cr-stat-card__value">514</p>
+            <p class="cr-stat-card__delta font-mono">Last sale 4m ago</p>
+          </div>
+          <div class="cr-stat-card cr-stat-card--highlight">
+            <p class="cr-stat-card__label">Your earnings (net)</p>
+            <p class="cr-stat-card__value">$6.6K</p>
+            <p class="cr-stat-card__delta font-mono">After Gaviom fee (20%)</p>
+          </div>
+        </div>
+
+        <div class="cr-dash-one__grid">
+          <section class="cr-dash-card cr-dash-chart-card">
+            <div class="cr-dash-card__head cr-dash-chart-card__head">
+              <div>
+                <h2 class="cr-dash-card__title">Sales over time</h2>
+                <p class="cr-dash-chart-kpi"><strong>142</strong> <span>entries · last 7 days</span></p>
+              </div>
+            </div>
+            <div class="cr-dash-card__body cr-dash-chart-card__body">
+              <div class="cr-dash-chart" aria-hidden="true">
+                <svg class="cr-demo-chart-svg" viewBox="0 0 720 260" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Sales chart preview">
+                  <defs><linearGradient id="crDemoChartGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0d2b45" stop-opacity="0.12"/><stop offset="100%" stop-color="#0d2b45" stop-opacity="0"/></linearGradient></defs>
+                  <line class="cr-dash-chart-baseline" x1="56" y1="212" x2="696" y2="212"/>
+                  <path class="cr-dash-chart-area" d="M56,180 C120,175 180,140 240,130 C300,120 360,100 420,95 C480,90 540,75 600,60 C660,45 696,38 696,38 L696,212 L56,212 Z" fill="url(#crDemoChartGrad)"/>
+                  <path class="cr-dash-chart-line" d="M56,180 C120,175 180,140 240,130 C300,120 360,100 420,95 C480,90 540,75 600,60 C660,45 696,38 696,38" fill="none" stroke="#0d2b45" stroke-width="2.5"/>
+                  <circle class="cr-dash-chart-dot cr-dash-chart-dot--active" cx="696" cy="38" r="4.5"/>
+                </svg>
+              </div>
+            </div>
+          </section>
+
+          <aside class="cr-dash-card cr-dash-summary-card">
+            <div class="cr-dash-card__head"><h2 class="cr-dash-card__title">Prize summary</h2></div>
+            <div class="cr-dash-card__body">
+              <dl class="cr-dash-summary">
+                <div><dt>Price / entry</dt><dd>$12</dd></div>
+                <div><dt>Prize value</dt><dd>$4,200</dd></div>
+                <div><dt>Entry cap</dt><dd>1,000 max</dd></div>
+                <div><dt>Progress</dt><dd><span>68%</span><span class="cr-dash-progress"><span style="width:68%"></span></span></dd></div>
+                <div><dt>Draw date</dt><dd>Mar 15, 8pm ET</dd></div>
+                <div><dt>Gaviom status</dt><dd>Live · Verified</dd></div>
+              </dl>
+            </div>
+          </aside>
+        </div>
+
+        <section class="cr-dash-card">
+          <div class="cr-dash-card__head">
+            <div>
+              <h2 class="cr-dash-card__title">Recent buyers &amp; entrants</h2>
+              <p class="cr-dash-card__sub font-mono">Every paid entry logged in real time</p>
+            </div>
+            <span class="cr-status-pill cr-status-pill--live">12 purchases today</span>
+          </div>
+          <div class="cr-dash-card__body cr-dash-table-wrap">
+            <table class="cr-dash-table">
+              <thead>
+                <tr><th>Participant</th><th>Location</th><th>Entries</th><th>Amount</th><th>When</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>Jordan K.</strong></td><td>Austin, TX</td><td>5</td><td>$45</td><td>Just now</td><td><span class="cr-status-pill cr-status-pill--live">Confirmed</span></td></tr>
+                <tr><td><strong>Sofia L.</strong></td><td>Miami, FL</td><td>1</td><td>$12</td><td>2m ago</td><td><span class="cr-status-pill cr-status-pill--live">Confirmed</span></td></tr>
+                <tr><td><strong>Marco R.</strong></td><td>Chicago, IL</td><td>20</td><td>$80</td><td>4m ago</td><td><span class="cr-status-pill cr-status-pill--live">Confirmed</span></td></tr>
+                <tr><td><strong>Aisha P.</strong></td><td>Denver, CO</td><td>1</td><td>Free AMOE</td><td>6m ago</td><td><span class="cr-status-pill">AMOE</span></td></tr>
+                <tr><td><strong>Taylor C.</strong></td><td>Seattle, WA</td><td>5</td><td>$45</td><td>8m ago</td><td><span class="cr-status-pill cr-status-pill--live">Confirmed</span></td></tr>
+                <tr><td><strong>Devon M.</strong></td><td>Portland, OR</td><td>10</td><td>$72</td><td>14m ago</td><td><span class="cr-status-pill cr-status-pill--live">Confirmed</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <div class="cr-demo-dash__cta">
+          <p class="font-display" style="font-size:clamp(22px,3vw,28px);margin:0 0 8px;">Want this for your community?</p>
+          <p style="margin:0 0 20px;color:var(--cr-ink-soft);max-width:480px;">Your branded page, live dashboard, and Gaviom handling compliance — apply in minutes.</p>
+          <a href="/creators/apply" class="btn btn-primary btn-lg">Apply to launch</a>
+          <a href="/creators/" class="btn btn-ghost btn-lg">Back to creators</a>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <footer class="footer"><div class="wrap footer-legal"><span>© 2026 Gaviom Inc. · Operator of record</span></div></footer>
+  <footer class="footer"><div class="wrap footer-legal"><span>© 2026 Gaviom Inc. · Demo preview · Operator of record</span></div></footer>
   <script defer src="/auth-nav.js"></script>
   <script defer src="/app.js?v=20260712-mobile-perf"></script>
-  <script defer src="/creators.js?v=20260709-creator"></script>
+  <script defer src="/creators.js?v=20260718-demo-rich"></script>
 
   <script>
 (function () {
